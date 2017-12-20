@@ -1,6 +1,6 @@
-## equestrianism_web
+# equestrianism_web
 
-# 编译
+## 编译
 1、cnpm install --registry=https://registry.npm.taobao.org
 2、cnpm run dev
 3、如果报错，删除node_module文件夹，然后cnpm install   
