@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">增加固定资产</div>
+            <div class="title">新增固定资产</div>
             <router-link class="btn btn-info back" :to="'/equestrian/horseAssets'">
                 返回
             </router-link>
@@ -10,12 +10,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产大类" />
-                </div>
+<el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产分类" />
-                </div>
+ <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产编号：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入资产编号" />
@@ -137,6 +141,29 @@ export default {
                 value: '选项2',
                 label: '使用结束'
             }],
+                 
+        selectValue223:'',
+      selectValue22: "",
+              options12: [
+        {
+          value: "1",
+          label: "资产1"
+        },
+        {
+          value: "2",
+          label: "资产2"
+        }
+      ],
+        options123: [
+        {
+          value: "1",
+          label: "资产分类1"
+        },
+        {
+          value: "2",
+          label: "资产分类2"
+        }
+      ],
         }
     },
     components: {

@@ -1,8 +1,21 @@
 <template>
     <div class="animated fadeIn content_page">
         <div class="content-title">
-            <div class="title">马匹获奖信息</div>
+            <div class="title">马匹简历列表</div>
         </div>
+        <div class="content-show">
+             <div class="row list-search">
+                
+                <div class="col-md-4 search-field">
+                    <div class="label">马匹名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
+                </div>
+
+                <div class="col-md-1 search-field search-field_controls">
+                    <button class="btn btn-primary search-btn">搜索</button>
+                </div>
+                
+            </div>
         <div class="resume">
             <div class="row">
                 <div class="col-md-3 distance">
@@ -74,7 +87,7 @@
                 </div>
             </div>
         </div>
-
+        </div>
     </div>
 </template>
 

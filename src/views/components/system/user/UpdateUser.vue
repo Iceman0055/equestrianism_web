@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-                <div class="title" v-if="!useDisabled">更新用户信息</div>
+                <div class="title" v-if="!useDisabled">修改用户信息</div>
             <div class="title" v-if="useDisabled">查看用户信息</div>
             <router-link class="btn btn-info back" :to="'/system/user'">
                 返回

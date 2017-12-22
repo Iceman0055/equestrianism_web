@@ -1,8 +1,8 @@
 <template>
     <div class="content_page">
         <div class="content-title">
-            <div class="title" v-if="!useDisabled">更新马的基本信息</div>
-            <div class="title" v-if="useDisabled">查看马的基本信息</div>
+            <div class="title" v-if="!useDisabled">修改马匹基本信息</div>
+            <div class="title" v-if="useDisabled">查看马匹基本信息</div>
             <router-link class="btn btn-info back" :to="'/horse/baseInfo'">
                 返回
             </router-link>
@@ -50,29 +50,17 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
-                </div>
+  <el-select size="large" v-model="selectValue" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                  </div>
                 <div class="col-md-4 search-field">
                     <div class="label">皮下条码：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
 
             </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">父亲：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">母亲：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">外祖父：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-
-            </div>
+      
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
@@ -183,21 +171,30 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload } from 'element-ui'
+import { DatePicker, Button, Upload,Select } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
         return {
+            selectValue:'',
             useDisabled: false,
             value: '',
             value1: '',
-            imageUrl1: ''
+            imageUrl1: '',
+                options: [{
+                value: '选项1',
+                label: '男'
+            }, {
+                value: '选项2',
+                label: '女'
+            }],
         }
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload
+        'el-upload': Upload,
+        'el-select':Select
     },
     mounted() {
         this.useDisabled = this.$route.query.disable

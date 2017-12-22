@@ -1,12 +1,25 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">增加治疗日程</div>
+            <div class="title">新增治疗日程</div>
             <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
                 返回
             </router-link>
         </div>
         <div class="content-show">
+             <div class="row list-search">
+               <div class="col-md-4 search-field">
+                    <div class="label">门诊方式：</div>
+                     <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="col-md-4 search-field" v-if="selectValue22==1">
+                    <div class="label">预约号：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入预约号称" />
+                </div>
+ </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">开始日期：</div>
@@ -41,7 +54,21 @@
                 </div>
 
             </div>
-            <div class="row list-search">
+           
+              <div class="row list-search">
+     
+                <div class="col-md-4 search-field">
+                    <div class="label">马匹类型：</div>
+  <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">马匹名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
+                </div>
+            </div>
+             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">治疗时间：</div>
                     <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date" placeholder="选择获奖时间">
@@ -89,8 +116,10 @@
                     </el-select>
                 </div>
             </div>
+
+ 
             <div class="baseInfo-title">
-                <div class="title">增加病历</div>
+                <div class="title">新增病历</div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
@@ -158,108 +187,141 @@
 import { DatePicker, Button, Input, TimeSelect } from "element-ui";
 /* eslint-disable */
 export default {
-    data() {
-        return {
-            value44: '',
-            value34: '',
-            value5: [],
-            value6: [],
-            beginValue: '',
-            selectValue: '',
-            selectValue1: '',
-            options: [{
-                value: '选项1',
-                label: '数据1'
-            }, {
-                value: '选项2',
-                label: '数据2'
-            }],
-            options2: [{
-                value: '库存1',
-                label: '数据1'
-            }, {
-                value: '库存2',
-                label: '数据2'
-            }, {
-                value: '库存3',
-                label: '数据3'
-            }],
-            options3: [{
-                value: '库存1',
-                label: '假数据1'
-            }, {
-                value: '库存2',
-                label: '假数据2'
-            }, {
-                value: '库存3',
-                label: '假数据3'
-            }],
-
-            value122: '',
-            value123: '',
-            value222: '',
-            value223: '',
-            value22: '',
-            value: '',
-        };
-    },
-    components: {
-        "el-date-picker": DatePicker,
-        "el-button": Button,
-        "el-time-select": TimeSelect,
-        "el-input": Input
-    },
-    methods: {
-        open() {
-            this.$message.success("修改成功");
+  data() {
+    return {
+        selectValue223:'',
+      selectValue22: "",
+      value44: "",
+      value34: "",
+      value5: [],
+      value6: [],
+      beginValue: "",
+      selectValue: "",
+      selectValue1: "",
+      options: [
+        {
+          value: "选项1",
+          label: "数据1"
         },
-           preview(file) {
-            var fr = new FileReader()
-            fr.onloadend = () => {
-                this.imageUrl = fr.result;
-            }
-            fr.readAsDataURL(file.raw)
-        },
-        submitFile(file, fileList) {
-            var formData = new FormData(); //调用接口上传data:formData
-            formData.append('file', file.raw);
-            this.preview(file);
-        },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
+        {
+          value: "选项2",
+          label: "数据2"
         }
+      ],
+      options12: [
+        {
+          value: "1",
+          label: "预约"
+        },
+        {
+          value: "2",
+          label: "普通"
+        }
+      ],
+        options123: [
+        {
+          value: "1",
+          label: "中心"
+        },
+        {
+          value: "2",
+          label: "外来"
+        }
+      ],
+      options2: [
+        {
+          value: "库存1",
+          label: "数据1"
+        },
+        {
+          value: "库存2",
+          label: "数据2"
+        },
+        {
+          value: "库存3",
+          label: "数据3"
+        }
+      ],
+      options3: [
+        {
+          value: "库存1",
+          label: "假数据1"
+        },
+        {
+          value: "库存2",
+          label: "假数据2"
+        },
+        {
+          value: "库存3",
+          label: "假数据3"
+        }
+      ],
+
+      value122: "",
+      value123: "",
+      value222: "",
+      value223: "",
+      value22: "",
+      value: ""
+    };
+  },
+  components: {
+    "el-date-picker": DatePicker,
+    "el-button": Button,
+    "el-time-select": TimeSelect,
+    "el-input": Input
+  },
+  methods: {
+    open() {
+      this.$message.success("修改成功");
+    },
+    preview(file) {
+      var fr = new FileReader();
+      fr.onloadend = () => {
+        this.imageUrl = fr.result;
+      };
+      fr.readAsDataURL(file.raw);
+    },
+    submitFile(file, fileList) {
+      var formData = new FormData(); //调用接口上传data:formData
+      formData.append("file", file.raw);
+      this.preview(file);
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .el-select-dropdown__list {
-    height: 139px!important;
-    overflow-y: scroll!important;
+  height: 139px !important;
+  overflow-y: scroll !important;
 }
 
 .baseInfo-title {
-    height: 30px;
-    line-height: 30px;
-    border-left: 2px solid #2db7f5;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 12px;
-    .title {
-        font-size: 16px;
-        font-weight: bold;
-        display: inline-block;
-    }
+  height: 30px;
+  line-height: 30px;
+  border-left: 2px solid #2db7f5;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 12px;
+  .title {
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+  }
 }
 </style>

@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="提示" :modal="false" :visible.sync="centerDialogVisible" width="25%" center>
+        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="25%" center>
             <div class="text-center">
                 <span>确定要修改状态吗?</span>
             </div>
@@ -93,7 +93,7 @@
             </span>
         </el-dialog>
         <!-- 分配权限 -->
-        <el-dialog title="分配权限" :modal="false" :visible.sync="permissionDialog" width="30%" center>
+        <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
             <div class="row mb-3">
                 <div class="col-md-3">
                     <button class="btn btn-info" @click="selectChecked">全选</button>

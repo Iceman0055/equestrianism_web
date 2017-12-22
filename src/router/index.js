@@ -37,15 +37,18 @@ import ResumeDetail from "@/views/components/resume/ResumeDetail";
 import Appointment from "@/views/components/hospital/appointment/Appointment";
 import UpdateAppoint from "@/views/components/hospital/appointment/UpdateAppoint";
 import AddAppoint from "@/views/components/hospital/appointment/AddAppoint";
+import Vaccination from "@/views/components/hospital/vaccination/Vaccination";
+import UpdateVacc from "@/views/components/hospital/vaccination/UpdateVacc";
+import AddVacc from "@/views/components/hospital/vaccination/AddVacc";
 
-import Assets from "@/views/components/hospital/assets/Assets";
-import AddAssets from "@/views/components/hospital/assets/AddAssets";
-import AssetsStock from "@/views/components/hospital/assetsStock/AssetsStock";
-import ConsumeStock from "@/views/components/hospital/consumeStock/ConsumeStock";
-import UpdateAssets from "@/views/components/hospital/assets/UpdateAssets";
-import Consume from "@/views/components/hospital/consume/Consume";
-import AddConsume from "@/views/components/hospital/consume/AddConsume";
-import UpdateConsume from "@/views/components/hospital/consume/UpdateConsume";
+import Assets from "@/views/components/hosAssets/assets/Assets";
+import AddAssets from "@/views/components/hosAssets/assets/AddAssets";
+import AssetsStock from "@/views/components/hosAssets/assetsStock/AssetsStock";
+import ConsumeStock from "@/views/components/hosAssets/consumeStock/ConsumeStock";
+import UpdateAssets from "@/views/components/hosAssets/assets/UpdateAssets";
+import Consume from "@/views/components/hosAssets/consume/Consume";
+import AddConsume from "@/views/components/hosAssets/consume/AddConsume";
+import UpdateConsume from "@/views/components/hosAssets/consume/UpdateConsume";
 import TreatSchedule from "@/views/components/hospital/treatSchedule/TreatSchedule";
 import AddTreat from "@/views/components/hospital/treatSchedule/AddTreat";
 import UpdateTreat from "@/views/components/hospital/treatSchedule/UpdateTreat";
@@ -110,17 +113,17 @@ export default new Router({
           children: [
             {
               path: "baseInfo",
-              name: "基本信息",
+              name: "马匹基本信息",
               component: BaseInfo
             },
             {
               path: "addBaseInfo",
-              name: "增加基本信息",
+              name: "新增马匹基本信息",
               component: AddBaseInfo
             },
             {
               path: "updateBaseInfo",
-              name: "更新基本信息",
+              name: "修改马匹基本信息",
               component: UpdateBaseInfo
             },
             {
@@ -130,12 +133,12 @@ export default new Router({
             },
             {
               path: "addAwards",
-              name: "增加获奖信息",
+              name: "新增获奖信息",
               component: AddAwards
             },
             {
               path: "updateAwards",
-              name: "更新获奖信息",
+              name: "修改获奖信息",
               component: UpdateAwards
             },
             {
@@ -145,12 +148,12 @@ export default new Router({
             },
             {
               path: "addBreeder",
-              name: "增加饲养员信息",
+              name: "新增饲养员信息",
               component: AddBreeder
             },
             {
               path: "updateBreeder",
-              name: "更新饲养员信息",
+              name: "修改饲养员信息",
               component: UpdateBreeder
             },
             {
@@ -160,12 +163,12 @@ export default new Router({
             },
             {
               path: "addMaster",
-              name: "添加马主信息",
+              name: "新增马主信息",
               component: AddMaster
             },
             {
               path: "updateMaster",
-              name: "更新马主信息",
+              name: "修改马主信息",
               component: UpdateMaster
             },
             {
@@ -175,12 +178,12 @@ export default new Router({
             },
             {
               path: "updateTreatment",
-              name: "更新治疗信息",
+              name: "修改治疗信息",
               component: UpdateTreatment
             },
             {
               path: "addTreatment",
-              name: "增加治疗信息",
+              name: "新增治疗信息",
               component: AddTreatment
             },
             {
@@ -190,12 +193,12 @@ export default new Router({
             },
             {
               path: "addVaccine",
-              name: "添加接种疫苗信息",
+              name: "新增接种疫苗信息",
               component: AddVaccine
             },
             {
               path: "updateVaccine",
-              name: "更新接种疫苗信息",
+              name: "修改接种疫苗信息",
               component: UpdateVaccine
             },
             {
@@ -205,12 +208,12 @@ export default new Router({
             },
             {
               path: "addDisease",
-              name: "增加病历信息",
+              name: "新增病历信息",
               component: AddDisease
             },
             {
               path: "updateDisease",
-              name: "更新病历信息",
+              name: "修改病历信息",
               component: UpdateDisease
             },
           
@@ -233,67 +236,42 @@ export default new Router({
             },
             {
               path: "addAppoint",
-              name: "添加预约日程",
+              name: "新增预约日程",
               component: AddAppoint
             },
             {
               path: "updateAppoint",
-              name: "更新预约日程",
+              name: "修改预约日程",
               component: UpdateAppoint
             },
             {
-              path: "assets",
-              name: "固定资产管理",
-              component: Assets
+              path: "vaccination",
+              name: "接种疫苗管理",
+              component: Vaccination
             },
             {
-              path: "addAssets",
-              name: "增加固定资产管理",
-              component: AddAssets
+              path: "updateVacc",
+              name: "修改接种疫苗管理",
+              component: UpdateVacc
             },
             {
-              path: "updateAssets",
-              name: "更新固定资产管理",
-              component: UpdateAssets
-            },
-            {
-              path: "assetsStock",
-              name: "固定资产库存管理",
-              component: AssetsStock
-            },
-            {
-              path: "consume",
-              name: "消耗品管理",
-              component: Consume
-            },
-            {
-              path: "consumeStock",
-              name: "消耗品库存管理",
-              component: ConsumeStock
-            },
-            {
-              path: "addConsume",
-              name: "增加消耗品",
-              component: AddConsume
-            },
-            {
-              path: "updateconsume",
-              name: "更新消耗品",
-              component: UpdateConsume
+              path: "addVacc",
+              name: "新增接种疫苗管理",
+              component: AddVacc
             },
             {
               path: "treatSchedule",
-              name: "治疗日程管理",
+              name: "门诊治疗管理",
               component: TreatSchedule
             },
             {
               path: "addTreat",
-              name: "增加治疗日程",
+              name: "新增门诊治疗",
               component: AddTreat
             },
             {
               path: "updateTreat",
-              name: "更新治疗日程",
+              name: "修改门诊治疗",
               component: UpdateTreat
             },
             {
@@ -303,16 +281,71 @@ export default new Router({
             },
             {
               path: "addOperateR",
-              name: "增加手术室",
+              name: "新增手术室",
               component: AddOperateR
             },
             {
               path: "updateOperateR",
-              name: "更新手术室",
+              name: "修改手术室",
               component: UpdateOperateR
             }
           ]
         },
+
+
+        {
+          path: "hosAssets",
+          redirect: "/hosAssets/assets",
+          name: "马医院固定资产管理",
+          component: {
+            render(c) {
+              return c("router-view");
+            }
+          },
+          children: [        
+            {
+              path: "assets",
+              name: "固定资产类品管理",
+              component: Assets
+            },
+            {
+              path: "addAssets",
+              name: "新增固定资产类品",
+              component: AddAssets
+            },
+            {
+              path: "updateAssets",
+              name: "修改固定资产类品",
+              component: UpdateAssets
+            },
+            {
+              path: "assetsStock",
+              name: "固定资产库存管理",
+              component: AssetsStock
+            },
+            {
+              path: "consume",
+              name: "消耗品类品管理",
+              component: Consume
+            },
+            {
+              path: "consumeStock",
+              name: "消耗品库存管理",
+              component: ConsumeStock
+            },
+            {
+              path: "addConsume",
+              name: "新增消耗品类品",
+              component: AddConsume
+            },
+            {
+              path: "updateconsume",
+              name: "修改消耗品类品",
+              component: UpdateConsume
+            },      
+          ]
+        },
+
         {
           path: "equestrian",
           redirect: "/equestrian/horseAssets",
@@ -330,12 +363,12 @@ export default new Router({
             },
             {
               path: "horseAddAssets",
-              name: "增加固定资产管理",
+              name: "新增固定资产管理",
               component: HorseAddAssets
             },
             {
               path: "horseUpdateAssets",
-              name: "更新固定资产管理",
+              name: "修改固定资产管理",
               component: HorseUpdateAssets
             },
             {
@@ -385,12 +418,12 @@ export default new Router({
             },
             {
               path: "addUser",
-              name: "增加用户",
+              name: "新增用户",
               component: AddUser
             },
             {
               path: "updateUser",
-              name: "更新用户",
+              name: "修改用户",
               component: UpdateUser
             },
             {
@@ -405,7 +438,7 @@ export default new Router({
             },
             {
               path: "updateDepart",
-              name: "更新部门",
+              name: "修改部门",
               component: UpdateDepart
             },
             {
@@ -415,12 +448,12 @@ export default new Router({
             },
             {
               path: "addRole",
-              name: "增加角色",
+              name: "新增角色",
               component: AddRole
             },
             {
               path: "updateRole",
-              name: "更新角色",
+              name: "修改角色",
               component: UpdateRole
             },
             {
@@ -430,12 +463,12 @@ export default new Router({
             },
             {
               path: "addDict",
-              name: "增加字典",
+              name: "新增字典",
               component: AddDict
             },
             {
               path: "updateDict",
-              name: "更新字典",
+              name: "修改字典",
               component: UpdateDict
             }
           ]

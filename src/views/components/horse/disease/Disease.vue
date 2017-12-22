@@ -5,29 +5,33 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">比赛时间：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入比赛时间" />
                 </div>
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">地点：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入地址" />
                 </div>
-
+                <div class="col-md-3 search-field">
+                    <div class="label">马匹名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
+                </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
-                <!-- <div class="col-md-1 search-field search-field_controls">
+                <div class="col-md-1 search-field search-field_controls">
                     <router-link class="btn btn-success" :to="'/horse/addDisease'">
                         新增
                     </router-link>
-                </div> -->
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
+                                 <th>马匹</th>
                                 <th>时间</th>
                                 <th>地点</th>
                                 <th>临诊</th>
@@ -44,6 +48,7 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td>大马</td>
                                 <td>2016.11</td>
                                 <td>上海市</td>
                                 <td>牙疼</td>
@@ -58,10 +63,11 @@
                                <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
                                      query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateDisease'">更新</router-link> -->
+                                    <router-link :to="'/horse/updateDisease'">修改</router-link>
                                 </td>
                             </tr>
                             <tr>
+                                <td>大马</td>
                                 <td>2016.11</td>
                                 <td>上海市</td>
                                 <td>牙疼</td>
@@ -76,10 +82,11 @@
                                 <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
                                      query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateDisease'">更新</router-link> -->
+                                    <router-link :to="'/horse/updateDisease'">修改</router-link>
                                 </td>
                             </tr>
                             <tr>
+                                <td>大马</td>
                                 <td>2016.11</td>
                                 <td>上海市</td>
                                 <td>牙疼</td>
@@ -94,7 +101,7 @@
                                  <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
                                      query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateDisease'">更新</router-link> -->
+                                    <router-link :to="'/horse/updateDisease'">修改</router-link>
                                 </td>
                             </tr>
                         </tbody>

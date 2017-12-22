@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">增加角色</div>
+            <div class="title">新增角色</div>
             <router-link class="btn btn-info back" :to="'/system/role'">
                 返回
             </router-link>

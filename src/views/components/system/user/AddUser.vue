@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">增加用户信息</div>
+            <div class="title">新增用户信息</div>
             <router-link class="btn btn-info back" :to="'/system/user'">
                 返回
             </router-link>

@@ -130,7 +130,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="锁定" :modal="false" :visible.sync="centerDialogVisible" width="20%" center>
+        <el-dialog title="锁定" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="20%" center>
             <div class="text-center">
                 <span>确定要锁定此状态吗?</span>
             </div>
@@ -140,7 +140,7 @@
             </span>
         </el-dialog>
         <!-- 重置密码 -->
-        <el-dialog title="重置密码" :modal="false" :visible.sync="passwordDialog" width="25%" center>
+        <el-dialog title="重置密码" :modal-append-to-body="false" :visible.sync="passwordDialog" width="25%" center>
 
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">

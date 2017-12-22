@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title" v-if="!useDisabled">更新部门信息</div>
+            <div class="title" v-if="!useDisabled">修改部门信息</div>
             <div class="title" v-if="useDisabled">查看部门信息</div>
             <router-link class="btn btn-info back" :to="'/system/department'">
                 返回

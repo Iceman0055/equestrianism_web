@@ -32,10 +32,7 @@
             <li class="nav-item">
               <router-link :to="'/horse/vaccine'" class="nav-padding nav-link" exact><i class="icon-star"></i> 接种疫苗信息</router-link>
             </li>
-          
-            <li class="nav-item">
-              <router-link :to="'/horse/resume'" class="nav-padding nav-link" exact><i class="icon-star"></i> 马的简历</router-link>
-            </li>
+        
           </ul>
         </router-link>
          <router-link tag="li" class="nav-item nav-dropdown" :to="{ path: '/resume'}" disabled>
@@ -50,26 +47,42 @@
         <router-link tag="li" class="nav-item nav-dropdown" :to="{ path: '/hospital'}" disabled>
           <div class="nav-link nav-dropdown-toggle" @click="handleClick"><i class="fa fa-ambulance fa-lg"></i> 马医院信息管理</div>
           <ul class="nav-dropdown-items">
-            <li class="nav-item">
-              <router-link :to="'/hospital/assets'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产管理</router-link>
+             <li class="nav-item">
+              <router-link :to="'/hospital/appointment'" class="nav-padding nav-link" exact><i class="icon-star"></i> 预约日程管理</router-link>
             </li>
              <li class="nav-item">
-              <router-link :to="'/hospital/assetsStock'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产库存管理</router-link>
+              <router-link :to="'/hospital/vaccination'" class="nav-padding nav-link" exact><i class="icon-star"></i> 接种疫苗管理</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="'/hospital/consume'" class="nav-padding nav-link" exact><i class="icon-star"></i> 消耗品管理</router-link>
+              <router-link :to="'/hospital/treatSchedule'" class="nav-padding nav-link" exact><i class="icon-star"></i> 门诊治疗管理</router-link>
             </li>
-             <li class="nav-item">
-              <router-link :to="'/hospital/consumeStock'" class="nav-padding nav-link" exact><i class="icon-star"></i> 消耗品库存管理</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link :to="'/hospital/treatSchedule'" class="nav-padding nav-link" exact><i class="icon-star"></i> 治疗日程管理</router-link>
-            </li>
-            <li class="nav-item">
+              <li class="nav-item">
               <router-link :to="'/hospital/operateRoom'" class="nav-padding nav-link" exact><i class="icon-star"></i> 手术室管理</router-link>
             </li>
+        
           </ul>
         </router-link>
+
+ <router-link tag="li" class="nav-item nav-dropdown" :to="{ path: '/hosAssets'}" disabled>
+          <div class="nav-link nav-dropdown-toggle" @click="handleClick"><i class="fa fa-money fa-lg"></i> 马医院固定资产管理</div>
+          <ul class="nav-dropdown-items">
+            <li class="nav-item">
+              <router-link :to="'/hosAssets/assets'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产类品管理</router-link>
+            </li>
+             <li class="nav-item">
+              <router-link :to="'/hosAssets/assetsStock'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产库存管理</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="'/hosAssets/consume'" class="nav-padding nav-link" exact><i class="icon-star"></i> 消耗品类品管理</router-link>
+            </li>
+             <li class="nav-item">
+              <router-link :to="'/hosAssets/consumeStock'" class="nav-padding nav-link" exact><i class="icon-star"></i> 消耗品库存管理</router-link>
+            </li>
+            
+          
+          </ul>
+        </router-link>
+
         <router-link tag="li" class="nav-item nav-dropdown" :to="{ path: '/equestrian'}" disabled>
           <div class="nav-link nav-dropdown-toggle" @click="handleClick"><i class="fa fa-jpy fa-lg"></i> 马术中心资产管理</div>
           <ul class="nav-dropdown-items">

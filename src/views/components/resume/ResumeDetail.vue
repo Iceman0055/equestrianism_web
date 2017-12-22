@@ -1,7 +1,7 @@
 <template>
     <div class="content_page">
         <div class="content-title">
-            <div class="title">基本详情          
+            <div class="title">马匹简历          
                 <div class="pre-next">
                     <button class="btn btn-primary">上一条</button>
                     <button class=" btn btn-primary">下一条</button>
@@ -12,29 +12,17 @@
             </router-link>
         </div>
         <div class="content-show">
+               <div class="row list-search">
+                <div class="col-md-6 resume-title">
+                    <div class="title">基本信息</div>
+                </div>
+
+            </div>
             <div class="row list-search resume-bottom mb-2">
                 <div class="col-md-3">               
                     <img class="img-show" src="/static/img/horse.png">
                     <div class="horse-name">小大马</div>
                 </div>
-                <!-- <ul class="col-md-6 resume-ul">
-                                                    <li>姓名 ： 小马</li>
-                                                    <li>护照号码 ： 1234567</li>
-                                                    <li>马名 ：大马</li>
-                                                    <li>身高：160cm</li>
-                                                    <li>性别：女</li>
-                                                    <li>出生国家：中国</li>
-                                                    <li>父亲：爸爸</li>
-                                                    <li>母亲：妈妈</li>
-                                                    <li>外祖父：外祖父</li>
-                                                    <li>头部描述：头部描述</li>
-                                                    <li>左前肢描述：左前肢描述</li>
-                                                    <li>右前肢描述：右前肢描述</li>
-                                                    <li>左后肢描述：左后肢描述</li>
-                                                    <li>右后肢描述：右后肢描述</li>
-                                                    <li>体躯描述：体躯描述</li>
-
-                                                </ul> -->
                 <div class="col-md-7 mb-3">
                     <table id="tab1" class="table table-striped">
                         <tbody>
@@ -345,15 +333,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 #tab1 {
-  line-height: 23px;
+  line-height: 20px;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
 
 #tab2 {
-  line-height: 23px;
+  line-height: 20px;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
@@ -368,7 +355,8 @@ export default {
 }
 
 .img-show {
-  width: 67%;
+  width: 100%;
+  height: 200px;
 }
 
 .resume-bottom {

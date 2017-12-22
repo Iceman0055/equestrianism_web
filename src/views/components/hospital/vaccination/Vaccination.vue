@@ -7,8 +7,11 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">时间：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入时间" />
-                </div>
+<el-date-picker size="large"
+      v-model="value1"
+      type="datet"
+      placeholder="选择日期时间">
+    </el-date-picker>                    </div>
                 <div class="col-md-3 search-field">
                     <div class="label">地点：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入地址" />
@@ -21,11 +24,11 @@
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
-                <!-- <div class="col-md-1 search-field search-field_controls">
-                    <router-link class="btn btn-success" :to="'/horse/addVaccine'">
+                <div class="col-md-1 search-field search-field_controls">
+                    <router-link class="btn btn-success" :to="'/hospital/addVacc'">
                         新增
                     </router-link>
-                </div> -->
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -52,9 +55,9 @@
                                 <td>吕医生</td>
                                 <td>12345678</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/updateVaccine',       
+                                    <router-link :to="{path: '/hospital/updateVacc',       
                                              query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateVaccine'">修改</router-link> -->
+                                    <router-link :to="'/hospital/updateVacc'">修改</router-link>
                                 </td>
                             </tr>
                             <tr>
@@ -66,9 +69,9 @@
                                 <td>吕医生</td>
                                 <td>12345678</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/updateVaccine',       
+                                    <router-link :to="{path: '/hospital/updateVacc',       
                                              query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateVaccine'">修改</router-link> -->
+                                    <router-link :to="'/hospital/updateVacc'">修改</router-link>
                                 </td>
                             </tr>
                             <tr>
@@ -80,9 +83,9 @@
                                 <td>吕医生</td>
                                 <td>12345678</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/updateVaccine',       
+                                    <router-link :to="{path: '/horse/updateVacc',       
                                              query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateVaccine'">修改</router-link> -->
+                                    <router-link :to="'/hospital/updateVacc'">修改</router-link>
                                 </td>
                             </tr>
                         </tbody>
@@ -102,7 +105,7 @@
 </template>
 
 <script>
-import { Pagination,Select } from 'element-ui'
+import { Pagination,Select,DatePicker } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -112,7 +115,8 @@ export default {
     },
     components: {
         'el-pagination': Pagination,
-        "el-select":Select
+        "el-select":Select,
+        "el-date-picker":DatePicker
     }
 }
 </script>

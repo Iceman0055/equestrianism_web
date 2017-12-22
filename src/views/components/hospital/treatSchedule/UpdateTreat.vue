@@ -1,17 +1,30 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title" v-if="!useDisabled">更新治疗日程</div>
-            <div class="title" v-if="useDisabled">查看治疗日程</div>
+            <div class="title" v-if="!useDisabled">修改门诊治疗</div>
+            <div class="title" v-if="useDisabled">查看门诊治疗</div>
             <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
                 返回
             </router-link>
         </div>
         <div class="content-show">
+              <div class="row list-search">
+               <div class="col-md-4 search-field">
+                    <div class="label">门诊方式：</div>
+                     <el-select size="large" :disabled="useDisabled" v-model="selectValue22" class="el-field-input">
+                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="col-md-4 search-field" v-if="selectValue22==1">
+                    <div class="label">预约号：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+ </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">开始日期：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value122" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="value122" type="date" format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -20,7 +33,7 @@
                                         start: '00:00',
                                         step: '01:00',
                                         end: '24:00'
-                                      }" placeholder="选择时间">
+                                      }">
                     </el-time-select>
                 </div>
 
@@ -28,7 +41,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">结束日期：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value222" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="value222" type="date" format="yyyy-MM-dd" >
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -37,38 +50,51 @@
                                         start: '00:00',
                                         step: '01:00',
                                         end: '24:00'
-                                      }" placeholder="选择时间">
+                                      }">
                     </el-time-select>
                 </div>
 
             </div>
+               <div class="row list-search">
+     
+                <div class="col-md-4 search-field">
+                    <div class="label">马匹类型：</div>
+  <el-select size="large" v-model="selectValue223" :disabled="useDisabled" class="el-field-input">
+                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">马匹名称：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+            </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">治疗时间：</div>
-                    <el-date-picker class="el-field-input" :disabled="useDisabled" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date" placeholder="选择获奖时间">
+                    <el-date-picker class="el-field-input" :disabled="useDisabled" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">治疗名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入治疗名称" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">治疗概述：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入治疗概述" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">手术室：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">固定资产：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="value5" class="el-field-input" multiple placeholder="请选择">
-                        <el-input v-model="input" style="padding:0 10px;" size="small" placeholder="请输入内容">
+                    <el-select size="large" :disabled="useDisabled" v-model="value5" class="el-field-input" multiple >
+                        <el-input v-model="input" style="padding:0 10px;" size="small">
                             <el-button slot="append" icon="el-icon-search"></el-button>
                         </el-input>
                         <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value">
@@ -79,7 +105,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">消耗品：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -91,40 +117,40 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value22" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="value22" type="datetime">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">地点：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入地点" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">临诊：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入临诊" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">初诊：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入初诊" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">处方用药：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入处方用药" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">医嘱：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入医嘱" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">标题标签：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入标题标签" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入备注" />
+                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
             </div>
             <div class="row list-search">
@@ -156,11 +182,33 @@ import { DatePicker, Button, TimeSelect, Input } from "element-ui";
 export default {
     data() {
         return {
+        selectValue223:'',
+      selectValue22: "",
             value5: [],
             imageUrl: '',
             imageUrl1: '',
             value: '',
             useDisabled: false,
+             options12: [
+        {
+          value: "1",
+          label: "预约"
+        },
+        {
+          value: "2",
+          label: "普通"
+        }
+      ],
+        options123: [
+        {
+          value: "1",
+          label: "中心"
+        },
+        {
+          value: "2",
+          label: "外来"
+        }
+      ],
             options2: [{
                 value: '库存1',
                 label: '数据1'

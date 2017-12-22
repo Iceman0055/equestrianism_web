@@ -1,17 +1,17 @@
 <template>
     <div class="content_page animated fadeIn">
-        <div class="content-title" key="0">
+        <div class="content-title">
             <div class="title">马匹基本信息</div>
         </div>
-        <div class="content-show" key="1">
+        <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">护照号码：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入护照号码" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">马名：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的名字" />
+                    <div class="label">马匹名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
 
                 <div class="col-md-1 search-field search-field_controls">
@@ -39,9 +39,6 @@
                                 <th>身高(公分)</th>
                                 <th>毛色</th>
                                 <th>皮下微型条码</th>
-                                <th>父亲</th>
-                                <th>母亲</th>
-                                <th>外祖父</th>
                                 <th>状态</th>
                                 <th>操作</th>
                             </tr>
@@ -58,18 +55,14 @@
                                 <td>100</td>
                                 <td>白色</td>
                                 <td>234567</td>
-                                <td>她爸</td>
-                                <td>她妈</td>
-                                <td>她祖父</td>
-                                <td>
-                                    <a @click="centerDialogVisible = true">有效</a>
-                                </td>
+                                <td>有效</td>
                                     <td>
                                         <router-link :to="{path: '/horse/updateBaseInfo',       
                                                  query: { disable: 'true',}}"> 查看</router-link>
                                         <router-link :to="'/horse/updateBaseInfo'">
-                                            更新
+                                            修改
                                         </router-link>
+                                        <a @click="centerDialogVisible = true">删除</a>
                                     </td>
                             </tr>
                             <tr>
@@ -83,17 +76,13 @@
                                 <td>100</td>
                                 <td>白色</td>
                                 <td>234567</td>
-                                <td>她爸</td>
-                                <td>她妈</td>
-                                <td>她祖父</td>
-                                <td>
-                                    <a @click="centerDialogVisible = true">有效</a>
-                                    <td>
+                                <td>有效 <td>
                                         <router-link :to="{path: '/horse/updateBaseInfo',       
                                                  query: { disable: 'true',}}"> 查看</router-link>
                                         <router-link :to="'/horse/updateBaseInfo'">
-                                            更新
+                                            修改
                                         </router-link>
+                                          <a @click="centerDialogVisible = true">删除</a>
                                     </td>
                             </tr>
                             <tr>
@@ -107,17 +96,13 @@
                                 <td>100</td>
                                 <td>白色</td>
                                 <td>234567</td>
-                                <td>她爸</td>
-                                <td>她妈</td>
-                                <td>她祖父</td>
-                                <td>
-                                    <a @click="centerDialogVisible = true">有效</a>
-                                    <td>
+                                <td>有效 <td>
                                         <router-link :to="{path: '/horse/updateBaseInfo',       
                                                  query: { disable: 'true',}}"> 查看</router-link>
                                         <router-link :to="'/horse/updateBaseInfo'">
-                                            更新
+                                            修改
                                         </router-link>
+                                            <a @click="centerDialogVisible = true">删除</a>
                                     </td>
                             </tr>
                         </tbody>
@@ -131,8 +116,8 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="提示" :modal="false" :visible.sync="centerDialogVisible" width="20%" center>
-           <div class="text-center"><span>确定要修改状态吗?</span></div>
+        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="20%" center>
+           <div class="text-center"><span>确定要删除吗?</span></div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
@@ -141,21 +126,22 @@
     </div>
 </template>
 <script>
-import { Pagination, Dialog } from 'element-ui'
+import { Pagination, Dialog } from "element-ui";
 /* eslint-disable */
 export default {
-    data() {
-        return {
-            centerDialogVisible: false,
-            currentPage: 1,
-        }
-    },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog
-    }
-}
+  data() {
+    return {
+      centerDialogVisible: false,
+      currentPage: 1
+    };
+  },
+  components: {
+    "el-pagination": Pagination,
+    "el-dialog": Dialog
+  }
+};
 </script>
 
 <style lang="scss" scoped>
+
 </style>

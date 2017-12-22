@@ -93,7 +93,7 @@
             </div>
         </div>
         <!-- 分配权限 -->
-        <el-dialog title="分配权限" :modal="false" :visible.sync="permissionDialog" width="30%" center>
+        <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
             <div class="row mb-3">
                 <div class="col-md-3">
                     <button class="btn btn-info" @click="selectChecked">全选</button>
@@ -110,7 +110,7 @@
             </span>
         </el-dialog>
         <!-- 成员管理 -->
-        <el-dialog title="成员管理" :modal="false" :visible.sync="stuffDialog" width="30%" center>
+        <el-dialog title="成员管理" :modal-append-to-body="false" :visible.sync="stuffDialog" width="30%" center>
 
             <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
             </el-tree>
@@ -120,7 +120,7 @@
             </span>
         </el-dialog>
 
-        <el-dialog title="提示" :modal="false" :visible.sync="centerDialogVisible" width="25%" center>
+        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="25%" center>
             <div class="text-center">
                 <span>确定要删除这条信息吗?</span>
             </div>

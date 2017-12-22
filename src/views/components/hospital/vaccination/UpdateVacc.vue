@@ -3,7 +3,7 @@
         <div class="content-title">
             <div class="title" v-if="!useDisabled">修改接种疫苗信息</div>
             <div class="title" v-if="useDisabled">查看接种疫苗信息</div>
-            <router-link class="btn btn-info back" :to="'/horse/vaccine'">
+            <router-link class="btn btn-info back" :to="'/hospital/Vaccination'">
                 返回
             </router-link>
         </div>

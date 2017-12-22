@@ -5,19 +5,31 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-4 search-field">
+                <div class="col-md-2 search-field">
                     <div class="label">资产大类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产大类" />
-                </div>
-                <div class="col-md-4 search-field">
+ <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
+                <div class="col-md-2 search-field">
                     <div class="label">资产分类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产分类" />
+ <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
+                    <div class="col-md-3 search-field">
+                    <div class="label">资产名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入资产名称" />
+                </div>
+                    <div class="col-md-3 search-field">
+                    <div class="label">会记凭证号：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入会记凭证号" />
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                        <router-link class="btn btn-success" :to="'/hospital/addAssets'">
+                        <router-link class="btn btn-success" :to="'/equestrian/horseAddAssets'">
                             新增
                         </router-link>
                 </div>
@@ -84,8 +96,9 @@
                                     <router-link :to="{path: '/equestrian/horseUpdateAssets',       
                                              query: { disable: 'true',}}"> 查看</router-link>
                                     <router-link :to="'/equestrian/horseUpdateAssets'">
-                                        更新
+                                        修改
                                     </router-link>
+                                    <a>导出</a>
                                 </td>
 
                             </tr>
@@ -111,7 +124,30 @@ import { Pagination } from 'element-ui'
 export default {
     data() {
         return {
-            currentPage: 1
+            
+        selectValue223:'',
+      selectValue22: "",
+            currentPage: 1,
+              options12: [
+        {
+          value: "1",
+          label: "资产1"
+        },
+        {
+          value: "2",
+          label: "资产2"
+        }
+      ],
+        options123: [
+        {
+          value: "1",
+          label: "资产分类1"
+        },
+        {
+          value: "2",
+          label: "资产分类2"
+        }
+      ],
         }
     },
     components: {

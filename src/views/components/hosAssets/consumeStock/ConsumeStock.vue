@@ -98,7 +98,7 @@
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
                     </div>
-                    <el-dialog title="增加库存" :modal="false" :visible.sync="centerDialogVisible" width="52%" center>
+                    <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="52%" center>
                         <div class="row mb-3" v-for="(item,index) in assets" :key="item">
                             <div class="col-md-4 search-field">
                                 <input type="text" v-model="item.id" class="form-control input-field" placeholder="编号" />
@@ -133,7 +133,7 @@
                             <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
                         </span>
                     </el-dialog>
-                    <el-dialog title="提示" :modal="false" :visible.sync="confirmDialog" width="25%" center>
+                    <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="confirmDialog" width="25%" center>
                         <div class="text-center">
                             <span>确定要删除这一条数据吗？</span>
                         </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">增加马的基本信息</div>
+            <div class="title">新增马匹基本信息</div>
             <router-link class="btn btn-info back" :to="'/horse/baseInfo'">
                 返回
             </router-link>
@@ -16,7 +16,7 @@
                     <input type="text" class="form-control input-field" placeholder="请输入护照号码" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">马名：</div>
+                    <div class="label">马匹名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入马的名字" />
                 </div>
                 <div class="col-md-4 search-field">
@@ -48,27 +48,16 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的性别" />
-                </div>
+                  <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">皮下条码：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入马的皮下条码" />
                 </div>
             </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">父亲：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的父亲" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">母亲：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的母亲" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">外祖父：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的外祖父" />
-                </div>
-            </div>
+          
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
@@ -178,20 +167,29 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload } from 'element-ui'
+import { DatePicker, Button, Upload,Select } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
         return {
+            selectValue:'',
             value: '',
             value1: '',
-            imageUrl: ''
+            imageUrl: '',
+                options: [{
+                value: '选项1',
+                label: '男'
+            }, {
+                value: '选项2',
+                label: '女'
+            }],
         }
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload
+        'el-upload': Upload,
+        'el-select':Select
     },
     methods: {
         open() {

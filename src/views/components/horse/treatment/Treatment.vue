@@ -1,7 +1,7 @@
 <template>
     <div class="animated fadeIn content_page">
         <div class="content-title">
-            <div class="title">治疗日程管理</div>
+            <div class="title">治疗信息管理</div>
         </div>
         <div class="content-show">
             <div class="row list-search">
@@ -9,20 +9,25 @@
                     <div class="label">治疗名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入治疗名称" />
                 </div>
+                  <div class="col-md-4 search-field">
+                    <div class="label">马匹名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
+                </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
-                <!-- <div class="col-md-1 search-field search-field_controls">
+                <div class="col-md-1 search-field search-field_controls">
                     <router-link class="btn btn-success" :to="'/horse/addTreatment'">
                         新增
                     </router-link>
-                </div> -->
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
+                                <th>马匹</th>
                                 <th>治疗时间</th>
                                 <th>治疗名称</th>
                                 <th>治疗概述</th>
@@ -34,51 +39,54 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td>大马</td>
                                 <td>2016-11-09 9:00</td>
                                 <td>治疗马</td>
                                 <td>胃疼</td>
                                 <td>一号手术室</td>
-                                <td>无</td>
-                                <td>无</td>
+                                <td><a @click="assetsDialog=true">查看</a></td>
+                                <td><a @click="consumeDialog=true">查看</a></td>
                                 <td>
                                     <!-- <a @click="uploadDialog=true">添加病历</a> -->
                                     <router-link :to="{path: '/horse/updateTreatment',       
                                                                                          query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateTreatment'">
-                                        更新
-                                    </router-link> -->
+                                    <router-link :to="'/horse/updateTreatment'">
+                                        修改
+                                    </router-link>
                                 </td>
                             </tr>
                             <tr>
+                                <td>大马</td>
                                 <td>2016-11-09 9:00</td>
                                 <td>治疗马</td>
                                 <td>胃疼</td>
                                 <td>一号手术室</td>
-                                <td>无</td>
-                                <td>无</td>
+                                <td><a @click="assetsDialog=true">查看</a></td>
+                                <td><a @click="consumeDialog=true">查看</a></td>
                                 <td>
                                     <!-- <a @click="uploadDialog=true">添加病历</a> -->
                                     <router-link :to="{path: '/horse/updateTreatment',       
                                                                                          query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateTreatment'">
-                                        更新
-                                    </router-link> -->
+                                    <router-link :to="'/horse/updateTreatment'">
+                                        修改
+                                    </router-link>
                                 </td>
                             </tr>
                             <tr>
+                                <td>大马</td>
                                 <td>2016-11-09 9:00</td>
                                 <td>治疗马</td>
                                 <td>胃疼</td>
                                 <td>一号手术室</td>
-                                <td>无</td>
-                                <td>无</td>
+                                <td><a @click="assetsDialog=true">查看</a></td>
+                                <td><a @click="consumeDialog=true">查看</a></td>
                                 <td>
-                                    <!-- <a @click="uploadDialog=true">添加病历</a> -->
+                                    <!-- <a @click="centerDialogVisible=true">添加病历</a> -->
                                     <router-link :to="{path: '/horse/updateTreatment',       
                                                                                          query: { disable: 'true',}}"> 查看</router-link>
-                                    <!-- <router-link :to="'/horse/updateTreatment'">
-                                        更新
-                                    </router-link> -->
+                                    <router-link :to="'/horse/updateTreatment'">
+                                        修改
+                                    </router-link>
                                 </td>
                             </tr>
                         </tbody>
@@ -91,8 +99,35 @@
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
                     </div>
+            <!-- 固定资产  -->
+   <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
+           <div class="text-center">
+               <div class="row">
+                   <div class="col-md-7">名称：固定资产使用</div>
+                   <div class="col-md-5">数量：10</div>
+               </div>      
+           </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="assetsDialog = false">取 消</el-button>
+                <el-button type="primary" @click="assetsDialog = false">确 定</el-button>
+            </span>
+        </el-dialog>
+<!-- 显示消耗品 -->
+          <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
+           <div class="text-center">
+                <div class="row">
+                   <div class="col-md-7">名称：消耗品使用</div>
+                   <div class="col-md-5">数量：5</div>
+               </div>
+           </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="consumeDialog = false">取 消</el-button>
+                <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
+            </span>
+        </el-dialog>
+
                     <!-- 添加病历 -->
-                    <el-dialog title="添加病历" :modal="false" :visible.sync="uploadDialog" width="50%" center>
+                    <el-dialog title="添加病历" :modal-append-to-body="false" :visible.sync="uploadDialog" width="50%" center>
                         <div class="content-show text-center">
                             <div class="row mb-1 list-search">
                                 <div class="col-md-4 search-field">
@@ -168,6 +203,8 @@ import { Pagination, Upload, DatePicker } from 'element-ui'
 export default {
     data() {
         return {
+            consumeDialog:false,
+            assetsDialog:false,
             value: '',
             uploadDialog: false,
             currentPage: 1,

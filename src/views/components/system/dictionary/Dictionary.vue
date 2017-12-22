@@ -134,7 +134,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="提示" :modal="false" :visible.sync="centerDialogVisible" width="20%" center>
+        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="20%" center>
             <div class="text-center">
                 <span>确定要删除这项内容吗?</span>
             </div>
@@ -144,7 +144,7 @@
             </span>
         </el-dialog>
         <!-- 修改 -->
-        <el-dialog title="修改" :modal="false" :visible.sync="updateDialog" width="50%" center>
+        <el-dialog title="修改" :modal-append-to-body="false" :visible.sync="updateDialog" width="50%" center>
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">
@@ -172,7 +172,7 @@
                 <el-button type="primary" @click="updateDialog = false">确 定</el-button>
             </span>
         </el-dialog>
-        <el-dialog title="修改" :modal="false" :visible.sync="updateTextDialog" width="50%" center>
+        <el-dialog title="修改" :modal-append-to-body="false" :visible.sync="updateTextDialog" width="50%" center>
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">

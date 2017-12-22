@@ -5,13 +5,17 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">姓名：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入姓名" />
                 </div>
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">联系方式：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入联系方式" />
+                </div>
+                 <div class="col-md-3 search-field">
+                    <div class="label">马匹名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
 
                 <div class="col-md-1 search-field search-field_controls">
@@ -28,6 +32,7 @@
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
+                                <th>马匹</th>
                                 <th>姓名</th>
                                 <th>性别</th>
                                 <th>职业</th>
@@ -38,6 +43,7 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td>大马</td>
                                 <td>小仙女</td>
                                 <td>女</td>
                                 <td>前端工程师</td>
@@ -50,6 +56,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>大马</td>
                                 <td>小仙女</td>
                                 <td>女</td>
                                 <td>前端工程师</td>
@@ -62,6 +69,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>大马</td>
                                 <td>小仙女</td>
                                 <td>女</td>
                                 <td>前端工程师</td>

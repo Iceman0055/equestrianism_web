@@ -5,15 +5,26 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-4 search-field">
+                     <div class="col-md-2 search-field">
                     <div class="label">资产大类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产大类" />
-                </div>
-                <div class="col-md-4 search-field">
+ <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
+                <div class="col-md-2 search-field">
                     <div class="label">资产分类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产分类" />
+ <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>                </div>
+                    <div class="col-md-3 search-field">
+                    <div class="label">资产名称：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入资产名称" />
                 </div>
-
+                    <div class="col-md-3 search-field">
+                    <div class="label">会记凭证号：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入会记凭证号" />
+                </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
@@ -98,7 +109,7 @@
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
                     </div>
-                    <el-dialog title="增加库存" :modal="false" :visible.sync="centerDialogVisible" width="52%" center>
+                    <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="52%" center>
                         <div class="row mb-3" v-for="(item,index) in assets" :key="item">
                             <div class="col-md-4 search-field">
                                 <input type="text" v-model="item.id" class="form-control input-field" placeholder="编号" />
@@ -133,7 +144,7 @@
                             <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
                         </span>
                     </el-dialog>
-                    <el-dialog title="提示" :modal="false" :visible.sync="confirmDialog" width="25%" center>
+                    <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="confirmDialog" width="25%" center>
                         <div class="text-center">
                             <span>确定要删除这一条数据吗？</span>
                         </div>
@@ -153,6 +164,28 @@ import { Pagination, Dialog } from "element-ui";
 export default {
     data() {
         return {
+        selectValue223:'',
+      selectValue22: "",
+              options12: [
+        {
+          value: "1",
+          label: "资产1"
+        },
+        {
+          value: "2",
+          label: "资产2"
+        }
+      ],
+        options123: [
+        {
+          value: "1",
+          label: "资产分类1"
+        },
+        {
+          value: "2",
+          label: "资产分类2"
+        }
+      ],
             currentPage: 1,
             centerDialogVisible: false,
             confirmDialog: false,
