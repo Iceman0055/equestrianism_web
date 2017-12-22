@@ -1,0 +1,233 @@
+<template>
+    <div class="content_page animated zoomIn">
+        <div class="content-title">
+            <div class="title" v-if="!useDisabled">更新治疗日程</div>
+            <div class="title" v-if="useDisabled">查看治疗日程</div>
+            <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
+                返回
+            </router-link>
+        </div>
+        <div class="content-show">
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">开始日期：</div>
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="value122" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">开始时间：</div>
+                    <el-time-select :disabled="useDisabled" size="large" v-model="value34" :picker-options="{
+                                        start: '00:00',
+                                        step: '01:00',
+                                        end: '24:00'
+                                      }" placeholder="选择时间">
+                    </el-time-select>
+                </div>
+
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">结束日期：</div>
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="value222" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">结束时间：</div>
+                    <el-time-select :disabled="useDisabled" size="large" v-model="value44" :picker-options="{
+                                        start: '00:00',
+                                        step: '01:00',
+                                        end: '24:00'
+                                      }" placeholder="选择时间">
+                    </el-time-select>
+                </div>
+
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">治疗时间：</div>
+                    <el-date-picker class="el-field-input" :disabled="useDisabled" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date" placeholder="选择获奖时间">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">治疗名称：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入治疗名称" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">治疗概述：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入治疗概述" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">手术室：</div>
+                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">固定资产：</div>
+                    <el-select size="large" :disabled="useDisabled" v-model="value5" class="el-field-input" multiple placeholder="请选择">
+                        <el-input v-model="input" style="padding:0 10px;" size="small" placeholder="请输入内容">
+                            <el-button slot="append" icon="el-icon-search"></el-button>
+                        </el-input>
+                        <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value">
+                            <span style="float: left">{{ item.label }}</span>
+                            <span style="margin-left:12px; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">消耗品：</div>
+                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+            </div>
+            <div class="baseInfo-title">
+                <div class="title">增加病历</div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">时间：</div>
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="value22" type="datetime" placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">地点：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入地点" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">临诊：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入临诊" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">初诊：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入初诊" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">处方用药：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入处方用药" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">医嘱：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入医嘱" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">标题标签：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入标题标签" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">备注：</div>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" placeholder="请输入备注" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">x光照片：</div>
+                    <el-upload :disabled="useDisabled" class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">数据照片：</div>
+                    <el-upload :disabled="useDisabled" class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl1" :src="imageUrl1" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </div>
+
+            </div>
+        </div>
+        <div class="content-footer row" v-show="!useDisabled">
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+        </div>
+    </div>
+</template>
+<script>
+import { DatePicker, Button, TimeSelect, Input } from "element-ui";
+/* eslint-disable */
+export default {
+    data() {
+        return {
+            value5: [],
+            imageUrl: '',
+            imageUrl1: '',
+            value: '',
+            useDisabled: false,
+            options2: [{
+                value: '库存1',
+                label: '数据1'
+            }, {
+                value: '库存2',
+                label: '数据2'
+            }, {
+                value: '库存3',
+                label: '数据3'
+            }],
+        };
+    },
+    components: {
+        "el-date-picker": DatePicker,
+        "el-button": Button,
+        "el-time-select": TimeSelect,
+        "el-input": Input
+    },
+    mounted() {
+        this.useDisabled = this.$route.query.disable
+    },
+    methods: {
+        open() {
+            this.$message.success("修改成功");
+        },
+           preview(file) {
+            var fr = new FileReader()
+            fr.onloadend = () => {
+                this.imageUrl = fr.result;
+            }
+            fr.readAsDataURL(file.raw)
+        },
+        submitFile(file, fileList) {
+            var formData = new FormData(); //调用接口上传data:formData
+            formData.append('file', file.raw);
+            this.preview(file);
+        },
+        handleAvatarSuccess(res, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+        },
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+.baseInfo-title {
+    height: 30px;
+    line-height: 30px;
+    border-left: 2px solid #2db7f5;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 12px;
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        display: inline-block;
+    }
+}
+</style>
