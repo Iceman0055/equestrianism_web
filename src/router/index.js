@@ -358,7 +358,7 @@ export default new Router({
           children: [
             {
               path: "horseAssets",
-              name: "固定资产管理",
+              name: "固定资产类品管理",
               component: HorseAssets
             },
             {

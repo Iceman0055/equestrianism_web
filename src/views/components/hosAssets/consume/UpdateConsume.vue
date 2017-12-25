@@ -3,7 +3,7 @@
         <div class="content-title">
             <div class="title" v-if="!useDisabled">更新固定资产</div>
             <div class="title" v-if="useDisabled">查看固定资产</div>
-            <router-link class="btn btn-info back" :to="'/hospital/consume'">
+            <router-link class="btn btn-info back" :to="'/hosAssets/consume'">
                 返回
             </router-link>
         </div>

@@ -7,7 +7,7 @@
                     <button class=" btn btn-primary">下一条</button>
                 </div>
             </div>
-            <router-link class="btn btn-info back" :to="'/resume/horseResume'">
+            <router-link class="btn btn-info back-on" :to="'/resume/horseResume'">
                 返回
             </router-link>
         </div>
@@ -333,6 +333,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.back-on{
+float: right;;
+}
 #tab1 {
   line-height: 20px;
   border-left: 1px solid #ddd;

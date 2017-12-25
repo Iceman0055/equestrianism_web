@@ -87,7 +87,7 @@
           <div class="nav-link nav-dropdown-toggle" @click="handleClick"><i class="fa fa-jpy fa-lg"></i> 马术中心资产管理</div>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
-              <router-link :to="'/equestrian/horseAssets'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产管理</router-link>
+              <router-link :to="'/equestrian/horseAssets'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产类品管理</router-link>
             </li>
           <li class="nav-item">
               <router-link :to="'/equestrian/horseAssetsStock'" class="nav-padding nav-link" exact><i class="icon-star"></i> 固定资产库存管理</router-link>

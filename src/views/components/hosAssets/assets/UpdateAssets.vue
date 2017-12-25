@@ -3,7 +3,7 @@
         <div class="content-title">
              <div class="title" v-if="!useDisabled">更新固定资产</div>
             <div class="title" v-if="useDisabled">查看固定资产</div>
-            <router-link class="btn btn-info back" :to="'/hospital/consume'">
+            <router-link class="btn btn-info back" :to="'/hosAssets/assets'">
                 返回
             </router-link>
         </div>
@@ -54,7 +54,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">财务出账日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="value" type="date" >
+                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="value2" type="date" >
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -131,6 +131,7 @@ export default {
             value: '',
             value1: '',
             imageUrl1: '',
+            value2:'',
              options: [{
                 value: '选项1',
                 label: '使用中'

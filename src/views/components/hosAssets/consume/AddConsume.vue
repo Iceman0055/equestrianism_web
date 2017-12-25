@@ -2,11 +2,19 @@
     <div class="content_page animated zoomIn">
         <div class="content-title">
             <div class="title">增加消耗品</div>
-            <router-link class="btn btn-info back" :to="'/hospital/consume'">
+            <router-link class="btn btn-info back" :to="'/hosAssets/consume'">
                 返回
             </router-link>
         </div>
         <div class="content-show">
+              <div class="row list-search">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 search-field text-cente">
+                    <div class="label">条形码：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入条形码" />
+                </div>
+
+            </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>

@@ -18,7 +18,7 @@
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                        <router-link class="btn btn-success" :to="'/hospital/addConsume'">
+                        <router-link class="btn btn-success" :to="'/hosAssets/addConsume'">
                             新增
                         </router-link>
                 </div>
@@ -82,10 +82,10 @@
                                 <td>无</td>
                                 <td>无</td>
                                 <td>
-                                    <router-link :to="{path: '/hospital/updateConsume',       
+                                    <router-link :to="{path: '/hosAssets/updateConsume',       
                                              query: { disable: 'true',}}"> 查看</router-link>
-                                    <router-link :to="'/hospital/updateConsume'">
-                                        更新
+                                    <router-link :to="'/hosAssets/updateConsume'">
+                                        修改
                                     </router-link>
                                 </td>
 

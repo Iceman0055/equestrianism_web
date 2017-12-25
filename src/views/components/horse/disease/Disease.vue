@@ -20,11 +20,11 @@
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
-                <div class="col-md-1 search-field search-field_controls">
+                <!-- <div class="col-md-1 search-field search-field_controls">
                     <router-link class="btn btn-success" :to="'/horse/addDisease'">
                         新增
                     </router-link>
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -63,7 +63,7 @@
                                <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
                                      query: { disable: 'true',}}"> 查看</router-link>
-                                    <router-link :to="'/horse/updateDisease'">修改</router-link>
+                                    <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
                             <tr>
@@ -82,7 +82,7 @@
                                 <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
                                      query: { disable: 'true',}}"> 查看</router-link>
-                                    <router-link :to="'/horse/updateDisease'">修改</router-link>
+                                    <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
                             <tr>
@@ -101,7 +101,7 @@
                                  <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
                                      query: { disable: 'true',}}"> 查看</router-link>
-                                    <router-link :to="'/horse/updateDisease'">修改</router-link>
+                                    <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
                         </tbody>

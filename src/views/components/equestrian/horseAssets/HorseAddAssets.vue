@@ -8,18 +8,28 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 search-field text-cente">
+                    <div class="label">条形码：</div>
+                    <input type="text" class="form-control input-field" placeholder="请输入条形码" />
+                </div>
+
+            </div>
+            <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-<el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                 </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
- <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产编号：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入资产编号" />
@@ -141,29 +151,29 @@ export default {
                 value: '选项2',
                 label: '使用结束'
             }],
-                 
-        selectValue223:'',
-      selectValue22: "",
-              options12: [
-        {
-          value: "1",
-          label: "资产1"
-        },
-        {
-          value: "2",
-          label: "资产2"
-        }
-      ],
-        options123: [
-        {
-          value: "1",
-          label: "资产分类1"
-        },
-        {
-          value: "2",
-          label: "资产分类2"
-        }
-      ],
+
+            selectValue223: '',
+            selectValue22: "",
+            options12: [
+                {
+                    value: "1",
+                    label: "资产1"
+                },
+                {
+                    value: "2",
+                    label: "资产2"
+                }
+            ],
+            options123: [
+                {
+                    value: "1",
+                    label: "资产分类1"
+                },
+                {
+                    value: "2",
+                    label: "资产分类2"
+                }
+            ],
         }
     },
     components: {
