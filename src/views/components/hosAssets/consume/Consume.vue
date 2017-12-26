@@ -83,7 +83,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/hosAssets/updateConsume',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/hosAssets/updateConsume'">
                                         修改
                                     </router-link>

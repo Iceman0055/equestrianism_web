@@ -1,27 +1,29 @@
 <template>
     <div class="p-insurance-list content_page">
         <div class="content-title">
-            <div class="title">马上中心固定资产信息</div>
+            <div class="title">马术中心固定资产信息</div>
         </div>
         <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-2 search-field">
                     <div class="label">资产大类：</div>
- <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
                 <div class="col-md-2 search-field">
                     <div class="label">资产分类：</div>
- <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
-                    <div class="col-md-3 search-field">
+                    </el-select>
+                </div>
+                <div class="col-md-3 search-field">
                     <div class="label">资产名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入资产名称" />
                 </div>
-                    <div class="col-md-3 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">会记凭证号：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入会记凭证号" />
                 </div>
@@ -29,9 +31,9 @@
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                        <router-link class="btn btn-success" :to="'/equestrian/horseAddAssets'">
-                            新增
-                        </router-link>
+                    <router-link class="btn btn-success" :to="'/equestrian/horseAddAssets'">
+                        新增
+                    </router-link>
                 </div>
             </div>
             <div class="row">
@@ -94,7 +96,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/horseUpdateAssets',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/equestrian/horseUpdateAssets'">
                                         修改
                                     </router-link>
@@ -105,8 +107,8 @@
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                            没有可以显示的订单
-                                        </div> -->
+                                                没有可以显示的订单
+                                            </div> -->
                     <div class="page">
 
                         <el-pagination background layout="prev, pager, next" :total="1000">
@@ -124,30 +126,30 @@ import { Pagination } from 'element-ui'
 export default {
     data() {
         return {
-            
-        selectValue223:'',
-      selectValue22: "",
+
+            selectValue223: '',
+            selectValue22: "",
             currentPage: 1,
-              options12: [
-        {
-          value: "1",
-          label: "资产1"
-        },
-        {
-          value: "2",
-          label: "资产2"
-        }
-      ],
-        options123: [
-        {
-          value: "1",
-          label: "资产分类1"
-        },
-        {
-          value: "2",
-          label: "资产分类2"
-        }
-      ],
+            options12: [
+                {
+                    value: "1",
+                    label: "资产1"
+                },
+                {
+                    value: "2",
+                    label: "资产2"
+                }
+            ],
+            options123: [
+                {
+                    value: "1",
+                    label: "资产分类1"
+                },
+                {
+                    value: "2",
+                    label: "资产分类2"
+                }
+            ],
         }
     },
     components: {

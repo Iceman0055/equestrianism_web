@@ -51,7 +51,7 @@
                                 <td>浦东新区</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateMaster',       
-                                         query: { disable: 'true',}}"> 查看</router-link>
+                                         query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateMaster'">修改</router-link>
                                 </td>
                             </tr>
@@ -64,7 +64,7 @@
                                 <td>浦东新区</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateMaster',       
-                                         query: { disable: 'true',}}"> 查看</router-link>
+                                         query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateMaster'">修改</router-link>
                                 </td>
                             </tr>
@@ -77,7 +77,7 @@
                                 <td>浦东新区</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateMaster',       
-                                         query: { disable: 'true',}}"> 查看</router-link>
+                                         query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateMaster'">修改</router-link>
                                 </td>
                             </tr>

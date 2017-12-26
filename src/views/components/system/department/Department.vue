@@ -48,7 +48,7 @@
                                     <router-link :to="'/system/updateDepart'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateDepart',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateDepart',  query: { disable: 1,}}"> 查看</router-link>
                                     <a @click="centerDialogVisible=true">删除</a>
                                 </td>
                             </tr>
@@ -62,7 +62,7 @@
                                     <router-link :to="'/system/updateDepart'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateDepart',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateDepart',  query: { disable: 1,}}"> 查看</router-link>
                                     <a @click="centerDialogVisible=true">删除</a>
                                 </td>
                             </tr>
@@ -76,7 +76,7 @@
                                     <router-link :to="'/system/updateDepart'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateDepart',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateDepart',  query: { disable: 1,}}"> 查看</router-link>
 
                                     <a @click="centerDialogVisible=true">删除</a>
                                 </td>

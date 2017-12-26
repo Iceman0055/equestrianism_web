@@ -77,7 +77,7 @@
                 </div>
                 <div class="resume-more-baseInfo col-md-2">
                     <router-link :to="{path: '/horse/updateBaseInfo',       
-                                         query: { disable: 'true',}}"> 更多</router-link>
+                                         query: { disable: 1,}}"> 更多</router-link>
                     <i class="fa fa-angle-right fa-lg"></i>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/updateMaster',       
-                                                                                                query: { disable: 'true',}}"> 更多</router-link>
+                                              query: { disable: 1,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/updateBreeder',       
-                                                                                                                                 query: { disable: 'true',}}"> 更多</router-link>
+                                                                query: { disable: 1,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/updateDisease',       
-                                                                                                                                 query: { disable: 'true',}}"> 更多</router-link>
+                                                                    query: { disable: 1,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/updateAwards',       
-                                                                                                                                 query: { disable: 'true',}}"> 更多</router-link>
+                                                                           query: { disable: 1,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -265,7 +265,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/updateVaccine',       
-                                                                                                                                 query: { disable: 'true',}}"> 更多</router-link>
+                                                                 query: { disable: 1,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -301,7 +301,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/updateTreatment',       
-                                                                                                                                 query: { disable: 'true',}}"> 更多</router-link>
+                                                                      query: { disable: 1,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>

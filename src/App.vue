@@ -11,6 +11,31 @@ export default {
 </script>
 
 <style lang="scss">
+// .fc-day-grid-container{
+//   height: 610px!important;
+//   overflow: hidden!important;
+// }
+// .fc-week{
+//   height: 100px!important;
+// }
+
+.fc-title{
+  color:#fff;
+}
+.fc-day-header{
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+
+}
+.fc-state-disabled {
+    opacity: .45;
+}
+.fc-button {
+  background: #20A8D8;
+  color: #fff;
+  width:50px;
+}
 .el-dialog{
   border-radius:5px;
 }
@@ -24,33 +49,33 @@ export default {
   background: #E5ECDA
 }
 
-//重写日历样式
-.full-calendar-header .header-center {
-  font-size: 16px
-}
+// //重写日历样式
+// .full-calendar-header .header-center {
+//   font-size: 16px
+// }
 
-.full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
-  color: red
-}
+// .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
+//   color: red
+// }
 
 
-.full-calendar-body .weeks {
-  height: 40px;
-  border-radius: 5px 5px 0 0;
-  line-height: 40px;
-  background: #ECF0CB
-}
+// .full-calendar-body .weeks {
+//   height: 40px;
+//   border-radius: 5px 5px 0 0;
+//   line-height: 40px;
+//   background: #ECF0CB
+// }
 
-.full-calendar-body .dates .more-events {
-  width: 230px;
-  border: none;
-  box-shadow: none;
-}
+// .full-calendar-body .dates .more-events {
+//   width: 230px;
+//   border: none;
+//   box-shadow: none;
+// }
 
-.full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {
-  background: #3794E6;
-  color: #ddd;
-}
+// .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {
+//   background: #3794E6;
+//   color: #ddd;
+// }
 
 .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
@@ -128,7 +153,7 @@ export default {
 
 .avatar {
   width: 441px;
-  height: 200px;
+  height: 180px;
   display: block;
 }
 

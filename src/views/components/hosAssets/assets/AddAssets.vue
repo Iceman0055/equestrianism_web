@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload, Select } from 'element-ui'
+import { DatePicker, Button, Select } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -137,7 +137,6 @@ export default {
             selectValue: '',
             value: '',
             value1: '',
-            imageUrl1: '',
             options: [{
                 value: '选项1',
                 label: '使用中'
@@ -150,45 +149,18 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
         'el-select': Select
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        preview(file) {
-            var fr = new FileReader()
-            fr.onloadend = () => {
-                this.imageUrl = fr.result;
-            }
-            fr.readAsDataURL(file.raw)
-        },
-        submitFile(file, fileList) {
-            var formData = new FormData(); //调用接口上传data:formData
-            formData.append('file', file.raw);
-            this.preview(file);
-        },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .content_page .content-show .list-search .search-field {
-    padding-left: 92px;
+    padding-left: 84px;
 }
 </style>

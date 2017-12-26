@@ -58,7 +58,7 @@
                                 <td>有效</td>
                                     <td>
                                         <router-link :to="{path: '/horse/updateBaseInfo',       
-                                                 query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable: 1,}}"> 查看</router-link>
                                         <router-link :to="'/horse/updateBaseInfo'">
                                             修改
                                         </router-link>
@@ -78,7 +78,7 @@
                                 <td>234567</td>
                                 <td>有效 <td>
                                         <router-link :to="{path: '/horse/updateBaseInfo',       
-                                                 query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable: 1,}}"> 查看</router-link>
                                         <router-link :to="'/horse/updateBaseInfo'">
                                             修改
                                         </router-link>
@@ -98,7 +98,7 @@
                                 <td>234567</td>
                                 <td>有效 <td>
                                         <router-link :to="{path: '/horse/updateBaseInfo',       
-                                                 query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable: 1,}}"> 查看</router-link>
                                         <router-link :to="'/horse/updateBaseInfo'">
                                             修改
                                         </router-link>

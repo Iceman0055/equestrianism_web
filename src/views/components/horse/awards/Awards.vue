@@ -51,7 +51,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateAwards'">
                                         修改
                                     </router-link>
@@ -67,7 +67,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateAwards'">
                                         修改
                                     </router-link>
@@ -83,7 +83,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateAwards'">
                                         修改
                                     </router-link>

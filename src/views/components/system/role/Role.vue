@@ -35,7 +35,7 @@
                                     <router-link :to="'/system/updateRole'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,}}"> 查看</router-link>
 
                                     <a>删除</a>
                                 </td>
@@ -50,7 +50,7 @@
                                     <router-link :to="'/system/updateRole'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,}}"> 查看</router-link>
 
                                     <a>删除</a>
                                 </td>
@@ -65,7 +65,7 @@
                                     <router-link :to="'/system/updateRole'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,}}"> 查看</router-link>
 
                                     <a>删除</a>
                                 </td>
@@ -73,10 +73,8 @@
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                                                                                                                                没有可以显示的订单
-                                                                                                                                                            </div> -->
+                                         没有可以显示的订单  </div> -->
                     <div class="page">
-
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
                     </div>
@@ -183,12 +181,7 @@ export default {
     methods: {
         //全选
         selectChecked() {
-            console.log(this.data2)
-            let len = this.data2.length;
-            for (var i = 0; i < len; i++) {
-                console.log(i + 1)
-                this.$refs.tree.setCheckedKeys([]);
-            }
+                this.$refs.tree.setCheckedKeys([0,1,2,3,4,5]);        
         },
         //全不选
         resetChecked() {

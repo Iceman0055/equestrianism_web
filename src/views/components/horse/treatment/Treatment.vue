@@ -9,7 +9,7 @@
                     <div class="label">治疗名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入治疗名称" />
                 </div>
-                  <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
@@ -17,10 +17,10 @@
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <!-- <div class="col-md-1 search-field search-field_controls">
-                    <router-link class="btn btn-success" :to="'/horse/addTreatment'">
-                        新增
-                    </router-link>
-                </div> -->
+                            <router-link class="btn btn-success" :to="'/horse/addTreatment'">
+                                新增
+                            </router-link>
+                        </div> -->
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -44,15 +44,19 @@
                                 <td>治疗马</td>
                                 <td>胃疼</td>
                                 <td>一号手术室</td>
-                                <td><a @click="assetsDialog=true">查看</a></td>
-                                <td><a @click="consumeDialog=true">查看</a></td>
+                                <td>
+                                    <a @click="assetsDialog=true">查看详情</a>
+                                </td>
+                                <td>
+                                    <a @click="consumeDialog=true">查看详情</a>
+                                </td>
                                 <td>
                                     <!-- <a @click="uploadDialog=true">添加病历</a> -->
                                     <router-link :to="{path: '/horse/updateTreatment',       
-                                                                                         query: { disable: 'true',}}"> 查看</router-link>
+                                                  query: { disable: 'true',}}"> 查看</router-link>
                                     <!-- <router-link :to="'/horse/updateTreatment'">
-                                        修改
-                                    </router-link> -->
+                                                修改
+                                            </router-link> -->
                                 </td>
                             </tr>
                             <tr>
@@ -61,15 +65,19 @@
                                 <td>治疗马</td>
                                 <td>胃疼</td>
                                 <td>一号手术室</td>
-                                <td><a @click="assetsDialog=true">查看</a></td>
-                                <td><a @click="consumeDialog=true">查看</a></td>
+                                <td>
+                                    <a @click="assetsDialog=true">查看详情</a>
+                                </td>
+                                <td>
+                                    <a @click="consumeDialog=true">查看详情</a>
+                                </td>
                                 <td>
                                     <!-- <a @click="uploadDialog=true">添加病历</a> -->
                                     <router-link :to="{path: '/horse/updateTreatment',       
-                                                                                         query: { disable: 'true',}}"> 查看</router-link>
+                                                     query: { disable: 1,}}"> 查看</router-link>
                                     <!-- <router-link :to="'/horse/updateTreatment'">
-                                        修改
-                                    </router-link> -->
+                                                修改
+                                            </router-link> -->
                                 </td>
                             </tr>
                             <tr>
@@ -78,53 +86,56 @@
                                 <td>治疗马</td>
                                 <td>胃疼</td>
                                 <td>一号手术室</td>
-                                <td><a @click="assetsDialog=true">查看</a></td>
-                                <td><a @click="consumeDialog=true">查看</a></td>
+                                <td>
+                                    <a @click="assetsDialog=true">查看详情</a>
+                                </td>
+                                <td>
+                                    <a @click="consumeDialog=true">查看详情</a>
+                                </td>
                                 <td>
                                     <!-- <a @click="centerDialogVisible=true">添加病历</a> -->
                                     <router-link :to="{path: '/horse/updateTreatment',       
-                                                                                         query: { disable: 'true',}}"> 查看</router-link>
+                                                    query: { disable: 1,}}"> 查看</router-link>
                                     <!-- <router-link :to="'/horse/updateTreatment'">
-                                        修改
-                                    </router-link> -->
+                                                修改
+                                            </router-link> -->
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                                                        没有可以显示的订单
-                                                                                    </div> -->
+                                没有可以显示的订单
+                                 </div> -->
                     <div class="page">
-
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
                     </div>
-            <!-- 固定资产  -->
-   <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
-           <div class="text-center">
-               <div class="row">
-                   <div class="col-md-7">名称：固定资产使用</div>
-                   <div class="col-md-5">数量：10</div>
-               </div>      
-           </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="assetsDialog = false">取 消</el-button>
-                <el-button type="primary" @click="assetsDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
-<!-- 显示消耗品 -->
-          <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
-           <div class="text-center">
-                <div class="row">
-                   <div class="col-md-7">名称：消耗品使用</div>
-                   <div class="col-md-5">数量：5</div>
-               </div>
-           </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="consumeDialog = false">取 消</el-button>
-                <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
+                    <!-- 固定资产  -->
+                    <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
+                        <div class="text-center">
+                            <div class="row">
+                                <div class="col-md-7">名称：固定资产使用</div>
+                                <div class="col-md-5">数量：10</div>
+                            </div>
+                        </div>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="assetsDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="assetsDialog = false">确 定</el-button>
+                        </span>
+                    </el-dialog>
+                    <!-- 显示消耗品 -->
+                    <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
+                        <div class="text-center">
+                            <div class="row">
+                                <div class="col-md-7">名称：消耗品使用</div>
+                                <div class="col-md-5">数量：5</div>
+                            </div>
+                        </div>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="consumeDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
+                        </span>
+                    </el-dialog>
 
                     <!-- 添加病历 -->
                     <el-dialog title="添加病历" :modal-append-to-body="false" :visible.sync="uploadDialog" width="50%" center>
@@ -171,19 +182,14 @@
                             <div class="row mb-1 list-search">
                                 <div class="col-md-4 search-field">
                                     <div class="label">x光照片：</div>
-                                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
+                                    <upload-img :imageUrl="xRayImg">
+                                    </upload-img>
                                 </div>
                                 <div class="col-md-4 search-field">
                                     <div class="label">数据照片：</div>
-                                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                                        <img v-if="imageUrl1" :src="imageUrl1" class="avatar">
-                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
+                                    <upload-img :imageUrl="dataImg">
+                                    </upload-img>
                                 </div>
-
                             </div>
                         </div>
                         <span slot="footer" class="dialog-footer">
@@ -199,55 +205,30 @@
 
 <script>
 import { Pagination, Upload, DatePicker } from 'element-ui'
+import UploadImg from '../../../uploadImg/UploadImg.vue'
 /* eslint-disable */
 export default {
     data() {
         return {
-            consumeDialog:false,
-            assetsDialog:false,
+            xRayImg: '',
+            dataImg: '',
+            consumeDialog: false,
+            assetsDialog: false,
             value: '',
             uploadDialog: false,
             currentPage: 1,
-            imageUrl: '',
-            // imageUrl1:''
         }
     },
     components: {
         'el-pagination': Pagination,
         'el-upload': Upload,
-        'el-date-picker': DatePicker
+        'el-date-picker': DatePicker,
+        'upload-img': UploadImg,
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        preview(file) {
-            var fr = new FileReader()
-            fr.onloadend = () => {
-                this.imageUrl = fr.result;
-            }
-            fr.readAsDataURL(file.raw)
-        },
-        submitFile(file, fileList) {
-            var formData = new FormData(); //调用接口上传data:formData
-            formData.append('file', file.raw);
-            this.preview(file);
-        },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>

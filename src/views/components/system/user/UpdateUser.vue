@@ -84,7 +84,7 @@ export default {
         'el-button': Button,
     },
      mounted() {
-        this.useDisabled = this.$route.query.disable
+        this.useDisabled = !!this.$route.query.disable
     },
     methods: {
         open() {

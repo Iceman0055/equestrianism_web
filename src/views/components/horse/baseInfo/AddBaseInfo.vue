@@ -102,60 +102,43 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">右侧：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                  <upload-img :imageUrl="rightImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">左侧：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                     <upload-img :imageUrl="leftImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">上眼线：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                   <upload-img :imageUrl="upLineImg">
+                    </upload-img>
                 </div>
-
             </div>
-
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">前肢-后视：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :show-file-list="false" :on-change="submitFile" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                      <upload-img :imageUrl="foreImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">颈部仰视：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                   <upload-img :imageUrl="neckImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">后肢-后视：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :imageUrl="backImg">
+                    </upload-img>
                 </div>
-
             </div>
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">唇：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                  <upload-img :imageUrl="lipImg">
+                    </upload-img>
                 </div>
             </div>
         </div>
@@ -167,15 +150,22 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload,Select } from 'element-ui'
+import { DatePicker, Button, Select } from 'element-ui'
+import UploadImg from '../../../uploadImg/UploadImg.vue'
 /* eslint-disable */
 export default {
     data() {
         return {
+            rightImg:'',
+            leftImg:'',
+            upLineImg:'',
+            foreImg:'',
+            neckImg:'',
+            backImg:'',
+            lipImg:'',
             selectValue:'',
             value: '',
             value1: '',
-            imageUrl: '',
                 options: [{
                 value: '选项1',
                 label: '男'
@@ -188,40 +178,13 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
-        'el-select':Select
+        'el-select':Select,
+        'upload-img':UploadImg
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        preview(file) {
-            var fr = new FileReader()
-            fr.onloadend = () => {
-                this.imageUrl = fr.result;
-            }
-            fr.readAsDataURL(file.raw)
-        },
-        submitFile(file) {
-            var formData = new FormData(); //调用接口上传data:formData
-            formData.append('file', file.raw);
-            this.preview(file);
-        },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>

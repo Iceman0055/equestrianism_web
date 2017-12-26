@@ -50,17 +50,18 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-  <el-select size="large" v-model="selectValue" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                  </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">皮下条码：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
 
             </div>
-      
+
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
@@ -106,60 +107,43 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">右侧：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="rightImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">左侧：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="leftImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">上眼线：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="upLineImg">
+                    </upload-img>
                 </div>
-
             </div>
-
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">前肢-后视：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :show-file-list="false" :on-change="submitFile" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl1" :src="imageUrl1" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="foreImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">颈部仰视：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="neckImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">后肢-后视：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="backImg">
+                    </upload-img>
                 </div>
-
             </div>
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">唇：</div>
-                    <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :useDisabled="useDisabled" :imageUrl="lipImg">
+                    </upload-img>
                 </div>
             </div>
         </div>
@@ -171,17 +155,26 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload,Select } from 'element-ui'
+import { DatePicker, Button, Upload, Select } from 'element-ui'
+import UploadImg from '../../../uploadImg/UploadImg.vue'
 /* eslint-disable */
 export default {
     data() {
         return {
-            selectValue:'',
+            imageUrl: '',
+            rightImg: '',
+            leftImg: '',
+            upLineImg: '',
+            foreImg: '',
+            neckImg: '',
+            backImg: '',
+            lipImg: '',
+            selectValue: '',
             useDisabled: false,
             value: '',
             value1: '',
             imageUrl1: '',
-                options: [{
+            options: [{
                 value: '选项1',
                 label: '男'
             }, {
@@ -193,11 +186,11 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
-        'el-select':Select
+        'upload-img': UploadImg,
+        'el-select': Select
     },
     mounted() {
-        this.useDisabled = this.$route.query.disable
+        this.useDisabled = !!this.$route.query.disable
     },
     methods: {
         open() {

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload } from 'element-ui'
+import { DatePicker, Button } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -55,13 +55,11 @@ export default {
             useDisabled: false,
             value: '',
             value1: '',
-            imageUrl: ''
         }
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload
     },
     mounted() {
         this.useDisabled = this.$route.query.disable
@@ -70,21 +68,6 @@ export default {
         open() {
             this.$message.success('修改成功')
         },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>

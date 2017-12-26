@@ -31,14 +31,12 @@
                 <div class="col-md-4 search-field">
                     <div class="label">处理人：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
-
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">疫苗编号：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
-
         </div>
         <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
@@ -47,7 +45,7 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload } from 'element-ui'
+import { DatePicker, Button} from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -55,36 +53,19 @@ export default {
             useDisabled: false,
             value: '',
             value1: '',
-            imageUrl: ''
         }
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload
     },
     mounted() {
-        this.useDisabled = this.$route.query.disable
+        this.useDisabled = !!this.$route.query.disable
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>

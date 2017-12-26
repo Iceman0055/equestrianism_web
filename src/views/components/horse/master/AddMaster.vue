@@ -14,10 +14,11 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
- <el-select size="large" v-model="selectValue1" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue1" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                  </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">职业：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入职业" />
@@ -34,10 +35,11 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                  <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
             </div>
         </div>
         <div class="content-footer row">
@@ -47,24 +49,23 @@
 </template>
 
 <script>
-import { DatePicker, Button ,Select} from 'element-ui'
+import { DatePicker, Button, Select } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
         return {
-            selectValue:'',
-            selectValue1:'',
+            selectValue: '',
+            selectValue1: '',
             value: '',
             value1: '',
-            imageUrl: '',
-              options: [{
+            options: [{
                 value: '选项1',
                 label: '马匹1'
             }, {
                 value: '选项2',
                 label: '马匹2'
             }],
-              options1: [{
+            options1: [{
                 value: '选项1',
                 label: '男'
             }, {
@@ -76,7 +77,7 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        "el-select":Select
+        "el-select": Select
     },
     methods: {
         open() {

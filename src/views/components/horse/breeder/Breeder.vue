@@ -42,7 +42,7 @@
                                 <td>2016.12</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateBreeder',       
-                                     query: { disable: 'true',}}"> 查看</router-link>
+                                     query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateBreeder'">修改</router-link>
                                 </td>
                             </tr>
@@ -55,7 +55,7 @@
                                 <td>2016.12</td>
                                  <td>
                                     <router-link :to="{path: '/horse/updateBreeder',       
-                                     query: { disable: 'true',}}"> 查看</router-link>
+                                     query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateBreeder'">修改</router-link>
                                 </td>
                             </tr>
@@ -68,7 +68,7 @@
                                 <td>2016.12</td>
                                  <td>
                                     <router-link :to="{path: '/horse/updateBreeder',       
-                                     query: { disable: 'true',}}"> 查看</router-link>
+                                     query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateBreeder'">修改</router-link>
                                 </td>
                             </tr>

@@ -62,7 +62,7 @@
                                 <td>管住嘴迈开腿</td>
                                <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
-                                     query: { disable: 'true',}}"> 查看</router-link>
+                                     query: { disable: 1,}}"> 查看</router-link>
                                     <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
@@ -81,7 +81,7 @@
                                 <td>管住嘴迈开腿</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
-                                     query: { disable: 'true',}}"> 查看</router-link>
+                                     query: { disable: 1,}}"> 查看</router-link>
                                     <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
@@ -100,7 +100,7 @@
                                 <td>管住嘴迈开腿</td>
                                  <td>
                                     <router-link :to="{path: '/horse/updateDisease',       
-                                     query: { disable: 'true',}}"> 查看</router-link>
+                                     query: { disable: 1,}}"> 查看</router-link>
                                     <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>

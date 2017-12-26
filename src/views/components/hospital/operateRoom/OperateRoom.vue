@@ -41,7 +41,7 @@
                                 <td>使用中</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateOperateR',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/hospital/updateOperateR'">修改</router-link>
                                 </td>
                             </tr>
@@ -51,7 +51,7 @@
                                 <td>使用中</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateOperateR',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/hospital/updateOperateR'">修改</router-link>
                                 </td>
                             </tr>
@@ -61,7 +61,7 @@
                                 <td>使用中</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateOperateR',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/hospital/updateOperateR'">修改</router-link>
                                 </td>
                             </tr>

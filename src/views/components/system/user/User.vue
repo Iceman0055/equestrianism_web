@@ -75,7 +75,7 @@
                                     <router-link :to="'/system/updateUser'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateUser',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateUser',  query: { disable: 1,}}"> 查看</router-link>
 
                                     <a @click="centerDialogVisible=true">锁定</a>
                                     <a @click="passwordDialog=true">重置密码</a>
@@ -94,7 +94,7 @@
                                     <router-link :to="'/system/updateUser'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateUser',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateUser',  query: { disable: 1,}}"> 查看</router-link>
                                     <a @click="centerDialogVisible=true">锁定</a>
                                     <a @click="passwordDialog=true">重置密码</a>
                                 </td>
@@ -112,7 +112,7 @@
                                     <router-link :to="'/system/updateUser'">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateUser',  query: { disable: 'true',}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateUser',  query: { disable: 1,}}"> 查看</router-link>
                                     <a @click="centerDialogVisible=true">锁定</a>
                                     <a @click="passwordDialog=true">重置密码</a>
                                 </td>

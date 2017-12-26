@@ -11,16 +11,18 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-<el-select size="large" v-model="selectValue22" :disabled="useDisabled" class="el-field-input">
+                    <el-select size="large" v-model="selectValue22" :disabled="useDisabled" class="el-field-input">
                         <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                 </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
- <el-select size="large" v-model="selectValue223" :disabled="useDisabled" class="el-field-input">
+                    <el-select size="large" v-model="selectValue223" :disabled="useDisabled" class="el-field-input">
                         <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产编号：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
@@ -29,7 +31,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">数量：</div>
@@ -79,7 +81,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">使用状态：</div>
@@ -92,11 +94,11 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">规格型号：</div>
@@ -106,15 +108,15 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">品牌：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">会记凭证号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">采购组织形式：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
         </div>
@@ -126,90 +128,66 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload, Select } from 'element-ui'
+import { DatePicker, Button, Select } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
         return {
-            selectValue:'',
+            selectValue: '',
             value: '',
             value1: '',
             value2: '',
             useDisabled: false,
-              options: [{
+            options: [{
                 value: '选项1',
                 label: '使用中'
             }, {
                 value: '选项2',
                 label: '使用结束'
             }],
-                 
-        selectValue223:'',
-      selectValue22: "",
-              options12: [
-        {
-          value: "1",
-          label: "资产1"
-        },
-        {
-          value: "2",
-          label: "资产2"
-        }
-      ],
-        options123: [
-        {
-          value: "1",
-          label: "资产分类1"
-        },
-        {
-          value: "2",
-          label: "资产分类2"
-        }
-      ],
+
+            selectValue223: '',
+            selectValue22: "",
+            options12: [
+                {
+                    value: "1",
+                    label: "资产1"
+                },
+                {
+                    value: "2",
+                    label: "资产2"
+                }
+            ],
+            options123: [
+                {
+                    value: "1",
+                    label: "资产分类1"
+                },
+                {
+                    value: "2",
+                    label: "资产分类2"
+                }
+            ],
         }
     },
     mounted() {
-        this.useDisabled = this.$route.query.disable
+        this.useDisabled = !!this.$route.query.disable
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
         'el-select': Select
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .content_page .content-show .list-search .search-field {
-    padding-left: 92px;
-}
-
-.input-field {
-    border-radius: 5px;
-    height: 40px;
-}
-
-.el-field-input {
-    width: 100%;
+    padding-left: 84px;
 }
 </style>

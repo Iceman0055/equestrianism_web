@@ -7,10 +7,10 @@
             </router-link>
         </div>
         <div class="content-show">
-             <div class="row list-search">
-               <div class="col-md-4 search-field">
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
                     <div class="label">门诊方式：</div>
-                     <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -19,7 +19,7 @@
                     <div class="label">预约号：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入预约号称" />
                 </div>
- </div>
+            </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">开始日期：</div>
@@ -29,10 +29,10 @@
                 <div class="col-md-4 search-field">
                     <div class="label">开始时间：</div>
                     <el-time-select size="large" v-model="value34" :picker-options="{
-                                start: '00:00',
-                                step: '01:00',
-                                end: '24:00'
-                              }" placeholder="选择时间">
+                                            start: '00:00',
+                                            step: '01:00',
+                                            end: '24:00'
+                                          }" placeholder="选择时间">
                     </el-time-select>
                 </div>
 
@@ -46,29 +46,30 @@
                 <div class="col-md-4 search-field">
                     <div class="label">结束时间：</div>
                     <el-time-select size="large" v-model="value44" :picker-options="{
-                                start: '00:00',
-                                step: '01:00',
-                                end: '24:00'
-                              }" placeholder="选择时间">
+                                            start: '00:00',
+                                            step: '01:00',
+                                            end: '24:00'
+                                          }" placeholder="选择时间">
                     </el-time-select>
                 </div>
 
             </div>
-           
-              <div class="row list-search">
-     
+
+            <div class="row list-search">
+
                 <div class="col-md-4 search-field">
                     <div class="label">马匹类型：</div>
-  <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
             </div>
-             <div class="row list-search">
+            <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">治疗时间：</div>
                     <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date" placeholder="选择获奖时间">
@@ -85,14 +86,14 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">手术室：</div>
+                    <div class="label">手术室使用：</div>
                     <el-select size="large" v-model="selectValue1" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">固定资产：</div>
+                    <div class="label" style="left:-14px">固定资产使用：</div>
                     <el-select size="large" v-model="value5" class="el-field-input" multiple placeholder="请选择">
                         <el-input v-model="input" style="padding:0 10px;" size="small" placeholder="请输入内容">
                             <el-button slot="append" icon="el-icon-search"></el-button>
@@ -104,8 +105,8 @@
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">消耗品：</div>
-                     <el-select size="large" v-model="value6" class="el-field-input" multiple placeholder="请选择">
+                    <div class="label">消耗品使用：</div>
+                    <el-select size="large" v-model="value6" class="el-field-input" multiple placeholder="请选择">
                         <el-input v-model="input" style="padding:0 10px;" size="small" placeholder="请输入内容">
                             <el-button slot="append" icon="el-icon-search"></el-button>
                         </el-input>
@@ -117,7 +118,6 @@
                 </div>
             </div>
 
- 
             <div class="baseInfo-title">
                 <div class="title">新增病历</div>
             </div>
@@ -163,17 +163,13 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">x光照片：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :imageUrl="xRayImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">数据照片：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl1" :src="imageUrl1" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :imageUrl="dataImg">
+                    </upload-img>
                 </div>
 
             </div>
@@ -185,143 +181,122 @@
 </template>
 <script>
 import { DatePicker, Button, Input, TimeSelect } from "element-ui";
+import UploadImg from '../../../uploadImg/UploadImg.vue'
 /* eslint-disable */
 export default {
-  data() {
-    return {
-        selectValue223:'',
-      selectValue22: "",
-      value44: "",
-      value34: "",
-      value5: [],
-      value6: [],
-      beginValue: "",
-      selectValue: "",
-      selectValue1: "",
-      options: [
-        {
-          value: "选项1",
-          label: "数据1"
-        },
-        {
-          value: "选项2",
-          label: "数据2"
-        }
-      ],
-      options12: [
-        {
-          value: "1",
-          label: "预约"
-        },
-        {
-          value: "2",
-          label: "普通"
-        }
-      ],
-        options123: [
-        {
-          value: "1",
-          label: "中心"
-        },
-        {
-          value: "2",
-          label: "外来"
-        }
-      ],
-      options2: [
-        {
-          value: "库存1",
-          label: "数据1"
-        },
-        {
-          value: "库存2",
-          label: "数据2"
-        },
-        {
-          value: "库存3",
-          label: "数据3"
-        }
-      ],
-      options3: [
-        {
-          value: "库存1",
-          label: "假数据1"
-        },
-        {
-          value: "库存2",
-          label: "假数据2"
-        },
-        {
-          value: "库存3",
-          label: "假数据3"
-        }
-      ],
+    data() {
+        return {
+            xRayImg: '',
+            dataImg: '',
+            selectValue223: '',
+            selectValue22: "",
+            value44: "",
+            value34: "",
+            value5: [],
+            value6: [],
+            beginValue: "",
+            selectValue: "",
+            selectValue1: "",
+            options: [
+                {
+                    value: "选项1",
+                    label: "数据1"
+                },
+                {
+                    value: "选项2",
+                    label: "数据2"
+                }
+            ],
+            options12: [
+                {
+                    value: "1",
+                    label: "预约"
+                },
+                {
+                    value: "2",
+                    label: "普通"
+                }
+            ],
+            options123: [
+                {
+                    value: "1",
+                    label: "中心"
+                },
+                {
+                    value: "2",
+                    label: "外来"
+                }
+            ],
+            options2: [
+                {
+                    value: "库存1",
+                    label: "数据1"
+                },
+                {
+                    value: "库存2",
+                    label: "数据2"
+                },
+                {
+                    value: "库存3",
+                    label: "数据3"
+                }
+            ],
+            options3: [
+                {
+                    value: "库存1",
+                    label: "假数据1"
+                },
+                {
+                    value: "库存2",
+                    label: "假数据2"
+                },
+                {
+                    value: "库存3",
+                    label: "假数据3"
+                }
+            ],
 
-      value122: "",
-      value123: "",
-      value222: "",
-      value223: "",
-      value22: "",
-      value: ""
-    };
-  },
-  components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
-    "el-time-select": TimeSelect,
-    "el-input": Input
-  },
-  methods: {
-    open() {
-      this.$message.success("修改成功");
+            value122: "",
+            value123: "",
+            value222: "",
+            value223: "",
+            value22: "",
+            value: ""
+        };
     },
-    preview(file) {
-      var fr = new FileReader();
-      fr.onloadend = () => {
-        this.imageUrl = fr.result;
-      };
-      fr.readAsDataURL(file.raw);
+    components: {
+        "el-date-picker": DatePicker,
+        "el-button": Button,
+        "el-time-select": TimeSelect,
+        "el-input": Input,
+        'upload-img': UploadImg
     },
-    submitFile(file, fileList) {
-      var formData = new FormData(); //调用接口上传data:formData
-      formData.append("file", file.raw);
-      this.preview(file);
-    },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
+    methods: {
+        open() {
+            this.$message.success("修改成功");
+        },
+
     }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 .el-select-dropdown__list {
-  height: 139px !important;
-  overflow-y: scroll !important;
+    height: 139px !important;
+    overflow-y: scroll !important;
 }
 
 .baseInfo-title {
-  height: 30px;
-  line-height: 30px;
-  border-left: 2px solid #2db7f5;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 12px;
-  .title {
-    font-size: 16px;
-    font-weight: bold;
-    display: inline-block;
-  }
+    height: 30px;
+    line-height: 30px;
+    border-left: 2px solid #2db7f5;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 12px;
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        display: inline-block;
+    }
 }
 </style>

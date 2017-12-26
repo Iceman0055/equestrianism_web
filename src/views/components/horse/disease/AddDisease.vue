@@ -63,17 +63,13 @@
                     </el-select>                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">x光照片：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :imageUrl="xRayImg">
+                    </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">数据照片：</div>
-                    <el-upload class="avatar-uploader" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <upload-img :imageUrl="dataImg">
+                    </upload-img>
                 </div>
             </div>
 
@@ -85,11 +81,14 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload ,Select} from 'element-ui'
+import { DatePicker, Button,Select} from 'element-ui'
+import UploadImg from '../../../uploadImg/UploadImg.vue'
 /* eslint-disable */
 export default {
     data() {
         return {
+            xRayImg:'',
+            dataImg:'',
             selectValue:'',
             value: '',
             value1: '',
@@ -106,40 +105,13 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
+        'upload-img': UploadImg,
         "el-select":Select
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        preview(file) {
-            var fr = new FileReader()
-            fr.onloadend = () => {
-                this.imageUrl = fr.result;
-            }
-            fr.readAsDataURL(file.raw)
-        },
-        submitFile(file, fileList) {
-            var formData = new FormData(); //调用接口上传data:formData
-            formData.append('file', file.raw);
-            this.preview(file);
-        },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>

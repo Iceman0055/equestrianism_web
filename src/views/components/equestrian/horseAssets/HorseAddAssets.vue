@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">使用状态：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload, Select } from 'element-ui'
+import { DatePicker, Button, Select } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -179,54 +179,18 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
         'el-select': Select
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        // preview(file) {
-        //     var fr = new FileReader()
-        //     fr.onloadend = () => {
-        //         this.imageUrl = fr.result;
-        //     }
-        //     fr.readAsDataURL(file.raw)
-        // },
-        // submitFile(file, fileList) {
-        //     var formData = new FormData(); //调用接口上传data:formData
-        //     formData.append('file', file.raw);
-        //     this.preview(file);
-        // },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .content_page .content-show .list-search .search-field {
-    padding-left: 92px;
-}
-
-.input-field {
-    border-radius: 5px;
-    height: 40px;
-}
-
-.el-field-input {
-    width: 100%;
+    padding-left: 84px;
 }
 </style>

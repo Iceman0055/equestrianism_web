@@ -16,7 +16,6 @@
                         <div class="label">时间：</div>
                         <el-date-picker class="el-field-input" size="large" v-model="value" type="date" placeholder="选择时间">
                         </el-date-picker>
-                        <!-- <input type="text" class="form-control" placeholder="请输入马的名字" /> -->
                     </div>
                      <div class="col-md-4 search-field">
                         <div class="label">名称：</div>
@@ -48,41 +47,24 @@
 </template>
 
 <script>
-import { DatePicker, Button, Upload ,Select} from 'element-ui'
+import { DatePicker, Button,Select} from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
         return {
             value: '',
             value1: '',
-            imageUrl: ''
         }
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-        'el-upload': Upload,
         "el-select":Select
     },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
-        }
     }
 }
 </script>

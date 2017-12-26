@@ -7,16 +7,14 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">时间：</div>
-<el-date-picker size="large"
-      v-model="value1"
-      type="datet"
-      placeholder="选择日期时间">
-    </el-date-picker>                    </div>
+                    <el-date-picker size="large" v-model="value1" type="datet" placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
                 <div class="col-md-3 search-field">
                     <div class="label">地点：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入地址" />
                 </div>
-                  <div class="col-md-3 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
@@ -56,7 +54,7 @@
                                 <td>12345678</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateVacc',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/hospital/updateVacc'">修改</router-link>
                                 </td>
                             </tr>
@@ -70,7 +68,7 @@
                                 <td>12345678</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateVacc',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/hospital/updateVacc'">修改</router-link>
                                 </td>
                             </tr>
@@ -84,15 +82,15 @@
                                 <td>12345678</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateVacc',       
-                                             query: { disable: 'true',}}"> 查看</router-link>
+                                                 query: { disable:1,}}"> 查看</router-link>
                                     <router-link :to="'/hospital/updateVacc'">修改</router-link>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                没有可以显示的订单
-                                            </div> -->
+                                                    没有可以显示的订单
+                                                </div> -->
                     <div class="page">
 
                         <el-pagination background layout="prev, pager, next" :total="1000">
@@ -105,7 +103,7 @@
 </template>
 
 <script>
-import { Pagination,Select,DatePicker } from 'element-ui'
+import { Pagination, Select, DatePicker } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -115,8 +113,8 @@ export default {
     },
     components: {
         'el-pagination': Pagination,
-        "el-select":Select,
-        "el-date-picker":DatePicker
+        "el-select": Select,
+        "el-date-picker": DatePicker
     }
 }
 </script>
