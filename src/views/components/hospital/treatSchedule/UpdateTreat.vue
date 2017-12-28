@@ -93,7 +93,7 @@
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label" style="left:-14px">固定资产使用：</div>
+                    <div class="label">设备使用：</div>
                     <el-select size="large" :disabled="useDisabled" v-model="value5" class="el-field-input" multiple>
                         <el-input v-model="input" style="padding:0 10px;" size="small">
                             <el-button slot="append" icon="el-icon-search"></el-button>
@@ -125,23 +125,26 @@
                     <div class="label">地点：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">临诊：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">初诊：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
+                 <div class="col-md-4 search-field">
                     <div class="label">处方用药：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
+            </div>
+             <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">初诊：</div>
+                    <el-input type="textarea" :disabled="useDisabled" :rows="2" v-model="firstTreat">
+                    </el-input>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">临诊：</div>
+                    <el-input type="textarea" :disabled="useDisabled" :rows="2" v-model="secondTreat">
+                    </el-input>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">医嘱：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <el-input type="textarea" :disabled="useDisabled" :rows="2" v-model="advice">
+                    </el-input>
                 </div>
             </div>
             <div class="row list-search">
@@ -157,13 +160,13 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">x光照片：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="xRayImg">
-                    </upload-img>
+                  <multiple-img v-on:successFile="successFile" :useDisabled="useDisabled" v-on:removeFile="removeFile" :imageUrl="xRayImg">
+                    </multiple-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">数据照片：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="dataImg">
-                    </upload-img>
+                    <multiple-img v-on:successFile="successFile" :useDisabled="useDisabled" v-on:removeFile="removeFile" :imageUrl="dataImg">
+                    </multiple-img>
                 </div>
             </div>
         </div>
@@ -174,11 +177,13 @@
 </template>
 <script>
 import { DatePicker, Button, TimeSelect, Input } from "element-ui";
-import UploadImg from '../../../uploadImg/UploadImg.vue'
-/* eslint-disable */
+import MultipleImg from '../../../uploadImg/MultipleImg.vue'/* eslint-disable */
 export default {
     data() {
         return {
+            firstTreat:'',
+            secondTreat:'',
+            advice:'',
             files: {},
             input:'',
             value122: "",
@@ -241,7 +246,7 @@ export default {
         "el-button": Button,
         "el-time-select": TimeSelect,
         "el-input": Input,
-        'upload-img': UploadImg,
+        'multiple-img': MultipleImg,
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
@@ -250,13 +255,14 @@ export default {
          uploadFun(file) {
             this.files[file.name] = file.file
         },
+         successFile(res){
+            //上传成功后，接口返回的值，点击确定把这个值再传过去
+            console.log(res)
+        },
+        removeFile(file){
+            console.log(file)
+        },
         open() {
-            var formData = new FormData()
-            for (let key in this.files) {
-                formData.append(key, this.files[key])
-            }
-            //上传的是formData,content-Type要修改为formData
-            console.log(formData)
             this.$message.success('修改成功')
         },
 

@@ -13,20 +13,19 @@
                     <div class="label">条形码：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入条形码" />
                 </div>
-
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="assetsCate" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="assetsClass" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -67,17 +66,17 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">财务出账日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="value" type="date" placeholder="选择财务出账日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" type="date" placeholder="选择财务出账日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">制单日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="value1" type="date" placeholder="选择制单日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="makeDate" type="date" placeholder="选择制单日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">保修截止日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="value2" type="date" placeholder="选择保修截止日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="endDate" type="date" placeholder="选择保修截止日期">
                     </el-date-picker>
                 </div>
             </div>
@@ -92,8 +91,8 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">使用状态：</div>
-                    <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="useStatus" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in useStatusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -140,21 +139,20 @@ import { DatePicker, Button, Select } from 'element-ui'
 export default {
     data() {
         return {
-            selectValue: '',
-            value: '',
-            value1: '',
-            value2: '',
-            options: [{
+            assetsCate:'',
+            assetsClass:'',
+            financialDate:'',
+            makeDate: '',
+            endDate: '',
+            useStatus:'',
+            useStatusOptions: [{
                 value: '选项1',
                 label: '使用中'
             }, {
                 value: '选项2',
                 label: '使用结束'
             }],
-
-            selectValue223: '',
-            selectValue22: "",
-            options12: [
+            assetsCateOptions: [
                 {
                     value: "1",
                     label: "资产1"
@@ -164,7 +162,7 @@ export default {
                     label: "资产2"
                 }
             ],
-            options123: [
+            assetsClassOptions: [
                 {
                     value: "1",
                     label: "资产分类1"

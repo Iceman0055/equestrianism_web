@@ -11,8 +11,8 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
-                    <el-select size="large" v-model="value" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="status" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -84,7 +84,7 @@
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                               没有可以显示的订单 </div> -->
+                                                           没有可以显示的订单 </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
@@ -138,16 +138,17 @@ import { Pagination, Dialog } from 'element-ui'
 export default {
     data() {
         return {
+            status:'',
             stuffDialog: false,
             permissionDialog: false,
             centerDialogVisible: false,
             currentPage: 1,
-            options: [{
+            statusOptions: [{
                 value: '选项1',
-                label: '假数据1'
+                label: '使用中'
             }, {
                 value: '选项2',
-                label: '假数据2'
+                label: '使用结束'
             }],
             data2: [{
                 id: 0,
@@ -204,6 +205,10 @@ export default {
                     label: '后台',
                 }]
             }],
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            }
         }
     },
     components: {
@@ -211,6 +216,15 @@ export default {
         // 'v-modal': modal,
         'el-dialog': Dialog
         // 'v-queue-anim': QueueAnim
+    },
+    methods: {
+        selectChecked() {
+            this.$refs.tree.setCheckedKeys([0, 1, 2, 3,4]);
+        },
+        resetChecked() {
+            this.$refs.tree.setCheckedKeys([]);
+
+        }
     }
 }
 </script>

@@ -42,7 +42,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="radio" name="select"></td>
+                                <td><input type="radio" class="input-pointer" name="select"></td>
                                 <td>状态</td>
                                 <td>Status</td>
                                 <td>用户状态</td>
@@ -53,7 +53,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><input type="radio" name="select"></td>
+                                <td><input type="radio" class="input-pointer" name="select"></td>
                                 <td>状态</td>
                                 <td>Status</td>
                                 <td>用户状态</td>
@@ -64,7 +64,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><input type="radio" name="select"></td>
+                                <td><input type="radio" class="input-pointer" name="select"></td>
                                 <td>状态</td>
                                 <td>Status</td>
                                 <td>用户状态</td>
@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { Pagination, Dialog } from 'element-ui'
+import { Pagination, Dialog} from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -221,12 +221,13 @@ export default {
     },
     components: {
         'el-pagination': Pagination,
-        // 'v-modal': modal,
-        'el-dialog': Dialog
-        // 'v-queue-anim': QueueAnim
+        'el-dialog': Dialog,
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.input-pointer{
+    cursor: pointer;
+}
 </style>

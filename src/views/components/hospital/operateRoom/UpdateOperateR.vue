@@ -1,8 +1,8 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-               <div class="title" v-if="!useDisabled">更新手术室信息</div>
-            <div class="title" v-if="useDisabled">查看手术室信息</div>
+               <div class="title" v-if="!useDisabled">修改诊疗室信息</div>
+            <div class="title" v-if="useDisabled">查看诊疗室信息</div>
             <router-link class="btn btn-info back" :to="'/hospital/operateRoom'">
                 返回
             </router-link>
@@ -10,11 +10,11 @@
         <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">手术室名称：</div>
+                    <div class="label">诊疗室名称：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">手术室简称：</div>
+                    <div class="label">诊疗室简称：</div>
                     <input type="text" :disabled="useDisabled" class="form-control" />
                 </div>
                 <div class="col-md-4 search-field">

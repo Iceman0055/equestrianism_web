@@ -307,6 +307,74 @@
                 </div>
 
             </div>
+            <div class="row list-search">
+                <div class="col-md-6 resume-title">
+                    <div class="title">钉甲信息</div>
+                </div>
+                <div class="col-md-6 resume-title">
+                    <div class="title">挫牙信息</div>
+                </div>
+            </div>
+               <div class="row list-search">
+                <div class="col-md-5" >
+                    <ul class="resume-ul">
+                        <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <ul class="resume-ul">
+                          <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <ul class="resume-ul">
+                           <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <ul class="resume-ul">
+                           <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <div class="resume-more">
+                        <router-link :to="{path: '/hospital/updateNail',       
+                                                                 query: { disable: 1,}}"> 更多</router-link>
+                        <i class="fa fa-angle-right fa-lg"></i>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5  col-md-offset-1">
+                    <ul class="resume-ul">
+                          <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <ul class="resume-ul">
+                        <li>2017-11-09 12:12:12</li>
+                        <li>阑尾炎</li>
+                        <li>肚子疼</li>
+                        <li>1号</li>
+                        <li>1号</li>
+                    </ul>
+                    <ul class="resume-ul">
+                         <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <ul class="resume-ul">
+                           <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
+                    </ul>
+                    <div class="resume-more">
+                        <router-link :to="{path: '/hospital/updateTeeth',       
+                                                                      query: { disable: 1,}}"> 更多</router-link>
+                        <i class="fa fa-angle-right fa-lg"></i>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
     </div>

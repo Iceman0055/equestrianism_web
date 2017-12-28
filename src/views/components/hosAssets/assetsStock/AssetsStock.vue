@@ -7,11 +7,17 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产大类" />
+                    <el-select size="large" v-model="assetsCate" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产分类" />
+                    <el-select size="large" v-model="assetsClass" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
 
                 <div class="col-md-1 search-field search-field_controls">
@@ -81,19 +87,19 @@
                                 <td>无</td>
                                 <td>无</td>
                                 <!-- <td>
-                                                <router-link :to="{path: '/hospital/updateAssets',       
-                                                         query: { disable: 'true',}}"> 查看</router-link>
-                                                <router-link :to="'/hospital/updateAssets'">
-                                                    更新
-                                                </router-link>
-                                            </td> -->
+                                                            <router-link :to="{path: '/hospital/updateAssets',       
+                                                                     query: { disable: 1,}}"> 查看</router-link>
+                                                            <router-link :to="'/hospital/updateAssets'">
+                                                                更新
+                                                            </router-link>
+                                                        </td> -->
 
                             </tr>
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                        没有可以显示的订单
-                                                    </div> -->
+                                                                    没有可以显示的订单
+                                                                </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
@@ -153,6 +159,8 @@ import { Pagination, Dialog } from "element-ui";
 export default {
     data() {
         return {
+            assetsCate: '',
+            assetsClass: '',
             currentPage: 1,
             centerDialogVisible: false,
             confirmDialog: false,
@@ -161,7 +169,27 @@ export default {
                 { id: "1", name: "123", value: "123" },
                 { id: "2", name: "123", value: "123" },
                 { id: "3", name: "123", value: "123" }
-            ]
+            ],
+            assetsCateOptions: [
+                {
+                    value: "1",
+                    label: "资产1"
+                },
+                {
+                    value: "2",
+                    label: "资产2"
+                }
+            ],
+            assetsClassOptions: [
+                {
+                    value: "1",
+                    label: "资产分类1"
+                },
+                {
+                    value: "2",
+                    label: "资产分类2"
+                }
+            ],
         };
     },
     components: {

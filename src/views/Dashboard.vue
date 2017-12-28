@@ -122,7 +122,8 @@ export default {
         //日历头部中间：显示当前日期信息
         center: 'title',
         //日历头部右边：初始化视图
-        right: 'month,agendaWeek,agendaDay'
+        right: 'month'
+        // right: 'month,agendaWeek,agendaDay'
       },
       //设置是否显示周六和周日，设为false则不显示  
       weekends: true,

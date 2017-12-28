@@ -33,6 +33,8 @@ import AddTreatment from "@/views/components/horse/treatment/AddTreatment";
 import UpdateTreatment from "@/views/components/horse/treatment/UpdateTreatment";
 import HorseResume from "@/views/components/resume/horseResume";
 import ResumeDetail from "@/views/components/resume/ResumeDetail";
+import NailInfo from "@/views/components/horse/nail/NailInfo";
+import TeethInfo from "@/views/components/horse/teeth/TeethInfo";
 // 马医院信息管理
 import Appointment from "@/views/components/hospital/appointment/Appointment";
 import UpdateAppoint from "@/views/components/hospital/appointment/UpdateAppoint";
@@ -55,6 +57,12 @@ import UpdateTreat from "@/views/components/hospital/treatSchedule/UpdateTreat";
 import OperateRoom from "@/views/components/hospital/operateRoom/OperateRoom";
 import AddOperateR from "@/views/components/hospital/operateRoom/AddOperateR";
 import UpdateOperateR from "@/views/components/hospital/operateRoom/UpdateOperateR";
+import Nail from "@/views/components/hospital/nail/Nail";
+import AddNail from "@/views/components/hospital/nail/AddNail";
+import UpdateNail from "@/views/components/hospital/nail/UpdateNail";
+import Teeth from "@/views/components/hospital/teeth/Teeth";
+import AddTeeth from "@/views/components/hospital/teeth/AddTeeth";
+import UpdateTeeth from "@/views/components/hospital/teeth/UpdateTeeth";
 
 // 系统管理
 import User from "@/views/components/system/user/User";
@@ -216,6 +224,16 @@ export default new Router({
               name: "修改病历信息",
               component: UpdateDisease
             },
+            {
+              path: "nailInfo",
+              name: "钉甲信息",
+              component: NailInfo
+            },
+            {
+              path: "teethInfo",
+              name: "挫牙信息",
+              component: TeethInfo
+            },
           
           ]
         },
@@ -276,23 +294,51 @@ export default new Router({
             },
             {
               path: "operateRoom",
-              name: "手术室管理",
+              name: "诊疗室管理",
               component: OperateRoom
             },
             {
               path: "addOperateR",
-              name: "新增手术室",
+              name: "新增诊疗室",
               component: AddOperateR
             },
             {
               path: "updateOperateR",
-              name: "修改手术室",
+              name: "修改诊疗室",
               component: UpdateOperateR
+            },
+            {
+              path: "nail",
+              name: "钉甲管理",
+              component: Nail
+            },
+            {
+              path: "addNail",
+              name: "新增钉甲",
+              component: AddNail
+            },
+            {
+              path: "updateNail",
+              name: "修改钉甲",
+              component: UpdateNail
+            },
+            {
+              path: "teeth",
+              name: "挫牙管理",
+              component: Teeth
+            },
+            {
+              path: "addTeeth",
+              name: "新增挫牙",
+              component: AddTeeth
+            },
+            {
+              path: "updateTeeth",
+              name: "修改挫牙",
+              component: UpdateTeeth
             }
           ]
         },
-
-
         {
           path: "hosAssets",
           redirect: "/hosAssets/assets",
