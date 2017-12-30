@@ -11,12 +11,12 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">门诊方式：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue22" class="el-field-input">
-                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" :disabled="useDisabled" v-model="treatWay" class="el-field-input">
+                        <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-md-4 search-field" v-if="selectValue22==1">
+                <div class="col-md-4 search-field" v-if="treatWay==1">
                     <div class="label">预约号：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
@@ -24,16 +24,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">开始日期：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value122" type="date" format="yyyy-MM-dd">
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="beginDate" type="date" format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">开始时间：</div>
-                    <el-time-select :disabled="useDisabled" size="large" v-model="value34" :picker-options="{
-                                                    start: '00:00',
-                                                    step: '01:00',
-                                                    end: '24:00'
-                                                  }">
+                    <el-time-select :disabled="useDisabled" size="large" v-model="beginTime" :picker-options="{
+                                                            start: '00:00',
+                                                            step: '01:00',
+                                                            end: '24:00'
+                                                          }">
                     </el-time-select>
                 </div>
 
@@ -41,16 +41,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">结束日期：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value222" type="date" format="yyyy-MM-dd">
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="endDate" type="date" format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">结束时间：</div>
-                    <el-time-select :disabled="useDisabled" size="large" v-model="value44" :picker-options="{
-                                                    start: '00:00',
-                                                    step: '01:00',
-                                                    end: '24:00'
-                                                  }">
+                    <el-time-select :disabled="useDisabled" size="large" v-model="endTime" :picker-options="{
+                                                            start: '00:00',
+                                                            step: '01:00',
+                                                            end: '24:00'
+                                                          }">
                     </el-time-select>
                 </div>
 
@@ -59,8 +59,8 @@
 
                 <div class="col-md-4 search-field">
                     <div class="label">马匹类型：</div>
-                    <el-select size="large" v-model="selectValue223" :disabled="useDisabled" class="el-field-input">
-                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="horseType" :disabled="useDisabled" class="el-field-input">
+                        <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -72,7 +72,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">治疗时间：</div>
-                    <el-date-picker class="el-field-input" :disabled="useDisabled" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date">
+                    <el-date-picker class="el-field-input" :disabled="useDisabled" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="treatDate" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -87,29 +87,19 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">手术室使用：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" :disabled="useDisabled" v-model="useRoom" class="el-field-input">
+                        <el-option v-for="item in useRoomOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设备使用：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="value5" class="el-field-input" multiple>
-                        <el-input v-model="input" style="padding:0 10px;" size="small">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
-                        </el-input>
-                        <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value">
-                            <span style="float: left">{{ item.label }}</span>
-                            <span style="margin-left:12px; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                        </el-option>
-                    </el-select>
+                    <add-dialog :assets="equipment" :useDisabled="useDisabled"></add-dialog>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">消耗品使用：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
+                    <add-dialog :useDisabled="useDisabled" :assets="consume"></add-dialog>
+
                 </div>
             </div>
             <div class="baseInfo-title">
@@ -118,19 +108,19 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value22" type="datetime">
+                    <el-date-picker :disabled="useDisabled" size="large" v-model="illTime" type="datetime">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">地点：</div>
                     <input type="text" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-                 <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">处方用药：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <add-dialog :assets="medicine" :useDisabled="useDisabled"></add-dialog>
                 </div>
             </div>
-             <div class="row list-search">
+            <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">初诊：</div>
                     <el-input type="textarea" :disabled="useDisabled" :rows="2" v-model="firstTreat">
@@ -160,9 +150,11 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">x光照片：</div>
-                  <multiple-img v-on:successFile="successFile" :useDisabled="useDisabled" v-on:removeFile="removeFile" :imageUrl="xRayImg">
+                    <multiple-img v-on:successFile="successFile" :useDisabled="useDisabled" v-on:removeFile="removeFile" :imageUrl="xRayImg">
                     </multiple-img>
                 </div>
+            </div>
+                 <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">数据照片：</div>
                     <multiple-img v-on:successFile="successFile" :useDisabled="useDisabled" v-on:removeFile="removeFile" :imageUrl="dataImg">
@@ -177,29 +169,31 @@
 </template>
 <script>
 import { DatePicker, Button, TimeSelect, Input } from "element-ui";
-import MultipleImg from '../../../uploadImg/MultipleImg.vue'/* eslint-disable */
+import MultipleImg from '../../../../components/uploadImg/MultipleImg.vue'
+import AddDialog from '../../../../components/addDialog/AddDialog.vue'
+/* eslint-disable */
 export default {
     data() {
         return {
-            firstTreat:'',
-            secondTreat:'',
-            advice:'',
-            files: {},
-            input:'',
-            value122: "",
-            value123: "",
-            value222: "",
-            value223: "",
-            value22: "",
+            useDisabled:false,
+            treatDate: '',
+            select: '',
+            useConsume: [],
+            checked: true,
+            firstTreat: '',
+            secondTreat: '',
+            advice: '',
+            treatWay:'',
+            beginDate:'',
+            beginTime:'',
+            endDate:'',
+            endTime:'',
+            horseType:'',
+            useRoom:'',
             xRayImg: '',
             dataImg: '',
-            selectValue223: '',
-            selectValue22: "",
-            selectValue: '',
-            value5: [],
-            value: '',
-            useDisabled: false,
-               options: [
+            illTime:'',
+            useRoomOptions: [
                 {
                     value: "选项1",
                     label: "数据1"
@@ -209,7 +203,7 @@ export default {
                     label: "数据2"
                 }
             ],
-            options12: [
+            treatWayOptions: [
                 {
                     value: "1",
                     label: "预约"
@@ -219,7 +213,7 @@ export default {
                     label: "普通"
                 }
             ],
-            options123: [
+            horseTypeOptions: [
                 {
                     value: "1",
                     label: "中心"
@@ -229,16 +223,21 @@ export default {
                     label: "外来"
                 }
             ],
-            options2: [{
-                value: '库存1',
-                label: '数据1'
-            }, {
-                value: '库存2',
-                label: '数据2'
-            }, {
-                value: '库存3',
-                label: '数据3'
-            }],
+            consume: [
+                { name: "阿莫西林", number: "123", value: "0", checked: false },
+                { name: "阿司匹林", number: "123", value: "0", checked: false },
+                { name: "阿门", number: "123", value: "0", checked: false }
+            ],
+            equipment: [
+                { name: "手术室1", number: "123", value: "0", checked: false },
+                { name: "手术室2", number: "123", value: "0", checked: false },
+                { name: "手术室3", number: "123", value: "0", checked: false }
+            ],
+            medicine: [
+                { name: "阿莫西林", number: "123", value: "0", checked: false },
+                { name: "阿司匹林", number: "123", value: "0", checked: false },
+                { name: "阿门", number: "123", value: "0", checked: false }
+            ],
         };
     },
     components: {
@@ -247,19 +246,20 @@ export default {
         "el-time-select": TimeSelect,
         "el-input": Input,
         'multiple-img': MultipleImg,
+        'add-dialog': AddDialog
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
     },
     methods: {
-         uploadFun(file) {
+        uploadFun(file) {
             this.files[file.name] = file.file
         },
-         successFile(res){
+        successFile(res) {
             //上传成功后，接口返回的值，点击确定把这个值再传过去
             console.log(res)
         },
-        removeFile(file){
+        removeFile(file) {
             console.log(file)
         },
         open() {

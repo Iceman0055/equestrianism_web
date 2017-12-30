@@ -83,7 +83,7 @@
 
 <script>
 import { DatePicker, Button, Select } from 'element-ui'
-import UploadImg from '../../../uploadImg/UploadImg.vue'
+import UploadImg from '../../../../components/uploadImg/UploadImg.vue'
 /* eslint-disable */
 export default {
     data() {

@@ -19,6 +19,10 @@ export default {
 //   height: 100px!important;
 // }
 
+// .el-select-dropdown__item{
+//   height: 60px;
+// }
+
 .fc-title{
   color:#fff;
 }
@@ -114,7 +118,7 @@ export default {
   }
 }
 
-.el-input.is-disabled .el-input__inner {
+.el-textarea.is-disabled .el-textarea__inner,.el-input.is-disabled .el-input__inner {
   background-color: #cfd8dc
 }
 

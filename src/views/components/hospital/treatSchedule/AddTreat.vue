@@ -10,12 +10,12 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">门诊方式：</div>
-                    <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="treatWay" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-md-4 search-field" v-if="selectValue22==1">
+                <div class="col-md-4 search-field" v-if="treatWay==1">
                     <div class="label">预约号：</div>
                     <input type="text" class="form-control input-field" placeholder="请输入预约号称" />
                 </div>
@@ -23,16 +23,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">开始日期：</div>
-                    <el-date-picker size="large" v-model="value122" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">开始时间：</div>
-                    <el-time-select size="large" v-model="value34" :picker-options="{
-                                                                start: '00:00',
-                                                                step: '01:00',
-                                                                end: '24:00'
-                                                              }" placeholder="选择时间">
+                    <el-time-select size="large" v-model="beginTime" :picker-options="{
+                                                      start: '00:00',
+                                                       step: '01:00',
+                                                         end: '24:00'
+                                                        }" placeholder="选择时间">
                     </el-time-select>
                 </div>
 
@@ -40,16 +40,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">结束日期：</div>
-                    <el-date-picker size="large" v-model="value222" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    <el-date-picker size="large" v-model="endDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">结束时间：</div>
-                    <el-time-select size="large" v-model="value44" :picker-options="{
-                                                                start: '00:00',
-                                                                step: '01:00',
-                                                                end: '24:00'
-                                                              }" placeholder="选择时间">
+                    <el-time-select size="large" v-model="endTime" :picker-options="{
+                                                            start: '00:00',
+                                                             step: '01:00',
+                                                            end: '24:00'
+                                                             }" placeholder="选择时间">
                     </el-time-select>
                 </div>
 
@@ -59,8 +59,8 @@
 
                 <div class="col-md-4 search-field">
                     <div class="label">马匹类型：</div>
-                    <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="horseType" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -72,7 +72,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">治疗时间：</div>
-                    <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="value" type="date" placeholder="选择获奖时间">
+                    <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:ss" size="large" v-model="treatDate" type="date" placeholder="选择获奖时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -87,63 +87,18 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">手术室使用：</div>
-                    <el-select size="large" v-model="selectValue1" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="useRoom" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in useRoomOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设备使用：</div>
-                    <el-select size="large" v-model="value5" class="el-field-input" multiple placeholder="请选择">
-                          <el-input v-model="input1" style="padding:0 10px;" size="small" placeholder="请输入内容">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
-                        </el-input>
-                          <div class="row mb-3" v-for="(item,index) in assets" :key="item">
-                            <div class="col-md-2 search-field">
-                                <input type="text" v-model="item.id" class="form-control input-field" placeholder="编号" />
-                            </div>
-                            <div class="col-md-2 search-field">
-                                <input type="text" disabled v-model="item.name" class="form-control input-field" placeholder="名称" />
-                            </div>
-                            <div class="col-md-2 search-field">
-                                <div class="Spinner">
-                                    <a class="Decrease" @click="decrease(index,item.value)">
-                                        <i class="fa fa-sort-desc"></i>
-                                    </a>
-                                    <input class="Amount" v-model="item.value" autocomplete="off">
-                                    <a class="Increase" @click="increase(index,item.value)">
-                                        <i class="fa fa-sort-asc"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-1 search-field">
-                                <div class="add-delete">
-                                    <a @click="addData">
-                                        <i class="fa fa-plus-circle"></i>
-                                    </a>
-                                    <a @click="confirmDialog=true">
-                                        <i class="fa fa-minus-circle"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value">
-                            <span style="float: left">{{ item.label }}</span>
-                            <span style="margin-left:12px; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                        </el-option>
-                    </el-select>
+                    <add-dialog :assets="equipment"></add-dialog>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">消耗品使用：</div>
-                    <el-select size="large" v-model="value6" @change="centerDialogVisible=true" class="el-field-input" multiple placeholder="请选择">
-                        <el-input v-model="input1" style="padding:0 10px;" size="small" placeholder="请输入内容">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
-                        </el-input>
-                        <el-option v-for="item in options3" :key="item.value" :label="item.label" :value="item.value">
-                            <span style="float: left">{{ item.label }}</span>
-                            <span style="margin-left:12px; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                        </el-option>
-                    </el-select>
+                    <add-dialog :assets="consume"></add-dialog>
                 </div>
             </div>
 
@@ -153,7 +108,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker size="large" v-model="value22" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker size="large" v-model="illTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -163,7 +118,7 @@
 
                 <div class="col-md-4 search-field">
                     <div class="label">处方用药：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入处方用药" />
+                    <add-dialog :assets="medicine"></add-dialog>
                 </div>
             </div>
             <div class="row list-search">
@@ -212,70 +167,35 @@
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
         </div>
-        <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="52%" center>
-                        <div class="row mb-3" v-for="(item,index) in assets" :key="item">
-                            <div class="col-md-4 search-field">
-                                <input type="text" v-model="item.id" class="form-control input-field" placeholder="编号" />
-                            </div>
-                            <div class="col-md-4 search-field">
-                                <input type="text" disabled v-model="item.name" class="form-control input-field" placeholder="名称" />
-                            </div>
-                            <div class="col-md-3 search-field">
-                                <div class="Spinner">
-                                    <a class="Decrease" @click="decrease(index,item.value)">
-                                        <i class="fa fa-sort-desc"></i>
-                                    </a>
-                                    <input class="Amount" v-model="item.value" autocomplete="off">
-                                    <a class="Increase" @click="increase(index,item.value)">
-                                        <i class="fa fa-sort-asc"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-1 search-field">
-                                <div class="add-delete">
-                                    <a @click="addData">
-                                        <i class="fa fa-plus-circle"></i>
-                                    </a>
-                                    <a @click="confirmDialog=true">
-                                        <i class="fa fa-minus-circle"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <span slot="footer" class="dialog-footer">
-                            <el-button @click="centerDialogVisible = false">取 消</el-button>
-                            <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-                        </span>
-                    </el-dialog>
+
     </div>
 </template>
 <script>
 import { DatePicker, Button, Input, TimeSelect, Upload } from "element-ui";
-import MultipleImg from '../../../uploadImg/MultipleImg.vue'
+import MultipleImg from '../../../../components/uploadImg/MultipleImg.vue'
+import AddDialog from '../../../../components/addDialog/AddDialog.vue'
 /* eslint-disable */
 export default {
     data() {
         return {
-            centerDialogVisible:false,
-            firstTreat:'',
-            secondTreat:'',
-            advice:'',
-            input: '',
-            input1: '',
-            dialogImageUrl: '',
-            files: {},
+            treatDate: '',
+            select: '',
+            useConsume: [],
+            checked: true,
+            firstTreat: '',
+            secondTreat: '',
+            advice: '',
+            treatWay:'',
+            beginDate:'',
+            beginTime:'',
+            endDate:'',
+            endTime:'',
+            horseType:'',
+            useRoom:'',
             xRayImg: '',
             dataImg: '',
-            selectValue223: '',
-            selectValue22: "",
-            value44: "",
-            value34: "",
-            value5: [],
-            value6: [],
-            beginValue: "",
-            selectValue: "",
-            selectValue1: "",
-            options: [
+            illTime:'',
+            useRoomOptions: [
                 {
                     value: "选项1",
                     label: "数据1"
@@ -285,7 +205,7 @@ export default {
                     label: "数据2"
                 }
             ],
-            options12: [
+            treatWayOptions: [
                 {
                     value: "1",
                     label: "预约"
@@ -295,7 +215,7 @@ export default {
                     label: "普通"
                 }
             ],
-            options123: [
+            horseTypeOptions: [
                 {
                     value: "1",
                     label: "中心"
@@ -305,47 +225,22 @@ export default {
                     label: "外来"
                 }
             ],
-            options2: [
-                {
-                    value: "库存1",
-                    label: "数据1"
-                },
-                {
-                    value: "库存2",
-                    label: "数据2"
-                },
-                {
-                    value: "库存3",
-                    label: "数据3"
-                }
+            consume: [
+                { name: "阿莫西林", number: "123", value: "0", checked: false },
+                { name: "阿司匹林", number: "123", value: "0", checked: false },
+                { name: "阿门", number: "123", value: "0", checked: false }
             ],
-            options3: [
-                {
-                    value: "库存1",
-                    label: "假数据1"
-                },
-                {
-                    value: "库存2",
-                    label: "假数据2"
-                },
-                {
-                    value: "库存3",
-                    label: "假数据3"
-                }
+            equipment: [
+                { name: "手术室1", number: "123", value: "0", checked: false },
+                { name: "手术室2", number: "123", value: "0", checked: false },
+                { name: "手术室3", number: "123", value: "0", checked: false }
+            ],
+            medicine: [
+                { name: "阿莫西林", number: "123", value: "0", checked: false },
+                { name: "阿司匹林", number: "123", value: "0", checked: false },
+                { name: "阿门", number: "123", value: "0", checked: false }
             ],
 
-            value122: "",
-            value123: "",
-            value222: "",
-            value223: "",
-            value22: "",
-            value: "",
-             index: 0,
-            assets: [
-                { id: "1", name: "123", value: "123" },
-                { id: "2", name: "123", value: "123" },
-                { id: "3", name: "123", value: "123" }
-            ]
         };
     },
     components: {
@@ -354,8 +249,11 @@ export default {
         "el-time-select": TimeSelect,
         "el-input": Input,
         'multiple-img': MultipleImg,
+        'add-dialog': AddDialog
     },
+
     methods: {
+
         successFile(res) {
             //上传成功后，接口返回的值，点击确定把这个值再传过去
             console.log(res)
@@ -366,30 +264,6 @@ export default {
         open() {
             this.$message.success('修改成功')
         },
-         deleteData(index) {
-            this.assets.splice(index, 1)
-            this.confirmDialog = false
-        },
-        addData() {
-            this.assets.push({
-                id: "",
-                name: "",
-                value: 0
-            });
-        },
-        //增加
-        increase(index, value) {
-            return this.assets[index].value++;
-        },
-        //减少
-        decrease(index, value) {
-            this.index = index
-            if (value <= 0) {
-                return 0;
-            } else {
-                return this.assets[index].value--;
-            }
-        }
 
     }
 };
@@ -400,7 +274,6 @@ export default {
     height: 139px !important;
     overflow-y: scroll !important;
 }
-
 .baseInfo-title {
     height: 30px;
     line-height: 30px;
@@ -413,67 +286,5 @@ export default {
         font-weight: bold;
         display: inline-block;
     }
-}
-
-.add-delete a {
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-.add-delete {
-    color: #409eff;
-    margin-left: -40px;
-    float: left;
-    font-size: 40px;
-    display: inline-flex;
-}
-
-.input-field {
-    border-radius: 5px;
-    height: 40px;
-}
-
-.Spinner {
-    display: block;
-    overflow: hidden;
-    width: 160px;
-    margin-top: 3px;
-}
-
-.Spinner a {
-    display: inline-block;
-    width: 35px;
-    height: 35px;
-    border: 1px solid #d9d9d9;
-    background-color: #f7f7f7;
-    float: left;
-    cursor: pointer;
-    outline: 0;
-}
-
-.Spinner .Amount {
-    width: 50px;
-    height: 35px;
-    border-width: 1px 0;
-    border-style: solid;
-    border-color: #d9d9d9;
-    float: left;
-    text-align: center;
-    color: #565656;
-    outline: 0;
-}
-
-.Decrease i {
-    padding-left: 10px;
-    font-size: 20px;
-    color: #409eff;
-}
-
-.Increase i {
-    padding-left: 10px;
-    position: relative;
-    top: 8px;
-    font-size: 22px;
-    color: #409eff;
 }
 </style>

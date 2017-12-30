@@ -350,12 +350,10 @@
                         <li>大马</li>
                         <li>陈医生</li>
                     </ul>
-                    <ul class="resume-ul">
-                        <li>2017-11-09 12:12:12</li>
-                        <li>阑尾炎</li>
-                        <li>肚子疼</li>
-                        <li>1号</li>
-                        <li>1号</li>
+                   <ul class="resume-ul">
+                         <li>2016年11月</li>
+                        <li>大马</li>
+                        <li>陈医生</li>
                     </ul>
                     <ul class="resume-ul">
                          <li>2016年11月</li>
