@@ -127,11 +127,7 @@
                 <i class="icon-star"></i> 固定资产类品管理</router-link>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD
-              <router-link :to="'/equestrian/horseAssetsStock'" class="nav-padding nav-link" exact>
-=======
               <router-link :to="'/equestrian/horseStock'" class="nav-padding nav-link" exact>
->>>>>>> master
                 <i class="icon-star"></i> 固定资产库存管理</router-link>
             </li>
           </ul>

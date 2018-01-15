@@ -118,7 +118,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">会记凭证号：</div>
-                    <input type="text" v-model="VoucherNum" class="form-control input-field" placeholder="请输入会记凭证号" />
+                    <input type="text" v-model="voucherNum" class="form-control input-field" placeholder="请输入会记凭证号" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">采购组织形式：</div>
@@ -145,7 +145,7 @@ export default {
             designPurpose: '',
             format: '',
             brand: '',
-            VoucherNum: '',
+            voucherNum: '',
             buyForm: '',
             assetsNum: '',
             assetsName: '',

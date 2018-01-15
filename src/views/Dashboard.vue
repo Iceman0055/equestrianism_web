@@ -50,11 +50,6 @@ let demoEvents = [
     title: '上班2',
     start: '2017-12-06',
   },
-<<<<<<< HEAD
-
-
-=======
->>>>>>> master
   {
     title: '休息',
     start: '2017-12-01',
