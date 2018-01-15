@@ -14,22 +14,21 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">护照号码：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="passport" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马名：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="changeName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">出生国家：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="bornCountry" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更日期：</div>
@@ -46,24 +45,24 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">身高(公分)：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="height" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <el-select size="large" v-model="gender" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectInput" size="large" v-model="gender" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">皮下条码：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="barcode" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="color" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="baseInfo-title">
@@ -72,30 +71,30 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">头部：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="head" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">左前肢：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="leftFore" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">右前肢：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="rightFore" :disabled="useDisabled" class="form-control input-field" />
                 </div>
 
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">左后肢：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="leftHind" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">右后肢：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="rightHind" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">体躯：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="body" :disabled="useDisabled" class="form-control input-field" />
                 </div>
 
             </div>
@@ -158,6 +157,19 @@ import UploadImg from '../../../../components/uploadImg/UploadImg.vue'/* eslint-
 export default {
     data() {
         return {
+            passport: '',
+            horseName: '',
+            changeName: '',
+            bornCountry: '',
+            height: '',
+            barcode: '',
+            color: '',
+            head: '',
+            leftFore: '',
+            rightFore: '',
+            leftHind: '',
+            rightHind: '',
+            body: '',
             imageUrl: '',
             rightImg: '',
             leftImg: '',
@@ -188,8 +200,12 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+        this.$el.addEventListener('animationend',this.resizeSelect)
     },
     methods: {
+        resizeSelect(){
+            this.$refs.selectInput.resetInputWidth()
+        },
         uploadFun(file) {
             this.files[file.name] = file.file
         },

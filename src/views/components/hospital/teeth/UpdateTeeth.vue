@@ -11,7 +11,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker class="el-field-input"  :disabled="useDisabled" size="large" v-model="nailTime" type="date">
+                    <el-date-picker class="el-field-input" :disabled="useDisabled" size="large" v-model="nailTime" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">

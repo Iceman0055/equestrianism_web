@@ -10,33 +10,33 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">预约时间：</div>
-          <el-date-picker size="large" v-model="value1" type="datetime" placeholder="选择日期时间">
+          <el-date-picker size="large" v-model="appointTime" type="datetime" placeholder="选择日期时间">
           </el-date-picker>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">预约描述：</div>
-          <input type="text" class="form-control input-field" placeholder="请输入预约描述" />
+          <input type="text" v-model="appointDesc" class="form-control input-field" placeholder="请输入预约描述" />
 
         </div>
         <div class="col-md-4 search-field">
           <div class="label">预约号：</div>
-          <input type="text" class="form-control input-field" placeholder="请输入预约号" />
+          <input type="text" v-model="appointNum" class="form-control input-field" placeholder="请输入预约号" />
         </div>
       </div>
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">备注：</div>
-          <input type="text" class="form-control input-field" placeholder="请输入备注" />
+          <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
 
         </div>
         <div class="col-md-4 search-field">
           <div class="label">联系人：</div>
-          <input type="text" class="form-control input-field" placeholder="请输入联系人(非必填)" />
+          <input type="text" v-model="contactPer" class="form-control input-field" placeholder="请输入联系人(非必填)" />
 
         </div>
         <div class="col-md-4 search-field">
           <div class="label">联系方式：</div>
-          <input type="text" class="form-control input-field" placeholder="请输入联系方式(非必填)" />
+          <input type="text" v-model="contactWay" class="form-control input-field" placeholder="请输入联系方式(非必填)" />
         </div>
       </div>
 
@@ -52,8 +52,12 @@ import { DatePicker, Button } from "element-ui";
 export default {
   data() {
     return {
-      value: "",
-      value1: "",
+     appointTime:'',
+     appointDesc:'',
+     appointNum:'',
+     note:'',
+     contactPer:'',
+     contactWay:''
     };
   },
   components: {

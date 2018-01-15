@@ -37,12 +37,13 @@
                 </div>
             </div>
             <div class="row list-search">
-                  <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                  <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectInput" size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
             </div>
         </div>
         <div class="content-footer row">
@@ -54,31 +55,37 @@
 import { DatePicker, Button } from "element-ui";
 /* eslint-disable */
 export default {
-  data() {
-    return {
-      value: "",
-      selectValue: "",
-      options: [
-        {
-          value: "选项1",
-          label: "马匹1"
+    data() {
+        return {
+            value: "",
+            selectValue: "",
+            options: [
+                {
+                    value: "选项1",
+                    label: "马匹1"
+                },
+                {
+                    value: "选项2",
+                    label: "马匹2"
+                }
+            ]
+        };
+    },
+    components: {
+        "el-date-picker": DatePicker,
+        "el-button": Button
+    },
+    mounted() {
+        this.$el.addEventListener('animationend', this.resizeSelect)
+    },
+    methods: {
+        resizeSelect() {
+            this.$refs.selectInput.resetInputWidth()
         },
-        {
-          value: "选项2",
-          label: "马匹2"
+        open() {
+            this.$message.success("修改成功");
         }
-      ]
-    };
-  },
-  components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button
-  },
-  methods: {
-    open() {
-      this.$message.success("修改成功");
     }
-  }
 };
 </script>
 

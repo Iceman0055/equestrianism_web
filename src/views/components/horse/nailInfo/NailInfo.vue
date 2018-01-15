@@ -11,6 +11,7 @@
                         <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
+                   
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>

@@ -79,9 +79,9 @@ import AddDict from "@/views/components/system/dictionary/AddDict";
 import UpdateDict from "@/views/components/system/dictionary/UpdateDict";
 // 马术中心资产管理
 import HorseAssets from "@/views/components/equestrian/horseAssets/HorseAssets";
-import HorseAddAssets from "@/views/components/equestrian/horseAssets/HorseAddAssets";
-import HorseUpdateAssets from "@/views/components/equestrian/horseAssets/HorseUpdateAssets";
-import HorseAssetsStock from "@/views/components/equestrian/horseAssetsStock/HorseAssetsStock";
+import HAddAssets from "@/views/components/equestrian/horseAssets/HAddAssets";
+import HUpdateAssets from "@/views/components/equestrian/horseAssets/HUpdateAssets";
+import HorseStock from "@/views/components/equestrian/horseStock/HorseStock";
 
 
 // Views - Pages
@@ -408,19 +408,19 @@ export default new Router({
               component: HorseAssets
             },
             {
-              path: "horseAddAssets",
+              path: "hAddAssets",
               name: "新增固定资产管理",
-              component: HorseAddAssets
+              component: HAddAssets
             },
             {
-              path: "horseUpdateAssets",
+              path: "hUpdateAssets",
               name: "修改固定资产管理",
-              component: HorseUpdateAssets
+              component: HUpdateAssets
             },
             {
-              path: "horseAssetsStock",
+              path: "horseStock",
               name: "固定资产库存管理",
-              component: HorseAssetsStock
+              component: HorseStock
             }
           ]
         },

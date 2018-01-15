@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-4 search-field" v-if="treatWay==1">
                     <div class="label">预约号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="appointNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -77,13 +77,13 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">治疗名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="treatName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">治疗概述：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="treatDesc" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-            </div>
+            </div>   
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">手术室使用：</div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">地点：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="address" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">处方用药：</div>
@@ -140,11 +140,11 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">标题标签：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="titleTag" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="note" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -175,6 +175,13 @@ import AddDialog from '../../../../components/addDialog/AddDialog.vue'
 export default {
     data() {
         return {
+               note:'',
+            titleTag:'',
+            address:'',
+            horseName:'',
+            treatName:'',
+            treatDesc:'',
+            appointNum:'',
             useDisabled:false,
             treatDate: '',
             select: '',

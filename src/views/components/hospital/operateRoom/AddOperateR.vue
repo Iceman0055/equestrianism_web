@@ -10,16 +10,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入诊疗室名称" />
+                    <input type="text" v-model="name" class="form-control input-field" placeholder="请输入诊疗室名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室简称：</div>
-                    <input type="text" class="form-control" placeholder="请输入诊疗室简称" />
+                    <input type="text" v-model="shortName" class="form-control" placeholder="请输入诊疗室简称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
-                    <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="status" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -37,8 +37,10 @@ import { DatePicker, Button } from 'element-ui'
 export default {
     data() {
         return {
-            selectValue: '',
-            options: [{
+            name:'',
+            shortName:'',
+            status: '',
+            statusOptions: [{
                 value: '选项1',
                 label: '使用中'
             }, {

@@ -11,37 +11,37 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">比赛名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="gameName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">获奖时间：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="value" type="date">
+                    <el-date-picker v-model="awardsTime" :disabled="useDisabled" class="el-field-input" size="large" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">地点：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="address" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">奖项：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="awards" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">罚分项：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="penalty" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">颁奖方：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="awardParty" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectInput" size="large" :disabled="useDisabled" v-model="horse" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -51,12 +51,10 @@
                     </upload-img>
                 </div>
             </div>
-
         </div>
         <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
         </div>
-
     </div>
 </template>
 
@@ -66,17 +64,21 @@ import UploadImg from '../../../../components/uploadImg/UploadImg.vue'/* eslint-
 export default {
     data() {
         return {
+            awardParty: '',
+            penalty: '',
+            awards: '',
+            gameName: '',
+            awardsTime: '',
+            address: '',
             horseImg: '',
-            selectValue: '',
             useDisabled: false,
-            value: '',
-            value1: '',
             files: {},
-            options: [{
-                value: '选项1',
+            horse: '',
+            horseOptions: [{
+                value: '1',
                 label: '马匹1'
             }, {
-                value: '选项2',
+                value: '2',
                 label: '马匹2'
             }],
         }
@@ -89,8 +91,13 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+        this.$el.addEventListener('animationend', this.resizeSelect)
+
     },
     methods: {
+        resizeSelect() {
+            this.$refs.selectInput.resetInputWidth()
+        },
         uploadFun(file) {
             this.files[file.name] = file.file
         },

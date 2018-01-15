@@ -1,33 +1,33 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title" v-if="!useDisabled">修改消耗品</div>
-            <div class="title" v-if="useDisabled">查看消耗品</div>
-            <router-link class="btn btn-info back" :to="'/hosAssets/consume'">
+            <div class="title" v-if="!useDisabled">修改固定资产</div>
+            <div class="title" v-if="useDisabled">查看固定资产</div>
+            <router-link class="btn btn-info back" :to="'/equestrian/horseAssets'">
                 返回
             </router-link>
         </div>
-          <div class="content-show">
+        <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select ref="select" size="large" :disabled="useDisabled" v-model="assetsCate" class="el-field-input">
+                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetsCate" class="el-field-input">
                         <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="assetsClass" class="el-field-input">
+                    <el-select ref="selectClass" size="large" :disabled="useDisabled" v-model="assetsClass" class="el-field-input">
                         <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产编号：</div>
-                    <input type="text" v-model="assetsNum"  :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="assetsNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-            </div> 
+            </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产名称：</div>
@@ -73,7 +73,7 @@
                     <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" type="date">
                     </el-date-picker>
                 </div>
-            </div>  
+            </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
@@ -120,7 +120,7 @@
                 </div>
             </div>
         </div>
-        <div class="content-footer row" v-show="!useDisabled">
+        <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
         </div>
 
@@ -133,22 +133,22 @@ import { DatePicker, Button, Select } from 'element-ui'
 export default {
     data() {
         return {
-              manageDep:'',
-            administrator:'',
-            note:'',
-            designPurpose:'',
-            format:'',
-            brand:'',
-            VoucherNum:'',
-            buyForm:'',    
-            assetsNum:'',
-            assetsName:'',
-            number:'',
-            value:'',
-            area:'',
-            valueType:'',
-            getWay:'',
-            useDisabled:false,
+            manageDep: '',
+            administrator: '',
+            note: '',
+            designPurpose: '',
+            format: '',
+            brand: '',
+            VoucherNum: '',
+            buyForm: '',
+            assetsNum: '',
+            assetsName: '',
+            number: '',
+            value: '',
+            area: '',
+            valueType: '',
+            getWay: '',
+            useDisabled: false,
             assetsCate: '',
             assetsClass: '',
             financialDate: '',
@@ -199,7 +199,7 @@ export default {
         open() {
             this.$message.success('修改成功')
         },
-          statusResize() {
+         statusResize() {
             this.$refs.selectStatus.resetInputWidth()
         },
         cateResize() {
@@ -207,7 +207,7 @@ export default {
         },
         classResize() {
             this.$refs.selectClass.resetInputWidth()
-        },
+        }
     }
 }
 </script>

@@ -11,31 +11,31 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">地点：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="address" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="value" type="date">
+                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="time" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="name" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">预防疾病：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="preventDisease" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">处理人：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="dealPeople" :disabled="useDisabled" class="form-control input-field" />
 
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">疫苗编号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="vaccineNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
 
@@ -53,8 +53,12 @@ export default {
     data() {
         return {
             useDisabled: false,
-            value: '',
-            value1: '',
+            address: '',
+            name: '',
+            time: '',
+            dealPeople: '',
+            preventDisease: '',
+            vaccineNum: '',
         }
     },
     components: {

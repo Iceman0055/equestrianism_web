@@ -5,43 +5,42 @@
             <router-link class="btn btn-info back" :to="'/hospital/appointment'">
                 返回
             </router-link>
-        </div>
+        </div> 
         <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">预约时间：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="value1" type="datetime">
+                    <el-date-picker v-model="appointTime" :disabled="useDisabled" size="large" type="datetime">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">预约描述：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="appointDesc" :disabled="useDisabled" class="form-control input-field" />
 
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">预约号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="appointNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="note" :disabled="useDisabled" class="form-control input-field" />
 
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">联系人：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="contactPer" :disabled="useDisabled" class="form-control input-field" />
 
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">联系方式：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="contactWay" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
-
         </div>
-        <div class="content-footer row">
+        <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
         </div>
     </div>
@@ -52,8 +51,12 @@ import { DatePicker, Button } from "element-ui";
 export default {
     data() {
         return {
-            value: "",
-            value1: "",
+             appointTime:'',
+     appointDesc:'',
+     appointNum:'',
+     note:'',
+     contactPer:'',
+     contactWay:'',
             useDisabled: false,
         };
     },

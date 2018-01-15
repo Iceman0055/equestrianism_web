@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-md-4 search-field" v-if="treatWay==1">
                     <div class="label">预约号：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入预约号称" />
+                    <input type="text" v-model="appointNum" class="form-control input-field" placeholder="请输入预约号称" />
                 </div>
             </div>
             <div class="row list-search">
@@ -54,9 +54,7 @@
                 </div>
 
             </div>
-
             <div class="row list-search">
-
                 <div class="col-md-4 search-field">
                     <div class="label">马匹类型：</div>
                     <el-select size="large" v-model="horseType" class="el-field-input" placeholder="请选择">
@@ -66,7 +64,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
+                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
             </div>
             <div class="row list-search">
@@ -77,11 +75,11 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">治疗名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入治疗名称" />
+                    <input type="text" v-model="treatName" class="form-control input-field" placeholder="请输入治疗名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">治疗概述：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入治疗概述" />
+                    <input type="text" v-model="treatDesc" class="form-control input-field" placeholder="请输入治疗概述" />
                 </div>
             </div>
             <div class="row list-search">
@@ -113,7 +111,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">地点：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入地点" />
+                    <input type="text" v-model="address" class="form-control input-field" placeholder="请输入地点" />
                 </div>
 
                 <div class="col-md-4 search-field">
@@ -141,11 +139,11 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">标题标签：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入标题标签" />
+                    <input type="text" v-model="titleTag" class="form-control input-field" placeholder="请输入标题标签" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入备注" />
+                    <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
                 </div>
             </div>
             <div class="row list-search">
@@ -178,6 +176,13 @@ import AddDialog from '../../../../components/addDialog/AddDialog.vue'
 export default {
     data() {
         return {
+            note:'',
+            titleTag:'',
+            address:'',
+            horseName:'',
+            treatName:'',
+            treatDesc:'',
+            appointNum:'',
             treatDate: '',
             select: '',
             useConsume: [],

@@ -11,16 +11,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="name" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室简称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control" />
+                    <input type="text" v-model="shortName" :disabled="useDisabled" class="form-control" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="selectValue" class="el-field-input">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
+                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -38,9 +38,11 @@ import { DatePicker, Button } from 'element-ui'
 export default {
     data() {
         return {
+            name:'',
+            shortName:'',
             useDisabled: false,
-            selectValue: '',
-            options: [{
+            status: '',
+            statusOptions: [{
                 value: '选项1',
                 label: '使用中'
             }, {

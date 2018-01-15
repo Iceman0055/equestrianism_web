@@ -13,22 +13,22 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">护照号码：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入护照号码" />
+                    <input type="text" v-model="passport" class="form-control input-field" placeholder="请输入护照号码" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的名字" />
+                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马的名字" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入变更马名" />
+                    <input type="text" v-model="changeName" class="form-control input-field" placeholder="请输入变更马名" />
                 </div>
 
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">出生国家：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的出生国家" />
+                    <input type="text" v-model="bornCountry" class="form-control input-field" placeholder="请输入马的出生国家" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更日期：</div>
@@ -44,25 +44,25 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">身高(公分)：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的身高" />
+                    <input type="text" v-model="height" class="form-control input-field" placeholder="请输入马的身高" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <el-select size="large" v-model="gender" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectInput" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">皮下条码：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的皮下条码" />
+                    <input type="text" v-model="barcode" class="form-control input-field" placeholder="请输入马的皮下条码" />
                 </div>
             </div>
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的毛色" />
+                    <input type="text" v-model="color" class="form-control input-field" placeholder="请输入马的毛色" />
                 </div>
             </div>
             <div class="baseInfo-title">
@@ -71,30 +71,30 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">头部：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的头部描述" />
+                    <input type="text" v-model="head" class="form-control input-field" placeholder="请输入马的头部描述" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">左前肢：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的左前肢描述" />
+                    <input type="text" v-model="leftFore" class="form-control input-field" placeholder="请输入马的左前肢描述" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">右前肢：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的右前肢描述" />
+                    <input type="text" v-model="rightFore" class="form-control input-field" placeholder="请输入马的右前肢描述" />
                 </div>
 
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">左后肢：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的左后肢描述" />
+                    <input type="text" v-model="leftHind" class="form-control input-field" placeholder="请输入马的左后肢描述" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">右后肢：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的右后肢描述" />
+                    <input type="text" v-model="rightHind" class="form-control input-field" placeholder="请输入马的右后肢描述" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">体躯：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的体躯描述" />
+                    <input type="text" v-model="body" class="form-control input-field" placeholder="请输入马的体躯描述" />
                 </div>
             </div>
             <div class="baseInfo-title">
@@ -156,6 +156,19 @@ import UploadImg from '../../../../components/uploadImg/UploadImg.vue'
 export default {
     data() {
         return {
+            passport: '',
+            horseName: '',
+            changeName: '',
+            bornCountry: '',
+            height:'',
+            barcode:'',
+            color:'',
+            head:'',
+            leftFore:'',
+            rightFore:'',
+            leftHind:'',
+            rightHind:'',
+            body:'',
             rightImg: '',
             leftImg: '',
             upLineImg: '',
@@ -182,19 +195,26 @@ export default {
         'el-select': Select,
         'upload-img': UploadImg
     },
+    mounted() {
+        this.$el.addEventListener('animationend', this.resizeSelect);
+    },
     methods: {
-         uploadFun(file) {
+        resizeSelect() {
+            this.$refs.selectInput.resetInputWidth();
+        },
+        uploadFun(file) {
             this.files[file.name] = file.file
         },
         open() {
             var formData = new FormData()
             for (let key in this.files) {
-               formData.append(key, this.files[key])
+                formData.append(key, this.files[key])
             }
             //上传的是formData,content-Type要修改为formData
             console.log(formData)
-            this.$message.success('修改成功')
-        },   
+            this.$message.success('修改成功')        
+            this.$router.push('/horse/baseInfo')
+        },
     }
 }
 </script>

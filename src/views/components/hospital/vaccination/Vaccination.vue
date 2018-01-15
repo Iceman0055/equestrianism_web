@@ -7,7 +7,7 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker size="large" v-model="value1" type="datet" placeholder="选择日期时间">
+                    <el-date-picker size="large" v-model="time" type="datet" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-3 search-field">
@@ -108,6 +108,7 @@ import { Pagination, Select, DatePicker } from 'element-ui'
 export default {
     data() {
         return {
+            time:'', 
             currentPage: 1
         }
     },

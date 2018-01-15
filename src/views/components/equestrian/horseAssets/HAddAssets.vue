@@ -17,49 +17,49 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select size="large" v-model="assetsCate" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectCate" size="large" v-model="assetsCate" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select size="large" v-model="assetsClass" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectClass" size="large" v-model="assetsClass" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产编号：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产编号" />
+                    <input type="text" v-model="assetsNum" class="form-control input-field" placeholder="请输入资产编号" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入资产名称" />
+                    <input type="text" v-model="assetsName" class="form-control input-field" placeholder="请输入资产名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">数量：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入数量" />
+                    <input type="text" v-model="number" class="form-control input-field" placeholder="请输入数量" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">价值：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入价值" />
+                    <input type="text" v-model="value" class="form-control input-field" placeholder="请输入价值" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">面积：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入面积" />
+                    <input type="text" v-model="area" class="form-control input-field" placeholder="请输入面积" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">价值类型：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入价值类型" />
+                    <input type="text" v-model="valueType" class="form-control input-field" placeholder="请输入价值类型" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">取得方式：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入取得方式" />
+                    <input type="text" v-model="getWay" class="form-control input-field" placeholder="请输入取得方式" />
                 </div>
             </div>
 
@@ -83,15 +83,15 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入管理部门" />
+                    <input type="text" v-model="manageDep" class="form-control input-field" placeholder="请输入管理部门" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入管理人" />
+                    <input type="text" v-model="administrator" class="form-control input-field" placeholder="请输入管理人" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">使用状态：</div>
-                    <el-select size="large" v-model="useStatus" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectStatus" size="large" v-model="useStatus" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in useStatusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -100,29 +100,29 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入备注" />
+                    <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入设计用途" />
+                    <input type="text" v-model="designPurpose" class="form-control input-field" placeholder="请输入设计用途" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">规格型号：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入规格型号" />
+                    <input type="text" v-model="format" class="form-control input-field" placeholder="请输入规格型号" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">品牌：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马的父亲" />
+                    <input type="text" v-model="brand" class="form-control input-field" placeholder="请输入马的父亲" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">会记凭证号：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入会记凭证号" />
+                    <input type="text" v-model="VoucherNum" class="form-control input-field" placeholder="请输入会记凭证号" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">采购组织形式：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入采购组织形式" />
+                    <input type="text" v-model="buyForm" class="form-control input-field" placeholder="请输入采购组织形式" />
                 </div>
             </div>
         </div>
@@ -139,12 +139,27 @@ import { DatePicker, Button, Select } from 'element-ui'
 export default {
     data() {
         return {
-            assetsCate:'',
-            assetsClass:'',
-            financialDate:'',
+            manageDep: '',
+            administrator: '',
+            note: '',
+            designPurpose: '',
+            format: '',
+            brand: '',
+            VoucherNum: '',
+            buyForm: '',
+            assetsNum: '',
+            assetsName: '',
+            number: '',
+            value: '',
+            area: '',
+            valueType: '',
+            getWay: '',
+            assetsCate: '',
+            assetsClass: '',
+            financialDate: '',
             makeDate: '',
             endDate: '',
-            useStatus:'',
+            useStatus: '',
             useStatusOptions: [{
                 value: '选项1',
                 label: '使用中'
@@ -179,7 +194,21 @@ export default {
         'el-button': Button,
         'el-select': Select
     },
+    mounted() {
+        this.$el.addEventListener('animationend', this.statusResize)
+        this.$el.addEventListener('animationend', this.cateResize)
+        this.$el.addEventListener('animationend', this.classResize)
+    },
     methods: {
+        statusResize() {
+            this.$refs.selectStatus.resetInputWidth()
+        },
+        cateResize() {
+            this.$refs.selectCate.resetInputWidth()
+        },
+        classResize() {
+            this.$refs.selectClass.resetInputWidth()
+        },
         open() {
             this.$message.success('修改成功')
         },

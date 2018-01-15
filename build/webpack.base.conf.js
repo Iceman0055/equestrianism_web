@@ -2,6 +2,10 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+<<<<<<< HEAD
+=======
+var webpack = require('webpack')
+>>>>>>> master
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -24,7 +28,17 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src')
     }
+<<<<<<< HEAD
   },
+=======
+  },  
+//   plugins: [
+//     new webpack.ProvidePlugin({
+//         $: "jquery",
+//         jQuery: "jquery"
+//     })
+//  ],
+>>>>>>> master
   module: {
     rules: [
       // {

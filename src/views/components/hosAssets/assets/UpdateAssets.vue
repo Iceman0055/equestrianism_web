@@ -11,49 +11,49 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="assetsCate" class="el-field-input">
+                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetsCate" class="el-field-input">
                         <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="assetsClass" class="el-field-input">
+                    <el-select ref="selectClass" size="large" :disabled="useDisabled" v-model="assetsClass" class="el-field-input">
                         <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产编号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="assetsNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产名称：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="assetsName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">数量：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="number" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">价值：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="value" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">面积：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="area" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">价值类型：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="valueType" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">取得方式：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="getWay" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
 
@@ -77,15 +77,15 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="manageDep" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="administrator" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">使用状态：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="useStatus" class="el-field-input">
+                    <el-select ref="selectStatus" size="large" :disabled="useDisabled" v-model="useStatus" class="el-field-input">
                         <el-option v-for="item in useStatusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -94,36 +94,35 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="note" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="designPurpose" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">规格型号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="format" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">品牌：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="brand" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">会记凭证号：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="VoucherNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">采购组织形式：</div>
-                    <input type="text" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="buyForm" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
         </div>
-
     </div>
 </template>
 
@@ -133,7 +132,22 @@ import { DatePicker, Button, Select } from 'element-ui'
 export default {
     data() {
         return {
-            useDisabled:false,
+            manageDep: '',
+            administrator: '',
+            note: '',
+            designPurpose: '',
+            format: '',
+            brand: '',
+            VoucherNum: '',
+            buyForm: '',
+            assetsNum: '',
+            assetsName: '',
+            number: '',
+            value: '',
+            area: '',
+            valueType: '',
+            getWay: '',
+            useDisabled: false,
             assetsCate: '',
             assetsClass: '',
             financialDate: '',
@@ -171,6 +185,9 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+        this.$el.addEventListener('animationend', this.statusResize)
+        this.$el.addEventListener('animationend', this.cateResize)
+        this.$el.addEventListener('animationend', this.classResize)
     },
     components: {
         'el-date-picker': DatePicker,
@@ -180,6 +197,15 @@ export default {
     methods: {
         open() {
             this.$message.success('修改成功')
+        },
+        statusResize() {
+            this.$refs.selectStatus.resetInputWidth()
+        },
+        cateResize() {
+            this.$refs.selectCate.resetInputWidth()
+        },
+        classResize() {
+            this.$refs.selectClass.resetInputWidth()
         },
     }
 }

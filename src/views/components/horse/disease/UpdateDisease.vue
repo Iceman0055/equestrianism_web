@@ -97,10 +97,10 @@ export default {
             value1: '',
             files: {},
             options: [{
-                value: '选项1',
+                value: '1',
                 label: '马匹1'
             }, {
-                value: '选项2',
+                value: '2',
                 label: '马匹2'
             }],
         }

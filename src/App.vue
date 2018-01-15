@@ -43,9 +43,9 @@ export default {
 .el-dialog{
   border-radius:5px;
 }
-.el-select-dropdown{
-  min-width: 453px!important;
-}
+// .el-select-dropdown{
+//   min-width: 453px!important;
+// }
 
 .comp-full-calendar {
   box-sizing: content-box;
