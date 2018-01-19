@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
-                    <el-select size="large" v-model="status" class="el-field-input" placeholder="请选择">
+                    <el-select ref="status" size="large" v-model="status" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -37,8 +37,8 @@ import { DatePicker, Button } from 'element-ui'
 export default {
     data() {
         return {
-            name:'',
-            shortName:'',
+            name: '',
+            shortName: '',
             status: '',
             statusOptions: [{
                 value: '选项1',
@@ -53,10 +53,16 @@ export default {
         'el-date-picker': DatePicker,
         'el-button': Button,
     },
+    mounted() {
+        this.$el.addEventListener('animationend', this.statusResize)
+    },
     methods: {
         open() {
             this.$message.success('修改成功')
         },
+        statusResize() {
+            this.$refs.status.resetInputWidth()
+        }
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-               <div class="title" v-if="!useDisabled">修改诊疗室信息</div>
+            <div class="title" v-if="!useDisabled">修改诊疗室信息</div>
             <div class="title" v-if="useDisabled">查看诊疗室信息</div>
             <router-link class="btn btn-info back" :to="'/hospital/operateRoom'">
                 返回
@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
+                    <el-select ref="status" size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
                         <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -38,8 +38,8 @@ import { DatePicker, Button } from 'element-ui'
 export default {
     data() {
         return {
-            name:'',
-            shortName:'',
+            name: '',
+            shortName: '',
             useDisabled: false,
             status: '',
             statusOptions: [{
@@ -53,6 +53,7 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+        this.$el.addEventListener('animationend', this.statusResize)
     },
     components: {
         'el-date-picker': DatePicker,
@@ -62,6 +63,9 @@ export default {
         open() {
             this.$message.success('修改成功')
         },
+        statusResize() {
+            this.$refs.status.resetInputWidth()
+        }
     }
 }
 </script>
