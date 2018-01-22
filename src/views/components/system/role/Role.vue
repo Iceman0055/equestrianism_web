@@ -12,7 +12,7 @@
                 </div>
             </div>
             <!-- <div class="wait-loading"><img src="/static/img/loading.gif"></div> -->
-            <div class="row ">
+            <div class="row">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -72,8 +72,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                         没有可以显示的订单  </div> -->
+                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
+                                         暂无数据  </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { Pagination, Dialog, Tree } from 'element-ui'
+import { Pagination, Dialog, Tree, Message } from 'element-ui'
 /* eslint-disable */
 export default {
     data() {
@@ -191,10 +191,8 @@ export default {
 
     components: {
         'el-pagination': Pagination,
-        // 'v-modal': modal,
         'el-dialog': Dialog,
         'el-tree': Tree
-        // 'v-queue-anim': QueueAnim
     }
 }
 </script>

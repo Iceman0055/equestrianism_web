@@ -10,21 +10,36 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">工号：</div>
-                    <input type="text" v-model="workNumber" class="form-control input-field" placeholder="请输入工号" />
+                    <input type="text" v-model="jobNumber" class="form-control input-field" placeholder="请输入工号" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">姓名：</div>
                     <input type="text" v-model="name" class="form-control input-field" placeholder="请输入姓名" />
                 </div>
                 <div class="col-md-4 search-field">
+                    <div class="label">邮箱：</div>
+                    <input type="text" v-model="email" class="form-control input-field" placeholder="请输入邮箱" />
+                </div>
+
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
                     <div class="label">用户登录名：</div>
                     <input type="text" v-model="loginName" class="form-control input-field" placeholder="请输入用户登录名" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">登录密码：</div>
+                    <input type="password" v-model="loginPassword" class="form-control input-field" placeholder="请输入用户登录密码" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">联系方式：</div>
+                    <input type="text" v-model="contact" class="form-control input-field" placeholder="请输入联系方式" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
-                    <el-select size="large" v-model="depart" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectDepart" size="large" v-model="depart" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in departOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -35,7 +50,6 @@
                         <el-option v-for="item in roleOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
-
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
@@ -45,39 +59,33 @@
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">邮箱：</div>
-                    <input type="text" v-model="email" class="form-control input-field" placeholder="请输入邮箱" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">联系方式：</div>
-                    <input type="text" v-model="contact" class="form-control input-field" placeholder="请输入联系方式" />
-                </div>
-            </div>
+
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" @click="addUser" :plain="true">确定</el-button>
         </div>
 
     </div>
 </template>
 
 <script>
-import { DatePicker, Button } from 'element-ui'
+import { DatePicker, Button, Message } from 'element-ui'
+import systemSrv from '../../../services/system.service.js'
 /* eslint-disable */
 export default {
     data() {
         return {
-            workNumber: '',
+            addInfo: {},
+            jobNumber: '',
             name: '',
             loginName: '',
+            loginPassword: '',
             depart: '',
-            email:'',
-            contact:'',
-            depart:'',
+            email: '',
+            contact: '',
+            depart: '',
             status: '',
-            role:'',
+            role: '',
             departOptions: [{
                 value: '选项1',
                 label: '假数据1'
@@ -105,19 +113,44 @@ export default {
         'el-date-picker': DatePicker,
         'el-button': Button,
     },
-    mounted(){
-        this.$el.addEventListener('animationend',this.resizeRole)
-        this.$el.addEventListener('animationend',this.resizeStatus)
+    mounted() {
+        this.$el.addEventListener('animationend', this.resizeRole)
+        this.$el.addEventListener('animationend', this.resizeStatus)
+        this.$el.addEventListener('animationend', this.resizeDepart)
     },
     methods: {
-        resizeStatus(){
+        addUser() {
+            if (!(this.jobNumber && this.name && this.loginName && this.loginPassword &&
+                this.depart && this.role && this.email && this.contact)) {
+                this.$message.error('用户信息不能为空！')
+                return;
+            }
+            this.addInfo = {
+                jobNumber: this.jobNumber,
+                realname: this.name,
+                loginName: this.loginName,
+                loginPassword: this.loginPassword,
+                departmentId: this.depart,
+                roleId: this.role,
+                email: this.email,
+                contactWay: this.contact
+            }
+
+            systemSrv.addUser(this.addInfo).then((resp) => {
+                this.$message.success('添加用户成功')
+                this.$router.push('/system/user')
+            }, (err) => {
+                this.$message.error(err.note)
+            })
+        },
+        resizeStatus() {
             this.$refs.selectStatus.resetInputWidth()
         },
-        resizeRole(){
+        resizeRole() {
             this.$refs.selectRole.resetInputWidth()
         },
-        open() {
-            this.$message.success('修改成功')
+        resizeDepart() {
+            this.$refs.selectDepart.resetInputWidth()
         },
     }
 }

@@ -77,7 +77,7 @@
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                          没有可以显示的订单 </div> -->
+                                                          暂无数据 </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { Pagination, Dialog} from 'element-ui'
+import { Pagination, Dialog, Message} from 'element-ui'
 /* eslint-disable */
 export default {
     data() {

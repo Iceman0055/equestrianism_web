@@ -11,15 +11,34 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">工号：</div>
-                    <input type="text" v-model="workNumber" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="jobNumber" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">姓名：</div>
                     <input type="text" v-model="name" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
+                    <div class="label">邮箱：</div>
+                    <input type="text" v-model="email" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+
+            </div>
+            <div class="row list-search">
+
+                <div class="col-md-4 search-field">
                     <div class="label">用户登录名：</div>
                     <input type="text" v-model="loginName" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">登录密码：</div>
+                    <input type="password" v-model="loginName" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">状态：</div>
+                    <el-select ref="selectStatus" size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
+                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
             </div>
             <div class="row list-search">
@@ -38,40 +57,30 @@
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select ref="selectStatus" size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">邮箱：</div>
-                    <input type="text" v-model="email" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
                     <div class="label">联系方式：</div>
                     <input type="text" v-model="contact" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateUser">确定</el-button>
         </div>
     </div>
 </template>
 
 <script>
-import { DatePicker, Button } from 'element-ui'
+import { DatePicker, Button, Message } from 'element-ui'
+import systemSrv from '../../../services/system.service.js'
 /* eslint-disable */
 export default {
     data() {
         return {
+            updateInfo: {},
             useDisabled: false,
-            workNumber: '',
+            jobNumber: '',
             name: '',
-            loginName: '',
+            loginName: '',                
+            loginPassword: '',
             depart: '',
             email: '',
             contact: '',
@@ -93,11 +102,11 @@ export default {
                 label: '假数据2'
             }],
             statusOptions: [{
-                value: '选项1',
-                label: '假数据1'
+                value: '1',
+                label: '启用'
             }, {
-                value: '选项2',
-                label: '假数据2'
+                value: '0',
+                label: '停用'
             }],
         }
     },
@@ -111,6 +120,30 @@ export default {
         this.$el.addEventListener('animationend', this.resizeStatus)
     },
     methods: {
+        updateUser() {
+            if (!(this.jobNumber && this.name && this.loginName && this.loginPassword &&
+                this.depart && this.role && this.email && this.contact)) {
+                this.$message.error('用户信息不能为空！')
+                return;
+            }
+            this.updateInfo = {
+                userId: this.$route.query.userId,
+                jobNumber: this.jobNumber,
+                realname: this.name,
+                loginName: this.loginName,
+                loginPassword: this.loginPassword,
+                departmentId: this.depart,
+                roleId: this.role,
+                email: this.email,
+                contactWay: this.contact
+            }
+            systemSrv.updateUser(this.updateInfo).then((resp) => {
+                this.$message.success('更新用户成功')
+                this.$router.push('/system/user')
+            }, (err) => {
+                this.$message.error(err.note)
+            })
+        },
         resizeStatus() {
             this.$refs.selectStatus.resetInputWidth()
         },
@@ -120,7 +153,6 @@ export default {
         open() {
             this.$message.success('修改成功')
         },
-
     }
 }
 </script>

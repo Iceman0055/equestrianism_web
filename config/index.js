@@ -28,8 +28,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      "/api": {
-        target:"http://192.168.100.124:8082"
+      "/equestrianismApi": {
+        target:"http://192.168.100.124:8282"
       }
       
     },
