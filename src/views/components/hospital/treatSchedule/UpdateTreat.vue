@@ -168,9 +168,10 @@
     </div>
 </template>
 <script>
-import { DatePicker, Button, TimeSelect, Input } from "element-ui";
+import { DatePicker, Button, TimeSelect, Input, Message } from "element-ui";
 import MultipleImg from '../../../../components/uploadImg/MultipleImg.vue'
 import AddDialog from '../../../../components/addDialog/AddDialog.vue'
+import hospitalSrv from '../../../services/hospital.service.js'
 /* eslint-disable */
 export default {
     data() {

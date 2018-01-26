@@ -40,21 +40,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
                     <el-select ref="selectDepart" size="large" v-model="depart" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in departOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" v-model="role" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select ref="selectStatus" size="large" v-model="status" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
@@ -75,6 +68,8 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            departList:[],
+            roleList: [],
             addInfo: {},
             jobNumber: '',
             name: '',
@@ -84,23 +79,8 @@ export default {
             email: '',
             contact: '',
             depart: '',
-            status: '',
             role: '',
             departOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
-            roleOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
-            statusOptions: [{
                 value: '选项1',
                 label: '假数据1'
             }, {
@@ -115,8 +95,21 @@ export default {
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeRole)
-        this.$el.addEventListener('animationend', this.resizeStatus)
         this.$el.addEventListener('animationend', this.resizeDepart)
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            systemSrv.getRole().then((resp) => {
+                vm.roleList = resp.data.roleList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+            systemSrv.getDepart().then((resp) => {
+                vm.departList = resp.data.departmentList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+        })
     },
     methods: {
         addUser() {
@@ -142,9 +135,6 @@ export default {
             }, (err) => {
                 this.$message.error(err.note)
             })
-        },
-        resizeStatus() {
-            this.$refs.selectStatus.resetInputWidth()
         },
         resizeRole() {
             this.$refs.selectRole.resetInputWidth()

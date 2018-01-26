@@ -379,7 +379,8 @@
 </template>
 
 <script>
-import { Button } from "element-ui";
+import { Button,Message } from "element-ui";
+import resumeSrv from '../../services/resume.service.js'
 /* eslint-disable */
 export default {
   data() {

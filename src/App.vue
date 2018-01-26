@@ -18,34 +18,32 @@ export default {
 // .fc-week{
 //   height: 100px!important;
 // }
-
 // .el-select-dropdown__item{
 //   height: 60px;
 // }
-
-.fc-title{
-  color:#fff;
+.fc-title {
+  color: #fff;
 }
-.fc-day-header{
-    height: 30px;
-    line-height: 30px;
-    font-size: 18px;
 
+.fc-day-header {
+  height: 30px;
+  line-height: 30px;
+  font-size: 18px;
 }
+
 .fc-state-disabled {
-    opacity: .45;
+  opacity: .45;
 }
+
 .fc-button {
   background: #20A8D8;
   color: #fff;
-  width:50px;
+  width: 50px;
 }
-.el-dialog{
-  border-radius:5px;
+
+.el-dialog {
+  border-radius: 5px;
 }
-// .el-select-dropdown{
-//   min-width: 453px!important;
-// }
 
 .comp-full-calendar {
   box-sizing: content-box;
@@ -57,30 +55,24 @@ export default {
 // .full-calendar-header .header-center {
 //   font-size: 16px
 // }
-
 // .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
 //   color: red
 // }
-
-
 // .full-calendar-body .weeks {
 //   height: 40px;
 //   border-radius: 5px 5px 0 0;
 //   line-height: 40px;
 //   background: #ECF0CB
 // }
-
 // .full-calendar-body .dates .more-events {
 //   width: 230px;
 //   border: none;
 //   box-shadow: none;
 // }
-
 // .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {
 //   background: #3794E6;
 //   color: #ddd;
 // }
-
 .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
   width: 100%;
@@ -108,7 +100,7 @@ export default {
 
 .content-footer {
   position: relative;
-  left: 50%;
+  left: 46%;
   bottom: 10px;
   text-align: center;
   .makesure {
@@ -118,8 +110,10 @@ export default {
   }
 }
 
-.el-textarea.is-disabled .el-textarea__inner,.el-input.is-disabled .el-input__inner {
-  background-color: #cfd8dc
+.el-textarea.is-disabled .el-textarea__inner,
+.el-input.is-disabled .el-input__inner {
+  background-color: #cfd8dc;
+  color: #607d8b;
 }
 
 .back {

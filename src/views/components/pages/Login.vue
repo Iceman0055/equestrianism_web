@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import loginSrv from '../../services/login.service.js'
 /* eslint-disable */
 export default {
   name: 'Login',

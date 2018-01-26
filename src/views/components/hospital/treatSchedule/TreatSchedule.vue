@@ -219,8 +219,9 @@
 </template>
 
 <script>
-import { Pagination, Upload, DatePicker } from 'element-ui'
+import { Pagination, Upload, DatePicker,Message } from 'element-ui'
 import UploadImg from '../../../../components/uploadImg/UploadImg.vue'
+import hospitalSrv from '../../../services/hospital.service.js'
 /* eslint-disable */
 export default {
     data() {

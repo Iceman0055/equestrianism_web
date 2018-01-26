@@ -10,53 +10,77 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">部门名称</div>
-                    <input type="text" v-model="departName" class="form-control input-field" placeholder="请输入部门名称" />
+                    <el-select ref="selectDepart" size="large" v-model="departName" class="el-field-input" placeholder="请选择部门名称">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">部门简称：</div>
                     <input type="text" v-model="departShortName" class="form-control input-field" placeholder="请输入部门简称" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select size="large" v-model="status" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
+                    <div class="label">备注：</div>
+                    <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
                 </div>
             </div>
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addDepart">确定</el-button>
         </div>
     </div>
 </template>
 
 <script>
-import { DatePicker, Button} from 'element-ui'
+import { DatePicker, Button } from 'element-ui'
+import systemSrv from '../../../services/system.service.js'
 /* eslint-disable */
 export default {
     data() {
         return {
-            departName:'',
-            departShortName:'',
-            status: '',
-            statusOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
+            departList: [],
+            departName: '',
+            departShortName: '',
+            note:'',
         }
+    },
+    mounted() {
+        this.$el.addEventListener('animationend', this.resizeDepart)
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            systemSrv.getDepart().then((resp) => {
+                vm.departList = resp.data.departmentList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+        })
+    },
     methods: {
-        open() {
-            this.$message.success('修改成功')
-        }, 
+        addDepart() {
+            if (!(this.departName && this.departShortName && this.note)) {
+                this.$message.error('部门信息不能为空！')
+                return;
+            }
+            this.addInfo = {
+                departmentName: this.departName,
+                shortName: this.departShortName,
+                remark: this.note,
+            }
+            systemSrv.addDepart(this.addInfo).then((resp) => {
+                this.$message.success('添加部门成功')
+                this.$router.push('/system/department')
+            }, (err) => {
+                this.$message.error(err.note)
+            })
+        },
+        resizeDepart() {
+            this.$refs.selectDepart.resetInputWidth()
+        },
     }
 }
 </script>

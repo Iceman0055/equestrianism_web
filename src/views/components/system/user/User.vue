@@ -23,19 +23,19 @@
                 <div class="col-md-2 search-field">
                     <div class="label">部门：</div>
                     <el-select size="large" v-model="list_depart" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in departOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">角色：</div>
                     <el-select size="large" v-model="list_role" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <button @click="getUser" class="btn btn-primary search-btn">搜索</button>
+                    <button @click="getUser(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <router-link class="btn btn-success" :to="'/system/AddUser'">
@@ -119,11 +119,13 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            departList:[],
+            roleList: [],
             statusDialog: false,
             showLoading: false,
             deleteDialog: false,
             userList: [],
-            pageRecorders: 5,
+            pageRecorders: 10,
             totalRecorders: 1,
             list_name: '',
             list_jobNumber: '',
@@ -144,27 +146,6 @@ export default {
                 value: '0',
                 label: '停用'
             }],
-            roleOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
-            roleOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
-            departOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
         }
     },
     components: {
@@ -182,11 +163,20 @@ export default {
                 vm.showLoading = false
                 vm.$message.error(err.note)
             })
-
+            systemSrv.getRole().then((resp) => {
+                vm.roleList = resp.data.roleList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+            systemSrv.getDepart().then((resp) => {
+                vm.departList = resp.data.departmentList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
         })
     },
     methods: {
-        getUser(currentPage = 1) {
+        getUser(currentPage = this.currentPage) {
             this.showLoading = true
             systemSrv.userList(currentPage, this.list_name, this.list_jobNumber, this.list_status, this.list_depart, this.list_role, this.pageRecorders).then((resp) => {
                 this.showLoading = false
@@ -209,7 +199,6 @@ export default {
                 this.$message.success('删除成功')
                 this.deleteDialog = false
                 this.getUser()
-                console.log(resp)
             }, (err) => {
                 this.$message.error(err.note)
             })
@@ -224,7 +213,6 @@ export default {
                 this.$message.success('修改状态成功')
                 this.statusDialog = false
                 this.getUser()
-                console.log(resp)
             }, (err) => {
                 this.$message.error(err.note)
             })

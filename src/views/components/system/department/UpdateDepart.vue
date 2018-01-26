@@ -11,44 +11,39 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">部门名称</div>
-                    <input type="text" v-model="departName" :disabled="useDisabled" class="form-control input-field" />
+                    <el-select ref="selectDepart" size="large" :disabled="useDisabled" v-model="departName" class="el-field-input" placeholder="请选择部门名称">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">部门简称：</div>
                     <input type="text" v-model="departShortName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
+                    <div class="label">备注：</div>
+                    <input type="text" v-model="note" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
         </div>
-        <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+        <div class="content-footer row" v-show="!useDisabled">
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateDepart">确定</el-button>
         </div>
     </div>
 </template>
 
 <script>
 import { DatePicker, Button } from 'element-ui'
+import systemSrv from '../../../services/system.service.js'
 /* eslint-disable */
 export default {
     data() {
         return {
+            departList: [],
             departName: '',
             departShortName: '',
-            status: '',
+            note: '',
             useDisabled: false,
-            statusOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
         }
     },
     components: {
@@ -57,10 +52,45 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+        this.$el.addEventListener('animationend', this.resizeDepart)
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+              systemSrv.departDetail(to.query.departmentId).then((resp) => {
+                vm.departName = resp.data.departmentName
+                vm.departShortName = resp.data.shortName
+                vm.note = resp.data.remark
+            },(err)=>{
+                vm.$message.error(err.note)
+            })
+            systemSrv.getDepart().then((resp) => {
+                vm.departList = resp.data.departmentList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+        })
     },
     methods: {
-        open() {
-            this.$message.success('修改成功')
+        updateDepart() {
+            if (!(this.roleName && this.roleMark && this.note)) {
+                this.$message.error('部门信息不能为空！')
+                return;
+            }
+            this.updateInfo = {
+                departmentId: this.$route.query.departmentId,
+                departmentName: this.departName,
+                shortName: this.departShortName,
+                remark: this.note,
+            }
+            systemSrv.updateDepart(this.updateInfo).then((resp) => {
+                this.$message.success('更新部门成功')
+                this.$router.push('/system/department')
+            }, (err) => {
+                this.$message.error(err.note)
+            })
+        },
+        resizeDepart() {
+            this.$refs.selectDepart.resetInputWidth()
         },
     }
 }

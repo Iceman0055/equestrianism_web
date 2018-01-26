@@ -11,7 +11,7 @@
                     </router-link>
                 </div>
             </div>
-            <!-- <div class="wait-loading"><img src="/static/img/loading.gif"></div> -->
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -25,69 +25,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>产品部</td>
-                                <td>CPB</td>
-                                <td>正常发的</td>
-                                <td>已关闭</td>
+                            <tr v-for="item in roleList" :key="item">
+                                <td>{{item.roleName}}</td>
+                                <td>{{item.roleId}}</td>
+                                <td>{{item.remark}}</td>
+                                <td>{{convertStatus[item.status]}}</td>
                                 <td>
                                     <a @click="permissionDialog=true">分配权限</a>
-                                    <router-link :to="'/system/updateRole'">
+                                    <router-link :to="{path:'/system/updateRole',query:{roleId:item.roleId}}">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,}}"> 查看</router-link>
-
-                                    <a>删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>产品部</td>
-                                <td>CPB</td>
-                                <td>正常发的</td>
-                                <td>已关闭</td>
-                                <td>
-                                    <a @click="permissionDialog=true">分配权限</a>
-                                    <router-link :to="'/system/updateRole'">
-                                        修改
-                                    </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,}}"> 查看</router-link>
-
-                                    <a>删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>产品部</td>
-                                <td>CPB</td>
-                                <td>正常发的</td>
-                                <td>已关闭</td>
-                                <td>
-                                    <a @click="permissionDialog=true">分配权限</a>
-                                    <router-link :to="'/system/updateRole'">
-                                        修改
-                                    </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,}}"> 查看</router-link>
-
-                                    <a>删除</a>
+                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,userId:item.roleId}}"> 查看</router-link>
+                                    <a @click="statusInfo(item.roleId,item.status)">{{convertStatus[1-item.status]}}</a>
+                                    <a @click="deleteInfo(item.roleId)">删除</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
-                                         暂无数据  </div> -->
+                    <div class="list-empty" v-show="roleList.length===0">
+                        暂无数据 </div>
                     <div class="page">
-                        <el-pagination background layout="prev, pager, next" :total="1000">
+                        <el-pagination @current-change="getRole" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
                 </div>
             </div>
         </div>
-        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="25%" center>
+        <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
             <div class="text-center">
-                <span>确定要修改状态吗?</span>
+                <span>确定要删除吗?</span>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+                <el-button @click="deleteDialog = false">取 消</el-button>
+                <el-button type="primary" @click="deleteRole">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="状态" :modal-append-to-body="false" :visible.sync="statusDialog" width="20%" center>
+            <div class="text-center">
+                <span>确定要修改此状态吗?</span>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="statusDialog = false">取 消</el-button>
+                <el-button type="primary" @click="statusManage">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 分配权限 -->
@@ -112,14 +91,26 @@
 
 <script>
 import { Pagination, Dialog, Tree, Message } from 'element-ui'
+import systemSrv from '../../../services/system.service.js'
 /* eslint-disable */
 export default {
     data() {
         return {
+            pageRecorders: 10,
+            totalRecorders: 1,
+            currentPage: 1,
+            statusDialog: false,
+            showLoading: false,
+            deleteDialog: false,
             expandAll: false,
             permissionDialog: false,
-            centerDialogVisible: false,
-            currentPage: 1,
+            deleteContent: {},
+            stopContent: {},
+            convertStatus: {
+                "1": "启用",
+                "0": "停用"
+            },
+            roleList: [],
             options: [{
                 value: '选项1',
                 label: '假数据1'
@@ -178,17 +169,71 @@ export default {
         }
 
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.showLoading = true
+            systemSrv.roleList(vm.currentPage, vm.pageRecorders).then((resp) => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.roleList = resp.data.roleInfoList
+            }, (err) => {
+                vm.showLoading = false
+                vm.$message.error(err.note)
+            })
+
+        })
+    },
     methods: {
+        getRole(currentPage = this.currentPage) {
+            this.showLoading = true
+            systemSrv.roleList(currentPage, this.pageRecorders).then((resp) => {
+                this.showLoading = false
+                this.currentPage = currentPage
+                this.totalRecorders = resp.data.totalRecorders
+                this.roleList = resp.data.roleInfoList
+            }, (err) => {
+                this.showLoading = false
+                this.$message.error(err.note)
+            })
+        },
+        deleteInfo(roleId) {
+            this.deleteDialog = true
+            this.deleteContent.roleId = roleId
+            this.deleteContent.deleteFlag = 1
+        },
+
+        deleteRole() {
+            systemSrv.deleteRole(this.deleteContent).then((resp) => {
+                this.$message.success('删除成功')
+                this.deleteDialog = false
+                this.getRole()
+            }, (err) => {
+                this.$message.error(err.note)
+            })
+        },
+        statusInfo(roleId, status) {
+            this.statusDialog = true
+            this.stopContent.roleId = roleId
+            this.stopContent.status = 1 - status
+        },
+        statusManage() {
+            systemSrv.deleteRole(this.stopContent).then((resp) => {
+                this.$message.success('修改状态成功')
+                this.statusDialog = false
+                this.getRole()
+            }, (err) => {
+                this.$message.error(err.note)
+            })
+        },
         //全选
         selectChecked() {
-                this.$refs.tree.setCheckedKeys([0,1,2,3,4,5]);        
+            this.$refs.tree.setCheckedKeys([0, 1, 2, 3, 4, 5]);
         },
         //全不选
         resetChecked() {
             this.$refs.tree.setCheckedKeys([]);
         },
     },
-
     components: {
         'el-pagination': Pagination,
         'el-dialog': Dialog,

@@ -32,7 +32,6 @@
         <div class="col-md-4 search-field">
           <div class="label">联系人：</div>
           <input type="text" v-model="contactPer" class="form-control input-field" placeholder="请输入联系人(非必填)" />
-
         </div>
         <div class="col-md-4 search-field">
           <div class="label">联系方式：</div>
@@ -47,7 +46,8 @@
   </div>
 </template>
 <script>
-import { DatePicker, Button } from "element-ui";
+import { DatePicker, Button ,Message} from "element-ui";
+import hospitalSrv from '../../../services/hospital.service.js'
 /* eslint-disable */
 export default {
   data() {

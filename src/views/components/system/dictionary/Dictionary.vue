@@ -26,7 +26,7 @@
                     <button class="btn btn-success" @click="updateDialog=true">新增</button>
                 </div>
             </div>
-            <!-- <div class="wait-loading"><img src="/static/img/loading.gif"></div> -->
+            <!-- <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div> -->
             <div class="row ">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -76,7 +76,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
+                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
                                                           暂无数据 </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">

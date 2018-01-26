@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import { DatePicker, Button } from 'element-ui'
+import { DatePicker, Button, Message } from 'element-ui'
+import hospitalSrv from '../../../services/hospital.service.js'
 /* eslint-disable */
 export default {
     data() {

@@ -34,35 +34,29 @@
                     <input type="password" v-model="loginName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select ref="selectStatus" size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
+                    <div class="label">联系方式：</div>
+                    <input type="text" v-model="contact" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="depart" class="el-field-input">
-                        <el-option v-for="item in departOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectDepart" size="large" :disabled="useDisabled" v-model="depart" class="el-field-input">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" :disabled="useDisabled" v-model="role" class="el-field-input">
-                        <el-option v-for="item in roleOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">联系方式：</div>
-                    <input type="text" v-model="contact" :disabled="useDisabled" class="form-control input-field" />
-                </div>
+
             </div>
         </div>
-        <div class="content-footer row">
+        <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateUser">确定</el-button>
         </div>
     </div>
@@ -75,17 +69,18 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            departList: [],
+            roleList: [],
             updateInfo: {},
             useDisabled: false,
             jobNumber: '',
             name: '',
-            loginName: '',                
+            loginName: '',
             loginPassword: '',
             depart: '',
             email: '',
             contact: '',
             depart: '',
-            status: '',
             role: '',
             departOptions: [{
                 value: '选项1',
@@ -94,20 +89,7 @@ export default {
                 value: '选项2',
                 label: '假数据2'
             }],
-            roleOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
-            statusOptions: [{
-                value: '1',
-                label: '启用'
-            }, {
-                value: '0',
-                label: '停用'
-            }],
+
         }
     },
     components: {
@@ -117,7 +99,33 @@ export default {
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeRole)
-        this.$el.addEventListener('animationend', this.resizeStatus)
+        this.$el.addEventListener('animationend', this.resizeDepart)
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            systemSrv.userDetail(to.query.userId).then((resp) => {
+                vm.jobNumber = resp.data.jobNumber
+                vm.name = resp.data.realname
+                vm.loginName = resp.data.loginName
+                vm.depart = resp.data.departmentId
+                vm.role = resp.data.roleId
+                vm.contact = resp.data.contactWay
+                vm.email = resp.data.email
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+            systemSrv.getRole().then((resp) => {
+                vm.roleList = resp.data.roleList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+            systemSrv.getDepart().then((resp) => {
+                vm.departList = resp.data.departmentList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+        })
+
     },
     methods: {
         updateUser() {
@@ -144,14 +152,11 @@ export default {
                 this.$message.error(err.note)
             })
         },
-        resizeStatus() {
-            this.$refs.selectStatus.resetInputWidth()
+        resizeDepart() {
+            this.$refs.selectDepart.resetInputWidth()
         },
         resizeRole() {
             this.$refs.selectRole.resetInputWidth()
-        },
-        open() {
-            this.$message.success('修改成功')
         },
     }
 }
