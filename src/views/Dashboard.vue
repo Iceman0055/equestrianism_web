@@ -1,14 +1,14 @@
 <template>
   <div class="content_page setBack">
     <!-- <div class="content-title-reuse">
-          <div class="title">日程</div>
-        </div>
-        <full-calendar id="element" class="test-fc animated slideInDown"  :events="fcEvents" lang="zh">
-          <template slot="fc-event-card" scope="p">
-            <p>
-              <i class="fa">sadfsd</i> {{ p.event.title }} test</p>
-          </template>
-        </full-calendar> -->
+            <div class="title">日程</div>
+          </div>
+          <full-calendar id="element" class="test-fc animated slideInDown"  :events="fcEvents" lang="zh">
+            <template slot="fc-event-card" scope="p">
+              <p>
+                <i class="fa">sadfsd</i> {{ p.event.title }} test</p>
+            </template>
+          </full-calendar> -->
 
     <div id='calendar'></div>
 
@@ -16,85 +16,14 @@
 </template>
 
 <script>
-let demoEvents = [
-  {
-    title: '上班',
-    start: '2017-12-12',
-    end: '2017-12-12',
-    cssClass: 'family'
-  },
-  {
-    title: '上班2',
-    start: '2017-12-12',
-    end: '2017-12-12',
-  }, {
-    title: '上班2',
-    start: '2017-12-12',
-    end: '2017-12-12',
-  },
-  {
-    title: '上班2',
-    start: '2017-12-12',
-    end: '2017-12-12',
-  },
-  {
-    title: '上班2',
-    start: '2017-12-12',
-    end: '2017-12-12',
-  },
-  {
-    title: '上班2',
-    start: '2017-12-12',
-    end: '2017-12-12',
-  }, {
-    title: '上班2',
-    start: '2017-12-06',
-  },
-  {
-    title: '休息',
-    start: '2017-12-01',
-    end: '2017-12-02',
-  }, {
-    title: '休息',
-    start: '2017-12-01',
-    end: '2017-12-02',
-  },
-  {
-    title: '休息',
-    start: '2017-12-01',
-    end: '2017-12-02',
-  },
-  {
-    title: '休息',
-    start: '2017-12-01',
-    end: '2017-12-02',
-  },
-  {
-    title: '休息',
-    start: '2017-12-01',
-    end: '2017-12-02',
-  },
-  {
-    title: '验收',
-    start: '2017-12-20',
-  },
-  {
-    title: '验收',
-    start: '2017-12-20',
-  },
-  {
-    title: '验收',
-    start: '2017-12-20',
-  },
-  {
-    title: '验收',
-    start: '2017-12-20',
-  },
-  {
-    title: '验收',
-    start: '2018-1-20',
-  },
-];
+// let demoEvents = [
+//   {
+//     title: '上班',
+//     start: '2017-12-12',
+//     end: '2017-12-12',
+//     cssClass: 'family'
+//   },
+// ];
 // import fullCalendar from 'vue-fullcalendar'
 import $ from 'jquery'
 import fullcalendar from 'fullcalendar'
@@ -103,7 +32,7 @@ import 'fullcalendar/dist/locale/zh-cn.js'
 export default {
   data() {
     return {
-      fcEvents: demoEvents
+      // fcEvents: demoEvents
     }
   },
   methods: {
@@ -112,7 +41,7 @@ export default {
   mounted() {
     //初始化FullCalendar 
     $('#calendar').fullCalendar({
-      height:650,
+      height: 650,
       //设置头部信息，如果不想显示，可以设置header为false
       header: {
         //日历头部左边：初始化切换按钮
@@ -134,21 +63,17 @@ export default {
           start: '2017-12-25'
         },
         {
-          title: '圣诞节',
-          start: '2017-12-25'
-        },  
-        {
           title: '事件1',
-          start: '2017-12-26 09:00',
-          end: '2017-12-26 18:00',
+          start: '2018-2-26 09:00',
+          end: '2018-2-26 18:00',
           color: 'red',
           className: 'doing',
           textColor: '#fff'
         },
         {
           title: '事件2',
-          start: '2017-12-26 09:00',
-          end: '2017-12-26 18:00',
+          start: '2018-2-26 09:00',
+          end: '2018-2-26 18:00',
           color: 'red',
           className: 'doing',
           textColor: '#fff'
@@ -163,14 +88,11 @@ export default {
 }
 </script>
 <style scoped>
-/* 日历 */
-
 #calendar {
   margin: 40px auto;
   padding: 0 10px;
 }
 /* Event 参数 className 的值 */
-
 .done:before {
   content: "【 已完成 】";
   background-color: yellow;
@@ -180,7 +102,6 @@ export default {
   width: 100%;
 }
 /* Event 参数 className 的值 */
-
 .doing:before {
   content: "【 未完成 】";
   background-color: yellow;
@@ -188,11 +109,9 @@ export default {
   text-align: center;
   font-weight: bold;
 }
-
 #element {
   animation-duration: 1.5s;
 }
-
 .content-title-reuse {
   border-radius: 5px;
   padding-left: 20px;
@@ -201,7 +120,6 @@ export default {
   background-color: #DCEDF5;
   border-bottom: 1px solid #cfd8dc;
 }
-
 .setBack {
   background: #E5ECDA;
 }

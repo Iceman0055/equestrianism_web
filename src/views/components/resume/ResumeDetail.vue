@@ -16,7 +16,6 @@
                 <div class="col-md-6 resume-title">
                     <div class="title">基本信息</div>
                 </div>
-
             </div>
             <div class="row list-search resume-bottom mb-2">
                 <div class="col-md-3">               
@@ -45,7 +44,6 @@
                                 <td>123</td>
                                 <td>123</td>
                                 <td>123</td>
-
                             </tr>
                         </tbody>
                     </table>

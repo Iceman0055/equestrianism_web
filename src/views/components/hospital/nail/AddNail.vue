@@ -7,7 +7,6 @@
             </router-link>
         </div>
         <div class="content-show">
-
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
@@ -39,7 +38,6 @@
 <script>
 import { DatePicker, Button, Select, Message  } from 'element-ui'
 import hospitalSrv from '../../../services/hospital.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {

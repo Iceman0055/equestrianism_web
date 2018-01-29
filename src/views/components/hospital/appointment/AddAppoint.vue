@@ -46,18 +46,17 @@
   </div>
 </template>
 <script>
-import { DatePicker, Button ,Message} from "element-ui";
+import { DatePicker, Button, Message } from "element-ui";
 import hospitalSrv from '../../../services/hospital.service.js'
-/* eslint-disable */
 export default {
   data() {
     return {
-     appointTime:'',
-     appointDesc:'',
-     appointNum:'',
-     note:'',
-     contactPer:'',
-     contactWay:''
+      appointTime: '',
+      appointDesc: '',
+      appointNum: '',
+      note: '',
+      contactPer: '',
+      contactWay: ''
     };
   },
   components: {

@@ -35,7 +35,6 @@
 <script>
 import { DatePicker, Button } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {
@@ -56,11 +55,11 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-              systemSrv.departDetail(to.query.departmentId).then((resp) => {
+            systemSrv.departDetail(to.query.departmentId).then((resp) => {
                 vm.departName = resp.data.departmentName
                 vm.departShortName = resp.data.shortName
                 vm.note = resp.data.remark
-            },(err)=>{
+            }, (err) => {
                 vm.$message.error(err.note)
             })
             systemSrv.getDepart().then((resp) => {

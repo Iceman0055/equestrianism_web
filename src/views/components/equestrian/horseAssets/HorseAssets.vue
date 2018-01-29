@@ -120,14 +120,12 @@
         </div>
     </div>
 </template>
-
 <script>
-import { Pagination } from 'element-ui'
-/* eslint-disable */
+import { Pagination, Message } from 'element-ui'
+import equestrianSrv from '../../../services/equestrian.service.js'
 export default {
     data() {
         return {
-
             selectValue223: '',
             selectValue22: "",
             currentPage: 1,

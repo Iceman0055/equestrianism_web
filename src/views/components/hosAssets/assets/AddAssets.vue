@@ -127,8 +127,8 @@
 </template>
 
 <script>
-import { DatePicker, Button, Select } from 'element-ui'
-/* eslint-disable */
+import { DatePicker, Button, Select, Message } from 'element-ui'
+import hosAssetsSrv from '../../../services/hosAssets.service.js'
 export default {
     data() {
         return { 

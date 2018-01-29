@@ -10,9 +10,8 @@ import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(Element, { size: 'small' })
 Vue.use(animate)
-/* eslint-disable */
 /* eslint-disable no-new */
-axios.defaults.headers.common['sessionId'] = window.sessionStorage.getItem('sessionId') || '123456';
+axios.defaults.headers.common['sessionId'] = window.sessionStorage.getItem('sessionId') || '123456'
 
 new Vue({
   el: '#app',

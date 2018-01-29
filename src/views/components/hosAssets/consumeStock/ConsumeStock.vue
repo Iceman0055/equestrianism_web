@@ -19,7 +19,6 @@
                         </el-option>
                     </el-select>
                 </div>
-
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn">搜索</button>
                 </div>
@@ -96,7 +95,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
+                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
                                                                 没有可以显示的订单
                                                             </div> -->
                     <div class="page">
@@ -153,8 +152,8 @@
     </div>
 </template>
 <script>
-import { Pagination, Dialog } from "element-ui";
-/* eslint-disable */
+import { Pagination, Dialog, Message } from "element-ui";
+import hosAssetsSrv from '../../../services/hosAssets.service.js'
 export default {
     data() {
         return {
@@ -246,7 +245,7 @@ export default {
 }
 
 .Spinner a {
-    display: inline-block;
+    // display: inline-block;
     width: 35px;
     height: 35px;
     border: 1px solid #d9d9d9;

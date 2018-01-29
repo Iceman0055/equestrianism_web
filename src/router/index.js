@@ -3,92 +3,89 @@ import Vue from "vue";
 import Router from "vue-router";
 
 // Containers
-import Full from "@/containers/Full";
+import Full from "@/containers/full";
 
 // Views
-import Dashboard from "@/views/Dashboard";
+import Dashboard from "@/views/dashboard";
 
 // Views - Components
 // 马匹信息管理
-import BaseInfo from "@/views/components/horse/baseInfo/BaseInfo";
-import AddBaseInfo from "@/views/components/horse/baseInfo/AddBaseInfo";
-import UpdateBaseInfo from "@/views/components/horse/baseInfo/UpdateBaseInfo";
-import AddAwards from "@/views/components/horse/awards/AddAwards";
-import Awards from "@/views/components/horse/awards/Awards";
-import UpdateAwards from "@/views/components/horse/awards/UpdateAwards";
-import Disease from "@/views/components/horse/disease/Disease";
-import AddDisease from "@/views/components/horse/disease/AddDisease";
-import UpdateDisease from "@/views/components/horse/disease/UpdateDisease";
-import Vaccine from "@/views/components/horse/vaccine/Vaccine";
-import AddVaccine from "@/views/components/horse/vaccine/AddVaccine";
-import UpdateVaccine from "@/views/components/horse/vaccine/UpdateVaccine";
-import Master from "@/views/components/horse/master/Master";
-import AddMaster from "@/views/components/horse/master/AddMaster";
-import UpdateMaster from "@/views/components/horse/master/UpdateMaster";
-import Breeder from "@/views/components/horse/breeder/Breeder";
-import AddBreeder from "@/views/components/horse/breeder/AddBreeder";
-import UpdateBreeder from "@/views/components/horse/breeder/UpdateBreeder";
-import Treatment from "@/views/components/horse/treatment/Treatment";
-import AddTreatment from "@/views/components/horse/treatment/AddTreatment";
-import UpdateTreatment from "@/views/components/horse/treatment/UpdateTreatment";
-import HorseResume from "@/views/components/resume/horseResume";
-import ResumeDetail from "@/views/components/resume/ResumeDetail";
-import NailInfo from "@/views/components/horse/nailInfo/NailInfo";
-import TeethInfo from "@/views/components/horse/teethInfo/TeethInfo";
+import baseInfo from "@/views/components/horse/baseInfo/baseInfo";
+import addBaseInfo from "@/views/components/horse/baseInfo/addBaseInfo";
+import updateBaseInfo from "@/views/components/horse/baseInfo/updateBaseInfo";
+import addAwards from "@/views/components/horse/awards/addAwards";
+import awards from "@/views/components/horse/awards/awards";
+import updateAwards from "@/views/components/horse/awards/updateAwards";
+import disease from "@/views/components/horse/disease/disease";
+import addDisease from "@/views/components/horse/disease/addDisease";
+import updateDisease from "@/views/components/horse/disease/updateDisease";
+import vaccine from "@/views/components/horse/vaccine/vaccine";
+import addVaccine from "@/views/components/horse/vaccine/addVaccine";
+import updateVaccine from "@/views/components/horse/vaccine/updateVaccine";
+import master from "@/views/components/horse/master/master";
+import addMaster from "@/views/components/horse/master/addMaster";
+import updateMaster from "@/views/components/horse/master/updateMaster";
+import breeder from "@/views/components/horse/breeder/breeder";
+import addBreeder from "@/views/components/horse/breeder/addBreeder";
+import updateBreeder from "@/views/components/horse/breeder/updateBreeder";
+import treatment from "@/views/components/horse/treatment/treatment";
+import addTreatment from "@/views/components/horse/treatment/addTreatment";
+import updateTreatment from "@/views/components/horse/treatment/updateTreatment";
+import horseResume from "@/views/components/resume/horseResume";
+import resumeDetail from "@/views/components/resume/resumeDetail";
+import nailInfo from "@/views/components/horse/nailInfo/nailInfo";
+import teethInfo from "@/views/components/horse/teethInfo/teethInfo";
 // 马医院信息管理
-import Appointment from "@/views/components/hospital/appointment/Appointment";
-import UpdateAppoint from "@/views/components/hospital/appointment/UpdateAppoint";
-import AddAppoint from "@/views/components/hospital/appointment/AddAppoint";
-import Vaccination from "@/views/components/hospital/vaccination/Vaccination";
-import UpdateVacc from "@/views/components/hospital/vaccination/UpdateVacc";
-import AddVacc from "@/views/components/hospital/vaccination/AddVacc";
+import appointment from "@/views/components/hospital/appointment/appointment";
+import updateAppoint from "@/views/components/hospital/appointment/updateAppoint";
+import addAppoint from "@/views/components/hospital/appointment/addAppoint";
+import vaccination from "@/views/components/hospital/vaccination/vaccination";
+import updateVacc from "@/views/components/hospital/vaccination/updateVacc";
+import addVacc from "@/views/components/hospital/vaccination/addVacc";
 
-import Assets from "@/views/components/hosAssets/assets/Assets";
-import AddAssets from "@/views/components/hosAssets/assets/AddAssets";
-import AssetsStock from "@/views/components/hosAssets/assetsStock/AssetsStock";
-import ConsumeStock from "@/views/components/hosAssets/consumeStock/ConsumeStock";
-import UpdateAssets from "@/views/components/hosAssets/assets/UpdateAssets";
-import Consume from "@/views/components/hosAssets/consume/Consume";
-import AddConsume from "@/views/components/hosAssets/consume/AddConsume";
-import UpdateConsume from "@/views/components/hosAssets/consume/UpdateConsume";
-import TreatSchedule from "@/views/components/hospital/treatSchedule/TreatSchedule";
-import AddTreat from "@/views/components/hospital/treatSchedule/AddTreat";
-import UpdateTreat from "@/views/components/hospital/treatSchedule/UpdateTreat";
-import OperateRoom from "@/views/components/hospital/operateRoom/OperateRoom";
-import AddOperateR from "@/views/components/hospital/operateRoom/AddOperateR";
-import UpdateOperateR from "@/views/components/hospital/operateRoom/UpdateOperateR";
-import Nail from "@/views/components/hospital/nail/Nail";
-import AddNail from "@/views/components/hospital/nail/AddNail";
-import UpdateNail from "@/views/components/hospital/nail/UpdateNail";
-import Teeth from "@/views/components/hospital/teeth/Teeth";
-import AddTeeth from "@/views/components/hospital/teeth/AddTeeth";
-import UpdateTeeth from "@/views/components/hospital/teeth/UpdateTeeth";
+import assets from "@/views/components/hosAssets/assets/assets";
+import addAssets from "@/views/components/hosAssets/assets/addAssets";
+import assetsStock from "@/views/components/hosAssets/assetsStock/assetsStock";
+import consumeStock from "@/views/components/hosAssets/consumeStock/consumeStock";
+import updateAssets from "@/views/components/hosAssets/assets/updateAssets";
+import consume from "@/views/components/hosAssets/consume/consume";
+import addConsume from "@/views/components/hosAssets/consume/addConsume";
+import updateConsume from "@/views/components/hosAssets/consume/updateConsume";
+import treatSchedule from "@/views/components/hospital/treatSchedule/treatSchedule";
+import addTreat from "@/views/components/hospital/treatSchedule/addTreat";
+import updateTreat from "@/views/components/hospital/treatSchedule/updateTreat";
+import operateRoom from "@/views/components/hospital/operateRoom/operateRoom";
+import addOperateR from "@/views/components/hospital/operateRoom/addOperateR";
+import updateOperateR from "@/views/components/hospital/operateRoom/updateOperateR";
+import nail from "@/views/components/hospital/nail/nail";
+import addNail from "@/views/components/hospital/nail/addNail";
+import updateNail from "@/views/components/hospital/nail/updateNail";
+import teeth from "@/views/components/hospital/teeth/teeth";
+import addTeeth from "@/views/components/hospital/teeth/addTeeth";
+import updateTeeth from "@/views/components/hospital/teeth/updateTeeth";
 
 // 系统管理
-import User from "@/views/components/system/user/User";
-import AddUser from "@/views/components/system/user/AddUser";
-import UpdateUser from "@/views/components/system/user/UpdateUser";
-import Department from "@/views/components/system/department/Department";
-import AddDepart from "@/views/components/system/department/AddDepart";
-import UpdateDepart from "@/views/components/system/department/UpdateDepart";
-import Role from "@/views/components/system/role/Role";
-import AddRole from "@/views/components/system/role/AddRole";
-import UpdateRole from "@/views/components/system/role/UpdateRole";
-import Dictionary from "@/views/components/system/dictionary/Dictionary";
-import AddDict from "@/views/components/system/dictionary/AddDict";
-import UpdateDict from "@/views/components/system/dictionary/UpdateDict";
+import user from "@/views/components/system/user/user";
+import addUser from "@/views/components/system/user/addUser";
+import updateUser from "@/views/components/system/user/updateUser";
+import department from "@/views/components/system/department/department";
+import addDepart from "@/views/components/system/department/addDepart";
+import updateDepart from "@/views/components/system/department/updateDepart";
+import role from "@/views/components/system/role/role";
+import addRole from "@/views/components/system/role/addRole";
+import updateRole from "@/views/components/system/role/updateRole";
+import dictionary from "@/views/components/system/dictionary/dictionary";
 // 马术中心资产管理
-import HorseAssets from "@/views/components/equestrian/horseAssets/HorseAssets";
-import HAddAssets from "@/views/components/equestrian/horseAssets/HAddAssets";
-import HUpdateAssets from "@/views/components/equestrian/horseAssets/HUpdateAssets";
-import HorseStock from "@/views/components/equestrian/horseStock/HorseStock";
-
+import horseAssets from "@/views/components/equestrian/horseAssets/horseAssets";
+import hAddAssets from "@/views/components/equestrian/horseAssets/hAddAssets";
+import hUpdateAssets from "@/views/components/equestrian/horseAssets/hUpdateAssets";
+import horseStock from "@/views/components/equestrian/horseStock/horseStock";
 
 // Views - Pages
-import Page404 from "@/views/components/pages/Page404";
-import Page500 from "@/views/components/pages/Page500";
-import Login from "@/views/components/pages/Login";
-import Register from "@/views/components/pages/Register";
+import page404 from "@/views/components/pages/page404";
+import page500 from "@/views/components/pages/page500";
+import login from "@/views/components/pages/login";
+import register from "@/views/components/pages/register";
 
 Vue.use(Router);
 
@@ -122,119 +119,118 @@ export default new Router({
             {
               path: "baseInfo",
               name: "马匹基本信息",
-              component: BaseInfo
+              component: baseInfo
             },
             {
               path: "addBaseInfo",
               name: "新增马匹基本信息",
-              component: AddBaseInfo
+              component: addBaseInfo
             },
             {
               path: "updateBaseInfo",
               name: "修改马匹基本信息",
-              component: UpdateBaseInfo
+              component: updateBaseInfo
             },
             {
               path: "awards",
               name: "获奖信息",
-              component: Awards
+              component: awards
             },
             {
               path: "addAwards",
               name: "新增获奖信息",
-              component: AddAwards
+              component: addAwards
             },
             {
               path: "updateAwards",
               name: "修改获奖信息",
-              component: UpdateAwards
+              component: updateAwards
             },
             {
               path: "breeder",
               name: "饲养员信息",
-              component: Breeder
+              component: breeder
             },
             {
               path: "addBreeder",
               name: "新增饲养员信息",
-              component: AddBreeder
+              component: addBreeder
             },
             {
               path: "updateBreeder",
               name: "修改饲养员信息",
-              component: UpdateBreeder
+              component: updateBreeder
             },
             {
               path: "master",
               name: "马主信息",
-              component: Master
+              component: master
             },
             {
               path: "addMaster",
               name: "新增马主信息",
-              component: AddMaster
+              component: addMaster
             },
             {
               path: "updateMaster",
               name: "修改马主信息",
-              component: UpdateMaster
+              component: updateMaster
             },
             {
               path: "treatment",
               name: "治疗信息",
-              component: Treatment
+              component: treatment
             },
             {
               path: "updateTreatment",
               name: "修改治疗信息",
-              component: UpdateTreatment
+              component: updateTreatment
             },
             {
               path: "addTreatment",
               name: "新增治疗信息",
-              component: AddTreatment
+              component: addTreatment
             },
             {
               path: "vaccine",
               name: "接种疫苗信息",
-              component: Vaccine
+              component: vaccine
             },
             {
               path: "addVaccine",
               name: "新增接种疫苗信息",
-              component: AddVaccine
+              component: addVaccine
             },
             {
               path: "updateVaccine",
               name: "修改接种疫苗信息",
-              component: UpdateVaccine
+              component: updateVaccine
             },
             {
               path: "disease",
               name: "病历信息",
-              component: Disease
+              component: disease
             },
             {
               path: "addDisease",
               name: "新增病历信息",
-              component: AddDisease
+              component: addDisease
             },
             {
               path: "updateDisease",
               name: "修改病历信息",
-              component: UpdateDisease
+              component: updateDisease
             },
             {
               path: "nailInfo",
               name: "钉甲信息",
-              component: NailInfo
+              component: nailInfo
             },
             {
               path: "teethInfo",
               name: "挫牙信息",
-              component: TeethInfo
-            },
-          
+              component: teethInfo
+            }
           ]
         },
         {
@@ -250,92 +246,92 @@ export default new Router({
             {
               path: "appointment",
               name: "预约日程管理",
-              component: Appointment
+              component: appointment
             },
             {
               path: "addAppoint",
               name: "新增预约日程",
-              component: AddAppoint
+              component: addAppoint
             },
             {
               path: "updateAppoint",
               name: "修改预约日程",
-              component: UpdateAppoint
+              component: updateAppoint
             },
             {
               path: "vaccination",
               name: "接种疫苗管理",
-              component: Vaccination
+              component: vaccination
             },
             {
               path: "updateVacc",
               name: "修改接种疫苗管理",
-              component: UpdateVacc
+              component: updateVacc
             },
             {
               path: "addVacc",
               name: "新增接种疫苗管理",
-              component: AddVacc
+              component: addVacc
             },
             {
               path: "treatSchedule",
               name: "门诊治疗管理",
-              component: TreatSchedule
+              component: treatSchedule
             },
             {
               path: "addTreat",
               name: "新增门诊治疗",
-              component: AddTreat
+              component: addTreat
             },
             {
               path: "updateTreat",
               name: "修改门诊治疗",
-              component: UpdateTreat
+              component: updateTreat
             },
             {
               path: "operateRoom",
               name: "诊疗室管理",
-              component: OperateRoom
+              component: operateRoom
             },
             {
               path: "addOperateR",
               name: "新增诊疗室",
-              component: AddOperateR
+              component: addOperateR
             },
             {
               path: "updateOperateR",
               name: "修改诊疗室",
-              component: UpdateOperateR
+              component: updateOperateR
             },
             {
               path: "nail",
               name: "钉甲管理",
-              component: Nail
+              component: nail
             },
             {
               path: "addNail",
               name: "新增钉甲",
-              component: AddNail
+              component: addNail
             },
             {
               path: "updateNail",
               name: "修改钉甲",
-              component: UpdateNail
+              component: updateNail
             },
             {
               path: "teeth",
               name: "挫牙管理",
-              component: Teeth
+              component: teeth
             },
             {
               path: "addTeeth",
               name: "新增挫牙",
-              component: AddTeeth
+              component: addTeeth
             },
             {
               path: "updateTeeth",
               name: "修改挫牙",
-              component: UpdateTeeth
+              component: updateTeeth
             }
           ]
         },
@@ -348,47 +344,47 @@ export default new Router({
               return c("router-view");
             }
           },
-          children: [        
+          children: [
             {
               path: "assets",
               name: "固定资产类品管理",
-              component: Assets
+              component: assets
             },
             {
               path: "addAssets",
               name: "新增固定资产类品",
-              component: AddAssets
+              component: addAssets
             },
             {
               path: "updateAssets",
               name: "修改固定资产类品",
-              component: UpdateAssets
+              component: updateAssets
             },
             {
               path: "assetsStock",
               name: "固定资产库存管理",
-              component: AssetsStock
+              component: assetsStock
             },
             {
               path: "consume",
               name: "消耗品类品管理",
-              component: Consume
+              component: consume
             },
             {
               path: "consumeStock",
               name: "消耗品库存管理",
-              component: ConsumeStock
+              component: consumeStock
             },
             {
               path: "addConsume",
               name: "新增消耗品类品",
-              component: AddConsume
+              component: addConsume
             },
             {
               path: "updateconsume",
               name: "修改消耗品类品",
-              component: UpdateConsume
-            },      
+              component: updateConsume
+            }
           ]
         },
 
@@ -405,22 +401,22 @@ export default new Router({
             {
               path: "horseAssets",
               name: "固定资产类品管理",
-              component: HorseAssets
+              component: horseAssets
             },
             {
               path: "hAddAssets",
               name: "新增固定资产管理",
-              component: HAddAssets
+              component: hAddAssets
             },
             {
               path: "hUpdateAssets",
               name: "修改固定资产管理",
-              component: HUpdateAssets
+              component: hUpdateAssets
             },
             {
               path: "horseStock",
               name: "固定资产库存管理",
-              component: HorseStock
+              component: horseStock
             }
           ]
         },
@@ -437,13 +433,13 @@ export default new Router({
             {
               path: "horseResume",
               name: "简历查看",
-              component: HorseResume
+              component: horseResume
             },
             {
               path: "resumeDetail",
               name: "简历详情",
-              component: ResumeDetail
-            },
+              component: resumeDetail
+            }
           ]
         },
 
@@ -460,63 +456,53 @@ export default new Router({
             {
               path: "user",
               name: "用户管理",
-              component: User
+              component: user
             },
             {
               path: "addUser",
               name: "新增用户",
-              component: AddUser
+              component: addUser
             },
             {
               path: "updateUser",
               name: "修改用户",
-              component: UpdateUser
+              component: updateUser
             },
             {
               path: "department",
               name: "部门管理",
-              component: Department
+              component: department
             },
             {
               path: "addDepart",
               name: "新增部门",
-              component: AddDepart
+              component: addDepart
             },
             {
               path: "updateDepart",
               name: "修改部门",
-              component: UpdateDepart
+              component: updateDepart
             },
             {
               path: "role",
               name: "角色管理",
-              component: Role
+              component: role
             },
             {
               path: "addRole",
               name: "新增角色",
-              component: AddRole
+              component: addRole
             },
             {
               path: "updateRole",
               name: "修改角色",
-              component: UpdateRole
+              component: updateRole
             },
             {
               path: "dictionary",
               name: "字典管理",
-              component: Dictionary
+              component: dictionary
             },
-            {
-              path: "addDict",
-              name: "新增字典",
-              component: AddDict
-            },
-            {
-              path: "updateDict",
-              name: "修改字典",
-              component: UpdateDict
-            }
           ]
         }
       ]
@@ -532,23 +518,23 @@ export default new Router({
       children: [
         {
           path: "404",
-          name: "Page404",
-          component: Page404
+          name: "page404",
+          component: page404
         },
         {
           path: "500",
-          name: "Page500",
-          component: Page500
+          name: "page500",
+          component: page500
         },
         {
           path: "login",
-          name: "Login",
-          component: Login
+          name: "login",
+          component: login
         },
         {
           path: "register",
-          name: "Register",
-          component: Register
+          name: "register",
+          component: register
         }
       ]
     }

@@ -52,19 +52,15 @@
                     </el-select>
                 </div>
             </div>
-
         </div>
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" @click="addUser" :plain="true">确定</el-button>
         </div>
-
     </div>
 </template>
-
 <script>
 import { DatePicker, Button, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {

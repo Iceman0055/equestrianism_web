@@ -126,8 +126,8 @@
     </div>
 </template>
 <script>
-import { Pagination, Dialog } from "element-ui";
-/* eslint-disable */
+import { Pagination, Dialog, Message } from "element-ui";
+import horseSrv from '../../../services/horse.service.js'
 export default {
   data() {
     return {

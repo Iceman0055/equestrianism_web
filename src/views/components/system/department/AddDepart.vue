@@ -34,14 +34,13 @@
 <script>
 import { DatePicker, Button } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {
             departList: [],
             departName: '',
             departShortName: '',
-            note:'',
+            note: '',
         }
     },
     mounted() {

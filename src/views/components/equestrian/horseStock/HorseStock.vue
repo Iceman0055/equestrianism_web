@@ -161,8 +161,8 @@
     </div>
 </template>
 <script>
-import { Pagination, Dialog } from "element-ui";
-/* eslint-disable */
+import { Pagination, Dialog, Message } from "element-ui";
+import equestrianSrv from '../../../services/equestrian.service.js'
 export default {
     data() {
         return {
@@ -201,7 +201,7 @@ export default {
     },
     components: {
         "el-pagination": Pagination,
-        "el-dialog": Dialog
+        "el-dialog": Dialog,
     },
     methods: {
         deleteData(index) {
@@ -231,7 +231,6 @@ export default {
     }
 };
 </script>
-
 <style lang="scss" scoped>
 .add-delete a {
     margin-left: 5px;
@@ -259,7 +258,7 @@ export default {
 }
 
 .Spinner a {
-    display: inline-block;
+    // display: inline-block;
     width: 35px;
     height: 35px;
     border: 1px solid #d9d9d9;

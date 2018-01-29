@@ -89,8 +89,9 @@
 </template>
 
 <script>
-import { Pagination } from 'element-ui'
-/* eslint-disable */
+import { Pagination, Message } from 'element-ui'
+import horseSrv from '../../../services/horse.service.js'
+
 export default {
     data() {
         return {

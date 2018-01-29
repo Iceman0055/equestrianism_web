@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row ">
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -86,7 +86,6 @@
         </el-dialog>
         <!-- 成员管理 -->
         <el-dialog title="成员管理" :modal-append-to-body="false" :visible.sync="stuffDialog" width="30%" center>
-
             <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
             </el-tree>
             <span slot="footer" class="dialog-footer">
@@ -118,7 +117,6 @@
 <script>
 import { Pagination, Dialog, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {
@@ -205,7 +203,7 @@ export default {
             defaultProps: {
                 children: 'children',
                 label: 'label'
-            } 
+            }
         }
     },
     components: {
@@ -279,15 +277,13 @@ export default {
             this.$refs.tree.setCheckedKeys([]);
         },
         //传递3个参数，传递给 data 属性的数组中该节点所对应的对象、节点本身是否被选中、节点的子树中是否有被选中的节点
-        selectNode(object,selfCheck,childCheck){
-            
+        selectNode(object, selfCheck, childCheck) {
+
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.el-field-input {
-    width: 100%;
-}
+
 </style>

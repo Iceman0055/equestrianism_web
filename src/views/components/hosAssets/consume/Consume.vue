@@ -111,8 +111,8 @@
 </template>
 
 <script>
-import { Pagination } from 'element-ui'
-/* eslint-disable */
+import { Pagination, Message } from 'element-ui'
+import hosAssetsSrv from '../../../services/hosAssets.service.js'
 export default {
     data() {
         return {

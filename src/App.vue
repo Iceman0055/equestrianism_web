@@ -4,7 +4,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 export default {
   name: 'app'
 }
@@ -143,7 +142,8 @@ export default {
 .avatar-uploader-icon {
   // border: 1px solid #ddd;
   font-size: 28px;
-  color: #8c939d; // width: 441px;
+  color: #8c939d; 
+  // width: 441px;
   // height: 200px;
   line-height: 178px;
   text-align: center;

@@ -84,7 +84,6 @@
 <script>
 import { Pagination, Message } from 'element-ui'
 import hospitalSrv from '../../../services/hospital.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {

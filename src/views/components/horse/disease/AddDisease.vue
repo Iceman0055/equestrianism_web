@@ -82,9 +82,9 @@
 </template>
 
 <script>
-import { DatePicker, Button, Select } from 'element-ui'
-import UploadImg from '../../../../components/uploadImg/UploadImg.vue'
-/* eslint-disable */
+import { DatePicker, Button, Select, Message } from 'element-ui'
+import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
+import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {

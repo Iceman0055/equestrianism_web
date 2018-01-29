@@ -65,7 +65,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
+                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
                                                     没有可以显示的订单
                                                 </div> -->
                     <div class="page">
@@ -82,7 +82,6 @@
 <script>
 import { Pagination, Message} from 'element-ui'
 import hospitalSrv from '../../../services/hospital.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {

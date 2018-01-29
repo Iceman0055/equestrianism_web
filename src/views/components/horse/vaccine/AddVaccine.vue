@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import { DatePicker, Button,Select} from 'element-ui'
-/* eslint-disable */
+import { DatePicker, Button, Select, Message } from 'element-ui'
+import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {

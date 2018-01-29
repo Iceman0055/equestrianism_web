@@ -77,7 +77,7 @@
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" v-show="content.orderList.length===0">
-                                                          暂无数据 </div> -->
+                                                                      暂无数据 </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
@@ -189,7 +189,6 @@
                         <div class="label">字典代码：</div>
                         <input type="text" class="form-control input-field" placeholder="字典代码" />
                     </div>
-                    
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -201,12 +200,11 @@
 </template>
 
 <script>
-import { Pagination, Dialog, Message} from 'element-ui'
-/* eslint-disable */
+import { Pagination, Dialog, Message } from 'element-ui'
 export default {
     data() {
         return {
-            updateTextDialog:false,
+            updateTextDialog: false,
             updateDialog: false,
             centerDialogVisible: false,
             currentPage: 1,
@@ -227,7 +225,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input-pointer{
+.input-pointer {
     cursor: pointer;
 }
 </style>

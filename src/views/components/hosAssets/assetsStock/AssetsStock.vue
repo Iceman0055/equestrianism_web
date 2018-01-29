@@ -155,7 +155,7 @@
 </template>
 <script>
 import { Pagination, Dialog } from "element-ui";
-/* eslint-disable */
+import hosAssetsSrv from '../../../services/hosAssets.service.js'
 export default {
     data() {
         return {
@@ -248,7 +248,7 @@ export default {
 }
 
 .Spinner a {
-    display: inline-block;
+    // display: inline-block;
     width: 35px;
     height: 35px;
     border: 1px solid #d9d9d9;

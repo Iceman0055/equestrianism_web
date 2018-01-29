@@ -43,8 +43,8 @@
                     </router-link>
                 </div>
             </div>
-            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row ">
+               <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -60,7 +60,9 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
+                      
                         <tbody>
+                           
                             <tr v-for="item in userList" :key="item">
                                 <td>{{item.jobNumber}}</td>
                                 <td>{{item.realname}}</td>
@@ -115,7 +117,6 @@
 <script>
 import { Pagination, Dialog, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {

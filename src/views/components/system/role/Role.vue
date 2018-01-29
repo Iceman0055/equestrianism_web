@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row">
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -243,7 +243,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-field-input {
-    width: 100%;
-}
+
 </style>
