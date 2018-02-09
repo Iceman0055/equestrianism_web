@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/equestrianismApi": {
-        target:"http://192.168.100.124:8282"
+        target:"http://192.168.100.124:8080"
       }
       
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="content_page setBack">
+  <div class="content_page background">
     <!-- <div class="content-title-reuse">
             <div class="title">日程</div>
           </div>
@@ -120,7 +120,7 @@ export default {
   background-color: #DCEDF5;
   border-bottom: 1px solid #cfd8dc;
 }
-.setBack {
+.background {
   background: #E5ECDA;
 }
 </style>

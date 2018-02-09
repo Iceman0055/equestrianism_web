@@ -107,11 +107,10 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
+                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
                                                     没有可以显示的订单
                                                 </div> -->
                     <div class="page">
-
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
                     </div>

@@ -1,45 +1,87 @@
-import axios from 'axios'
+import axios from "axios";
 export default {
-  get() {
+  assetsList() {
     return axios({
-      url: '',
-      method: 'get',
+      url: "",
+      method: "get",
       params: {}
     }).then(
       resp => {
         if (resp.data.code === 10200) {
-          return Promise.resolve(resp.data)
+          return Promise.resolve(resp.data);
         } else {
-          return Promise.reject(resp.data)
+          return Promise.reject(resp.data);
         }
       },
       err => {
         if (!err.note) {
-          err.note = '网络故障'
+          err.note = "网络故障";
         }
-        return Promise.reject(err)
+        return Promise.reject(err);
       }
-    )
+    );
   },
-  post() {
+  addAssets() {
     return axios({
-      url: ' ',
-      method: 'post',
+      url: " ",
+      method: "post",
       data: {}
     }).then(
-        resp => {
-          if (resp.data.code === 10200) {
-            return Promise.resolve(resp.data)
-          } else {
-            return Promise.reject(resp.data)
-          }
-        },
-        err => {
-          if (!err.note) {
-            err.note = '网络故障'
-          }
-          return Promise.reject(err)
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
         }
-      )
+      },
+      err => {
+        if (!err.note) {
+          err.note = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateAssets() {
+    return axios({
+      url: "",
+      method: "post",
+      data: {}
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.note) {
+          err.note = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteAssets() {
+    return axios({
+      url: "",
+      method: "post",
+      data: {}
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.note) {
+          err.note = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
   }
-}
+};

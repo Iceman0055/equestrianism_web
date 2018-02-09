@@ -32,12 +32,12 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="changeDate" type="date">
+                    <el-date-picker :disabled="useDisabled" value-format="yyyy-MM-dd" format="yyyy-MM-dd" class="el-field-input" size="large" v-model="changeDate" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">出生日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="birthDate" type="date">
+                    <div class="label">出生年：</div>
+                    <el-date-picker :disabled="useDisabled" class="el-field-input" value-format="yyyy" size="large" v-model="birthDate" type="year">
                     </el-date-picker>
                 </div>
 
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">皮下条码：</div>
-                    <input type="text" v-model="barcode" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="barCode" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -104,50 +104,48 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">右侧：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="rightImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="rightImage" name="rightImage" :imageUrl="rightImage">
                     </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">左侧：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="leftImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="leftImage" name="leftImage" :imageUrl="leftImage">
                     </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">上眼线：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="upLineImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="upperEyelinerImage" name="upperEyelinerImage" :imageUrl="upperEyelinerImage">
                     </upload-img>
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">前肢-后视：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="foreImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="foreImage" name="foreImage" :imageUrl="foreImage">
                     </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">颈部仰视：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="neckImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="neckImage" name="neckImage" :imageUrl="neckImage">
                     </upload-img>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">后肢-后视：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="backImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="hindImage" name="hindImage" :imageUrl="hindImage">
                     </upload-img>
                 </div>
             </div>
-
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">唇：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="lipImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" v-model="lipImage" name="lipImage" :imageUrl="lipImage">
                     </upload-img>
                 </div>
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateHorseInfo">确定</el-button>
         </div>
-
     </div>
 </template>
 
@@ -163,7 +161,7 @@ export default {
             changeName: '',
             bornCountry: '',
             height: '',
-            barcode: '',
+            barCode: '',
             color: '',
             head: '',
             leftFore: '',
@@ -172,24 +170,25 @@ export default {
             rightHind: '',
             body: '',
             imageUrl: '',
-            rightImg: '',
-            leftImg: '',
-            upLineImg: '',
-            foreImg: '',
-            neckImg: '',
-            backImg: '',
-            lipImg: '',
+            rightImage: '',
+            leftImage: '',
+            upperEyelinerImage: '',
+            foreImage: '',
+            neckImage: '',
+            hindImage: '',
+            lipImage: '',
             changeDate: '',
             birthDate: "",
             useDisabled: false,
             gender: '',
             files: {},
+            updateInfo: {},
             genderOptions: [{
-                value: '1',
-                label: '男'
+                value: '公',
+                label: '公'
             }, {
-                value: '2',
-                label: '女'
+                value: '母',
+                label: '母'
             }],
         }
     },
@@ -201,23 +200,86 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-        this.$el.addEventListener('animationend',this.resizeSelect)
+        this.$el.addEventListener('animationend', this.resizeSelect)
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            horseSrv.getHorseDetail(to.query.horseId).then(resp => {
+                vm.passport = resp.data.passportNumber
+                vm.horseName = resp.data.horseName
+                vm.changeName = resp.data.usedName
+                vm.bornCountry = resp.data.country
+                vm.changeDate = resp.data.changeDate
+                vm.birthDate = resp.data.birthday
+                vm.height = resp.data.height
+                vm.gender = resp.data.sex
+                vm.barCode = resp.data.barCode
+                vm.color = resp.data.coatColour
+                vm.head = resp.data.headDesc
+                vm.leftFore = resp.data.leftForeDesc
+                vm.rightFore = resp.data.rightForeDesc
+                vm.leftHind = resp.data.leftHindDesc
+                vm.rightHind = resp.data.rightHindDesc
+                vm.body = resp.data.bodyDesc
+                vm.rightImage = resp.data.rightImage 
+                vm.leftImage = resp.data.leftImage
+                vm.upperEyelinerImage = resp.data.upperEyelinerImage
+                vm.foreImage = resp.data.foreImage
+                vm.neckImage = resp.data.neckImage
+                vm.hindImage = resp.data.hindImage
+                vm.lipImage = resp.data.lipImage
+            }, err => {
+                vm.$message.error(err.note)
+            })
+        })
     },
     methods: {
-        resizeSelect(){
+        resizeSelect() {
             this.$refs.selectInput.resetInputWidth()
         },
         uploadFun(file) {
             this.files[file.name] = file.file
         },
-        open() {
+        updateHorseInfo() {
             var formData = new FormData()
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            //上传的是formData,content-Type要修改为formData
-            console.log(formData)
-            this.$message.success('修改成功')
+            for (let key in this.horseInfo) {
+                formData.append(key, this.horseInfo[key])
+            }
+            if (!(this.passport && this.horseName && this.changeName && this.bornCountry &&
+                this.changeDate && this.birthDate && this.height && this.gender
+                && this.barCode && this.coatColour && this.head
+                && this.leftFore && this.rightFore && this.leftHind
+                && this.rightHind && this.body && formData)) {
+                this.$message.error('马匹信息不能为空！')
+                return;
+            }
+            this.updateInfo = {
+                passportNumber: this.passport,
+                horseName: this.horseName,
+                usedName: this.changeName,
+                country: this.bornCountry,
+                changeDate: this.changeDate,
+                birthday: this.birthDate,
+                height: this.height,
+                sex: this.gender,
+                barCode: this.barCode,
+                color: this.coatColour,
+                headDesc: this.head,
+                leftForeDesc: this.leftFore,
+                rightForeDesc: this.rightFore,
+                leftHindDesc: this.leftHind,
+                rightHindDesc: this.rightHind,
+                bodyDesc: this.body,
+            }
+            horseSrv.updateHorseInfo(formData).then(resp => {
+                this.$message.success('修改马匹成功')
+                this.$router.push('/horse/baseInfo')
+            }, err => {
+                this.$message.error(err.note)
+            })
         },
     }
 }

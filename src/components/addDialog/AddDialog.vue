@@ -149,7 +149,7 @@ export default {
 }
 
 .Spinner a {
-    display: inline-block;
+    // display: inline-block;
     width: 35px;
     height: 35px;
     border: 1px solid #d9d9d9;

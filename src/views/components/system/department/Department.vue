@@ -8,7 +8,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">部门名称：</div>
                     <el-select size="large" v-model="departName" class="el-field-input" placeholder="请选择部门名称">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentName">
                         </el-option>
                     </el-select>
                 </div>

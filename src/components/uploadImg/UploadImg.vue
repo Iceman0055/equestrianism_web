@@ -1,6 +1,6 @@
 <template>
     <el-upload class="avatar-uploader" :disabled="useDisabled" action="" :auto-upload="false" :on-change="submitFile" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <img v-if="previewUrl" :src="previewUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
 </template>
@@ -8,36 +8,46 @@
 <script>
 import { Upload } from 'element-ui'
 export default {
-    props:['imageUrl','useDisabled', 'name'], 
+    props: ['imageUrl', 'useDisabled', 'name'],
     data() {
         return {
-            disabled:false
+            url: undefined,
+            disabled: false
         }
     },
-    components:{
-        "el-upload":Upload
+    components: {
+        "el-upload": Upload
     },
-    methods:{
-          preview(file) {
+    computed: {
+        previewUrl() {
+            if (this.url) {
+                return this.url;
+            }
+            if (this.imageUrl.indexOf('data:image', 0) == -1) {
+                return `data:image/jpeg;base64,${this.imageUrl}`;
+            }
+        }
+    },
+    methods: {
+        preview(file) {
             var fr = new FileReader()
             fr.onloadend = () => {
-                this.imageUrl = fr.result;
+                this.url = fr.result;
             }
             fr.readAsDataURL(file.raw)
         },
         submitFile(file) {
-            console.log(file)
             // var formData = new FormData(); //调用接口上传data:formData
             // formData.append('file', file.raw);
             this.preview(file);
             this.$emit('uploadFun', {
-                name: this.name, 
+                name: this.name,
                 file
             })
             // console.log(formData)
         },
         handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+            this.url = URL.createObjectURL(file.raw);
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';

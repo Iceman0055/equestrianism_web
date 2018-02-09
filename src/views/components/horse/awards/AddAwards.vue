@@ -103,6 +103,7 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
+            //调用接口上传data:formData
             //上传的是formData,content-Type要修改为formData
             console.log(formData)
             this.$message.success('修改成功')
