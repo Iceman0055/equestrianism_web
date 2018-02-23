@@ -216,21 +216,12 @@ export default {
             this.$refs.selectInput.resetInputWidth();
         },
         uploadFun(file) {
-            this.files[file.name] = file.file
+            this.files[file.name] = file.file.raw;
         },
         addHorseInfo() {
-            var formData = new FormData()
-            for (let key in this.files) {
-                formData.append(key, this.files[key])
-            }
-            for (let key in this.horseInfo) {
-                formData.append(key, this.horseInfo[key])
-            }
             if (!(this.passport && this.horseName && this.changeName && this.bornCountry &&
                 this.changeDate && this.birthDate && this.height && this.gender
-                && this.barCode && this.coatColour && this.head
-                && this.leftFore && this.rightFore && this.leftHind
-                && this.rightHind && this.body && formData)) {
+                && this.barCode && this.color )) {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
@@ -244,7 +235,7 @@ export default {
                 height: this.height,
                 sex: this.gender,
                 barCode: this.barCode,
-                color: this.coatColour,
+                coatColour: this.color,
                 headDesc: this.head,
                 leftForeDesc: this.leftFore,
                 rightForeDesc: this.rightFore,
@@ -252,16 +243,6 @@ export default {
                 rightHindDesc: this.rightHind,
                 bodyDesc: this.body,
             }
-
-            horseSrv.addHorseInfo(formData).then((resp) => {
-                this.$message.success('添加马匹成功')
-                this.$router.push('/horse/baseInfo')
-            }, err => {
-                this.$message.error(err.note)
-            })
-
-        },
-        open() {
             var formData = new FormData()
             for (let key in this.files) {
                 formData.append(key, this.files[key])
@@ -269,8 +250,12 @@ export default {
             for (let key in this.horseInfo) {
                 formData.append(key, this.horseInfo[key])
             }
-            //上传的是formData,content-Type要修改为formData
-            console.log(formData)
+            horseSrv.addHorseInfo(formData).then((resp) => {
+                this.$message.success('添加马匹成功')
+                this.$router.push('/horse/baseInfo')
+            }, err => {
+                this.$message.error(err.note)
+            })
 
         },
     }

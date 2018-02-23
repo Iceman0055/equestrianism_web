@@ -72,6 +72,7 @@
     "karma-webpack": "2.0.3",
     "lolex": "^1.5.2",
     "mocha": "3.4.1",
+    "moment": "^2.20.1",
     "nightwatch": "0.9.15",
     "node-sass": "^4.7.2",
     "opn": "5.0.0",

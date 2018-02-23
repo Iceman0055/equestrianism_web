@@ -134,5 +134,50 @@ export default {
         return Promise.reject(err);
       }
     );
-  }
+  },
+  addAwardsInfo(awardsInfo) {
+    return axios({
+      url: "",
+      method: "post",
+      data: awardsInfo,
+      headers: { "Content-Type": "multipart/form-data" }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.note) {
+          err.note = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateAwardsInfo(awardsInfo) {
+    return axios({
+      url: "",
+      method: "post",
+      data: awardsInfo,
+      headers: { "Content-Type": "multipart/form-data" }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.note) {
+          err.note = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+
 };

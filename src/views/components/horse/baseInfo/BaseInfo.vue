@@ -52,7 +52,7 @@
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.sex}}</td>
                                 <td>{{item.usedName}}</td>
-                                <td>{{item.changeDate}}</td>
+                                <td>{{item.changeDate | filterDate}}</td>
                                 <td>{{item.birthday}}</td>
                                 <td>{{item.country}}</td>
                                 <td>{{item.height}}</td>

@@ -23,8 +23,11 @@ export default {
             if (this.url) {
                 return this.url;
             }
-            if (this.imageUrl.indexOf('data:image', 0) == -1) {
-                return `data:image/jpeg;base64,${this.imageUrl}`;
+            let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}(=)?|[A-Za-z0-9+/]{2}(==)?|[A-Za-z0-9+/]{1}(===)?)$/
+            if (reg.test(this.imageUrl)) {
+                if (this.imageUrl.indexOf('data:image', 0) == -1) {
+                    return `data:image/jpeg;base64,${this.imageUrl}`;
+                }
             }
         }
     },

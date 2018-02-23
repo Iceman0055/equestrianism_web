@@ -9,6 +9,9 @@ function resolve (dir) {
 }
 
 module.exports = {
+  performance: {
+    hints: false
+  },
   entry: {
     app: './src/main.js'
   },

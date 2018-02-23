@@ -17,8 +17,11 @@
                     <input type="text" v-model="passport" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">马名：</div>
-                    <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field" />
+                    <div class="label">马匹名称：</div>
+                    <el-select size="large" v-model="horseName" :disabled="useDisabled" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
@@ -156,6 +159,7 @@ import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
+            horseId: '',
             passport: '',
             horseName: '',
             changeName: '',
@@ -190,6 +194,7 @@ export default {
                 value: '母',
                 label: '母'
             }],
+            horseInfoName: []
         }
     },
     components: {
@@ -204,7 +209,14 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.note)
+            })
+
             horseSrv.getHorseDetail(to.query.horseId).then(resp => {
+                vm.horseId = to.query.horseId
                 vm.passport = resp.data.passportNumber
                 vm.horseName = resp.data.horseName
                 vm.changeName = resp.data.usedName
@@ -221,7 +233,7 @@ export default {
                 vm.leftHind = resp.data.leftHindDesc
                 vm.rightHind = resp.data.rightHindDesc
                 vm.body = resp.data.bodyDesc
-                vm.rightImage = resp.data.rightImage 
+                vm.rightImage = resp.data.rightImage
                 vm.leftImage = resp.data.leftImage
                 vm.upperEyelinerImage = resp.data.upperEyelinerImage
                 vm.foreImage = resp.data.foreImage
@@ -238,25 +250,17 @@ export default {
             this.$refs.selectInput.resetInputWidth()
         },
         uploadFun(file) {
-            this.files[file.name] = file.file
+            this.files[file.name] = file.file.raw
         },
         updateHorseInfo() {
-            var formData = new FormData()
-            for (let key in this.files) {
-                formData.append(key, this.files[key])
-            }
-            for (let key in this.horseInfo) {
-                formData.append(key, this.horseInfo[key])
-            }
             if (!(this.passport && this.horseName && this.changeName && this.bornCountry &&
                 this.changeDate && this.birthDate && this.height && this.gender
-                && this.barCode && this.coatColour && this.head
-                && this.leftFore && this.rightFore && this.leftHind
-                && this.rightHind && this.body && formData)) {
+                && this.barCode && this.color)) {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
             this.updateInfo = {
+                horseId: this.horseId,
                 passportNumber: this.passport,
                 horseName: this.horseName,
                 usedName: this.changeName,
@@ -266,14 +270,23 @@ export default {
                 height: this.height,
                 sex: this.gender,
                 barCode: this.barCode,
-                color: this.coatColour,
+                coatColour: this.color,
                 headDesc: this.head,
                 leftForeDesc: this.leftFore,
                 rightForeDesc: this.rightFore,
                 leftHindDesc: this.leftHind,
                 rightHindDesc: this.rightHind,
                 bodyDesc: this.body,
+
             }
+            var formData = new FormData()
+            for (let key in this.files) {
+                formData.append(key, this.files[key])
+            }
+            for (let key in this.updateInfo) {
+                formData.append(key, this.updateInfo[key])
+            }
+            console.log(1)
             horseSrv.updateHorseInfo(formData).then(resp => {
                 this.$message.success('修改马匹成功')
                 this.$router.push('/horse/baseInfo')

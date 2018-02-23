@@ -150,7 +150,7 @@ export default {
 }
 
 .avatar {
-  width: 441px;
+  width: 100%;
   height: 180px;
   display: block;
 }

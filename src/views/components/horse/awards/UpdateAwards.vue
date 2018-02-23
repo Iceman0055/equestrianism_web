@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">照片：</div>
-                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" :imageUrl="horseImg">
+                    <upload-img v-on:uploadFun="uploadFun" :useDisabled="useDisabled" name="horseImg" :imageUrl="horseImg">
                     </upload-img>
                 </div>
             </div>
@@ -100,17 +100,38 @@ export default {
             this.$refs.selectInput.resetInputWidth()
         },
         uploadFun(file) {
-            this.files[file.name] = file.file
+            this.files[file.name] = file.file.raw
         },
-        open() {
+      updateAwards(){      
+            if (!(this.gameName && this.awardsTime && this.address && this.awards &&
+                this.penalty && this.awardParty && this.horse && this.horseImg)) {
+                this.$message.error('获奖信息不能为空！')
+                return;
+            }
+            this.awardsInfo = {
+                gameName: this.gameName,
+                awardsTime: this.awardsTime,
+                address: this.address,
+                awards: this.awards,
+                penalty: this.penalty,
+                awardParty: this.awardParty,
+                horse: this.horse,
+            }
             var formData = new FormData()
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            //上传的是formData,content-Type要修改为formData
-            console.log(formData)
-            this.$message.success('修改成功')
-        },
+            for (let key in this.awardsInfo) {
+                formData.append(key, this.awardsInfo[key])
+            }
+            horseSrv.updateAwardsInfo(formData).then((resp) => {
+                this.$message.success('更新获奖信息成功')
+                this.$router.push('/horse/awards')
+            }, err => {
+                this.$message.error(err.note)
+            }) 
+        
+        }
     }
 }
 </script>

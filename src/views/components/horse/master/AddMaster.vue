@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <el-select ref="selectInput" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectSex" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                    <el-select size="large" v-model="horse" class="el-field-input" placeholder="请选择">
+                    <el-select ref="selectHorse" size="large" v-model="horse" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -68,11 +68,11 @@ export default {
                 label: '马匹2'
             }],
             genderOptions: [{
-                value: '1',
-                label: '男'
+                value: '公',
+                label: '公'
             }, {
-                value: '2',
-                label: '女'
+                value: '母',
+                label: '母'
             }],
         }
     },
@@ -82,11 +82,15 @@ export default {
         "el-select": Select
     },
     mounted(){
-        this.$el.addEventListener('animationend',this.resizeSelect)
+        this.$el.addEventListener('animationend',this.resizeSex)
+        this.$el.addEventListener('animationend',this.resizeHorse)
     },
     methods: {
-        resizeSelect(){
-            this.$refs.selectInput.resetInputWidth()
+        resizeSex(){
+            this.$refs.selectSex.resetInputWidth()
+        },
+         resizeHorse(){
+            this.$refs.selectHorse.resetInputWidth()
         },
         open() {
             this.$message.success('修改成功')
