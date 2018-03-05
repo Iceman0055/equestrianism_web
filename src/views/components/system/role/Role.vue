@@ -178,7 +178,7 @@ export default {
                 vm.roleList = resp.data.roleInfoList
             }, (err) => {
                 vm.showLoading = false
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
 
         })
@@ -193,7 +193,7 @@ export default {
                 this.roleList = resp.data.roleInfoList
             }, (err) => {
                 this.showLoading = false
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         deleteInfo(roleId) {
@@ -208,7 +208,7 @@ export default {
                 this.deleteDialog = false
                 this.getRole()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         statusInfo(roleId, status) {
@@ -222,7 +222,7 @@ export default {
                 this.statusDialog = false
                 this.getRole()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         //全选

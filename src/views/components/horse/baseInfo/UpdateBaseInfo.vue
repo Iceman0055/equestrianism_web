@@ -51,9 +51,9 @@
                     <input type="text" v-model="height" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">性别：</div>
+                    <div class="label">马匹性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in sexOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
                         </el-option>
                     </el-select>
                 </div>
@@ -65,7 +65,10 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
-                    <input type="text" v-model="color" :disabled="useDisabled" class="form-control input-field" />
+                    <el-select ref="selectColor" size="large" v-model="color" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in colorOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
+                        </el-option>
+                    </el-select>
                 </div>
             </div>
             <div class="baseInfo-title">
@@ -156,6 +159,7 @@
 import { DatePicker, Button, Upload, Select, Message } from 'element-ui'
 import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
 import horseSrv from '../../../services/horse.service.js'
+import dicSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -187,14 +191,14 @@ export default {
             gender: '',
             files: {},
             updateInfo: {},
-            genderOptions: [{
-                value: '公',
-                label: '公'
-            }, {
-                value: '母',
-                label: '母'
-            }],
-            horseInfoName: []
+            convertSex: {
+                '1': '公',
+                '2': '母'
+            },
+            sexOptions: [],
+            colorOptions: [],
+            horseInfoName: [],
+            convertColor: {}
         }
     },
     components: {
@@ -206,13 +210,14 @@ export default {
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeSelect)
+        this.$el.addEventListener('animationend', this.resizeColor)
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             horseSrv.getHorseName().then((resp) => {
                 vm.horseInfoName = resp.data.horseList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
 
             horseSrv.getHorseDetail(to.query.horseId).then(resp => {
@@ -224,7 +229,7 @@ export default {
                 vm.changeDate = resp.data.changeDate
                 vm.birthDate = resp.data.birthday
                 vm.height = resp.data.height
-                vm.gender = resp.data.sex
+                vm.gender = vm.convertSex[resp.data.sex]
                 vm.barCode = resp.data.barCode
                 vm.color = resp.data.coatColour
                 vm.head = resp.data.headDesc
@@ -241,13 +246,36 @@ export default {
                 vm.hindImage = resp.data.hindImage
                 vm.lipImage = resp.data.lipImage
             }, err => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
+            })
+            dicSrv.dictionary().then(resp => {
+                // vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
+                // vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
+                // let len = vm.colorOptions.length
+
+                let dictionaryInfoList = resp.data.dictionaryInfoList;
+                // let dics = {
+                //     HORSE_SEX: {
+                //         "01": '公',
+                //         "02": '母'
+                //     }
+                // };
+
+                // for (let i = 0; i < len; i++) {
+                //     vm.convertColor =  vm.colorOptions[i].itemCode + ':' + vm.colorOptions[i].itemValue 
+                // }
+                console.log(vm.convertColor)
+            }, err => {
+                vm.$message.error(err.msg)
             })
         })
     },
     methods: {
         resizeSelect() {
             this.$refs.selectInput.resetInputWidth()
+        },
+        resizeColor() {
+            this.$refs.selectColor.resetInputWidth()
         },
         uploadFun(file) {
             this.files[file.name] = file.file.raw
@@ -277,7 +305,6 @@ export default {
                 leftHindDesc: this.leftHind,
                 rightHindDesc: this.rightHind,
                 bodyDesc: this.body,
-
             }
             var formData = new FormData()
             for (let key in this.files) {
@@ -286,12 +313,11 @@ export default {
             for (let key in this.updateInfo) {
                 formData.append(key, this.updateInfo[key])
             }
-            console.log(1)
             horseSrv.updateHorseInfo(formData).then(resp => {
                 this.$message.success('修改马匹成功')
                 this.$router.push('/horse/baseInfo')
             }, err => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
     }

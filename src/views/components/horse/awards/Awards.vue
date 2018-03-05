@@ -15,10 +15,13 @@
                 </div>
                 <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
+                    <el-select size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-primary search-btn">搜索</button>
+                    <button @click="getAwardsList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <router-link class="btn btn-success" :to="'/horse/addAwards'">
@@ -50,7 +53,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                                     query: { disable: 1,}}"> 查看</router-link>
+                                                                 query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateAwards'">
                                         修改
                                     </router-link>
@@ -66,7 +69,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                                     query: { disable: 1,}}"> 查看</router-link>
+                                                                 query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateAwards'">
                                         修改
                                     </router-link>
@@ -82,7 +85,7 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                                     query: { disable: 1,}}"> 查看</router-link>
+                                                                 query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/horse/updateAwards'">
                                         修改
                                     </router-link>
@@ -91,27 +94,23 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" v-show="content.orderList.length===0">
-                                                    没有可以显示的订单
-                                                </div> -->
+                    <!-- <div class="list-empty" v-show="awardsList.length===0">
+                                                                暂无数据
+                                                            </div> -->
                     <div class="page">
-                        <el-pagination background layout="prev, pager, next" :total="1000">
+                        <el-pagination @current-change="getAwardsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
-                    <!-- <div class="page">
-                                <el-pagination @current-change="getUser" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
-                                </el-pagination>
-                            </div> -->
                 </div>
             </div>
         </div>
         <!-- <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="20%" center>
-                   <div class="text-center"><span>确定要删除吗?</span></div>
-                    <span slot="footer" class="dialog-footer">
-                        <el-button @click="centerDialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-                    </span>
-                </el-dialog> -->
+                               <div class="text-center"><span>确定要删除吗?</span></div>
+                                <span slot="footer" class="dialog-footer">
+                                    <el-button @click="centerDialogVisible = false">取 消</el-button>
+                                    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+                                </span>
+                            </el-dialog> -->
     </div>
 </template>
 
@@ -122,8 +121,45 @@ export default {
     data() {
         return {
             centerDialogVisible: false,
-            currentPage: 1
+            currentPage: 1,
+            totalRecorders: 1,
+            pageRecorders: 10,
+            horseInfoName: [],
+            horseName: '',
+            showLoading: false
         }
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.showLoading = true
+            horseSrv.awardsList(vm.currentPage, vm.pageRecorders).then((resp) => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.awardsList = resp.data.awardsList
+            }, (err) => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
+    methods: {
+        getAwardsList(currentPage = this.currentPage) {
+            this.showLoading = true
+            horseSrv.awardsList(currentPage, this.pageRecorders).then((resp) => {
+                this.showLoading = false
+                this.currentPage = currentPage
+                this.totalRecorders = resp.data.totalRecorders
+                this.awardsList = resp.data.awardsList
+            }, (err) => {
+                this.showLoading = false
+                this.$message.error(err.msg)
+            })
+        },
     },
     components: {
         'el-pagination': Pagination,

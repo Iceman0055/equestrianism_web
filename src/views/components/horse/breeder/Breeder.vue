@@ -95,8 +95,25 @@ import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
-            currentPage: 1
+            currentPage: 1,
+            totalRecorders:1,
+            pageRecorders:10,
+            showLoading:false,
+            breederList:[]
         }
+    },
+    beforeRouteEnter:function(to,from,next){
+        next(vm=>{
+             vm.showLoading = true
+            horseSrv.breederList(vm.currentPage, vm.pageRecorders).then((resp) => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.breederList = resp.data.breederList
+            }, (err) => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
+        })
     },
     components: {
         'el-pagination': Pagination,

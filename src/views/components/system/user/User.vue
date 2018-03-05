@@ -162,17 +162,17 @@ export default {
                 vm.userList = resp.data.userInfoList
             }, (err) => {
                 vm.showLoading = false
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getRole().then((resp) => {
                 vm.roleList = resp.data.roleList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getDepart().then((resp) => {
                 vm.departList = resp.data.departmentList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
     },
@@ -186,7 +186,7 @@ export default {
                 this.userList = resp.data.userInfoList
             }, (err) => {
                 this.showLoading = false
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         deleteInfo(userId) {
@@ -201,7 +201,7 @@ export default {
                 this.deleteDialog = false
                 this.getUser()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         statusInfo(userId, status) {
@@ -215,7 +215,7 @@ export default {
                 this.statusDialog = false
                 this.getUser()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         }
     }

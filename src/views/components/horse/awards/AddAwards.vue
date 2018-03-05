@@ -39,8 +39,8 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                    <el-select ref="selectInput" size="large" v-model="horse" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectInput" size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
                         </el-option>
                     </el-select>
                 </div>
@@ -57,7 +57,7 @@
     </div>
 </template>
 <script>
-import { DatePicker, Button, Upload, Select, Message} from "element-ui";
+import { DatePicker, Button, Upload, Select, Message } from "element-ui";
 import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
 import horseSrv from '../../../services/horse.service.js'
 export default {
@@ -73,14 +73,9 @@ export default {
             selectValue: '',
             horse: "",
             files: {},
-            awardsInfo:{},
-            horseOptions: [{
-                value: '1',
-                label: '马匹1'
-            }, {
-                value: '2',
-                label: '马匹2'
-            }],
+            awardsInfo: {},
+            horseName: '',
+            horseInfoName: [],
         };
     },
     components: {
@@ -92,6 +87,15 @@ export default {
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSelect)
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
     methods: {
         resizeSelect() {
             this.$refs.selectInput.resetInputWidth()
@@ -99,7 +103,7 @@ export default {
         uploadFun(file) {
             this.files[file.name] = file.file.raw
         },
-        addAwards(){      
+        addAwards() {
             if (!(this.gameName && this.awardsTime && this.address && this.awards &&
                 this.penalty && this.awardParty && this.horse && this.horseImg)) {
                 this.$message.error('获奖信息不能为空！')
@@ -125,14 +129,12 @@ export default {
                 this.$message.success('添加获奖信息成功')
                 this.$router.push('/horse/awards')
             }, err => {
-                this.$message.error(err.note)
-            }) 
-        
+                this.$message.error(err.msg)
+            })
         }
     }
 };
 </script>
-
 <style lang="scss" scoped>
 
 </style>

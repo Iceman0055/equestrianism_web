@@ -55,7 +55,7 @@ export default {
             systemSrv.getDepart().then((resp) => {
                 vm.departList = resp.data.departmentList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
     },
@@ -74,7 +74,7 @@ export default {
                 this.$message.success('添加部门成功')
                 this.$router.push('/system/department')
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         resizeDepart() {

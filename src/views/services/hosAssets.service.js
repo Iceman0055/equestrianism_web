@@ -14,8 +14,8 @@ export default {
         }
       },
       err => {
-        if (!err.note) {
-          err.note = "网络故障";
+        if (!err.msg) {
+          err.msg = "网络故障";
         }
         return Promise.reject(err);
       }
@@ -35,8 +35,8 @@ export default {
         }
       },
       err => {
-        if (!err.note) {
-          err.note = "网络故障";
+        if (!err.msg) {
+          err.msg = "网络故障";
         }
         return Promise.reject(err);
       }
@@ -56,8 +56,8 @@ export default {
         }
       },
       err => {
-        if (!err.note) {
-          err.note = "网络故障";
+        if (!err.msg) {
+          err.msg = "网络故障";
         }
         return Promise.reject(err);
       }
@@ -77,8 +77,8 @@ export default {
         }
       },
       err => {
-        if (!err.note) {
-          err.note = "网络故障";
+        if (!err.msg) {
+          err.msg = "网络故障";
         }
         return Promise.reject(err);
       }

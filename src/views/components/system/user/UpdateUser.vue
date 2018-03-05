@@ -111,17 +111,17 @@ export default {
                 vm.contact = resp.data.contactWay
                 vm.email = resp.data.email
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getRole().then((resp) => {
                 vm.roleList = resp.data.roleList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getDepart().then((resp) => {
                 vm.departList = resp.data.departmentList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
 
@@ -148,7 +148,7 @@ export default {
                 this.$message.success('更新用户成功')
                 this.$router.push('/system/user')
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         resizeDepart() {

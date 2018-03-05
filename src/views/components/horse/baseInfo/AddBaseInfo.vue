@@ -52,7 +52,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item in sexOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
                         </el-option>
                     </el-select>
                 </div>
@@ -65,7 +65,10 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
-                    <input type="text" v-model="color" class="form-control input-field" placeholder="请输入马的毛色" />
+                    <el-select ref="selectColor" size="large" v-model="color" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in colorOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
+                        </el-option>
+                    </el-select>
                 </div>
             </div>
             <div class="baseInfo-title">
@@ -155,6 +158,7 @@
 import { DatePicker, Button, Select, Message } from 'element-ui'
 import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
 import horseSrv from '../../../services/horse.service.js'
+import dicSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -183,14 +187,9 @@ export default {
             neckImage: '',
             hindImage: '',
             lipImage: '',
-            genderOptions: [{
-                value: '公',
-                label: '公'
-            }, {
-                value: '母',
-                label: '母'
-            }],
-            horseInfoName: []
+            horseInfoName: [],
+            colorOptions: [],
+            sexOptions:[]
         }
     },
     components: {
@@ -201,13 +200,20 @@ export default {
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSelect);
+        this.$el.addEventListener('animationend', this.resizeColor)
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             horseSrv.getHorseName().then((resp) => {
                 vm.horseInfoName = resp.data.horseList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
+            })
+            dicSrv.dictionary().then(resp => {
+                vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
+                vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
+            }, err => {
+                vm.$message.error(err.msg)
             })
         })
     },
@@ -215,13 +221,16 @@ export default {
         resizeSelect() {
             this.$refs.selectInput.resetInputWidth();
         },
+          resizeColor() {
+            this.$refs.selectColor.resetInputWidth()
+        },
         uploadFun(file) {
             this.files[file.name] = file.file.raw;
         },
         addHorseInfo() {
             if (!(this.passport && this.horseName && this.changeName && this.bornCountry &&
                 this.changeDate && this.birthDate && this.height && this.gender
-                && this.barCode && this.color )) {
+                && this.barCode && this.color)) {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
@@ -254,7 +263,7 @@ export default {
                 this.$message.success('添加马匹成功')
                 this.$router.push('/horse/baseInfo')
             }, err => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
 
         },

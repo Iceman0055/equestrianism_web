@@ -15,8 +15,8 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <el-select ref="selectInput" size="large" :disabled="useDisabled" v-model="gender" class="el-field-input">
-                        <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectInput" size="large" :disabled="useDisabled" v-model="sex" class="el-field-input">
+                        <el-option v-for="item in sexOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
                         </el-option>
                     </el-select>
                 </div>
@@ -36,15 +36,15 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                    <el-select size="large" :disabled="useDisabled" v-model="horse" class="el-field-input">
-                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" :disabled="useDisabled" v-model="horseName" class="el-field-input">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateMaster">确定</el-button>
         </div>
     </div>
 </template>
@@ -52,49 +52,88 @@
 <script>
 import { DatePicker, Button, Select, Message } from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
+import dicSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            career:'',
-            contact:'',
-            address:'',
-            name:'',
-            gender:'',
-            horse:'',
+            career: '',
+            contact: '',
+            address: '',
+            name: '',
+            sex: '',
+            horseName: '',
             useDisabled: false,
-            horseOptions: [{
-                value: '选项1',
-                label: '马匹1'
-            }, {
-                value: '选项2',
-                label: '马匹2'
-            }],
-            genderOptions: [{
-                value: '1',
-                label: '男'
-            }, {
-                value: '2',
-                label: '女'
-            }],
+            horseInfoName: [],
+            sexOptions: [],
+            masterInfo: {},
+            hostId: '',
+            convertSex: {
+                '1': '男',
+                '2': '女'
+            },
         }
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-         this.$el.addEventListener('animationend',this.resizeSelect)
+        this.$el.addEventListener('animationend', this.resizeSelect)
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.hostId = to.query.hostId
+            horseSrv.getMasterDetail(to.query.hostId).then(resp => {
+                vm.name = resp.data.hostName,
+                    vm.sex = vm.convertSex[resp.data.sex],
+                    vm.career = resp.data.occupation,
+                    vm.contact = resp.data.contactWay,
+                    vm.address = resp.data.address,
+                    vm.horseName = resp.data.horseId
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+            dicSrv.dictionary().then(resp => {
+                vm.sexOptions = resp.data.dictionaryInfoList[2].dictionaryDetailList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+
+        })
+    },
+    methods: {
+        resizeSelect() {
+            this.$refs.selectInput.resetInputWidth()
+        },
+        updateMaster() {
+            if (!(this.name && this.sex && this.career && this.contact && this.address && this.horseName)) {
+                this.$message.error('马主信息不能为空！')
+                return;
+            }
+            this.masterInfo = {
+                hostId: this.hostId,
+                hostName: this.name,
+                sex: this.sex,
+                occupation: this.career,
+                contactWay: this.contact,
+                address: this.address,
+                horseId: this.horseName,
+            }
+            horseSrv.updateMaster(this.masterInfo).then((resp) => {
+                this.$message.success('修改马主信息成功')
+                this.$router.push('/horse/master')
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
         "el-select": Select
     },
-    methods: {
-          resizeSelect(){
-            this.$refs.selectInput.resetInputWidth()
-        },
-        open() {
-            this.$message.success('修改成功')
-        },
-    }
 }
 </script>
 

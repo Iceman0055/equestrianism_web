@@ -27,14 +27,14 @@
                 </div>
             </div>
             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row ">
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
                                 <th>护照号码</th>
                                 <th>马名</th>
-                                <th>性别</th>
+                                <th>马匹性别</th>
                                 <th>变更马名</th>
                                 <th>变更日期</th>
                                 <th>出生年</th>
@@ -50,7 +50,7 @@
                             <tr v-for="item in horseList" :key="item">
                                 <td>{{item.passportNumber}}</td>
                                 <td>{{item.horseName}}</td>
-                                <td>{{item.sex}}</td>
+                                <td>{{sexOptions[item.sex]}}</td>
                                 <td>{{item.usedName}}</td>
                                 <td>{{item.changeDate | filterDate}}</td>
                                 <td>{{item.birthday}}</td>
@@ -122,6 +122,10 @@ export default {
                 "1": "启用",
                 "0": "停用"
             },
+            sexOptions: {
+                '1': '公',
+                '2': '母'
+            },
         };
     },
     components: {
@@ -137,12 +141,12 @@ export default {
                 vm.horseList = resp.data.horseList
             }, (err) => {
                 vm.showLoading = false
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             horseSrv.getHorseName().then((resp) => {
                 vm.horseInfoName = resp.data.horseList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
     },
@@ -156,7 +160,7 @@ export default {
                 this.horseList = resp.data.horseList
             }, (err) => {
                 this.showLoading = false
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         deleteInfo(horseId) {
@@ -171,7 +175,7 @@ export default {
                 this.deleteDialog = false
                 this.getHorseList()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         statusInfo(horseId, status) {
@@ -185,7 +189,7 @@ export default {
                 this.statusDialog = false
                 this.getHorseList()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
     }

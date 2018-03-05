@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateBreeder">确定</el-button>
         </div>
     </div>
 </template>
@@ -80,12 +80,12 @@ export default {
             ],
             genderOptions: [
                 {
-                    value: "1",
-                    label: "男"
+                    value: "公",
+                    label: "公"
                 },
                 {
-                    value: "2",
-                    label: "女"
+                    value: "母",
+                    label: "母"
                 }
             ]
         }
@@ -105,17 +105,37 @@ export default {
             this.$refs.selectInput.resetInputWidth()
         },
         uploadFun(file) {
-            this.files[file.name] = file.file
+            this.files[file.name] = file.file.raw
         },
-        open() {
+        updateBreeder() {
+            if (!(this.name && this.gender && this.skill && this.matchHorse &&
+                this.workTime && this.awardParty && this.horse && this.horseImg)) {
+                this.$message.error('饲养员信息不能为空！')
+                return;
+            }
+            this.breederInfo = {
+                name: this.name,
+                gender: this.gender,
+                skill: this.skill,
+                matchHorse: this.matchHorse,
+                workTime: this.workTime,
+                awardParty: this.awardParty,
+                horse: this.horse,
+            }
             var formData = new FormData()
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            //上传的是formData,content-Type要修改为formData
-            console.log(formData)
-            this.$message.success('修改成功')
-        },
+            for (let key in this.breederInfo) {
+                formData.append(key, this.breederInfo[key])
+            }
+            horseSrv.updateBreeder(formData).then((resp) => {
+                this.$message.success('更新饲养员信息成功')
+                this.$router.push('/horse/breeder')
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        }
     }
 }
 </script>

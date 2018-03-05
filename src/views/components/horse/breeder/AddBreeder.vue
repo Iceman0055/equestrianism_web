@@ -41,13 +41,13 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">身份证照片：</div>
-          <upload-img v-on:uploadFun="uploadFun" :imageUrl="idCardImg">
+          <upload-img v-on:uploadFun="uploadFun" :imageUrl="idCardImg" name="idCardImg">
           </upload-img>
         </div>
       </div>
     </div>
     <div class="content-footer row">
-      <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+      <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addBreeder">确定</el-button>
     </div>
   </div>
 </template>
@@ -59,14 +59,15 @@ import horseSrv from '../../../services/horse.service.js'
 export default {
   data() {
     return {
-      workTime:'',
-      matchHorse:'',
-      skill:'',
-      name:'',
+      workTime: '',
+      matchHorse: '',
+      skill: '',
+      name: '',
       idCardImg: '',
       gender: "",
       imageUrl: "",
       files: {},
+      breederInfo:{},
       matchHorseOptions: [
         {
           value: "选项1",
@@ -79,12 +80,12 @@ export default {
       ],
       genderOptions: [
         {
-          value: "1",
-          label: "男"
+          value: "公",
+          label: "公"
         },
         {
-          value: "2",
-          label: "女"
+          value: "母",
+          label: "母"
         }
       ]
     };
@@ -95,25 +96,46 @@ export default {
     'upload-img': UploadImg,
     "el-select": Select
   },
-  mounted(){
-    this.$el.addEventListener('animationend',this.resizeSelect)
+  mounted() {
+    this.$el.addEventListener('animationend', this.resizeSelect)
   },
   methods: {
-    resizeSelect(){
+    resizeSelect() {
       this.$refs.selectInput.resetInputWidth()
     },
     uploadFun(file) {
-      this.files[file.name] = file.file
+      this.files[file.name] = file.file.raw
     },
-    open() {
+    addBreeder() {
+      if (!(this.name && this.gender && this.skill && this.matchHorse &&
+        this.workTime && this.awardParty && this.horse && this.horseImg)) {
+        this.$message.error('饲养员信息不能为空！')
+        return;
+      }
+      this.breederInfo = {
+        name: this.name,
+        gender: this.gender,
+        skill: this.skill,
+        matchHorse: this.matchHorse,
+        workTime: this.workTime,
+        awardParty: this.awardParty,
+        horse: this.horse,
+      }
       var formData = new FormData()
       for (let key in this.files) {
         formData.append(key, this.files[key])
       }
-      //上传的是formData,content-Type要修改为formData
-      console.log(formData)
-      this.$message.success('修改成功')
-    },
+      for (let key in this.breederInfo) {
+        formData.append(key, this.breederInfo[key])
+      }
+      horseSrv.addBreeder(formData).then((resp) => {
+        this.$message.success('添加饲养员信息成功')
+        this.$router.push('/horse/breeder')
+      }, err => {
+        this.$message.error(err.msg)
+      })
+    }
+ 
   }
 };
 </script>

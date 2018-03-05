@@ -14,8 +14,8 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
-                    <el-select ref="selectSex" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in genderOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectSex" size="large" v-model="sex" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in sexOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
                         </el-option>
                     </el-select>
                 </div>
@@ -35,15 +35,15 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                    <el-select ref="selectHorse" size="large" v-model="horse" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectHorse" size="large" v-model="horseName" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
             </div>
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addMaster">确定</el-button>
         </div>
     </div>
 </template>
@@ -51,29 +51,19 @@
 <script>
 import { DatePicker, Button, Select, Message } from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
+import dicSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            career:'',
-            contact:'',
-            address:'',
-            name:'',
-            gender:'',
-            horse:'',
-            horseOptions: [{
-                value: '选项1',
-                label: '马匹1'
-            }, {
-                value: '选项2',
-                label: '马匹2'
-            }],
-            genderOptions: [{
-                value: '公',
-                label: '公'
-            }, {
-                value: '母',
-                label: '母'
-            }],
+            career: '',
+            contact: '',
+            address: '',
+            name: '',
+            sex: '',
+            horseName: '',
+            horseInfoName: [],
+            sexOptions: [],
+            masterInfo: {}
         }
     },
     components: {
@@ -81,19 +71,51 @@ export default {
         'el-button': Button,
         "el-select": Select
     },
-    mounted(){
-        this.$el.addEventListener('animationend',this.resizeSex)
-        this.$el.addEventListener('animationend',this.resizeHorse)
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+            dicSrv.dictionary().then(resp => {
+                vm.sexOptions = resp.data.dictionaryInfoList[2].dictionaryDetailList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+
+        })
+    },
+    mounted() {
+        this.$el.addEventListener('animationend', this.resizeSex)
+        this.$el.addEventListener('animationend', this.resizeHorse)
     },
     methods: {
-        resizeSex(){
+        addMaster() {
+            if (!(this.name && this.sex && this.career && this.contact && this.address && this.horseName)) {
+                this.$message.error('马主信息不能为空！')
+                return;
+            }
+            this.masterInfo = {
+                hostName: this.name,
+                sex: this.sex,
+                occupation: this.career,
+                contactWay: this.contact,
+                address: this.address,
+                horseId: this.horseName,
+            }
+            horseSrv.addMaster(this.masterInfo).then((resp) => {
+                this.$message.success('添加马主信息成功')
+                this.$router.push('/horse/master')
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
+        resizeSex() {
             this.$refs.selectSex.resetInputWidth()
         },
-         resizeHorse(){
+        resizeHorse() {
             this.$refs.selectHorse.resetInputWidth()
-        },
-        open() {
-            this.$message.success('修改成功')
         },
     }
 }

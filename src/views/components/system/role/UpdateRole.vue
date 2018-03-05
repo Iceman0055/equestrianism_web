@@ -59,12 +59,12 @@ export default {
                 vm.shortName = resp.data.roleMark
                 vm.remark = resp.data.note
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getRole().then((resp) => {
                 vm.roleList = resp.data.roleList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
 
@@ -91,7 +91,7 @@ export default {
                 this.$message.success('更新角色成功')
                 this.$router.push('/system/role')
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         resizeRole() {

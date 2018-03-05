@@ -98,12 +98,12 @@ export default {
             systemSrv.getRole().then((resp) => {
                 vm.roleList = resp.data.roleList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getDepart().then((resp) => {
                 vm.departList = resp.data.departmentList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
     },
@@ -129,7 +129,7 @@ export default {
                 this.$message.success('添加用户成功')
                 this.$router.push('/system/user')
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         resizeRole() {

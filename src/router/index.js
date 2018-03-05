@@ -42,7 +42,6 @@ import addAppoint from "@/views/components/hospital/appointment/addAppoint";
 import vaccination from "@/views/components/hospital/vaccination/vaccination";
 import updateVacc from "@/views/components/hospital/vaccination/updateVacc";
 import addVacc from "@/views/components/hospital/vaccination/addVacc";
-
 import assets from "@/views/components/hosAssets/assets/assets";
 import addAssets from "@/views/components/hosAssets/assets/addAssets";
 import assetsStock from "@/views/components/hosAssets/assetsStock/assetsStock";
@@ -105,7 +104,6 @@ export default new Router({
           name: "控制台",
           component: Dashboard
         },
-
         {
           path: "horse",
           redirect: "/horse/baseInfo",

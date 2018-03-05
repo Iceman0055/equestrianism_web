@@ -62,6 +62,7 @@
 import { DatePicker, Button, Upload, Select, Message } from 'element-ui'
 import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
 import horseSrv from '../../../services/horse.service.js'
+import dicSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -128,7 +129,7 @@ export default {
                 this.$message.success('更新获奖信息成功')
                 this.$router.push('/horse/awards')
             }, err => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             }) 
         
         }

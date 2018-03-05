@@ -139,11 +139,11 @@ export default {
                 "0": "停用"
             },
             statusOptions: [{
-                value: '选项1',
-                label: '使用中'
+                value: '1',
+                label: '启用'
             }, {
-                value: '选项2',
-                label: '使用结束'
+                value: '0',
+                label: '禁用'
             }],
             data2: [{
                 id: 0,
@@ -213,32 +213,32 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            systemSrv.departList(vm.currentPage, vm.pageRecorders, vm.departName).then(resp => {
+            systemSrv.departList(vm.currentPage, vm.pageRecorders, vm.departName,vm.status).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.departInfoList = resp.data.departmentInfoList
             }, err => {
                 vm.showLoading = false
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
             systemSrv.getDepart().then((resp) => {
                 vm.departList = resp.data.departmentList
             }, (err) => {
-                vm.$message.error(err.note)
+                vm.$message.error(err.msg)
             })
         })
     },
     methods: {
         getDepart(currentPage = this.currentPage) {
             this.showLoading = true
-            systemSrv.departList(currentPage, this.pageRecorders, this.departName).then(resp => {
+            systemSrv.departList(currentPage, this.pageRecorders, this.departName,this.status).then(resp => {
                 this.currentPage = currentPage
                 this.showLoading = false
                 this.totalRecorders = resp.data.totalRecorders
                 this.departInfoList = resp.data.departmentInfoList
             }, err => {
                 this.showLoading = false
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         deleteInfo(departId) {
@@ -253,7 +253,7 @@ export default {
                 this.deleteDialog = false
                 this.getDepart()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         statusInfo(departId, status) {
@@ -267,7 +267,7 @@ export default {
                 this.statusDialog = false
                 this.getDepart()
             }, (err) => {
-                this.$message.error(err.note)
+                this.$message.error(err.msg)
             })
         },
         selectChecked() {
