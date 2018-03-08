@@ -78,7 +78,6 @@
                         暂无数据
                     </div>
                     <div class="page">
-
                         <el-pagination @current-change="getAppointList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>

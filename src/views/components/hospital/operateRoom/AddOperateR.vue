@@ -17,16 +17,13 @@
                     <input type="text" v-model="shortName" class="form-control" placeholder="请输入诊疗室简称" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select ref="status" size="large" v-model="status" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
+                    <div class="label">备注：</div>
+                 <input type="text" v-model="remark" class="form-control" placeholder="请输入备注" />
                 </div>
             </div>
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addOperateRoom">确定</el-button>
         </div>
     </div>
 </template>
@@ -39,30 +36,32 @@ export default {
         return {
             name: '',
             shortName: '',
-            status: '',
-            statusOptions: [{
-                value: '选项1',
-                label: '使用中'
-            }, {
-                value: '选项2',
-                label: '使用结束'
-            }],
+            remark:'',
+            operateInfo:{},
         }
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
     },
-    mounted() {
-        this.$el.addEventListener('animationend', this.statusResize)
-    },
     methods: {
-        open() {
-            this.$message.success('修改成功')
-        },
-        statusResize() {
-            this.$refs.status.resetInputWidth()
-        }
+        addOperateRoom() {
+      if (!(this.name && this.shortName && this.remark)) {
+        this.$message.error('诊疗室信息不能为空！')
+        return;
+      }
+      this.operateInfo = {
+        name: this.name,
+        shortName: this.shortName,
+        remark: this.remark,
+      }
+      hospitalSrv.addOperateRoom(this.operateInfo).then((resp) => {
+        this.$message.success('添加诊疗室成功')
+        this.$router.push('/hospital/operateRoom')
+      }, (err) => {
+        this.$message.error(err.msg)
+      })
+    },
     }
 }
 </script>

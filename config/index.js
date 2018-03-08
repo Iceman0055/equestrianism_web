@@ -23,13 +23,15 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8081,
+    port: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       "/equestrianismApi": {
-        target:"http://192.168.100.124:8080"
+       target: "http://vpn.juxinli.com:38080"
+
+        // target:"http://192.168.100.124:8080"
       }
       
     },

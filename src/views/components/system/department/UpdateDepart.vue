@@ -73,7 +73,7 @@ export default {
                 remark: this.note,
             }
             systemSrv.updateDepart(this.updateInfo).then((resp) => {
-                this.$message.success('更新部门成功')
+                this.$message.success('修改部门成功')
                 this.$router.push('/system/department')
             }, (err) => {
                 this.$message.error(err.msg)

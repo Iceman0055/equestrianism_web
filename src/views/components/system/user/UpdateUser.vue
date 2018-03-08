@@ -24,28 +24,23 @@
 
             </div>
             <div class="row list-search">
-
                 <div class="col-md-4 search-field">
                     <div class="label">用户登录名：</div>
                     <input type="text" v-model="loginName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">登录密码：</div>
-                    <input type="password" v-model="loginPassword" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
                     <div class="label">联系方式：</div>
                     <input type="text" v-model="contact" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
+                 <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
                     <el-select ref="selectDepart" size="large" :disabled="useDisabled" v-model="depart" class="el-field-input">
                         <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
+            </div>
+            <div class="row list-search">   
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" :disabled="useDisabled" v-model="role" class="el-field-input">
@@ -75,7 +70,6 @@ export default {
             jobNumber: '',
             name: '',
             loginName: '',
-            loginPassword: '',
             depart: '',
             email: '',
             contact: '',
@@ -100,7 +94,6 @@ export default {
                 vm.name = resp.data.realname
                 vm.loginName = resp.data.loginName
                 vm.depart = resp.data.departmentId
-                vm.loginPassword = resp.data.loginPassword
                 vm.role = resp.data.roleId
                 vm.contact = resp.data.contactWay
                 vm.email = resp.data.email
@@ -122,7 +115,7 @@ export default {
     },
     methods: {
         updateUser() {
-            if (!(this.jobNumber && this.name && this.loginName && this.loginPassword &&
+            if (!(this.jobNumber && this.name && this.loginName &&
                 this.depart && this.role && this.email && this.contact)) {
                 this.$message.error('用户信息不能为空！')
                 return;
@@ -132,14 +125,13 @@ export default {
                 jobNumber: this.jobNumber,
                 realname: this.name,
                 loginName: this.loginName,
-                loginPassword: this.loginPassword,
                 departmentId: this.depart,
                 roleId: this.role,
                 email: this.email,
                 contactWay: this.contact
             }
             systemSrv.updateUser(this.updateInfo).then((resp) => {
-                this.$message.success('更新用户成功')
+                this.$message.success('修改用户成功')
                 this.$router.push('/system/user')
             }, (err) => {
                 this.$message.error(err.msg)

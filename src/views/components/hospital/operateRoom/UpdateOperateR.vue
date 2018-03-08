@@ -18,16 +18,14 @@
                     <input type="text" v-model="shortName" :disabled="useDisabled" class="form-control" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">状态：</div>
-                    <el-select ref="status" size="large" :disabled="useDisabled" v-model="status" class="el-field-input">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
+                    <div class="label">备注：</div>
+                                     <input type="text" v-model="remark" :disabled="useDisabled" class="form-control" />
+
                 </div>
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateOperateRoom">确定</el-button>
         </div>
     </div>
 </template>
@@ -41,31 +39,49 @@ export default {
             name: '',
             shortName: '',
             useDisabled: false,
-            status: '',
-            statusOptions: [{
-                value: '选项1',
-                label: '使用中'
-            }, {
-                value: '选项2',
-                label: '使用结束'
-            }],
+            remark: '',
+            consultingRoomId:'',
+            operateInfo:{}
         }
+    },
+       beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.consultingRoomId = to.query.consultingRoomId
+            hospitalSrv.operateRoomDetail(vm.consultingRoomId).then(resp => {
+                vm.name = resp.data.name
+                vm.shortName = resp.data.shortName
+                vm.remark = resp.data.remark
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+        })
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-        this.$el.addEventListener('animationend', this.statusResize)
     },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
     },
     methods: {
-        open() {
-            this.$message.success('修改成功')
-        },
-        statusResize() {
-            this.$refs.status.resetInputWidth()
-        }
+        updateOperateRoom() {
+      if (!(this.name && this.shortName && this.remark)) {
+        this.$message.error('诊疗室信息不能为空！')
+        return;
+      }
+      this.operateInfo = {
+          consultingRoomId:this.consultingRoomId,
+        name: this.name,
+        shortName: this.shortName,
+        remark: this.remark,
+      }
+      hospitalSrv.updateOperateRoom(this.operateInfo).then((resp) => {
+        this.$message.success('修改诊疗室成功')
+        this.$router.push('/hospital/operateRoom')
+      }, (err) => {
+        this.$message.error(err.msg)
+      })
+    },
     }
 }
 </script>
