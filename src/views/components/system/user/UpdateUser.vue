@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">登录密码：</div>
-                    <input type="password" v-model="loginName" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="password" v-model="loginPassword" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">联系方式：</div>
@@ -81,13 +81,6 @@ export default {
             contact: '',
             depart: '',
             role: '',
-            departOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
 
         }
     },
@@ -107,6 +100,7 @@ export default {
                 vm.name = resp.data.realname
                 vm.loginName = resp.data.loginName
                 vm.depart = resp.data.departmentId
+                vm.loginPassword = resp.data.loginPassword
                 vm.role = resp.data.roleId
                 vm.contact = resp.data.contactWay
                 vm.email = resp.data.email
