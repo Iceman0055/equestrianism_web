@@ -22,7 +22,7 @@
                 <i class="icon-star"></i> 马主信息</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="'/horse/breeder'" class="nav-padding nav-link" exact>
+              <router-link :to="'/horse/feeder'" class="nav-padding nav-link" exact>
                 <i class="icon-star"></i> 饲养员信息</router-link>
             </li>
             <li class="nav-item">

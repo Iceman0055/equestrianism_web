@@ -25,9 +25,9 @@ import updateVaccine from "@/views/components/horse/vaccine/updateVaccine";
 import master from "@/views/components/horse/master/master";
 import addMaster from "@/views/components/horse/master/addMaster";
 import updateMaster from "@/views/components/horse/master/updateMaster";
-import breeder from "@/views/components/horse/breeder/breeder";
-import addBreeder from "@/views/components/horse/breeder/addBreeder";
-import updateBreeder from "@/views/components/horse/breeder/updateBreeder";
+import feeder from "@/views/components/horse/feeder/feeder";
+import addFeeder from "@/views/components/horse/feeder/addFeeder";
+import updateFeeder from "@/views/components/horse/feeder/updateFeeder";
 import treatment from "@/views/components/horse/treatment/treatment";
 import addTreatment from "@/views/components/horse/treatment/addTreatment";
 import updateTreatment from "@/views/components/horse/treatment/updateTreatment";
@@ -145,19 +145,19 @@ export default new Router({
               component: updateAwards
             },
             {
-              path: "breeder",
+              path: "feeder",
               name: "饲养员信息",
-              component: breeder
+              component: feeder
             },
             {
-              path: "addBreeder",
+              path: "addFeeder",
               name: "新增饲养员信息",
-              component: addBreeder
+              component: addFeeder
             },
             {
-              path: "updateBreeder",
+              path: "updateFeeder",
               name: "修改饲养员信息",
-              component: updateBreeder
+              component: updateFeeder
             },
             {
               path: "master",

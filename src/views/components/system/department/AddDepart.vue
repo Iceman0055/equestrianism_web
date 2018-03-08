@@ -10,10 +10,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">部门名称</div>
-                    <el-select ref="selectDepart" size="large" v-model="departName" class="el-field-input" placeholder="请选择部门名称">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
-                        </el-option>
-                    </el-select>
+                    <input type="text" v-model="departName" class="form-control input-field" placeholder="请输入部门名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">部门简称：</div>
@@ -37,27 +34,14 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            departList: [],
             departName: '',
             departShortName: '',
             note: '',
         }
     },
-    mounted() {
-        this.$el.addEventListener('animationend', this.resizeDepart)
-    },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-    },
-    beforeRouteEnter: function(to, from, next) {
-        next(vm => {
-            systemSrv.getDepart().then((resp) => {
-                vm.departList = resp.data.departmentList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
-        })
     },
     methods: {
         addDepart() {
@@ -76,9 +60,6 @@ export default {
             }, (err) => {
                 this.$message.error(err.msg)
             })
-        },
-        resizeDepart() {
-            this.$refs.selectDepart.resetInputWidth()
         },
     }
 }

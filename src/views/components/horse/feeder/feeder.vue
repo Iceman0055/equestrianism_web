@@ -1,66 +1,59 @@
 <template>
-    <div class="animated fadeIn content_page">
+    <div class="content_page animated fadeIn">
         <div class="content-title">
-            <div class="title">马主信息</div>
+            <div class="title">饲养员信息</div>
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-3 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">姓名：</div>
-                    <input type="text" v-model="hostName" class="form-control input-field" placeholder="请输入姓名" />
-                </div>
-                <div class="col-md-3 search-field">
-                    <div class="label">联系方式：</div>
-                    <input type="text" v-model="contact" class="form-control input-field" placeholder="请输入联系方式" />
-                </div>
-
-                <div class="col-md-1 search-field search-field_controls">
-                    <button @click="getMasterList(1)" class="btn btn-primary search-btn">搜索</button>
+                    <input type="text" v-model="feederName" class="form-control input-field" placeholder="请输入姓名" />
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <router-link class="btn btn-success" :to="'/horse/addMaster'">
+                    <button @click="getFeederList(1)" class="btn btn-primary search-btn">搜索</button>
+                </div>
+                <div class="col-md-1 search-field search-field_controls">
+                    <router-link class="btn btn-success" :to="'/horse/addFeeder'">
                         新增
                     </router-link>
                 </div>
             </div>
-            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row" v-show="!showLoading">
+            <div class="row">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>马主姓名</th>
+                                <th>姓名</th>
                                 <th>性别</th>
-                                <th>联系方式</th>
-                                <th>职业</th>
-                                <th>住址</th>
-                                <th>马匹名称</th>
+                                <th>身份证照片</th>
+                                <th>职能描述</th>
+                                <th>匹配马匹</th>
+                                <th>入职时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in masterList" :key="item">
-                                <td>{{item.hostName}}</td>
+                            <tr v-for="item in feederList" :key="item">
+                                <td>{{item.feederName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
-                                <td>{{item.contactWay}}</td>
-                                <td>{{item.occupation}}</td>
-                                <td>{{item.address}}</td>
+                                <td><a @click="watchImage(item.idCardImage)">查看</a></td>
+                                <td>{{item.skillDesc}}</td>
                                 <td>{{item.horseName}}</td>
+                                <td>{{item.hireDate}}</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/updateMaster',       
-                                                                                                                     query: { disable: 1,query:{hostId:item.hostId}}}"> 查看</router-link>
-                                    <router-link :to="{path:'/horse/updateMaster',query:{hostId:item.hostId}}">修改</router-link>
-                                    <a @click="deleteInfo(item.hostId)">删除</a>
+                                    <router-link :to="{path: '/horse/updateFeeder',       
+                                                 query: { disable: 1,query:{feeder:item.feederId}}}"> 查看</router-link>
+                                    <router-link :to="{path:'/horse/updateFeeder',query:{feeder:item.feederId}}">修改</router-link>
+                                    <a @click="deleteInfo(item.feederId)">删除</a>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
-                    <div class="list-empty" v-show="masterList.length===0">
+                    <div class="list-empty" v-show="feederList.length===0">
                         暂无数据
                     </div>
                     <div class="page">
-                        <el-pagination @current-change="getMasterList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
+                        <el-pagination @current-change="getFeederList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
                 </div>
@@ -72,7 +65,15 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="deleteDialog = false">取 消</el-button>
-                <el-button type="primary" @click="deleteHost">确 定</el-button>
+                <el-button type="primary" @click="deleteFeeder">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="查看" :modal-append-to-body="false" :visible.sync="imageDialog" width="30%" center>
+            <div class="text-center showImage">
+                <img :src="imageInfo">
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="imageDialog = false">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -85,17 +86,17 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            imageInfo:'',
+            imageDialog: false,
             deleteDialog: false,
-            hostName: '',
-            contact: '',
+            feederName: '',
             currentPage: 1,
-            pageRecorders: 10,
             totalRecorders: 1,
+            pageRecorders: 10,
             showLoading: false,
-            masterList: [],
+            feederList: [],
             convertSex: {},
-            deleteContent: {},
-            dictInfoList: []
+            deleteContent: {}
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -104,11 +105,11 @@ export default {
             systemSrv.dictionary().then(resp => {
                 vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
                 vm.convertSex = vm.dictInfoList.SEX
-                return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName)
+                return horseSrv.feederList(vm.currentPage, vm.pageRecorders, vm.feederName)
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
-                vm.masterList = resp.data.hostInfoList
+                vm.feederList = resp.data.feederInfoList
             }).catch(err => {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
@@ -117,31 +118,35 @@ export default {
         })
     },
     methods: {
-        getMasterList(currentPage = this.currentPage) {
+        getFeederList(currentPage = this.currentPage) {
             this.showLoading = true
-            horseSrv.masterList(currentPage, this.pageRecorders, this.hostName).then((resp) => {
+            horseSrv.feederList(currentPage, this.pageRecorders, this.feederName).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders
-                this.masterList = resp.data.hostInfoList
+                this.feederList = resp.data.feederInfoList
             }, (err) => {
                 this.showLoading = false
                 this.$message.error(err.msg)
             })
         },
-        deleteInfo(hostId) {
+        deleteInfo(feederId) {
             this.deleteDialog = true
-            this.deleteContent.hostId = hostId
+            this.deleteContent.feederId = feederId
             this.deleteContent.deleteFlag = 1
         },
-        deleteHost() {
-            horseSrv.deleteMaster(this.deleteContent).then(resp => {
+        deleteFeeder() {
+            horseSrv.deleteFeeder(this.deleteContent).then(resp => {
                 this.$message.success('删除成功')
                 this.deleteDialog = false
-                this.getMasterList()
+                this.getFeederList()
             }, err => {
                 this.$message.error(err.msg)
             })
+        },
+        watchImage(image) {
+            this.imageDialog = true
+            this.imageInfo = `data:image/jpeg;base64,${image}`
         }
     },
     components: {
@@ -151,5 +156,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.showImage{
+    width: 100%;
+    // border:1px solid #ddd;
+}
 </style>

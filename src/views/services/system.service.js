@@ -1,25 +1,18 @@
 import axios from "axios";
 let dictionary;
 export default {
-  formatDic() {
-    var dict = dictionary.data.dictionaryInfoList;
-    var object = {};
-    dict.map((value, index) => {
-      object.typeCode = value.typeCode;
-      var newArr = value.dictionaryDetailList;
-      newArr.map((value, index) => {});
-    });
-    let dics = {};
-    dictionaryInfoList.map((value, index) => {
-      let map = {};
-      let dictionaryDetailList = value.dictionaryDetailList;
-      dictionaryDetailList.map((value, index) => {
-        map[value.itemCode] = value.itemValue;
+  formatDic(diction) {
+    var infoList = diction;
+    var dics = {};
+    infoList.map((value, index) => {
+      var mapObject = {};
+      var detailList = value.dictionaryDetailList;
+      detailList.map((value, index) => {
+        mapObject[value.dictionaryDetailId] = value.itemValue;
       });
-
-      dics[value.typeCode] = map;
+      dics[value.typeCode] = mapObject;
     });
-    console.log(dics);
+    return dics;
   },
   dictionary() {
     if (dictionary) {
@@ -46,6 +39,31 @@ export default {
       }
     );
   },
+  // showDictionary() {
+  //   if (dictionary) {
+  //     return Promise.resolve(dictionary);
+  //   }
+  //   return axios({
+  //     url: "/equestrianismApi/dictionaryInfo/all",
+  //     method: "get",
+  //     params: {}
+  //   }).then(
+  //     resp => {
+  //       if (resp.data.code === 10200) {
+  //         dictionary = formatDic(resp.data);
+  //         return Promise.resolve(dictionary);
+  //       } else {
+  //         return Promise.reject(resp.data);
+  //       }
+  //     },
+  //     err => {
+  //       if (!err.msg) {
+  //         err.msg = "网络故障";
+  //       }
+  //       return Promise.reject(err);
+  //     }
+  //   );
+  // },
   // 用户列表
   userList(
     pageIndex,

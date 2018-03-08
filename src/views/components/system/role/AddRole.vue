@@ -10,10 +10,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">角色名称：</div>
-                    <el-select ref="selectRole" size="large" v-model="roleName" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
-                        </el-option>
-                    </el-select>
+                    <input type="text" v-model="roleName" class="form-control input-field" placeholder="请输入角色名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色标示：</div>
@@ -38,7 +35,6 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            roleList: [],
             roleName: '',
             roleMark: '',
             note: '',
@@ -48,18 +44,6 @@ export default {
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,
-    },
-    beforeRouteEnter: function(to, from, next) {
-        next(vm => {
-            systemSrv.getRole().then((resp) => {
-                vm.roleList = resp.data.roleList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
-        })
-    },
-    mounted() {
-        this.$el.addEventListener('animationend', this.resizeRole)
     },
     methods: {
            addRole() {
@@ -78,9 +62,6 @@ export default {
             }, (err) => {
                 this.$message.error(err.msg)
             })
-        },
-        resizeRole() {
-            this.$refs.selectRole.resetInputWidth()
         },
 
     }

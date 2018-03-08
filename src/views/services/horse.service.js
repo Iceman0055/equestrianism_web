@@ -245,15 +245,125 @@ export default {
       }
     );
   },
-  awardsList(pageIndex, pageRecorders) {
+  feederList(pageIndex, pageRecorders, feederName) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/feederInfo/list",
       method: "get",
       params: {
         pageIndex,
         pageRecorders,
-        name,
-        contact
+        feederName
+      }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  addFeeder(feederInfo) {
+    return axios({
+      url: "/equestrianismApi/feederInfo/add",
+      method: "post",
+      data: feederInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateFeeder(feederInfo) {
+    return axios({
+      url: "/equestrianismApi/feederInfo/update",
+      method: "post",
+      data: feederInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteFeeder(deleteInfo) {
+    return axios({
+      url: "/equestrianismApi/feederInfo/delete",
+      method: "post",
+      data: deleteInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getFeederDetail(feederId) {
+    return axios({
+      url: "/equestrianismApi/feederInfo/detail",
+      method: "get",
+      params: { feederId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  awardsList(pageIndex, pageRecorders,horseId,eventName,eventDate) {
+    return axios({
+      url: "/equestrianismApi/horsePrizeInfo/list",
+      method: "get",
+      params: {
+        pageIndex,
+        pageRecorders,
+        horseId,
+        eventName,
+        eventDate
       }
     }).then(
       resp => {
@@ -273,7 +383,7 @@ export default {
   },
   addAwards(awardsInfo) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/horsePrizeInfo/add",
       method: "post",
       data: awardsInfo,
       headers: { "Content-Type": "multipart/form-data" }
@@ -295,7 +405,7 @@ export default {
   },
   updateAwards(awardsInfo) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/horsePrizeInfo/update",
       method: "post",
       data: awardsInfo,
       headers: { "Content-Type": "multipart/form-data" }
@@ -317,7 +427,7 @@ export default {
   },
   deleteAwards(deleteInfo) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/horsePrizeInfo/delete",
       method: "post",
       data: deleteInfo
     }).then(
@@ -335,5 +445,26 @@ export default {
         return Promise.reject(err);
       }
     );
-  }
+  },
+  getAwardsDetail(horsePrizeId) {
+    return axios({
+      url: "/equestrianismApi/horsePrizeInfo/detail",
+      method: "get",
+      params: { horsePrizeId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
 };

@@ -18,10 +18,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <el-select size="large" v-model="horseName" :disabled="useDisabled" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
-                        </el-option>
-                    </el-select>
+                    <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field"/>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
@@ -53,7 +50,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in sexOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
+                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -66,7 +63,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
                     <el-select ref="selectColor" size="large" v-model="color" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in colorOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
+                        <el-option v-for="item in colorOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -159,7 +156,7 @@
 import { DatePicker, Button, Upload, Select, Message } from 'element-ui'
 import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
 import horseSrv from '../../../services/horse.service.js'
-import dicSrv from '../../../services/system.service.js'
+import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -191,14 +188,12 @@ export default {
             gender: '',
             files: {},
             updateInfo: {},
-            convertSex: {
-                '1': '公',
-                '2': '母'
-            },
             sexOptions: [],
             colorOptions: [],
             horseInfoName: [],
-            convertColor: {}
+            convertColor: {},
+            dictionaryInfoList: [],
+            dictInfoList: {}
         }
     },
     components: {
@@ -214,14 +209,14 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            horseSrv.getHorseName().then((resp) => {
-                vm.horseInfoName = resp.data.horseList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
-
-            horseSrv.getHorseDetail(to.query.horseId).then(resp => {
-                vm.horseId = to.query.horseId
+            vm.horseId = to.query.horseId
+            systemSrv.dictionary().then(resp => {
+                vm.dictionaryInfoList = resp.data.dictionaryInfoList
+                vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
+                vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
+                vm.dictInfoList = systemSrv.formatDic(vm.dictionaryInfoList)
+                return horseSrv.getHorseDetail(to.query.horseId)
+            }).then(resp => {
                 vm.passport = resp.data.passportNumber
                 vm.horseName = resp.data.horseName
                 vm.changeName = resp.data.usedName
@@ -229,9 +224,9 @@ export default {
                 vm.changeDate = resp.data.changeDate
                 vm.birthDate = resp.data.birthday
                 vm.height = resp.data.height
-                vm.gender = vm.convertSex[resp.data.sex]
+                vm.gender = vm.dictInfoList.HORSE_SEX[resp.data.sex]
                 vm.barCode = resp.data.barCode
-                vm.color = resp.data.coatColour
+                vm.color = vm.dictInfoList.HORSE_COAT_COLOUR[resp.data.coatColour]
                 vm.head = resp.data.headDesc
                 vm.leftFore = resp.data.leftForeDesc
                 vm.rightFore = resp.data.rightForeDesc
@@ -245,27 +240,12 @@ export default {
                 vm.neckImage = resp.data.neckImage
                 vm.hindImage = resp.data.hindImage
                 vm.lipImage = resp.data.lipImage
-            }, err => {
+            }).catch(err => {
                 vm.$message.error(err.msg)
-            })
-            dicSrv.dictionary().then(resp => {
-                // vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
-                // vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
-                // let len = vm.colorOptions.length
-
-                let dictionaryInfoList = resp.data.dictionaryInfoList;
-                // let dics = {
-                //     HORSE_SEX: {
-                //         "01": '公',
-                //         "02": '母'
-                //     }
-                // };
-
-                // for (let i = 0; i < len; i++) {
-                //     vm.convertColor =  vm.colorOptions[i].itemCode + ':' + vm.colorOptions[i].itemValue 
-                // }
-                console.log(vm.convertColor)
-            }, err => {
+            });
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
                 vm.$message.error(err.msg)
             })
         })

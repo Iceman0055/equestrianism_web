@@ -11,10 +11,8 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">角色名称：</div>
-                    <el-select ref="selectRole" size="large" v-model="roleName" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
-                        </el-option>
-                    </el-select>
+                    <input type="text" v-model="roleName" :disabled="useDisabled" class="form-control input-field" />
+
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色标示：</div>
@@ -45,7 +43,6 @@ export default {
             roleName: '',
             roleMark: '',
             updateInfo: {},
-            roleList: [],
         }
     },
     components: {
@@ -61,18 +58,12 @@ export default {
             }, (err) => {
                 vm.$message.error(err.msg)
             })
-            systemSrv.getRole().then((resp) => {
-                vm.roleList = resp.data.roleList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
         })
 
     },
 
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-        this.$el.addEventListener('animationend', this.resizeRole)
 
     },
     methods: {
@@ -93,9 +84,6 @@ export default {
             }, (err) => {
                 this.$message.error(err.msg)
             })
-        },
-        resizeRole() {
-            this.$refs.selectRole.resetInputWidth()
         },
 
     }

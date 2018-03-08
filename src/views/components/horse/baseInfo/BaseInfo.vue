@@ -11,12 +11,14 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <el-select size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <!-- <el-input 
+                            @input="setQueryKey"
+                        /> -->
                         <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
                         </el-option>
                     </el-select>
                 </div>
-
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn" @click="getHorseList(1)">搜索</button>
                 </div>
@@ -33,7 +35,7 @@
                         <thead>
                             <tr>
                                 <th>护照号码</th>
-                                <th>马名</th>
+                                <th>马匹名称</th>
                                 <th>马匹性别</th>
                                 <th>变更马名</th>
                                 <th>变更日期</th>
@@ -50,13 +52,13 @@
                             <tr v-for="item in horseList" :key="item">
                                 <td>{{item.passportNumber}}</td>
                                 <td>{{item.horseName}}</td>
-                                <td>{{sexOptions[item.sex]}}</td>
+                                <td>{{convertSex[item.sex]}}</td>
                                 <td>{{item.usedName}}</td>
                                 <td>{{item.changeDate | filterDate}}</td>
                                 <td>{{item.birthday}}</td>
                                 <td>{{item.country}}</td>
                                 <td>{{item.height}}</td>
-                                <td>{{item.coatColour}}</td>
+                                <td>{{convertColor[item.coatColour]}}</td>
                                 <td>{{item.barCode}}</td>
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>
@@ -101,11 +103,13 @@
     </div>
 </template>
 <script>
-import { Pagination, Dialog, Message } from "element-ui";
+import { Pagination, Dialog, Message, Input } from "element-ui";
 import horseSrv from '../../../services/horse.service.js'
+import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            select: '',
             deleteDialog: false,
             statusDialog: false,
             currentPage: 1,
@@ -122,35 +126,65 @@ export default {
                 "1": "启用",
                 "0": "停用"
             },
-            sexOptions: {
-                '1': '公',
-                '2': '母'
-            },
+            convertSex: {},
+            convertColor: {},
+            selectList: [],
         };
     },
     components: {
         "el-pagination": Pagination,
-        "el-dialog": Dialog
+        "el-dialog": Dialog,
+        'el-autocomplete': Input
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            vm.showLoading = true
-            horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName).then((resp) => {
-                vm.showLoading = false
-                vm.totalRecorders = resp.data.totalRecorders
-                vm.horseList = resp.data.horseList
-            }, (err) => {
-                vm.showLoading = false
-                vm.$message.error(err.msg)
-            })
             horseSrv.getHorseName().then((resp) => {
                 vm.horseInfoName = resp.data.horseList
             }, (err) => {
                 vm.$message.error(err.msg)
             })
+            vm.showLoading = true
+            systemSrv.dictionary().then(resp => {
+                vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
+                vm.convertSex = vm.dictInfoList.HORSE_SEX
+                vm.convertColor = vm.dictInfoList.HORSE_COAT_COLOUR
+                return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
+            }).then(resp => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.horseList = resp.data.horseList
+            }).catch(err => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
+
         })
     },
+    computed: {
+    },
     methods: {
+        setQueryKey(e) {
+            console.log(e)
+            this.horseInfoNameList = e ? this.horseInfoName.filter((horseInfo) => {
+                return horseInfo.horseName.indexOf(e) > -1;
+                // this.createFilter(queryString
+            }) : this.horseInfoName;;
+        },
+        querySearch(queryString, cb) {
+            var horseInfoName = this.horseInfoName;
+            console.log(1)
+            var results = queryString ? horseInfoName.filter(this.createFilter(queryString)) : horseInfoName;
+            // 调用 callback 返回建议列表的数据
+            cb(results);
+        },
+        createFilter(queryString) {
+            return (horseInfoName) => {
+                return (horseInfoName.horseName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+            };
+        },
+        handleSelect(item) {
+            console.log(item);
+        },
         getHorseList(currentPage = this.currentPage) {
             this.showLoading = true
             horseSrv.horseInfoList(currentPage, this.pageRecorders, this.passportNumber, this.horseName).then((resp) => {

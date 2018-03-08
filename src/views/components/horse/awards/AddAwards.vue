@@ -9,44 +9,45 @@
         <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">比赛名称：</div>
-                    <input type="text" v-model="gameName" class="form-control input-field" placeholder="请输入变更马名" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">获奖时间：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="awardsTime" type="date" placeholder="选择获奖时间">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">地点：</div>
-                    <input type="text" v-model="address" class="form-control input-field" placeholder="请输入马的出生国家" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">奖项：</div>
-                    <input type="text" v-model="awards" class="form-control input-field" placeholder="请输入马获奖的奖项" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">罚分项：</div>
-                    <input type="text" v-model="penalty" class="form-control input-field" placeholder="请输入罚分项" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">颁奖方：</div>
-                    <input type="text" v-model="awardParty" class="form-control input-field" placeholder="请输入颁奖方" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">马匹：</div>
-                    <el-select ref="selectInput" size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
+                    <div class="label">马匹名称：</div>
+                    <el-select ref="selectInput" filterable size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">照片：</div>
-                    <upload-img v-on:uploadFun="uploadFun" name="horseImg" :imageUrl="horseImg">
+                    <div class="label">赛事名称：</div>
+                    <input type="text" v-model="eventName" class="form-control input-field" placeholder="请输入赛事名称" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">比赛时间：</div>
+                    <el-date-picker class="el-field-input" value-format="yyyy-MM" size="large" v-model="eventDate" type="month" placeholder="选择时间">
+                    </el-date-picker>
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">比赛地点：</div>
+                    <input type="text" v-model="eventPlace" class="form-control input-field" placeholder="请输入马的出生国家" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">奖项：</div>
+                    <input type="text" v-model="prizeName" class="form-control input-field" placeholder="请输入马获奖的奖项" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">罚分项：</div>
+                    <input type="text" v-model="penaltyTerm" class="form-control input-field" placeholder="请输入罚分项" />
+                </div>
+
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">颁奖方：</div>
+                    <input type="text" v-model="awarder" class="form-control input-field" placeholder="请输入颁奖方" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">图片描述：</div>
+                    <upload-img v-on:uploadFun="uploadFun" name="descImage" :imageUrl="descImage">
                     </upload-img>
                 </div>
             </div>
@@ -63,19 +64,17 @@ import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
-            awardParty: '',
-            penalty: '',
-            awards: '',
-            gameName: '',
-            awardsTime: '',
-            address: '',
-            horseImg: '',
-            selectValue: '',
-            horse: "",
             files: {},
             awardsInfo: {},
             horseName: '',
             horseInfoName: [],
+            eventName: "",
+            eventDate: '',
+            eventPlace: '',
+            prizeName: '',
+            penaltyTerm: '',
+            awarder: '',
+            descImage:''
         };
     },
     components: {
@@ -104,19 +103,19 @@ export default {
             this.files[file.name] = file.file.raw
         },
         addAwards() {
-            if (!(this.gameName && this.awardsTime && this.address && this.awards &&
-                this.penalty && this.awardParty && this.horse && this.horseImg)) {
+            if (!(this.horseName && this.eventName && this.eventDate && this.eventPlace &&
+                this.prizeName && this.penaltyTerm && this.awarder)) {
                 this.$message.error('获奖信息不能为空！')
                 return;
             }
             this.awardsInfo = {
-                gameName: this.gameName,
-                awardsTime: this.awardsTime,
-                address: this.address,
-                awards: this.awards,
-                penalty: this.penalty,
-                awardParty: this.awardParty,
-                horse: this.horse,
+                horseId: this.horseName,
+                eventName: this.eventName,
+                eventDate: this.eventDate,
+                eventPlace: this.eventPlace,
+                prizeName: this.prizeName,
+                penaltyTerm: this.penaltyTerm,
+                awarder: this.awarder
             }
             var formData = new FormData()
             for (let key in this.files) {
@@ -125,7 +124,7 @@ export default {
             for (let key in this.awardsInfo) {
                 formData.append(key, this.awardsInfo[key])
             }
-            horseSrv.addAwardsInfo(formData).then((resp) => {
+            horseSrv.addAwards(formData).then((resp) => {
                 this.$message.success('添加获奖信息成功')
                 this.$router.push('/horse/awards')
             }, err => {

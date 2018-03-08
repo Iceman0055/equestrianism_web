@@ -17,10 +17,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <el-select size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
-                        </el-option>
-                    </el-select>
+                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称"/>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
@@ -52,7 +49,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in sexOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
+                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -66,7 +63,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
                     <el-select ref="selectColor" size="large" v-model="color" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in colorOptions" :key="item.itemCode" :label="item.itemValue" :value="item.itemCode">
+                        <el-option v-for="item in colorOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -187,7 +184,6 @@ export default {
             neckImage: '',
             hindImage: '',
             lipImage: '',
-            horseInfoName: [],
             colorOptions: [],
             sexOptions:[]
         }
@@ -204,11 +200,6 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            horseSrv.getHorseName().then((resp) => {
-                vm.horseInfoName = resp.data.horseList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
             dicSrv.dictionary().then(resp => {
                 vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
                 vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
