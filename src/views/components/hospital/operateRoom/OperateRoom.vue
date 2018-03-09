@@ -7,10 +7,11 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室名称：</div>
-  <el-select size="large" v-model="name" class="el-field-input">
+                    <el-select size="large" v-model="name" class="el-field-input">
                         <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
                         </el-option>
-                    </el-select>                </div>
+                    </el-select>
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室简称：</div>
                     <input type="text" v-model="shortName" class="form-control input-field" placeholder="请输入手术室简称" />
@@ -46,19 +47,20 @@
                                 <td>{{item.remark}}</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateOperateR',       
-                                             query: { disable: 1,consultingRoomId:item.consultingRoomId}}"> 查看</router-link>
+                                                     query: { disable: 1,consultingRoomId:item.consultingRoomId}}"> 查看</router-link>
                                     <router-link :to="{path:'/hospital/updateOperateR',query:{consultingRoomId:item.consultingRoomId}}">修改</router-link>
-                               <a @click="deleteInfo(item.consultingRoomId)">删除</a>
+                                    <a @click="statusInfo(item.consultingRoomId,item.status)">{{convertStatus[1-item.status]}}</a>
+                                    <a @click="deleteInfo(item.consultingRoomId)">删除</a>
                                 </td>
                             </tr>
-                        
+
                         </tbody>
                     </table>
                     <div class="list-empty" v-show="operateRoomList.length===0">
-                                                暂无数据
-                                            </div>
+                        暂无数据
+                    </div>
                     <div class="page">
-<el-pagination @current-change="getOperateRoomList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
+                        <el-pagination @current-change="getOperateRoomList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
                 </div>
@@ -73,6 +75,15 @@
                 <el-button type="primary" @click="deleteOperateRoom">确 定</el-button>
             </span>
         </el-dialog>
+          <el-dialog title="状态" :modal-append-to-body="false" :visible.sync="statusDialog" width="20%" center>
+            <div class="text-center">
+                <span>确定要修改此状态吗?</span>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="statusDialog = false">取 消</el-button>
+                <el-button type="primary" @click="statusManage">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -80,80 +91,82 @@
 import { Pagination, Message } from "element-ui";
 import hospitalSrv from "../../../services/hospital.service.js";
 export default {
-  data() {
-    return {
-        deleteDialog:false,
-      currentPage: 1,
-      pageRecorders: 10,
-      totalRecorders: 1,
-      showLoading: false,
-      name: "",
-      shortName: "",
-      operateRoomList: [],
-      deleteContent:{},
-      convertStatus: {
-        "1": "启用",
-        "2": "停用"
-      },
-      consultingRoomList: []
-    };
-  },
-  beforeRouteEnter: function(to, from, next) {
-    next(vm => {
-      vm.showLoading = true;
-      hospitalSrv
-        .operateRoomList(
-          vm.currentPage,
-          vm.pageRecorders,
-          vm.name,
-          vm.shortName
-        )
-        .then(
-          resp => {
-            vm.showLoading = false;
-            vm.totalRecorders = resp.data.totalRecorders;
-            vm.operateRoomList = resp.data.consultingRoomList;
-          },
-          err => {
-            vm.showLoading = false;
-            vm.$message.error(err.msg);
-          }
-        );
-      hospitalSrv.getOperateRoomBox().then(
-        resp => {
-          vm.consultingRoomList = resp.data.consultingRoomList;
-        },
-        err => {
-          vm.$message.error(err.msg);
-        }
-      );
-    });
-  },
-  methods: {
-    getOperateRoomList(currentPage = this.currentPage) {
-      this.showLoading = true;
-      hospitalSrv
-        .operateRoomList(
-          currentPage,
-          this.pageRecorders,
-          this.appointDate,
-          this.doctor,
-          this.appointNumber
-        )
-        .then(
-          resp => {
-            this.showLoading = false;
-            this.currentPage = currentPage;
-            this.totalRecorders = resp.data.totalRecorders;
-            this.operateRoomList = resp.data.consultingRoomList;
-          },
-          err => {
-            this.showLoading = false;
-            this.$message.error(err.msg);
-          }
-        );
+    data() {
+        return {
+            statusDialog:false,
+            deleteDialog: false,
+            currentPage: 1,
+            pageRecorders: 10,
+            totalRecorders: 1,
+            showLoading: false,
+            name: "",
+            shortName: "",
+            operateRoomList: [],
+            deleteContent: {},
+            stopContent:{},
+            convertStatus: {
+                "1": "启用",
+                "0": "停用"
+            },
+            consultingRoomList: []
+        };
     },
-     deleteInfo(consultingRoomId) {
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.showLoading = true
+            hospitalSrv
+                .operateRoomList(
+                vm.currentPage,
+                vm.pageRecorders,
+                vm.name,
+                vm.shortName
+                )
+                .then(
+                resp => {
+                    vm.showLoading = false;
+                    vm.totalRecorders = resp.data.totalRecorders;
+                    vm.operateRoomList = resp.data.consultingRoomList;
+                },
+                err => {
+                    vm.showLoading = false;
+                    vm.$message.error(err.msg);
+                }
+                );
+            hospitalSrv.getOperateRoomBox().then(
+                resp => {
+                    vm.consultingRoomList = resp.data.consultingRoomList;
+                },
+                err => {
+                    vm.$message.error(err.msg);
+                }
+            );
+        });
+    },
+    methods: {
+        getOperateRoomList(currentPage = this.currentPage) {
+            this.showLoading = true;
+            hospitalSrv
+                .operateRoomList(
+                currentPage,
+                this.pageRecorders,
+                this.appointDate,
+                this.doctor,
+                this.appointNumber
+                )
+                .then(
+                resp => {
+                    this.showLoading = false;
+                    this.currentPage = currentPage;
+                    this.totalRecorders = resp.data.totalRecorders;
+                    this.operateRoomList = resp.data.consultingRoomList;
+                },
+                err => {
+                    this.showLoading = false;
+                    this.$message.error(err.msg);
+                }
+                );
+        },
+        deleteInfo(consultingRoomId) {
             this.deleteDialog = true
             this.deleteContent.consultingRoomId = consultingRoomId
             this.deleteContent.deleteFlag = 1
@@ -166,11 +179,25 @@ export default {
             }, err => {
                 this.$message.error(err.msg)
             })
-        }
-  },
-  components: {
-    "el-pagination": Pagination
-  }
+        },
+         statusInfo(consultingRoomId, status) {
+            this.statusDialog = true
+            this.stopContent.consultingRoomId = consultingRoomId
+            this.stopContent.status = 1 - status
+        },
+        statusManage() {
+            hospitalSrv.deleteOperateRoom(this.stopContent).then((resp) => {
+                this.$message.success('修改状态成功')
+                this.statusDialog = false
+                this.getOperateRoomList()
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
+    },
+    components: {
+        "el-pagination": Pagination
+    }
 };
 </script>
 

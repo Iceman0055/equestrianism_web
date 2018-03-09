@@ -7,13 +7,13 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">马匹：</div>
-                    <el-select size="large" v-model="horse" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-primary search-btn">搜索</button>
+                    <button @click="getTeethList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
             </div>
             <div class="row">
@@ -34,7 +34,7 @@
                                 <td>小仙女</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateNail',       
-                                             query: { disable: 1,}}"> 查看</router-link>
+                                                     query: { disable: 1,}}"> 查看</router-link>
                                 </td>
                             </tr>
                             <tr>
@@ -43,7 +43,7 @@
                                 <td>小仙女</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateNail',       
-                                             query: { disable: 1,}}"> 查看</router-link>
+                                                     query: { disable: 1,}}"> 查看</router-link>
                                 </td>
                             </tr>
                             <tr>
@@ -52,14 +52,14 @@
                                 <td>小仙女</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateNail',       
-                                             query: { disable: 1,}}"> 查看</router-link>
+                                                     query: { disable: 1,}}"> 查看</router-link>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                    没有可以显示的订单
-                                                </div> -->
+                                                            没有可以显示的订单
+                                                        </div> -->
                     <div class="page">
 
                         <el-pagination background layout="prev, pager, next" :total="1000">
@@ -72,25 +72,58 @@
 </template>
 
 <script>
-import { Pagination, Message } from 'element-ui'
+import { Pagination, Message ,Select} from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
 /* eslint-disable */
 export default {
     data() {
         return {
             currentPage: 1,
-            horse: '',
-            horseOptions: [{
-                value: '1',
-                label: '马匹1'
-            }, {
-                value: '2',
-                label: '马匹2'
-            }],
+            pageRecorders: 10,
+            totalRecorders: 1,
+            horseName: '',
+            horseInfoName: [],
+            showLoading: false,
+            teethList: [],
+            deleteContent: {},
+            deleteDialog: false,
+        }
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.showLoading = true
+            hospitalSrv.teethList(vm.currentPage, vm.pageRecorders, vm.horseName).then(resp => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.teethList = resp.data.teethInfoList
+            }, err => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
+    methods: {
+        getTeethList(currentPage = this.currentPage) {
+            this.showLoading = true
+            hospitalSrv.teethList(currentPage, this.pageRecorders, this.horseName).then((resp) => {
+                this.showLoading = false
+                this.currentPage = currentPage
+                this.totalRecorders = resp.data.totalRecorders
+                this.teethList = resp.data.teethInfoList
+            }, (err) => {
+                this.showLoading = false
+                this.$message.error(err.msg)
+            })
         }
     },
     components: {
         'el-pagination': Pagination,
+        'el-select': Select
     }
 }
 </script>

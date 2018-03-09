@@ -7,63 +7,46 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">马匹：</div>
-                    <el-select size="large" v-model="horse" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
-                   
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-primary search-btn">搜索</button>
+                    <button @click="getNailList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
                                 <th>时间</th>
-                                <th>马匹</th>
+                                <th>马匹名称</th>
                                 <th>操作人</th>
+                                <th>备注</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2017.12</td>
-                                <td>大马</td>
-                                <td>小仙女</td>
+                            <tr v-for="item in nailList" :key="item">
+                                <td>{{item.brigandineDate}}</td>
+                                <td>{{item.horseName}}</td>
+                                <td>{{item.realname}}</td>
+                                <td>{{item.remark}}</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateNail',       
-                                             query: { disable: 1,}}"> 查看</router-link>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2017.12</td>
-                                <td>大马</td>
-                                <td>小仙女</td>
-                                <td>
-                                    <router-link :to="{path: '/hospital/updateNail',       
-                                             query: { disable: 1,}}"> 查看</router-link>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2017.12</td>
-                                <td>大马</td>
-                                <td>小仙女</td>
-                                <td>
-                                    <router-link :to="{path: '/hospital/updateNail',       
-                                             query: { disable: 1,}}"> 查看</router-link>
+                                                             query: { disable: 1,brigandineId:item.brigandineId}}"> 查看</router-link>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                    没有可以显示的订单
-                                                </div> -->
+                    <div class="list-empty" v-show="nailList.length===0">
+                        暂无数据
+                    </div>
                     <div class="page">
-
-                        <el-pagination background layout="prev, pager, next" :total="1000">
+                        <el-pagination @current-change="getNailList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
                 </div>
@@ -74,20 +57,51 @@
 
 <script>
 import { Pagination, Message } from 'element-ui'
+import hospitalSrv from '../../../services/hospital.service.js'
 import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
             currentPage: 1,
-            horse: '',
-            horseOptions: [{
-                value: '1',
-                label: '马匹1'
-            }, {
-                value: '2',
-                label: '马匹2'
-            }],
+            pageRecorders: 10,
+            totalRecorders: 1,
+            horseName: '',
+            horseInfoName: [],
+            nailList: [],
+            showLoading:false,
         }
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.showLoading = true
+            hospitalSrv.nailList(vm.currentPage, vm.pageRecorders, vm.horseName).then(resp => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.nailList = resp.data.brigandineList
+            }, err => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
+    methods: {
+        getNailList(currentPage = this.currentPage) {
+            this.showLoading = true
+            hospitalSrv.nailList(currentPage, this.pageRecorders, this.horseName).then((resp) => {
+                this.showLoading = false
+                this.currentPage = currentPage
+                this.totalRecorders = resp.data.totalRecorders
+                this.nailList = resp.data.brigandineList
+            }, (err) => {
+                this.showLoading = false
+                this.$message.error(err.msg)
+            })
+        },
     },
     components: {
         'el-pagination': Pagination,

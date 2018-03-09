@@ -42,7 +42,7 @@
                                 <td>{{item.hireDate}}</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateFeeder',       
-                                                 query: { disable: 1,query:{feeder:item.feederId}}}"> 查看</router-link>
+                                                 query: { disable: 1,feederId:item.feederId}}"> 查看</router-link>
                                     <router-link :to="{path:'/horse/updateFeeder',query:{feederId:item.feederId}}">修改</router-link>
                                     <a @click="deleteInfo(item.feederId)">删除</a>
                                 </td>

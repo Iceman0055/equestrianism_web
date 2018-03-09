@@ -13,8 +13,8 @@
                     <input type="text" v-model="roleName" class="form-control input-field" placeholder="请输入角色名称" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">角色标示：</div>
-                    <input type="text" v-model="roleMark" class="form-control input-field" placeholder="请输入角色唯一标示" />
+                    <div class="label">角色简称：</div>
+                    <input type="text" v-model="shortName" class="form-control input-field" placeholder="请输入角色简称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             roleName: '',
-            roleMark: '',
+            shortName: '',
             note: '',
             addInfo:{}
         }
@@ -47,13 +47,13 @@ export default {
     },
     methods: {
            addRole() {
-            if (!(this.roleName && this.roleMark && this.note)) {
+            if (!(this.roleName && this.shortName && this.note)) {
                 this.$message.error('角色信息不能为空！')
                 return;
             }
             this.addInfo = {
                 roleName: this.roleName,
-                shortName: this.roleMark,
+                shortName: this.shortName,
                 remark: this.note,
             }
             systemSrv.addRole(this.addInfo).then((resp) => {

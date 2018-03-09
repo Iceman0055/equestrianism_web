@@ -136,14 +136,15 @@ export default {
     );
   },
 
-  masterList(pageIndex, pageRecorders, hostName) {
+  masterList(pageIndex, pageRecorders, hostName,contactWay) {
     return axios({
       url: "/equestrianismApi/hostInfo/list",
       method: "get",
       params: {
         pageIndex,
         pageRecorders,
-        hostName
+        hostName,
+        contactWay
       }
     }).then(
       resp => {
@@ -467,4 +468,5 @@ export default {
       }
     );
   },
+
 };

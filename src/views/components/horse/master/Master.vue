@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-md-3 search-field">
                     <div class="label">联系方式：</div>
-                    <input type="text" v-model="contact" class="form-control input-field" placeholder="请输入联系方式" />
+                    <input type="text" v-model="contactWay" class="form-control input-field" placeholder="请输入联系方式" />
                 </div>
 
                 <div class="col-md-1 search-field search-field_controls">
@@ -48,7 +48,7 @@
                                 <td>{{item.horseName}}</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateMaster',       
-                                                                                                                     query: { disable: 1,query:{hostId:item.hostId}}}"> 查看</router-link>
+                                                                           query: { disable: 1,hostId:item.hostId}}"> 查看</router-link>
                                     <router-link :to="{path:'/horse/updateMaster',query:{hostId:item.hostId}}">修改</router-link>
                                     <a @click="deleteInfo(item.hostId)">删除</a>
                                 </td>
@@ -87,7 +87,7 @@ export default {
         return {
             deleteDialog: false,
             hostName: '',
-            contact: '',
+            contactWay: '',
             currentPage: 1,
             pageRecorders: 10,
             totalRecorders: 1,
@@ -104,7 +104,7 @@ export default {
             systemSrv.dictionary().then(resp => {
                 vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
                 vm.convertSex = vm.dictInfoList.SEX
-                return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName)
+                return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName,vm.contactWay)
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
@@ -119,7 +119,7 @@ export default {
     methods: {
         getMasterList(currentPage = this.currentPage) {
             this.showLoading = true
-            horseSrv.masterList(currentPage, this.pageRecorders, this.hostName).then((resp) => {
+            horseSrv.masterList(currentPage, this.pageRecorders, this.hostName,this.contactWay).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders

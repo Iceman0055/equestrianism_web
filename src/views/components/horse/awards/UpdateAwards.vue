@@ -78,9 +78,9 @@ export default {
             useDisabled: false,
             files: {},
             horsePrizeId: '',
-            awardsInfo:{},
-            horseInfoName:[],
-            horseName:'',
+            awardsInfo: {},
+            horseInfoName: [],
+            horseName: '',
         }
     },
     components: {
@@ -98,14 +98,20 @@ export default {
         next(vm => {
             vm.horsePrizeId = to.query.horsePrizeId
             horseSrv.getAwardsDetail(vm.horsePrizeId).then(resp => {
+                vm.horseName = resp.data.horseId
                 vm.eventName = resp.data.eventName
                 vm.eventDate = resp.data.eventDate
                 vm.eventPlace = resp.data.eventPlace
                 vm.prizeName = resp.data.prizeName
                 vm.penaltyTerm = resp.data.penaltyTerm
                 vm.awarder = resp.data.awarder
-                vm.descImage = resp.data.eventDate
+                vm.descImage = resp.data.descImage
             }, err => {
+                vm.$message.error(err.msg)
+            })
+             horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
                 vm.$message.error(err.msg)
             })
         })
@@ -118,8 +124,8 @@ export default {
             this.files[file.name] = file.file.raw
         },
         updateAwards() {
-            if (!(this.gameName && this.awardsTime && this.address && this.awards &&
-                this.penalty && this.awardParty && this.horse && this.horseImg)) {
+            if (!(this.horseName && this.eventName && this.eventDate && this.eventPlace &&
+                this.prizeName && this.penaltyTerm && this.awarder)) {
                 this.$message.error('获奖信息不能为空！')
                 return;
             }
@@ -141,7 +147,7 @@ export default {
                 formData.append(key, this.awardsInfo[key])
             }
             horseSrv.updateAwards(formData).then((resp) => {
-                this.$message.success('更新获奖信息成功')
+                this.$message.success('修改获奖信息成功')
                 this.$router.push('/horse/awards')
             }, err => {
                 this.$message.error(err.msg)

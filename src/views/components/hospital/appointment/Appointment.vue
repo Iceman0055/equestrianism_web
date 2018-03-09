@@ -1,13 +1,13 @@
 <template>
     <div class="animated fadeIn content_page">
         <div class="content-title">
-            <div class="title">预约日常管理</div>
+            <div class="title">预约日程管理</div>
         </div>
         <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div style="left:-14px" class="label">预约开始日期：</div>
-                    <el-date-picker size="large" v-model="appointDate" type="date" placeholder="选择日期时间">
+                    <el-date-picker size="large" v-model="appointDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-3 search-field">

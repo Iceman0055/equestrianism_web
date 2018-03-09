@@ -15,7 +15,7 @@
                         <!-- <el-input 
                             @input="setQueryKey"
                         /> -->
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseName">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>

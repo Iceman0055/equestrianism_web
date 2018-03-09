@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>角色名称</th>
-                                <th>角色唯一标示</th>
+                                <th>角色简称</th>
                                 <th>备注</th>
                                 <th>状态</th>
                                 <th>操作</th>
@@ -27,7 +27,7 @@
                         <tbody>
                             <tr v-for="item in roleList" :key="item">
                                 <td>{{item.roleName}}</td>
-                                <td>{{item.roleId}}</td>
+                                <td>{{item.shortName}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>
@@ -35,7 +35,7 @@
                                     <router-link :to="{path:'/system/updateRole',query:{roleId:item.roleId}}">
                                         修改
                                     </router-link>
-                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,userId:item.roleId}}"> 查看</router-link>
+                                    <router-link :to="{path: '/system/updateRole',  query: { disable: 1,roleId:item.roleId}}"> 查看</router-link>
                                     <a @click="statusInfo(item.roleId,item.status)">{{convertStatus[1-item.status]}}</a>
                                     <a @click="deleteInfo(item.roleId)">删除</a>
                                 </td>

@@ -40,6 +40,7 @@ export default {
             departShortName: '',
             note: '',
             useDisabled: false,
+            departmentId:'',
         }
     },
     components: {
@@ -51,7 +52,8 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            systemSrv.departDetail(to.query.departmentId).then((resp) => {
+           vm.departmentId =  to.query.departmentId
+            systemSrv.departDetail(vm.departmentId).then((resp) => {
                 vm.departName = resp.data.departmentName
                 vm.departShortName = resp.data.shortName
                 vm.note = resp.data.remark
@@ -62,12 +64,12 @@ export default {
     },
     methods: {
         updateDepart() {
-            if (!(this.roleName && this.roleMark && this.note)) {
+            if (!(this.departName && this.departShortName && this.note)) {
                 this.$message.error('部门信息不能为空！')
                 return;
             }
             this.updateInfo = {
-                departmentId: this.$route.query.departmentId,
+                departmentId: this.departmentId,
                 departmentName: this.departName,
                 shortName: this.departShortName,
                 remark: this.note,

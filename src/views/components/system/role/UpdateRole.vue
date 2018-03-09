@@ -15,8 +15,8 @@
 
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">角色标示：</div>
-                    <input type="text" v-model="roleMark" :disabled="useDisabled" class="form-control input-field" />
+                    <div class="label">角色简称：</div>
+                    <input type="text" v-model="shortName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
@@ -41,8 +41,9 @@ export default {
             useDisabled: false,
             note: '',
             roleName: '',
-            roleMark: '',
+            shortName: '',
             updateInfo: {},
+            roleId:'',
         }
     },
     components: {
@@ -51,10 +52,11 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            systemSrv.roleDetail(to.query.roleId).then((resp) => {
+            vm.roleId = to.query.roleId
+            systemSrv.roleDetail(vm.roleId).then((resp) => {
                 vm.roleName = resp.data.roleName
-                vm.shortName = resp.data.roleMark
-                vm.remark = resp.data.note
+                vm.shortName= resp.data.shortName
+                vm.note = resp.data.remark
             }, (err) => {
                 vm.$message.error(err.msg)
             })
@@ -68,14 +70,14 @@ export default {
     },
     methods: {
         updateRole() {
-            if (!(this.roleName && this.roleMark && this.note)) {
+            if (!(this.roleName && this.shortName && this.note)) {
                 this.$message.error('角色信息不能为空！')
                 return;
             }
             this.updateInfo = {
-                roleId: this.$route.query.roleId,
+                roleId: this.roleId,
                 roleName: this.roleName,
-                shortName: this.roleMark,
+                shortName: this.shortName,
                 remark: this.note,
             }
             systemSrv.updateRole(this.updateInfo).then((resp) => {

@@ -10,54 +10,51 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="nailTime" type="date" placeholder="选择日期">
+                    <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime" placeholder="选择日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
-                    <el-select size="large" v-model="horse" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectHorse" size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">操作人：</div>
-                    <el-select size="large" v-model="operation" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectPeople" size="large" v-model="operatePeople" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in feederInfo" :key="item.userId" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
             </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">备注：</div>
+                    <input type="text" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
+                </div>
+            </div>
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addNail">确定</el-button>
         </div>
     </div>
 </template>
 
 <script>
-import { DatePicker, Button, Select, Message  } from 'element-ui'
+import { DatePicker, Button, Select, Message } from 'element-ui'
 import hospitalSrv from '../../../services/hospital.service.js'
+import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
-            nailTime: '',
-            horse:'',
-            operation:'',
-            horseOptions: [{
-                value: '选项1',
-                label: '马匹1'
-            }, {
-                value: '选项2',
-                label: '马匹2'
-            }],
-            options: [{
-                value: '选项1',
-                label: '张三'
-            }, {
-                value: '选项2',
-                label: '李四'
-            }],
+            remark:'',
+            time: '',
+            horseName: '',
+            operatePeople: '',
+            horseInfoName: [],
+            nailInfo: {},
+            feederInfo: []
         }
     },
     components: {
@@ -65,9 +62,48 @@ export default {
         'el-button': Button,
         "el-select": Select
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+            hospitalSrv.getFeeder().then(resp => {
+                vm.feederInfo = resp.data.veterinarianList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
+    mounted() {
+        this.$el.addEventListener('animationend', this.resizeHorse)
+        this.$el.addEventListener('animationend', this.resizePeople)
+    },
     methods: {
-        open() {
-            this.$message.success('修改成功')
+        addNail() {
+            if (!(this.time && this.horseName && this.operatePeople&& this.remark)) {
+                this.$message.error('钉甲信息不能为空！')
+                return;
+            }
+            this.nailInfo = {
+                brigandineDate: this.time,
+                horseId: this.horseName,
+                userId: this.operatePeople,
+                remark:this.remark
+            }
+            hospitalSrv.addNail(this.nailInfo).then((resp) => {
+                this.$message.success('添加钉甲成功')
+                this.$router.push('/hospital/nail')
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
+        resizeHorse() {
+            this.$refs.selectHorse.resetInputWidth()
+        },
+        resizePeople() {
+            this.$refs.selectPeople.resetInputWidth()
         },
     }
 }

@@ -34,7 +34,7 @@
         </div>
         <div class="col-md-4 search-field">
           <div class="label">入职时间：</div>
-          <el-date-picker class="el-field-input" size="large" value-format="yyyy-MM-dd" v-model="workTime" type="date" placeholder="选择时间">
+          <el-date-picker class="el-field-input" size="large" value-format="yyyy-MM-dd" format="yyyy-MM-dd" v-model="workTime" type="date" placeholder="选择时间">
           </el-date-picker>
         </div>
       </div>
