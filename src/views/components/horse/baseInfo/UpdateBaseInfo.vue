@@ -193,7 +193,8 @@ export default {
             horseInfoName: [],
             convertColor: {},
             dictionaryInfoList: [],
-            dictInfoList: {}
+            dictInfoList: {},
+            list:'',
         }
     },
     components: {
@@ -204,6 +205,9 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+        // if(this.useDisabled){
+        //   this.list =   this.$route.matched[2].name = '查看马匹基本信息'
+        // }
         this.$el.addEventListener('animationend', this.resizeSelect)
         this.$el.addEventListener('animationend', this.resizeColor)
     },
