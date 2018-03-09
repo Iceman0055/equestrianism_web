@@ -58,7 +58,7 @@ export default {
             }
             systemSrv.addRole(this.addInfo).then((resp) => {
                 this.$message.success('添加角色成功')
-                this.$router.push('/system/user')
+                this.$router.push('/system/role')
             }, (err) => {
                 this.$message.error(err.msg)
             })

@@ -79,7 +79,7 @@ export default {
                 remark: this.note,
             }
             systemSrv.updateRole(this.updateInfo).then((resp) => {
-                this.$message.success('更新角色成功')
+                this.$message.success('修改角色成功')
                 this.$router.push('/system/role')
             }, (err) => {
                 this.$message.error(err.msg)
