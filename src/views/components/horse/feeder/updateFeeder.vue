@@ -97,7 +97,7 @@ export default {
             })
             systemSrv.dictionary().then(resp => {
                 vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
-                return horseSrv.getFeederDetail(to.query.feederId);
+                return horseSrv.getFeederDetail(vm.feederId);
             }).then(resp => {
                 vm.name = resp.data.feederName
                 vm.sex = resp.data.sex
