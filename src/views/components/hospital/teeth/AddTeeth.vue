@@ -7,11 +7,10 @@
             </router-link>
         </div>
         <div class="content-show">
-
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="time" type="date" placeholder="选择日期">
+                    <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime" placeholder="选择日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -55,6 +54,7 @@ export default {
             teethInfo:{},
             horseInfoName: [],
             remark:'',
+            feederInfo:[]
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -87,9 +87,9 @@ export default {
                 return;
             }
             this.teethInfo = {
-                time: this.time,
-                horseName: this.horseName,
-                operatePeople: this.operatePeople,
+                operateDate: this.time,
+                horseId: this.horseName,
+                userId: this.operatePeople,
                 remark:this.remark
             }
             hospitalSrv.addTeeth(this.teethInfo).then((resp) => {

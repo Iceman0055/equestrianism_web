@@ -11,7 +11,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">时间：</div>
-                    <el-date-picker class="el-field-input" :disabled="useDisabled" size="large" v-model="time" type="date">
+                    <el-date-picker class="el-field-input" :disabled="useDisabled" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -54,8 +54,9 @@ export default {
             horseName: '',
             operatePeople: '',
             horseInfoName: [],
-            teethId: '',
+            contusionTeethId: '',
             teethInfo:{},
+            feederInfo:[],
             remark:'',
         }
     },
@@ -66,11 +67,11 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            vm.teethId = to.query.teethId
-            hospitalSrv.getTeethDetail(vm.teethId).then(resp => {
-                vm.time = resp.data.time
-                vm.horseName = resp.data.horseName
-                vm.operatePeople = resp.data.operatePeople
+            vm.contusionTeethId = to.query.contusionTeethId
+            hospitalSrv.getTeethDetail(vm.contusionTeethId).then(resp => {
+                vm.time = resp.data.operateDate
+                vm.horseName = resp.data.horseId
+                vm.operatePeople = resp.data.userId
                 vm.remark = resp.data.remark
             }, err => {
                 vm.$message.error(err.msg)
@@ -99,10 +100,10 @@ export default {
                 return;
             }
             this.teethInfo = {
-                teethId: this.teethId,
-                time: this.time,
-                horseName: this.horseName,
-                operatePeople: this.operatePeople,
+                contusionTeethId: this.contusionTeethId,
+                operateDate: this.time,
+                horseId: this.horseName,
+                userId: this.operatePeople,
                 remark:this.remark
             }
             hospitalSrv.updateTeeth(this.teethInfo).then((resp) => {

@@ -152,6 +152,10 @@
               <router-link :to="'/system/dictionary'" class="nav-padding nav-link" exact>
                 <i class="icon-star"></i> 字典管理</router-link>
             </li>
+             <li class="nav-item">
+              <router-link :to="'/system/assetsManage'" class="nav-padding nav-link" exact>
+                <i class="icon-star"></i> 资产管理</router-link>
+            </li>
 
           </ul>
         </router-link>

@@ -252,11 +252,11 @@ export default {
       }
     );
   },
-  teethList(pageIndex, pageRecorders, horseName) {
+  teethList(pageIndex, pageRecorders, horseId) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/contusionTeethInfo/list",
       method: "get",
-      params: { pageIndex, pageRecorders, horseName }
+      params: { pageIndex, pageRecorders, horseId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -275,7 +275,7 @@ export default {
   },
   addTeeth(teethInfo) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/contusionTeethInfo/add",
       method: "post",
       data: teethInfo
     }).then(
@@ -296,7 +296,7 @@ export default {
   },
   updateTeeth(teethInfo) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/contusionTeethInfo/update",
       method: "post",
       data: teethInfo
     }).then(
@@ -317,7 +317,7 @@ export default {
   },
   deleteTeeth(deleteInfo) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/contusionTeethInfo/delete",
       method: "post",
       data: deleteInfo
     }).then(
@@ -336,11 +336,11 @@ export default {
       }
     );
   },
-  getTeethDetail(teethId) {
+  getTeethDetail(contusionTeethId) {
     return axios({
-      url: "",
+      url: "/equestrianismApi/contusionTeethInfo/detail",
       method: "get",
-      params: { teethId }
+      params: { contusionTeethId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -482,5 +482,110 @@ export default {
         return Promise.reject(err);
       }
     );
-  }
+  },
+  vaccInfoList(pageIndex, pageRecorders,horseId,operateDate,operatePlace ) {
+    return axios({
+      url: "/equestrianismApi/vaccinationInfo/list",
+      method: "get",
+      params: { pageIndex, pageRecorders,horseId,operateDate,operatePlace }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  addVacc(vaccInfo) {
+    return axios({
+      url: "/equestrianismApi/vaccinationInfo/add",
+      method: "post",
+      data: vaccInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateVacc(vaccInfo) {
+    return axios({
+      url: "/equestrianismApi/vaccinationInfo/update",
+      method: "post",
+      data: vaccInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteVacc(deleteInfo) {
+    return axios({
+      url: "/equestrianismApi/vaccinationInfo/delete",
+      method: "post",
+      data: deleteInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getVaccDetail(vaccinationId) {
+    return axios({
+      url: "/equestrianismApi/vaccinationInfo/detail",
+      method: "get",
+      params: { vaccinationId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
 };

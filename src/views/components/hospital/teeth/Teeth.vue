@@ -21,44 +21,37 @@
                     </router-link>
                 </div>
             </div>
-            <div class="row">
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
                                 <th>时间</th>
-                                <th>马匹</th>
+                                <th>马匹名称</th>
                                 <th>操作人</th>
+                                <th>备注</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2017.12</td>
-                                <td>大马</td>
-                                <td>小仙女</td>
+                            <tr v-for="item in teethList" :key="item">
+                                <td>{{item.operateDate}}</td>
+                                <td>{{item.horseName}}</td>
+                                <td>{{item.realname}}</td>
+                                <td>{{item.remark}}</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateTeeth',       
-                                                                 query: { disable: 1,}}"> 查看</router-link>
-                                    <router-link :to="'/hospital/updateTeeth'">修改</router-link>
-                                    <!-- <a @click="deleteInfo(item.hospitalAppointId)">删除</a> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2017.12</td>
-                                <td>大马</td>
-                                <td>小仙女</td>
-                                <td>
-                                    <router-link :to="{path: '/hospital/updateNail',       
-                                                                 query: { disable: 1,}}"> 查看</router-link>
-                                    <router-link :to="'/hospital/updateNail'">修改</router-link>
+                                                                 query: { disable: 1,contusionTeethId:item.contusionTeethId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hospital/updateTeeth',query:{contusionTeethId:item.contusionTeethId}}">修改</router-link>
+                                    <a @click="deleteInfo(item.contusionTeethId)">删除</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" v-show="teethList.length===0">
+                    <div class="list-empty" v-show="teethList.length===0">
                                 暂无数据
-                            </div> -->
+                            </div>
                     <div class="page">
                         <el-pagination @current-change="getTeethList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
@@ -102,7 +95,7 @@ export default {
             hospitalSrv.teethList(vm.currentPage, vm.pageRecorders, vm.horseName).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
-                vm.teethList = resp.data.teethInfoList
+                vm.teethList = resp.data.contusionTeethList
             }, err => {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
@@ -121,7 +114,7 @@ export default {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders
-                this.teethList = resp.data.teethInfoList
+                this.teethList = resp.data.contusionTeethList
             }, (err) => {
                 this.showLoading = false
                 this.$message.error(err.msg)
@@ -129,7 +122,7 @@ export default {
         },
         deleteInfo(teethId) {
             this.deleteDialog = true
-            this.deleteContent.teethId = teethId
+            this.deleteContent.contusionTeethId = teethId
             this.deleteContent.deleteFlag = 1
         },
         deleteTeeth() {

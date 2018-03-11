@@ -74,6 +74,7 @@ import role from "@/views/components/system/role/role";
 import addRole from "@/views/components/system/role/addRole";
 import updateRole from "@/views/components/system/role/updateRole";
 import dictionary from "@/views/components/system/dictionary/dictionary";
+import assetsManage from "@/views/components/system/assetsManage/assetsManage"
 // 马术中心资产管理
 import horseAssets from "@/views/components/equestrian/horseAssets/horseAssets";
 import hAddAssets from "@/views/components/equestrian/horseAssets/hAddAssets";
@@ -500,6 +501,11 @@ export default new Router({
               path: "dictionary",
               name: "字典管理",
               component: dictionary
+            },
+            {
+              path: "assetsManage",
+              name: "资产管理",
+              component: assetsManage
             },
           ]
         }

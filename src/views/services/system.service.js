@@ -670,5 +670,117 @@ export default {
         return Promise.reject(err);
       }
     );
-  }
+  },
+  
+  assetsList(pageIndex, pageRecorders, typeName) {
+    return axios({
+      url: "/equestrianismApi/assetTypeInfo/list",
+      method: "get",
+      params: {
+        pageIndex,
+        pageRecorders,
+        typeName,
+      }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  addAssets(assetsInfo) {
+    return axios({
+      url: "/equestrianismApi/assetTypeInfo/add",
+      method: "post",
+      data: assetsInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          dictionary = undefined;
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateAssets(assetsInfo) {
+    return axios({
+      url: "/equestrianismApi/assetTypeInfo/update",
+      method: "post",
+      data: assetsInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          dictionary = undefined;
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteAssets(deleteInfo) {
+    return axios({
+      url: "/equestrianismApi/assetTypeInfo/delete",
+      method: "post",
+      data: deleteInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getAssets(typeId) {
+    return axios({
+      url: "/equestrianismApi/assetTypeInfo/detail",
+      method: "get",
+      params: { typeId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
 };

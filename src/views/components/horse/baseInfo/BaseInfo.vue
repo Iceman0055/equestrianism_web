@@ -11,13 +11,10 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称"/>
                         <!-- <el-input 
                             @input="setQueryKey"
-                        /> -->
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
-                        </el-option>
-                    </el-select>
+                        /> -->       
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn" @click="getHorseList(1)">搜索</button>
