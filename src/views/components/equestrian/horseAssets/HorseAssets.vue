@@ -7,15 +7,15 @@
             <div class="row list-search">
                 <div class="col-md-2 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select size="large" v-model="selectValue22" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options12" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select size="large" v-model="selectValue223" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options123" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select @focus="getAssetsType" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -95,12 +95,12 @@
                                 <td>无</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/hUpdateAssets',       
-                                                     query: { disable: 1,}}"> 查看</router-link>
+                                                             query: { disable: 1,}}"> 查看</router-link>
                                     <router-link :to="'/equestrian/hUpdateAssets'">
                                         修改
                                     </router-link>
                                     <!-- <a href="/api/downloadLocal?examId={{item.examId}}"
-                                        target="_blank" download="data.json">下载</a> -->
+                                                target="_blank" download="data.json">下载</a> -->
                                     <a>导出</a>
                                 </td>
 
@@ -108,8 +108,8 @@
                         </tbody>
                     </table>
                     <!-- <div class="list-empty" v-show="content.orderList.length===0">
-                                                    没有可以显示的订单
-                                                </div> -->
+                                                            没有可以显示的订单
+                                                        </div> -->
                     <div class="page">
                         <el-pagination background layout="prev, pager, next" :total="1000">
                         </el-pagination>
@@ -122,32 +122,37 @@
 <script>
 import { Pagination, Message } from 'element-ui'
 import equestrianSrv from '../../../services/equestrian.service.js'
+import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            selectValue223: '',
-            selectValue22: "",
+            typeDetail: '',
+            assetType: "",
             currentPage: 1,
-            options12: [
-                {
-                    value: "1",
-                    label: "资产1"
-                },
-                {
-                    value: "2",
-                    label: "资产2"
-                }
-            ],
-            options123: [
-                {
-                    value: "1",
-                    label: "资产分类1"
-                },
-                {
-                    value: "2",
-                    label: "资产分类2"
-                }
-            ],
+            assetTypeList: [],
+            typeDetailList: [],
+        }
+    },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            systemSrv.assetsInfoComboBox().then(resp => {
+                vm.assetTypeList = resp.data.assetTypeList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
+    methods: {
+        getAssetsType() {
+            if(!this.assetType){
+                this.$message.error('请先选择资产大类')
+                return;
+            }
+            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
+               this.typeDetailList = resp.data.typeDetailList
+            }, err => {
+                this.$message.error(err.msg)
+            })
         }
     },
     components: {

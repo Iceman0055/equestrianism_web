@@ -1,10 +1,10 @@
 import axios from "axios";
 export default {
-  assetsList() {
+  assetsList(pageIndex, pageRecorders) {
     return axios({
       url: "",
       method: "get",
-      params: {}
+      params: { pageIndex, pageRecorders }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -21,11 +21,11 @@ export default {
       }
     );
   },
-  addAssets() {
+  addAssets(addInfo) {
     return axios({
       url: " ",
       method: "post",
-      data: {}
+      data: addInfo
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -42,11 +42,11 @@ export default {
       }
     );
   },
-  updateAssets() {
+  updateAssets(updateInfo) {
     return axios({
       url: "",
       method: "post",
-      data: {}
+      data: updateInfo
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -63,11 +63,32 @@ export default {
       }
     );
   },
-  deleteAssets() {
+  deleteAssets(deleteInfo) {
     return axios({
       url: "",
       method: "post",
-      data: {}
+      data: deleteInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getAssetsDetail(assetsId) {
+    return axios({
+      url: "",
+      method: "get",
+      params: {assetsId}
     }).then(
       resp => {
         if (resp.data.code === 10200) {

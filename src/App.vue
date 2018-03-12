@@ -111,8 +111,15 @@ export default {
 
 .el-textarea.is-disabled .el-textarea__inner,
 .el-input.is-disabled .el-input__inner {
-  background-color: #cfd8dc;
+  // background-color: #cfd8dc;
   color: #607d8b;
+    background: #eee;
+}
+.form-control:disabled {
+    /* background-color: #f7f7f7; */
+    opacity: 1;
+    border-color: #ddd;
+    background: #eee;
 }
 
 .back {

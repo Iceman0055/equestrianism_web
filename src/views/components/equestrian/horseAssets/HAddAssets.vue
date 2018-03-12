@@ -17,15 +17,15 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select ref="selectCate" size="large" v-model="assetsCate" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectCate" size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select ref="selectClass" size="large" v-model="assetsClass" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select @focus="getAssetsType" ref="selectClass" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -136,6 +136,7 @@
 <script>
 import { DatePicker, Button, Select, Message } from 'element-ui'
 import equestrianSrv from '../../../services/equestrian.service.js'
+import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -154,8 +155,6 @@ export default {
             area: '',
             valueType: '',
             getWay: '',
-            assetsCate: '',
-            assetsClass: '',
             financialDate: '',
             makeDate: '',
             endDate: '',
@@ -167,26 +166,10 @@ export default {
                 value: '选项2',
                 label: '使用结束'
             }],
-            assetsCateOptions: [
-                {
-                    value: "1",
-                    label: "资产1"
-                },
-                {
-                    value: "2",
-                    label: "资产2"
-                }
-            ],
-            assetsClassOptions: [
-                {
-                    value: "1",
-                    label: "资产分类1"
-                },
-                {
-                    value: "2",
-                    label: "资产分类2"
-                }
-            ],
+            typeDetail: '',
+            assetType: "",
+            assetTypeList: [],
+            typeDetailList: [],
         }
     },
     components: {
@@ -199,7 +182,27 @@ export default {
         this.$el.addEventListener('animationend', this.cateResize)
         this.$el.addEventListener('animationend', this.classResize)
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            systemSrv.assetsInfoComboBox().then(resp => {
+                vm.assetTypeList = resp.data.assetTypeList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
     methods: {
+        getAssetsType() {
+            if(!this.assetType){
+                this.$message.error('请先选择资产大类')
+                return;
+            }
+            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
+                this.typeDetailList = resp.data.typeDetailList
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
         statusResize() {
             this.$refs.selectStatus.resetInputWidth()
         },

@@ -31,8 +31,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in assetsList" :key="item">
-                                <td><input type="radio" class="input-pointer" name="select" @click="getDetailList(item.typeId)"></td>
+                            <tr style="cursor:pointer" v-for="item in assetsList" :key="item" @click="getAssetsDetail(1, item)">
+                                <td><input type="radio" class="input-pointer" name="select" :checked="item.checked" ></td>
                                 <td>{{item.typeName}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>
@@ -55,38 +55,40 @@
 
             <div class="row list-search">
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-success" @click="addDictTextDialog(1)">新增详情</button>
+                    <button class="btn btn-success" :disabled="!activeItem" @click="addAssetsTextDialog(1,searchDetailId)">新增详情</button>
                 </div>
             </div>
-            <div class="row ">
+            <div class="wait-loading" v-show="loading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!loading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
+                                <th>父节点</th>
                                 <th>详情名称</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="item in dictDetailList" :key="item">
-                                <td>{{item.dictionaryId}}</td>
-                                <td>{{item.itemValue}}</td>
-                                <td>{{item.itemCode}}</td>
+                            <tr v-for="item in assetsDetailList" :key="item">
+                                <td>{{item.typeId}}</td>
+                                <td>{{item.typeDetailName}}</td>
+                                <td>{{item.remark}}</td>
                                 <td>
-                                    <a @click="addDictTextDialog(2,item.dictionaryDetailId)">修改 </a>
-                                    <a @click="deleteDetailInfo(item.dictionaryDetailId)">删除</a>
+                                    <a @click="addAssetsTextDialog(2,item.typeDetailId)">修改 </a>
+                                    <a @click="deleteDetailInfo(item.typeDetailId)">删除</a>
                                 </td>
-                            </tr> -->
+                            </tr>
 
                         </tbody>
                     </table>
-                    <div class="list-empty" v-show="dictDetailList.length===0">
+                    <div class="list-empty" v-show="assetsDetailList.length===0">
                         暂无数据
                     </div>
 
                     <div class="page">
-                        <el-pagination @current-change="dictDetailList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
+                        <el-pagination @current-change="getAssetsDetail" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
                         </el-pagination>
                     </div>
                 </div>
@@ -134,19 +136,25 @@
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">
-                        <div class="label">详情名称：</div>
-                        <input type="text" v-model="itemValue" class="form-control input-field" placeholder="详情名称" />
+                        <div class="label">父节点：</div>
+                        <input type="text" v-model="fatherCode" disabled class="form-control input-field" placeholder="父节点" />
                     </div>
                     <div class="col-md-6 search-field">
+                        <div class="label">详情名称：</div>
+                        <input type="text" v-model="detailName" class="form-control input-field" placeholder="详情名称" />
+                    </div>
+                </div>
+                <div class="row mb-1 list-search">
+                    <div class="col-md-6 search-field">
                         <div class="label">备注：</div>
-                        <input type="text" v-model="itemCode" class="form-control input-field" placeholder="备注" />
+                        <input type="text" v-model="detailRemark" class="form-control input-field" placeholder="备注" />
                     </div>
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="updateTextDialog = false">取 消</el-button>
-                <el-button v-if="dialogTextTitle=='新增'" type="primary" @click="addDictDetail">新增</el-button>
-                <el-button v-if="dialogTextTitle=='修改'" type="primary" @click="updateDictDetail">修改</el-button>
+                <el-button v-if="dialogTextTitle=='新增'" type="primary" @click="addAssetsDetail">新增</el-button>
+                <el-button v-if="dialogTextTitle=='修改'" type="primary" @click="updateAssetsDetail">修改</el-button>
             </span>
         </el-dialog>
     </div>
@@ -160,11 +168,13 @@ export default {
         return {
             dialogTitle: '',
             dialogTextTitle: '',
+             activeItem: undefined,
             deleteTextDialog: false,
             updateTextDialog: false,
             updateDialog: false,
             deleteDialog: false,
             showLoading: false,
+            loading:false,
             pageRecorders: 10,
             totalRecorders: 1,
             currentPage: 1,
@@ -177,17 +187,20 @@ export default {
             assetsName: '',
             dictType: '',
             remark: '',
-            sort: '',
+            detailRemark: '',
+            detailName: '',
             deleteContent: {},
             deleteContentInfo: {},
             typeId: '',
+            typeDetailId: '',
             dictionaryDetailId: '',
-            dictDetailList: [],
-            fatherCode: '',
-            itemCode: '',
-            itemValue: '',
+            assetsDetailList: [],
             updateDetailInfo: {},
-            addDetailInfo: {}
+            addDetailInfo: {},
+            searchDetailId:'',
+            fatherCode:'',
+            editDetail:true,
+            checked:false
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -195,8 +208,19 @@ export default {
             vm.showLoading = true
             systemSrv.assetsList(vm.currentPage, vm.pageRecorders, vm.typeName, ).then(resp => {
                 vm.showLoading = false
-                vm.totalRecorders = resp.data.totalRecorders
-                vm.assetsList = resp.data.assetTypeList
+                vm.totalRecorders = resp.data.totalRecorders              
+                let assetsList = resp.data.assetTypeList
+                let len = assetsList.length
+                let checkedArray = []
+                for(let i=0;i<len;i++){
+                    checkedArray.push({
+                        typeId:assetsList[i].typeId,
+                        typeName:assetsList[i].typeName,
+                        remark:assetsList[i].remark,
+                        checked: false
+                    })
+                }
+                vm.assetsList = checkedArray
             }, err => {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
@@ -210,25 +234,34 @@ export default {
             systemSrv.assetsList(currentPage, this.pageRecorders, this.typeName).then(resp => {
                 this.currentPage = currentPage
                 this.showLoading = false
-                this.total = resp.data.totalRecorders
+                this.totalRecorders = resp.data.totalRecorders
                 this.assetsList = resp.data.assetTypeList
             }, err => {
                 this.showLoading = false
                 this.$message.error(err.msg)
             })
         },
-        getDetailList(id) {
-            systemSrv.dicDetailList(id).then(resp => {
+        getAssetsDetail(currentPage, item = this.activeItem) {
+            this.activeItem && (this.activeItem.checked = false);
+            item.checked = true;
+            this.activeItem = item;
+            this.loading = true
+            this.searchDetailId = item.typeId
+            systemSrv.assetsDetailList(currentPage, this.page, item.typeId).then(resp => {
+                this.current = currentPage
+                this.loading = false
                 this.total = resp.data.totalRecorders
-                this.dictDetailList = resp.data.dictionaryDetailList
+                this.assetsDetailList = resp.data.assetTypeDetailList
             }, err => {
+                this.loading = false
                 this.$message.error(err.msg)
             })
         },
         addAssetsDialog(index, typeId) {
+            event.stopPropagation()
             this.updateDialog = true
             if (index == 1) {
-                this.dialogTitle = '新增'       
+                this.dialogTitle = '新增'
                 this.assetsName = ''
                 this.remark = ''
             } else {
@@ -243,17 +276,20 @@ export default {
 
             }
         },
-        addDictTextDialog(index, dictionaryDetailId) {
+        addAssetsTextDialog(index, id) {
             this.updateTextDialog = true
             if (index == 1) {
                 this.dialogTextTitle = '新增'
+                this.fatherCode = id
+                this.detailName = ''
+                this.detailRemark = ''
             } else {
-                this.dictionaryDetailId = dictionaryDetailId
+                this.typeDetailId = id
                 this.dialogTextTitle = '修改'
-                systemSrv.getDicDetail(dictionaryDetailId).then(resp => {
-                    this.fatherCode = resp.data.dictionaryId
-                    this.itemCode = resp.data.itemCode
-                    this.itemValue = resp.data.itemValue
+                systemSrv.getAssetsDetail(this.typeDetailId).then(resp => {
+                    this.fatherCode = resp.data.typeId
+                    this.detailName = resp.data.typeDetailName
+                    this.detailRemark = resp.data.remark
                 }, err => {
                     this.$message.error(err.msg)
                 })
@@ -276,38 +312,38 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-        addDictDetail() {
-            if (!(this.fatherCode && this.itemCode && this.itemValue)) {
-                this.$message.error('字项信息不能为空！')
+        addAssetsDetail() {
+            if (!(this.fatherCode && this.detailName && this.detailRemark)) {
+                this.$message.error('资产详情信息不能为空！')
                 return;
             }
             this.addDetailInfo = {
-                dictionaryId: this.fatherCode,
-                itemCode: this.itemCode,
-                itemValue: this.itemValue,
+                typeId: this.fatherCode,
+                typeDetailName: this.detailName,
+                remark: this.detailRemark,
             }
-            systemSrv.addDicDetail(this.addDetailInfo).then((resp) => {
-                this.$message.success('添加字项成功')
+            systemSrv.addAssetsDetail(this.addDetailInfo).then((resp) => {
+                this.$message.success('添加资产详情成功')
                 this.updateTextDialog = false
-                this.getDetailList()
+                this.getAssetsDetail(1,this.fatherCode)
             }, (err) => {
                 this.$message.error(err.msg)
             })
         },
-        updateDictDetail() {
-            if (!(this.fatherCode && this.itemCode && this.itemValue)) {
-                this.$message.error('字项信息不能为空！')
+        updateAssetsDetail() {
+            if (!(this.typeDetailId&&this.detailName && this.detailRemark)) {
+                this.$message.error('资产详情信息不能为空！')
                 return;
             }
             this.updateDetailInfo = {
-                dictionaryDetailId: this.dictionaryDetailId,
-                itemCode: this.itemCode,
-                itemValue: this.itemValue,
+                typeDetailId: this.typeDetailId,
+                typeDetailName: this.detailName,
+                remark: this.detailRemark,
             }
-            systemSrv.updateDicDetail(this.updateDetailInfo).then((resp) => {
-                this.$message.success('修改字项成功')
+            systemSrv.updateAssetsDetail(this.updateDetailInfo).then((resp) => {
+                this.$message.success('修改资产详情成功')
                 this.updateTextDialog = false
-                this.getDetailList()
+                this.getAssetsDetail(1,this.fatherCode)
             }, (err) => {
                 this.$message.error(err.msg)
             })
@@ -331,6 +367,7 @@ export default {
             })
         },
         deleteInfo(typeId) {
+            event.stopPropagation()
             this.deleteDialog = true
             this.deleteContent.typeId = typeId
             this.deleteContent.deleteFlag = 1
@@ -344,16 +381,16 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-        deleteDetailInfo(dicDetailId) {
+        deleteDetailInfo(typeDetailId) {
             this.deleteTextDialog = true
-            this.deleteContentInfo.dictionaryDetailId = dicDetailId
+            this.deleteContentInfo.typeDetailId = typeDetailId
             this.deleteContentInfo.deleteFlag = 1
         },
         deleteTextDetail() {
-            systemSrv.deleteDicDetail(this.deleteContentInfo).then(resp => {
+            systemSrv.deleteAssetsDetail(this.deleteContentInfo).then(resp => {
                 this.$message.success('删除成功')
                 this.deleteTextDialog = false
-                this.getDetailList()
+                this.getAssetsDetail(1,this.fatherCode)
             }, err => {
                 this.$message.error(err.msg)
             })

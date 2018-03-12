@@ -10,15 +10,15 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select size="large" v-model="assetsCate" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectCate" size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select size="large" v-model="assetsClass" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select @focus="getAssetsType" ref="selectClass" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">使用状态：</div>
-                    <el-select size="large" v-model="useStatus" class="el-field-input" placeholder="请选择">
+                    <el-select size="large" ref="selectStatus" v-model="useStatus" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in useStatusOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -129,6 +129,7 @@
 <script>
 import { DatePicker, Button, Select, Message } from 'element-ui'
 import hosAssetsSrv from '../../../services/hosAssets.service.js'
+import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -147,8 +148,6 @@ export default {
             area: '',
             valueType: '',
             getWay: '',
-            assetsCate: '',
-            assetsClass: '',
             financialDate: '',
             makeDate: '',
             endDate: '',
@@ -160,26 +159,10 @@ export default {
                 value: '选项2',
                 label: '使用结束'
             }],
-            assetsCateOptions: [
-                {
-                    value: "1",
-                    label: "资产1"
-                },
-                {
-                    value: "2",
-                    label: "资产2"
-                }
-            ],
-            assetsClassOptions: [
-                {
-                    value: "1",
-                    label: "资产分类1"
-                },
-                {
-                    value: "2",
-                    label: "资产分类2"
-                }
-            ],
+            typeDetail: '',
+            assetType: "",
+            assetTypeList: [],
+            typeDetailList: [],
         }
     },
     components: {
@@ -187,12 +170,32 @@ export default {
         'el-button': Button,
         'el-select': Select
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            systemSrv.assetsInfoComboBox().then(resp => {
+                vm.assetTypeList = resp.data.assetTypeList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
     mounted() {
         this.$el.addEventListener('animationend', this.statusResize)
         this.$el.addEventListener('animationend', this.cateResize)
         this.$el.addEventListener('animationend', this.classResize)
     },
     methods: {
+        getAssetsType() {
+            if (!this.assetType) {
+                this.$message.error('请先选择资产大类')
+                return;
+            }
+            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
+                this.typeDetailList = resp.data.typeDetailList
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
         open() {
             this.$message.success('修改成功')
         },

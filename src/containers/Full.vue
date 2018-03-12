@@ -4,7 +4,7 @@
     <div class="app-body">
       <Sidebar/>
       <main class="main">
-        <breadcrumb :list="list"/>
+        <breadcrumb :list="list" />
         <div class="container-fluid">
           <router-view></router-view>
         </div>
@@ -29,13 +29,23 @@ export default {
     Breadcrumb
   },
   computed: {
-    name () {
+    name() {
       return this.$route.name
     },
 
-    list () {
-      console.log(this.$route.matched)
-      return this.$route.matched
+    list() {
+      let len = this.$route.matched.length
+      let breads = []
+      for (let i = 0; i < len; i++) {
+        breads.push({
+          name: this.$route.matched[i].name,
+          path: this.$route.matched[i].path
+        })
+      }
+      if (this.$route.query.disable) {
+        breads[len - 1].name = breads[len - 1].name.replace('修改', '查看')
+      }
+      return breads
     }
   }
 }

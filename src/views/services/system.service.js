@@ -564,11 +564,11 @@ export default {
       }
     );
   },
-  dicDetailList(dictionaryId) {
+  dicDetailList(pageIndex, pageRecorders, dictionaryId) {
     return axios({
       url: "/equestrianismApi/dictionaryDetail/list",
       method: "get",
-      params: { dictionaryId }
+      params: { pageIndex, pageRecorders, dictionaryId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -671,7 +671,7 @@ export default {
       }
     );
   },
-  
+
   assetsList(pageIndex, pageRecorders, typeName) {
     return axios({
       url: "/equestrianismApi/assetTypeInfo/list",
@@ -679,7 +679,7 @@ export default {
       params: {
         pageIndex,
         pageRecorders,
-        typeName,
+        typeName
       }
     }).then(
       resp => {
@@ -765,6 +765,156 @@ export default {
   getAssets(typeId) {
     return axios({
       url: "/equestrianismApi/assetTypeInfo/detail",
+      method: "get",
+      params: { typeId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+
+  assetsDetailList(pageIndex, pageRecorders, typeId) {
+    return axios({
+      url: "/equestrianismApi/assetTypeDetail/list",
+      method: "get",
+      params: { pageIndex, pageRecorders, typeId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  addAssetsDetail(addInfo) {
+    return axios({
+      url: "/equestrianismApi/assetTypeDetail/add",
+      method: "post",
+      data: addInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          dictionary = undefined;
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateAssetsDetail(updateInfo) {
+    return axios({
+      url: "/equestrianismApi/assetTypeDetail/update",
+      method: "post",
+      data: updateInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          dictionary = undefined;
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteAssetsDetail(deleteInfo) {
+    return axios({
+      url: "/equestrianismApi/assetTypeDetail/delete",
+      method: "post",
+      data: deleteInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getAssetsDetail(typeDetailId) {
+    return axios({
+      url: "/equestrianismApi/assetTypeDetail/detail",
+      method: "get",
+      params: { typeDetailId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  assetsInfoComboBox() {
+    return axios({
+      url: "/equestrianismApi/assetTypeInfo/comboBox",
+      method: "get",
+      params: {  }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  assetsDetailComboBox(typeId) {
+    return axios({
+      url: "/equestrianismApi/assetTypeDetail/comboBox",
       method: "get",
       params: { typeId }
     }).then(

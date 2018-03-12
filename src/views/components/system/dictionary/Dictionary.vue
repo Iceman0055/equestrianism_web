@@ -18,8 +18,8 @@
                     <button @click="getDict(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <!-- <div class="col-md-1 search-field search-field_controls">
-                                                                                                                        <button type="reset" class="btn btn-default">重置</button>
-                                                                                                                    </div> -->
+                                                                                                                                <button type="reset" class="btn btn-default">重置</button>
+                                                                                                                            </div> -->
             </div>
             <div class="row list-search">
                 <div class="col-md-1 search-field search-field_controls">
@@ -41,9 +41,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in dictInfoList" :key="item">
-                                <td><input type="radio" class="input-pointer" name="select" @click="getDetailList(item.dictionaryId)"></td>
-                                <td>{{item.typeName}}</td>
+                            <tr style="cursor:pointer" v-for="item in dictInfoList" :key="item" @click="getDetailList(1,item)">
+                                <td><input type="radio" class="input-pointer" name="select" :checked="item.checked"></td>
+                                <td >{{item.typeName}}</td>
                                 <td>{{item.typeCode}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>{{item.sort}}</td>
@@ -67,10 +67,11 @@
 
             <div class="row list-search">
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-success" @click="addDictTextDialog(1)">新增字项</button>
+                    <button class="btn btn-success" :disabled="!activeItem" @click="addDictTextDialog(1,searchDetailId)">新增字项</button>
                 </div>
             </div>
-            <div class="row ">
+             <div class="wait-loading" v-show="loading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!loading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -97,9 +98,8 @@
                     <div class="list-empty" v-show="dictDetailList.length===0">
                         暂无数据
                     </div>
-
                     <div class="page">
-                        <el-pagination @current-change="dictDetailList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
+                        <el-pagination @current-change="getDetailList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
                         </el-pagination>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">
                         <div class="label">父节点：</div>
-                        <input type="text" :disabled="dialogTextTitle=='修改'" v-model="fatherCode" class="form-control input-field" placeholder="父节点" />
+                        <input type="text" disabled v-model="fatherCode" class="form-control input-field" placeholder="父节点" />
                     </div>
                     <div class="col-md-6 search-field">
                         <div class="label">字典名称：</div>
@@ -189,11 +189,13 @@ export default {
         return {
             dialogTitle: '',
             dialogTextTitle: '',
+            activeItem: undefined,
             deleteTextDialog: false,
             updateTextDialog: false,
             updateDialog: false,
             deleteDialog: false,
             showLoading: false,
+            loading:false,
             pageRecorders: 10,
             totalRecorders: 1,
             currentPage: 1,
@@ -216,7 +218,8 @@ export default {
             itemCode: '',
             itemValue: '',
             updateDetailInfo: {},
-            addDetailInfo: {}
+            addDetailInfo: {},
+            searchDetailId: '',
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -225,7 +228,20 @@ export default {
             systemSrv.dictionaryList(vm.currentPage, vm.pageRecorders, vm.typeName, vm.typeCode).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
-                vm.dictInfoList = resp.data.dictionaryInfoList
+                let dictInfoList = resp.data.dictionaryInfoList
+                let len = dictInfoList.length
+                let checkedArray = []
+                for (let i = 0; i < len; i++) {
+                    checkedArray.push({
+                        typeName: dictInfoList[i].typeName,
+                        typeCode: dictInfoList[i].typeCode,
+                        remark: dictInfoList[i].remark,
+                        sort: dictInfoList[i].sort,
+                        dictionaryId: dictInfoList[i].dictionaryId,
+                        checked: false
+                    })
+                }
+                vm.dictInfoList = checkedArray
             }, err => {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
@@ -239,22 +255,31 @@ export default {
             systemSrv.dictionaryList(currentPage, this.pageRecorders, this.typeName, this.typeCode).then(resp => {
                 this.currentPage = currentPage
                 this.showLoading = false
-                this.total = resp.data.totalRecorders
+                this.totalRecorders = resp.data.totalRecorders
                 this.dictInfoList = resp.data.dictionaryInfoList
             }, err => {
                 this.showLoading = false
                 this.$message.error(err.msg)
             })
         },
-        getDetailList(id) {
-            systemSrv.dicDetailList(id).then(resp => {
+        getDetailList(currentPage, item = this.activeItem) {
+            this.activeItem && (this.activeItem.checked = false);
+            item.checked = true;
+            this.activeItem = item;
+            this.loading = true
+             this.searchDetailId = item.dictionaryId
+            systemSrv.dicDetailList(currentPage, this.page, item.dictionaryId).then(resp => {
+                this.current = currentPage
+                this.loading = false
                 this.total = resp.data.totalRecorders
                 this.dictDetailList = resp.data.dictionaryDetailList
             }, err => {
+                this.loading = false
                 this.$message.error(err.msg)
             })
         },
         addDictDialog(index, dictionaryId) {
+            event.stopPropagation()
             this.updateDialog = true
             if (index == 1) {
                 this.dialogTitle = '新增'
@@ -272,14 +297,17 @@ export default {
 
             }
         },
-        addDictTextDialog(index, dictionaryDetailId) {
+        addDictTextDialog(index, id) {
             this.updateTextDialog = true
             if (index == 1) {
                 this.dialogTextTitle = '新增'
+                this.fatherCode = id
+                this.itemCode = ''
+                this.itemValue = ''
             } else {
-                this.dictionaryDetailId = dictionaryDetailId
+                this.dictionaryDetailId = id
                 this.dialogTextTitle = '修改'
-                systemSrv.getDicDetail(dictionaryDetailId).then(resp => {
+                systemSrv.getDicDetail(this.dictionaryDetailId).then(resp => {
                     this.fatherCode = resp.data.dictionaryId
                     this.itemCode = resp.data.itemCode
                     this.itemValue = resp.data.itemValue
@@ -320,7 +348,7 @@ export default {
             systemSrv.addDicDetail(this.addDetailInfo).then((resp) => {
                 this.$message.success('添加字项成功')
                 this.updateTextDialog = false
-                this.getDetailList()
+                this.getDetailList(1, this.fatherCode)
             }, (err) => {
                 this.$message.error(err.msg)
             })
@@ -338,7 +366,7 @@ export default {
             systemSrv.updateDicDetail(this.updateDetailInfo).then((resp) => {
                 this.$message.success('修改字项成功')
                 this.updateTextDialog = false
-                this.getDetailList()
+                this.getDetailList(1, this.fatherCode)
             }, (err) => {
                 this.$message.error(err.msg)
             })
@@ -364,6 +392,7 @@ export default {
             })
         },
         deleteInfo(dictId) {
+            event.stopPropagation()
             this.deleteDialog = true
             this.deleteContent.dictionaryId = dictId
             this.deleteContent.deleteFlag = 1
@@ -386,7 +415,7 @@ export default {
             systemSrv.deleteDicDetail(this.deleteContentInfo).then(resp => {
                 this.$message.success('删除成功')
                 this.deleteTextDialog = false
-                this.getDetailList()
+                this.getDetailList(1, this.fatherCode)
             }, err => {
                 this.$message.error(err.msg)
             })

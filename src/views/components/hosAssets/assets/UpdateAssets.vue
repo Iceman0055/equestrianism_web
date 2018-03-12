@@ -11,15 +11,15 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetsCate" class="el-field-input">
-                        <el-option v-for="item in assetsCateOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input">
+                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
-                    <el-select ref="selectClass" size="large" :disabled="useDisabled" v-model="assetsClass" class="el-field-input">
-                        <el-option v-for="item in assetsClassOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select @focus="getAssetsType" ref="selectClass" size="large" :disabled="useDisabled" v-model="typeDetail" class="el-field-input">
+                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">会记凭证号：</div>
-                    <input type="text" v-model="VoucherNum" :disabled="useDisabled" class="form-control input-field" />
+                    <input type="text" v-model="voucherNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">采购组织形式：</div>
@@ -121,7 +121,7 @@
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateAssets">确定</el-button>
         </div>
     </div>
 </template>
@@ -129,6 +129,7 @@
 <script>
 import { DatePicker, Button, Select, Message } from 'element-ui'
 import hosAssetsSrv from '../../../services/hosAssets.service.js'
+import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
@@ -138,7 +139,7 @@ export default {
             designPurpose: '',
             format: '',
             brand: '',
-            VoucherNum: '',
+            voucherNum: '',
             buyForm: '',
             assetsNum: '',
             assetsName: '',
@@ -148,8 +149,6 @@ export default {
             valueType: '',
             getWay: '',
             useDisabled: false,
-            assetsCate: '',
-            assetsClass: '',
             financialDate: '',
             makeDate: '',
             endDate: '',
@@ -161,26 +160,12 @@ export default {
                 value: '选项2',
                 label: '使用结束'
             }],
-            assetsCateOptions: [
-                {
-                    value: "1",
-                    label: "资产1"
-                },
-                {
-                    value: "2",
-                    label: "资产2"
-                }
-            ],
-            assetsClassOptions: [
-                {
-                    value: "1",
-                    label: "资产分类1"
-                },
-                {
-                    value: "2",
-                    label: "资产分类2"
-                }
-            ],
+            typeDetail: '',
+            assetType: "",
+            assetTypeList: [],
+            typeDetailList: [],
+            assetsInfo: {},
+            assetsId: '',
         }
     },
     mounted() {
@@ -194,9 +179,93 @@ export default {
         'el-button': Button,
         'el-select': Select
     },
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            hosAssetsSrv.getAssetsDetail().then(resp => {
+                vm.assetType = resp.data.assetType
+                vm.typeDetail = resp.data.typeDetail
+                vm.assetsNum = resp.data.assetsNum
+                vm.contactWay = resp.data.contactWay
+                vm.assetsName = resp.data.assetsName
+                vm.number = resp.data.number
+                vm.value = resp.data.value
+                vm.area = resp.data.area
+                vm.valueType = resp.data.valueType
+                vm.getWay = resp.data.getWay
+                vm.financialDate = resp.data.financialDate
+                vm.makeDate = resp.data.makeDate
+                vm.endDate = resp.data.endDate
+                vm.manageDep = resp.data.manageDep
+                vm.administrator = resp.data.administrator
+                vm.useStatus = resp.data.useStatus
+                vm.note = resp.data.note
+                vm.designPurpose = resp.data.designPurpose
+                vm.format = resp.data.format
+                vm.brand = resp.data.brand
+                vm.voucherNum = resp.data.voucherNum
+                vm.buyForm = resp.data.buyForm
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+            systemSrv.assetsInfoComboBox().then(resp => {
+                vm.assetTypeList = resp.data.assetTypeList
+            }, err => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
     methods: {
-        open() {
-            this.$message.success('修改成功')
+        getAssetsType() {
+            if (!this.assetType) {
+                this.$message.error('请先选择资产大类')
+                return;
+            }
+            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
+                this.typeDetailList = resp.data.typeDetailList
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
+        updateAssets() {
+            if (!(this.assetType && this.typeDetail && this.assetsNum && this.contactWay && this.assetsName && this.number
+                && this.value && this.area && this.valueType && this.getWay && this.financialDate
+                && this.makeDate && this.endDate && this.manageDep && this.administrator && this.useStatus
+                && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
+                && this.buyForm)) {
+                this.$message.error('固定资产信息不能为空！')
+                return;
+            }
+            this.assetsInfo = {
+                assetsId: this.assetsId,
+                assetType: this.assetType,
+                typeDetail: this.typeDetail,
+                assetsNum: this.assetsNum,
+                contactWay: this.contactWay,
+                assetsName: this.assetsName,
+                number: this.number,
+                value: this.value,
+                area: this.area,
+                valueType: this.valueType,
+                getWay: this.getWay,
+                financialDate: this.financialDate,
+                makeDate: this.makeDate,
+                endDate: this.endDate,
+                manageDep: this.manageDep,
+                administrator: this.administrator,
+                useStatus: this.useStatus,
+                note: this.note,
+                designPurpose: this.designPurpose,
+                format: this.format,
+                brand: this.brand,
+                voucherNum: this.voucherNum,
+                buyForm: this.buyForm,
+            }
+            hosAssetsSrv.updateAssets(this.assetsInfo).then((resp) => {
+                this.$message.success('修改固定资产信息成功')
+                this.$router.push('/hosAssets/assets')
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
         },
         statusResize() {
             this.$refs.selectStatus.resetInputWidth()
