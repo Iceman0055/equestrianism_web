@@ -10,6 +10,20 @@ export default {
 </script>
 
 <style lang="scss">
+
+.breadcrumb .breadcrumb-item:first-child {
+  display: none;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "";
+}
+.breadcrumb-item + .breadcrumb-item + .breadcrumb-item::before {
+    display: inline-block;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    color: #b0bec5;
+    content: "/";
+}
 // .fc-day-grid-container{
 //   height: 610px!important;
 //   overflow: hidden!important;

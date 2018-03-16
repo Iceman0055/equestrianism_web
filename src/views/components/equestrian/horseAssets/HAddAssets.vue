@@ -1,17 +1,17 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">新增固定资产</div>
+            <div class="title">新增固定资产管理</div>
             <router-link class="btn btn-info back" :to="'/equestrian/horseAssets'">
                 返回
             </router-link>
         </div>
         <div class="content-show">
-            <div class="row list-search">
+             <div class="row list-search">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 search-field text-cente">
                     <div class="label">条形码：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入条形码" />
+                    <input type="text" v-model="barCode" class="form-control input-field" placeholder="请输入条形码" />
                 </div>
             </div>
             <div class="row list-search">
@@ -40,81 +40,77 @@
                     <input type="text" v-model="assetsName" class="form-control input-field" placeholder="请输入资产名称" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">数量：</div>
-                    <input type="text" v-model="number" class="form-control input-field" placeholder="请输入数量" />
-                </div>
-                <div class="col-md-4 search-field">
                     <div class="label">价值：</div>
                     <input type="text" v-model="value" class="form-control input-field" placeholder="请输入价值" />
                 </div>
-            </div>
-            <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">面积：</div>
                     <input type="text" v-model="area" class="form-control input-field" placeholder="请输入面积" />
                 </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">规格型号：</div>
+                    <input type="text" v-model="format" class="form-control input-field" placeholder="请输入规格型号" />
+                </div>
                 <div class="col-md-4 search-field">
                     <div class="label">价值类型：</div>
-                    <input type="text" v-model="valueType" class="form-control input-field" placeholder="请输入价值类型" />
+                    <el-select ref="selectValue" size="large" v-model="valueType" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in valueOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">取得方式：</div>
-                    <input type="text" v-model="getWay" class="form-control input-field" placeholder="请输入取得方式" />
+                    <el-select ref="selectWay" size="large" v-model="getWay" class="el-field-input" placeholder="请选择">
+                        <el-option v-for="item in wayOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        </el-option>
+                    </el-select>
                 </div>
             </div>
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">财务出账日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" type="date" placeholder="选择财务出账日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择财务出账日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">制单日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="makeDate" type="date" placeholder="选择制单日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择制单日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">保修截止日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="endDate" type="date" placeholder="选择保修截止日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择保修截止日期">
                     </el-date-picker>
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <input type="text" v-model="manageDep" class="form-control input-field" placeholder="请输入管理部门" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">管理人：</div>
-                    <input type="text" v-model="administrator" class="form-control input-field" placeholder="请输入管理人" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">使用状态：</div>
-                    <el-select ref="selectStatus" size="large" v-model="useStatus" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in useStatusOptions" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="large" ref="selectDepart" v-model="departName" class="el-field-input" placeholder="请选择管理部门">
+                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
-            </div>
-            <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">备注：</div>
-                    <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
+                    <div class="label">管理人：</div>
+                    <el-select size="large" @focus="getManageUser" ref="selectPeople" v-model="managePeople" class="el-field-input" placeholder="请选择管理人">
+                        <el-option v-for="item in userList" :key="item.userId" :label="item.realname" :value="item.userId">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
                     <input type="text" v-model="designPurpose" class="form-control input-field" placeholder="请输入设计用途" />
                 </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">规格型号：</div>
-                    <input type="text" v-model="format" class="form-control input-field" placeholder="请输入规格型号" />
-                </div>
             </div>
+
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">品牌：</div>
-                    <input type="text" v-model="brand" class="form-control input-field" placeholder="请输入马的父亲" />
+                    <input type="text" v-model="brand" class="form-control input-field" placeholder="请输入品牌" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">会记凭证号：</div>
@@ -125,11 +121,21 @@
                     <input type="text" v-model="buyForm" class="form-control input-field" placeholder="请输入采购组织形式" />
                 </div>
             </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">备注：</div>
+                    <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">数量：</div>
+                    <input type="text" v-model="inventory" class="form-control input-field" placeholder="请输入数量" />
+                </div>
+
+            </div>
         </div>
         <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
+            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addAssets">确定</el-button>
         </div>
-
     </div>
 </template>
 
@@ -140,8 +146,6 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            manageDep: '',
-            administrator: '',
             note: '',
             designPurpose: '',
             format: '',
@@ -150,7 +154,6 @@ export default {
             buyForm: '',
             assetsNum: '',
             assetsName: '',
-            number: '',
             value: '',
             area: '',
             valueType: '',
@@ -158,18 +161,20 @@ export default {
             financialDate: '',
             makeDate: '',
             endDate: '',
-            useStatus: '',
-            useStatusOptions: [{
-                value: '选项1',
-                label: '使用中'
-            }, {
-                value: '选项2',
-                label: '使用结束'
-            }],
             typeDetail: '',
             assetType: "",
             assetTypeList: [],
             typeDetailList: [],
+            assetsInfo: {},
+            valueOptions: [],
+            wayOptions: [],
+            departName: '',
+            userList: [],
+            departList: [],
+            managePeople: '',
+            barCode:'',
+            inventory:''
+
         }
     },
     components: {
@@ -178,9 +183,13 @@ export default {
         'el-select': Select
     },
     mounted() {
-        this.$el.addEventListener('animationend', this.statusResize)
+        this.$el.addEventListener('animationend', this.valueResize)
+        this.$el.addEventListener('animationend', this.wayResize)
         this.$el.addEventListener('animationend', this.cateResize)
         this.$el.addEventListener('animationend', this.classResize)
+        this.$el.addEventListener('animationend', this.departResize)
+        this.$el.addEventListener('animationend', this.peopleResize)
+
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -189,11 +198,81 @@ export default {
             }, err => {
                 vm.$message.error(err.msg)
             })
+            systemSrv.getDepart().then((resp) => {
+                vm.departList = resp.data.departmentList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+
+            systemSrv.dictionary().then(resp => {
+                let dictDetail = resp.data.dictionaryInfoList
+                let len = dictDetail.length
+                for (let i = 0; i < len; i++) {
+                    if (dictDetail[i].typeCode == 'PRICE_TYPE') {
+                        vm.valueOptions = dictDetail[i].dictionaryDetailList
+                    }
+                    if (dictDetail[i].typeCode == 'ACQUIRE_WAY') {
+                        vm.wayOptions = dictDetail[i].dictionaryDetailList
+                    }
+                }
+            }, err => {
+                vm.$message.error(err.msg)
+            })
         })
     },
     methods: {
+        addAssets() {
+            if (!(this.inventory&&this.barCode&&this.assetType && this.typeDetail && this.assetsNum && this.assetsName
+                && this.value && this.area && this.valueType && this.getWay && this.financialDate
+                && this.makeDate && this.endDate && this.departName && this.managePeople
+                && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
+                && this.buyForm)) {
+                this.$message.error('固定资产信息不能为空！')
+                return;
+            }
+            this.assetsInfo = {
+                inventory:this.inventory,
+                barCode:this.barCode,
+                typeId: this.assetType,
+                typeDetailId: this.typeDetail,
+                assetNumber: this.assetsNum,
+                assetName: this.assetsName,
+                price: this.value,
+                acreage: this.area,
+                priceType: this.valueType,
+                acquireWay: this.getWay,
+                financeAccountsDate: this.financialDate,
+                tabDate: this.makeDate,
+                guaranteeDate: this.endDate,
+                manageDepartment: this.departName,
+                manageUser: this.managePeople,
+                remark: this.note,
+                purpose: this.designPurpose,
+                specificationModel: this.format,
+                brand: this.brand,
+                voucherNumber: this.voucherNum,
+                purchaseOrganize: this.buyForm,
+            }
+            equestrianSrv.addHorseAssets(this.assetsInfo).then((resp) => {
+                this.$message.success('添加固定资产信息成功')
+                this.$router.push('/equestrian/horseAssets')
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
+        getManageUser() {
+            if (!this.departName) {
+                this.$message.error('管理部门不能为空')
+                return;
+            }
+            systemSrv.userComboBox(this.departName).then((resp) => {
+                this.userList = resp.data.userList
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
         getAssetsType() {
-            if(!this.assetType){
+            if (!this.assetType) {
                 this.$message.error('请先选择资产大类')
                 return;
             }
@@ -203,18 +282,25 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-        statusResize() {
-            this.$refs.selectStatus.resetInputWidth()
-        },
         cateResize() {
             this.$refs.selectCate.resetInputWidth()
         },
         classResize() {
             this.$refs.selectClass.resetInputWidth()
         },
-        open() {
-            this.$message.success('修改成功')
+        valueResize() {
+            this.$refs.selectValue.resetInputWidth()
         },
+        wayResize() {
+            this.$refs.selectWay.resetInputWidth()
+        },
+        departResize() {
+            this.$refs.selectDepart.resetInputWidth()
+        },
+        peopleResize() {
+            this.$refs.selectPeople.resetInputWidth()
+        },
+
     }
 }
 </script>

@@ -188,6 +188,29 @@ export default {
       }
     );
   },
+  userComboBox(departmentId) {
+    return axios({
+      url: "/equestrianismApi/userInfo/comboBox",
+      method: "get",
+      params: {
+        departmentId
+      }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
   // 角色列表
   roleList(pageIndex, pageRecorders) {
     return axios({

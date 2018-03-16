@@ -67,7 +67,7 @@ export default {
             sexOptions: [],
             masterInfo: {},
             hostId: '',
-            dictInfoList: {},
+            // dictInfoList: [],
             dictionaryInfoList: []
         }
     },
@@ -79,9 +79,14 @@ export default {
         next(vm => {
             vm.hostId = to.query.hostId
             systemSrv.dictionary().then(resp => {
-                vm.dictionaryInfoList = resp.data.dictionaryInfoList
-                vm.sexOptions = resp.data.dictionaryInfoList[2].dictionaryDetailList
-                vm.dictInfoList = systemSrv.formatDic(vm.dictionaryInfoList);
+                let dictDetail = resp.data.dictionaryInfoList
+                let len = dictDetail.length
+                for (let i = 0; i < len; i++) {
+                    if (dictDetail[i].typeCode == 'SEX') {
+                        vm.sexOptions = dictDetail[i].dictionaryDetailList
+                    }
+                }
+                // vm.dictInfoList = systemSrv.formatDic(dictDetail);
                 return horseSrv.getMasterDetail(to.query.hostId);
             }).then(resp => {
                 vm.name = resp.data.hostName

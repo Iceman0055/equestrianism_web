@@ -22,9 +22,6 @@
                 </div>
                 <div class="text-center">
                   <button type="button" class="btn btn-primary px-4" @click="login">登录</button>
-                  <!-- <div class="col-6 text-right">
-                                            <button type="button" class="btn btn-link px-0">Forgot password?</button>
-                                                            </div> -->
                 </div>
               </div>
             </form>
@@ -63,12 +60,16 @@ export default {
 </script>
 
 <style scoped>
-h1{
-  color:#fff;
+
+
+h1 {
+  color: #fff;
 }
-form{
-  background: rgba(0,0,0,0.3);
+
+form {
+  background: rgba(0, 0, 0, 0.3);
 }
+
 input {
   border-radius: 5px;
   height: 40px;

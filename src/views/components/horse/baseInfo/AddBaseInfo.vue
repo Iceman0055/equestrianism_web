@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称"/>
+                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
@@ -185,7 +185,7 @@ export default {
             hindImage: '',
             lipImage: '',
             colorOptions: [],
-            sexOptions:[]
+            sexOptions: []
         }
     },
     components: {
@@ -201,8 +201,16 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             dicSrv.dictionary().then(resp => {
-                vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
-                vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
+                let dictDetail = resp.data.dictionaryInfoList
+                let len = dictDetail.length
+                for (let i = 0; i < len; i++) {
+                    if (dictDetail[i].typeCode == 'HORSE_SEX') {
+                        vm.sexOptions = dictDetail[i].dictionaryDetailList
+                    }
+                    if (dictDetail[i].typeCode == 'HORSE_COAT_COLOUR') {
+                        vm.colorOptions = dictDetail[i].dictionaryDetailList
+                    }
+                }
             }, err => {
                 vm.$message.error(err.msg)
             })
@@ -212,7 +220,7 @@ export default {
         resizeSelect() {
             this.$refs.selectInput.resetInputWidth();
         },
-          resizeColor() {
+        resizeColor() {
             this.$refs.selectColor.resetInputWidth()
         },
         uploadFun(file) {

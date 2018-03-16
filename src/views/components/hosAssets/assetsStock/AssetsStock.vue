@@ -5,32 +5,36 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">资产大类：</div>
                     <el-select size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
+                <div class="col-md-3 search-field">
+                    <div class="label">资产名称：</div>
+                    <input type="text" v-model="assetsName" placeholder="请输入资产名称" class="form-control input-field" />
+                </div>
 
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-primary search-btn">搜索</button>
+                    <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-success" @click="centerDialogVisible = true">
+                    <button class="btn btn-success" @click="addDialog=true">
                         增加库存
                     </button>
                 </div>
             </div>
-
-            <div class="row">
+           <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -39,80 +43,51 @@
                                 <th>资产分类</th>
                                 <th>资产编号</th>
                                 <th>资产名称</th>
-                                <th>数量</th>
-                                <th>价值</th>
-                                <th>面积</th>
-
-                                <th>价值类型</th>
-                                <th>取得方式</th>
-                                <th>财务出账日期</th>
-                                <th>制单日期</th>
-
-                                <th>保修截止日期</th>
-                                <th>管理部门</th>
-                                <th>管理人</th>
-                                <th>使用状态</th>
-
-                                <th>备注</th>
-                                <th>设计用途</th>
-                                <th>规格型号</th>
-                                <th>品牌</th>
-
-                                <th>会记凭证号</th>
-                                <th>采购组织形式</th>
-                                <!-- <th>操作</th> -->
+                                <th>条形码号</th>
+                                <th>库存</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>上海市</td>
-                                <td>一等奖</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <!-- <td>
-                                                                <router-link :to="{path: '/hospital/updateAssets',       
-                                                                         query: { disable: 1,}}"> 查看</router-link>
-                                                                <router-link :to="'/hospital/updateAssets'">
-                                                                    更新
-                                                                </router-link>
-                                                            </td> -->
+                            <tr v-for="item in assetsList" :key="item">
+                                <td>{{item.typeName}}</td>
+                                <td>{{item.typeDetailName}}</td>
+                                <td>{{item.assetNumber}}</td>
+                                <td>{{item.assetName}}</td>
+                                <td>{{item.barCode}}</td>
+                                <td>{{item.inventory}}</td>
+                                <td>
+                                    <a @click="addDialogShow(item.barCode)">增加库存</a>
+                                </td>
 
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" ng-show="content.orderList.length===0">
-                                                                        没有可以显示的订单
-                                                                    </div> -->
+                    <div class="list-empty" v-show="assetsList.length===0">
+                        暂无数据
+                    </div>
                     <div class="page">
-                        <el-pagination background layout="prev, pager, next" :total="1000">
+                        <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
-                    <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="centerDialogVisible" width="52%" center>
-                        <div class="row mb-3" v-for="(item,index) in assets" :key="item">
-                            <div class="col-md-4 search-field">
-                                <input type="text" v-model="item.id" class="form-control input-field" placeholder="编号" />
+                    <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="addDialog" width="52%" center>
+                        <div class="row mb-3 list-search distance" v-for="(item,index) in assets" :key="item">
+                            <el-switch class="top-distance" v-model="item.switch" active-color="#13ce66" inactive-color="#ff4949" active-text="扫描仪" inactive-text="人工输入">
+                            </el-switch>
+                            <div class="col-md-4 search-field" v-show="!item.switch">
+                                <div class="label">条形码：</div>
+                                <input type="text" v-model="item.barCode" @keyup="keyUpHandle($event,item)" class="form-control input-field" placeholder="条形码" />
                             </div>
-                            <div class="col-md-4 search-field">
-                                <input type="text" disabled v-model="item.name" class="form-control input-field" placeholder="名称" />
+                            <div class="col-md-4 search-field" v-show="item.switch">
+                                <div class="label">条形码：</div>
+                                <input type="text" autofocus v-model="item.barCode" v-on:input="changeHandle(item)" class="form-control input-field" placeholder="条形码" />
                             </div>
                             <div class="col-md-3 search-field">
+                                <div class="label">资产名称：</div>
+                                <input type="text" disabled v-model="item.assetsName" class="form-control input-field" placeholder="资产名称" />
+                            </div>
+                            <div class="col-md-3 search-field">
+                                <div class="label">增加库存数：</div>
                                 <div class="Spinner">
                                     <a class="Decrease" @click="decrease(index,item.value)">
                                         <i class="fa fa-sort-desc"></i>
@@ -123,7 +98,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-1 search-field">
+                            <div class="col-md-2 search-field">
                                 <div class="add-delete">
                                     <a @click="addData">
                                         <i class="fa fa-plus-circle"></i>
@@ -135,8 +110,36 @@
                             </div>
                         </div>
                         <span slot="footer" class="dialog-footer">
-                            <el-button @click="centerDialogVisible = false">取 消</el-button>
-                            <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+                            <el-button @click="addDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="addFun">确 定</el-button>
+                        </span>
+                    </el-dialog>
+                    <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="addPerDialog" width="52%" center>
+                        <div class="row mb-3 list-search">
+                            <div class="col-md-4 search-field">
+                                <div class="label">条形码：</div>
+                                <input type="text" v-model="barCode" class="form-control input-field" placeholder="条形码" />
+                            </div>
+                            <div class="col-md-4 search-field">
+                                <div class="label">资产名称：</div>
+                                <input type="text" disabled v-model="assetName" class="form-control input-field" placeholder="库存" />
+                            </div>
+                            <div class="col-md-3 search-field">
+                                <div class="label">增加库存数：</div>
+                                <div class="Spinner">
+                                    <a class="Decrease" @click="decreasePer()">
+                                        <i class="fa fa-sort-desc"></i>
+                                    </a>
+                                    <input class="Amount" v-model="inventory" autocomplete="off">
+                                    <a class="Increase" @click="increasePer()">
+                                        <i class="fa fa-sort-asc"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button @click="addDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="addPerFun">确 定</el-button>
                         </span>
                     </el-dialog>
                     <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="confirmDialog" width="25%" center>
@@ -154,33 +157,51 @@
     </div>
 </template>
 <script>
-import { Pagination, Dialog } from "element-ui";
+import { Pagination, Dialog, Switch, Input } from "element-ui";
 import hosAssetsSrv from '../../../services/hosAssets.service.js'
 import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            barCode: '',
             typeDetail: '',
             assetType: "",
             currentPage: 1,
+            pageRecorders: 10,
+            totalRecorders: 1,
             assetTypeList: [],
             typeDetailList: [],
-            centerDialogVisible: false,
+            assetsName: '',
+            assetsList: [],
+            showLoading: false,
+            addDialog: false,
+            addPerDialog: false,
             confirmDialog: false,
             index: 0,
+            assetName: '',
+            inventory: 1,
             assets: [
-                { id: "1", name: "123", value: "123" },
-                { id: "2", name: "123", value: "123" },
-                { id: "3", name: "123", value: "123" }
+                { switch: false, barCode: "", assetId: '', assetsName: "", value: "1" },
             ],
         };
     },
     components: {
         "el-pagination": Pagination,
-        "el-dialog": Dialog
+        "el-dialog": Dialog,
+        'el-switch': Switch,
+        'el-input': Input
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
+            vm.showLoading = true
+            hosAssetsSrv.assetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetsName).then(resp => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.assetsList = resp.data.assetInfoList
+            }, err => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
             systemSrv.assetsInfoComboBox().then(resp => {
                 vm.assetTypeList = resp.data.assetTypeList
             }, err => {
@@ -189,6 +210,70 @@ export default {
         })
     },
     methods: {
+        changeHandle(item) {
+            hosAssetsSrv.getAssetsInfo(item.barCode).then(resp => {
+                item.assetId = resp.data.assetId
+                item.assetsName = resp.data.assetName
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
+        keyUpHandle(e, item) {
+            if (!item.barCode) {
+                this.$message.error('请输入条形码')
+                return
+            }
+            if (e.keyCode == 13) {
+                hosAssetsSrv.getAssetsInfo(item.barCode).then(resp => {
+                    item.assetId = resp.data.assetId
+                    item.assetsName = resp.data.assetName
+                }, err => {
+                    this.$message.error(err.msg)
+                })
+            }
+        },
+        addFun() {
+            let arrList = []
+            let len = this.assets.length
+            for (let i = 0; i < len; i++) {
+                arrList.push({
+                    assetId: this.assets[i].assetId,
+                    inventory: this.assets[i].value
+                })
+                hosAssetsSrv.addAssetsInventory(arrList).then(resp => {
+                    this.$message.success('增加库存成功')
+                    this.addDialog = false
+                    this.getAssetsList()
+                }, err => {
+                    this.$message.error(err.msg)
+                })
+            }
+        },
+        addDialogShow(barCode) {
+            this.barCode = barCode
+            this.addPerDialog = true
+            hosAssetsSrv.getAssetsInfo(barCode).then(resp => {
+                this.assetId = resp.data.assetId
+                this.assetName = resp.data.assetName
+            }, err => {
+                this.$message.error(err.msg)
+            })
+
+        },
+        addPerFun() {
+            let arrList = []
+            arrList.push({
+                assetId: this.assetId,
+                inventory: this.inventory
+            })
+            hosAssetsSrv.addAssetsInventory(arrList).then(resp => {
+                this.$message.success('增加库存成功')
+                this.addPerDialog = false
+                this.getAssetsList()
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
         getAssetsType() {
             if (!this.assetType) {
                 this.$message.error('请先选择资产大类')
@@ -200,15 +285,28 @@ export default {
                 this.$message.error(err.msg)
             })
         },
+        getAssetsList(currentPage = this.currentPage) {
+            this.showLoading = true
+            hosAssetsSrv.assetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetsName).then((resp) => {
+                this.showLoading = false
+                this.currentPage = currentPage
+                this.totalRecorders = resp.data.totalRecorders
+                this.assetsList = resp.data.assetInfoList
+            }, (err) => {
+                this.showLoading = false
+                this.$message.error(err.msg)
+            })
+        },
         deleteData(index) {
             this.assets.splice(index, 1)
             this.confirmDialog = false
         },
         addData() {
             this.assets.push({
-                id: "",
-                name: "",
-                value: 0
+                switch: false,
+                barCode: "",
+                assetsName: '',
+                value: 1
             });
         },
         //增加
@@ -223,12 +321,37 @@ export default {
             } else {
                 return this.assets[index].value--;
             }
+        },
+        //单条增加
+        increasePer() {
+            return this.inventory++;
+        },
+        //单条减少
+        decreasePer() {
+            if (this.inventory <= 0) {
+                return 0;
+            } else {
+                return this.inventory--;
+            }
         }
     }
 };
 </script>
 
 <style lang="scss" scoped>
+.distance {
+    position: relative;
+    .top-distance {
+        position: absolute;
+        top: -36px;
+        margin-top: 10px;
+    }
+}
+
+.list-search {
+    padding: 6px 15px;
+}
+
 .add-delete a {
     margin-left: 5px;
     cursor: pointer;

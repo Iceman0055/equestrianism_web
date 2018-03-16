@@ -5,19 +5,23 @@
         </div>
         <div class="content-show">
             <div class="row list-search">
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">资产大类：</div>
                     <el-select size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-md-4 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
                         <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
+                </div>
+                <div class="col-md-3 search-field">
+                    <div class="label">资产名称：</div>
+                    <input type="text" v-model="assetsName" placeholder="请输入资产名称" class="form-control input-field" />
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
@@ -38,7 +42,6 @@
                                 <th>资产分类</th>
                                 <th>资产编号</th>
                                 <th>资产名称</th>
-                                <th>数量</th>
                                 <th>价值</th>
                                 <th>面积</th>
 
@@ -50,7 +53,6 @@
                                 <th>保修截止日期</th>
                                 <th>管理部门</th>
                                 <th>管理人</th>
-                                <th>使用状态</th>
 
                                 <th>备注</th>
                                 <th>设计用途</th>
@@ -64,44 +66,42 @@
                         </thead>
                         <tbody>
 
-                            <tr>
-                                <td>上海市</td>
-                                <td>一等奖</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
+                            <tr v-for="item in assetsList" :key="item">
+                                <td>{{item.typeName}}</td>
+                                <td>{{item.typeDetailName}}</td>
+                                <td>{{item.assetNumber}}</td>
+                                <td>{{item.assetName}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.acreage}}</td>
+                                <td>{{item.priceTypeName}}</td>
+                                <td>{{item.acquireWayName}}</td>
+                                <td>{{item.financeAccountsDate}}</td>
+                                <td>{{item.tabDate}}</td>
+                                <td>{{item.guaranteeDate}}</td>
 
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
-                                <td>无</td>
+                                <td>{{item.departmentName}}</td>
+                                <td>{{item.realname}}</td>
+                                <td>{{item.remark}}</td>
+                                <td>{{item.purpose}}</td>
+                                <td>{{item.specificationModel}}</td>
+                                <td>{{item.brand}}</td>
+                                <td>{{item.voucherNumber}}</td>
+                                <td>{{item.purchaseOrganize}}</td>
                                 <td>
                                     <router-link :to="{path: '/hosAssets/updateAssets',       
-                                                                             query: { disable: 1,}}"> 查看</router-link>
-                                    <router-link :to="'/hosAssets/updateAssets'">
+                                                                                     query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hosAssets/updateAssets',query:{assetId:item.assetId}}">
                                         修改
                                     </router-link>
-                                    <!-- <a @click="deleteInfo(item.hospitalAppointId)">删除</a> -->
+                                    <a @click="deleteInfo(item.assetId)">删除</a>
                                 </td>
 
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="list-empty" v-show="assetsList.length===0">
-                                                                            暂无数据
-                                                                        </div> -->
+                    <div class="list-empty" v-show="assetsList.length===0">
+                        暂无数据
+                    </div>
                     <div class="page">
                         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import { Pagination, Message,Select } from 'element-ui'
+import { Pagination, Message, Select } from 'element-ui'
 import hosAssetsSrv from '../../../services/hosAssets.service.js'
 import systemSrv from '../../../services/system.service.js'
 export default {
@@ -138,15 +138,17 @@ export default {
             typeDetailList: [],
             deleteContent: {},
             showLoading: false,
+            assetsName: '',
+            assetsList: []
         }
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            hosAssetsSrv.assetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail).then(resp => {
+            hosAssetsSrv.assetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetsName).then(resp => {
                 vm.showLoading = false
-                // vm.totalRecorders = resp.data.totalRecorders
-                // vm.assetsList = resp.data.appointInfoList
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.assetsList = resp.data.assetInfoList
             }, err => {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
@@ -172,23 +174,23 @@ export default {
         },
         getAssetsList(currentPage = this.currentPage) {
             this.showLoading = true
-            hosAssetsSrv.assetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail).then((resp) => {
+            hosAssetsSrv.assetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetsName).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
-                // this.totalRecorders = resp.data.totalRecorders
-                // this.assetsList = resp.data.appointInfoList
+                this.totalRecorders = resp.data.totalRecorders
+                this.assetsList = resp.data.assetInfoList
             }, (err) => {
                 this.showLoading = false
                 this.$message.error(err.msg)
             })
         },
-        deleteInfo(hospitalAppointId) {
+        deleteInfo(assetId) {
             this.deleteDialog = true
-            this.deleteContent.hospitalAppointId = hospitalAppointId
+            this.deleteContent.assetId = assetId
             this.deleteContent.deleteFlag = 1
         },
         deleteAssets() {
-            hosAssetsSrv.deleteAsseta(this.deleteContent).then(resp => {
+            hosAssetsSrv.deleteAssets(this.deleteContent).then(resp => {
                 this.$message.success('删除成功')
                 this.deleteDialog = false
                 this.getAssetsList()
@@ -199,7 +201,7 @@ export default {
     },
     components: {
         'el-pagination': Pagination,
-        'el-select':Select
+        'el-select': Select
     }
 }
 </script>

@@ -73,7 +73,7 @@ export default {
             horseInfoName: [],
             horseName: '',
             sexOptions: [],
-            feederInfo:{}
+            feederInfo: {}
         }
     },
     components: {
@@ -96,7 +96,14 @@ export default {
                 vm.$message.error(err.msg)
             })
             systemSrv.dictionary().then(resp => {
-                vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
+                let dictDetail = resp.data.dictionaryInfoList
+                let len = dictDetail.length
+                for (let i = 0; i < len; i++) {
+                    if (dictDetail[i].typeCode == 'SEX') {
+                        vm.sexOptions = dictDetail[i].dictionaryDetailList
+                    }
+                }
+                // vm.dictInfoList = systemSrv.formatDic(dictDetail);
                 return horseSrv.getFeederDetail(vm.feederId);
             }).then(resp => {
                 vm.name = resp.data.feederName
@@ -127,7 +134,7 @@ export default {
                 return;
             }
             this.feederInfo = {
-                feederId:this.feederId,
+                feederId: this.feederId,
                 feederName: this.name,
                 sex: this.sex,
                 skillDesc: this.skill,
@@ -142,7 +149,7 @@ export default {
                 formData.append(key, this.feederInfo[key])
             }
             horseSrv.updateFeeder(formData).then((resp) => {
-                this.$message.success('更新饲养员信息成功')
+                this.$message.success('修改饲养员信息成功')
                 this.$router.push('/horse/feeder')
             }, err => {
                 this.$message.error(err.msg)

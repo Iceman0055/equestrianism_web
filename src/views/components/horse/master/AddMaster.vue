@@ -79,7 +79,13 @@ export default {
                 vm.$message.error(err.msg)
             })
             systemSrv.dictionary().then(resp => {
-                vm.sexOptions = resp.data.dictionaryInfoList[2].dictionaryDetailList
+                let dictDetail = resp.data.dictionaryInfoList
+                let len = dictDetail.length
+                for (let i = 0; i < len; i++) {
+                    if (dictDetail[i].typeCode == 'SEX') {
+                        vm.sexOptions = dictDetail[i].dictionaryDetailList
+                    }
+                }
             }, err => {
                 vm.$message.error(err.msg)
             })

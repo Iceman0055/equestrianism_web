@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field"/>
+                    <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">变更马名：</div>
@@ -192,9 +192,8 @@ export default {
             colorOptions: [],
             horseInfoName: [],
             convertColor: {},
-            dictionaryInfoList: [],
             dictInfoList: {},
-            list:'',
+            list: '',
         }
     },
     components: {
@@ -205,9 +204,6 @@ export default {
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-        // if(this.useDisabled){
-        //   this.list =   this.$route.matched[2].name = '查看马匹基本信息'
-        // }
         this.$el.addEventListener('animationend', this.resizeSelect)
         this.$el.addEventListener('animationend', this.resizeColor)
     },
@@ -215,10 +211,17 @@ export default {
         next(vm => {
             vm.horseId = to.query.horseId
             systemSrv.dictionary().then(resp => {
-                vm.dictionaryInfoList = resp.data.dictionaryInfoList
-                vm.sexOptions = resp.data.dictionaryInfoList[0].dictionaryDetailList
-                vm.colorOptions = resp.data.dictionaryInfoList[1].dictionaryDetailList
-                vm.dictInfoList = systemSrv.formatDic(vm.dictionaryInfoList)
+                let dictDetail = resp.data.dictionaryInfoList
+                let len = dictDetail.length
+                for (let i = 0; i < len; i++) {
+                    if (dictDetail[i].typeCode == 'HORSE_SEX') {
+                        vm.sexOptions = dictDetail[i].dictionaryDetailList
+                    }
+                    if (dictDetail[i].typeCode == 'HORSE_COAT_COLOUR') {
+                        vm.colorOptions = dictDetail[i].dictionaryDetailList
+                    }
+                }
+                vm.dictInfoList = systemSrv.formatDic(dictDetail)
                 return horseSrv.getHorseDetail(to.query.horseId)
             }).then(resp => {
                 vm.passport = resp.data.passportNumber
