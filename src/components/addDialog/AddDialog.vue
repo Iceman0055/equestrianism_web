@@ -6,13 +6,13 @@
                 <div class="col-md-1">
                     <el-checkbox v-model="item.checked" @change="selectItem"></el-checkbox>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <input type="text" v-model="item.name" class="form-control input-field" placeholder="药品名" />
                 </div>
                 <div class="col-md-3">
                     <input type="text" v-model="item.number" class="form-control input-field" placeholder="库存" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="Spinner">
                         <a class="Decrease" @click="decrease(index,item.value)">
                             <i class="fa fa-sort-desc"></i>
@@ -23,7 +23,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <!-- <div class="col-md-1">
                     <div class="add-delete">
                         <a @click="addData">
                             <i class="fa fa-plus-circle"></i>
@@ -32,14 +32,14 @@
                             <i class="fa fa-minus-circle"></i>
                         </a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="addItemDialog = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
             </span>
         </el-dialog>
-        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="confirmDialog" width="25%" center>
+        <!-- <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="confirmDialog" width="25%" center>
             <div class="text-center">
                 <span>确定要删除这一条数据吗？</span>
             </div>
@@ -47,7 +47,7 @@
                 <el-button @click="confirmDialog = false">取 消</el-button>
                 <el-button type="primary" @click="deleteData(index)">确 定</el-button>
             </span>
-        </el-dialog>
+        </el-dialog> -->
     </div>
 </template>
 
@@ -91,17 +91,17 @@ export default {
             }
             return this.select
         },
-        deleteData(index) {
-            this.assets.splice(index, 1)
-            this.confirmDialog = false
-        },
-        addData() {
-            this.assets.push({
-                id: "",
-                name: "",
-                value: 0
-            });
-        },
+        // deleteData(index) {
+        //     this.assets.splice(index, 1)
+        //     this.confirmDialog = false
+        // },
+        // addData() {
+        //     this.assets.push({
+        //         id: "",
+        //         name: "",
+        //         value: 0
+        //     });
+        // },
         //增加
         increase(index, value) {
             return this.assets[index].value++;

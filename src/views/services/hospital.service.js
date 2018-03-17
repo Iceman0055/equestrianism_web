@@ -588,4 +588,154 @@ export default {
       }
     );
   },
+
+
+
+  treatList(pageIndex, pageRecorders,treatName,horseId) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/list",
+      method: "get",
+      params: { pageIndex, pageRecorders,treatName,horseId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  addTreat(addInfo) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/add",
+      method: "post",
+      data: addInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  updateTreat(updateInfo) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/update",
+      method: "post",
+      data: updateInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteTreat(deleteInfo) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/delete",
+      method: "post",
+      data: deleteInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getTreatDetail(treatmentId) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/detail",
+      method: "get",
+      params: {treatmentId}
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getHospitalAsset(treatmentId) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/hospitalAsset",
+      method: "get",
+      params: {treatmentId}
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  getConsumableAsset(treatmentId) {
+    return axios({
+      url: "/equestrianismApi/treatmentInfo/consumableAsset",
+      method: "get",
+      params: {treatmentId}
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
 };

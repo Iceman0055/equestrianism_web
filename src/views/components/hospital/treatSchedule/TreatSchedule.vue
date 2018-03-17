@@ -7,14 +7,16 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">治疗名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入治疗名称" />
+                    <input type="text" v-model="treatName" class="form-control input-field" placeholder="请输入治疗名称" />
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" class="form-control input-field" placeholder="请输入马匹名称" />
-                </div>
+                        <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        </el-option>
+                    </el-select>                </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-primary search-btn">搜索</button>
+                    <button @click="getTreatList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <router-link class="btn btn-success" :to="'/hospital/addTreat'">
@@ -22,7 +24,8 @@
                     </router-link>
                 </div>
             </div>
-            <div class="row">
+             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
@@ -64,6 +67,8 @@
                                     <router-link :to="'/hospital/updateTreat'">
                                         修改
                                     </router-link>
+                                    <!-- <a @click="deleteInfo(item.contusionTeethId)">删除</a> -->
+
                                 </td>
                             </tr>
                             <tr>
@@ -122,7 +127,7 @@
                                                                                         </div> -->
                     <div class="page">
 
-                        <el-pagination background layout="prev, pager, next" :total="1000">
+                        <el-pagination @current-change="getTeethList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
                     <!-- 添加病历 -->
@@ -215,6 +220,15 @@
                 <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
             </span>
         </el-dialog>
+        <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
+            <div class="text-center">
+                <span>确定要删除吗?</span>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="deleteDialog = false">取 消</el-button>
+                <el-button type="primary" @click="deleteTeeth">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -222,6 +236,7 @@
 import { Pagination, Upload, DatePicker,Message } from 'element-ui'
 import UploadImg from '../../../../components/uploadImg/uploadImg.vue'
 import hospitalSrv from '../../../services/hospital.service.js'
+import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
@@ -231,9 +246,18 @@ export default {
             assetsDialog: false,
             value: '',
             uploadDialog: false,
-            currentPage: 1,
             imageUrl: '',
-            // imageUrl1:''
+            // imageUrl1:'',
+             currentPage: 1,
+            pageRecorders: 10,
+            totalRecorders: 1,
+            horseName: '',
+            horseInfoName: [],
+            showLoading: false,
+            deleteContent: {},
+            deleteDialog: false,
+            treatName:'',
+            treatmentList:[]
         }
     },
     components: {
@@ -242,10 +266,51 @@ export default {
         'el-date-picker': DatePicker,
          'upload-img': UploadImg
     },
+    beforeRouteEnter:function(to,from,next){
+        next(vm=>{
+             vm.showLoading = true
+            hospitalSrv.treatList(vm.currentPage, vm.pageRecorders, vm.treatName,vm.horseName).then(resp => {
+                vm.showLoading = false
+                vm.totalRecorders = resp.data.totalRecorders
+                vm.treatmentList = resp.data.treatmentList
+            }, err => {
+                vm.showLoading = false
+                vm.$message.error(err.msg)
+            })
+             horseSrv.getHorseName().then((resp) => {
+                vm.horseInfoName = resp.data.horseList
+            }, (err) => {
+                vm.$message.error(err.msg)
+            })
+        })
+    },
     methods: {
-        open() {
-            this.$message.success('修改成功')
+      getTreatList(currentPage = this.currentPage) {
+            this.showLoading = true
+            hospitalSrv.treatList(currentPage, this.pageRecorders, this.horseName).then((resp) => {
+                this.showLoading = false
+                this.currentPage = currentPage
+                this.totalRecorders = resp.data.totalRecorders
+                this.treatmentList = resp.data.treatmentList
+            }, (err) => {
+                this.showLoading = false
+                this.$message.error(err.msg)
+            })
         },
+        // deleteInfo(teethId) {
+        //     this.deleteDialog = true
+        //     this.deleteContent.contusionTeethId = teethId
+        //     this.deleteContent.deleteFlag = 1
+        // },
+        // deleteTeeth() {
+        //     hospitalSrv.deleteTreat(this.deleteContent).then(resp => {
+        //         this.$message.success('删除成功')
+        //         this.deleteDialog = false
+        //         this.getTeethList()
+        //     }, err => {
+        //         this.$message.error(err.msg)
+        //     })
+        // }
     }
 }
 </script>
