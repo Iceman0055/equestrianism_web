@@ -23,12 +23,12 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">开始日期：</div>
-                    <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">开始时间：</div>
-                    <el-time-select size="large" format="HH:mm:00" value-format="HH:mm:00" v-model="beginTime" :picker-options="{
+                    <el-time-select size="large"  v-model="beginTime" :picker-options="{
                                                       start: '00:00',
                                                        step: '01:00',
                                                          end: '24:00'
@@ -40,12 +40,12 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">结束日期：</div>
-                    <el-date-picker size="large" v-model="endDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                    <el-date-picker size="large"  v-model="endDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">结束时间：</div>
-                    <el-time-select size="large" format="HH:mm:00" value-format="HH:mm:00" v-model="endTime" :picker-options="{
+                    <el-time-select size="large" v-model="endTime" :picker-options="{
                                                             start: '00:00',
                                                              step: '01:00',
                                                             end: '24:00'
@@ -92,12 +92,12 @@
             </div>
             <div class="row list-search">      
                 <div class="col-md-4 search-field">
-                    <div class="label">设备使用：</div>{{hospitalAssetList}}
+                    <div class="label">设备使用：</div>
                      <textarea type="text" rows="2" v-model="hospitalAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
        
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">消耗品使用：</div>{{consumableAssetList}}
+                    <div class="label">消耗品使用：</div>
              <textarea type="text" rows="2"  v-model="consumableAssetList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
                 </div>
             </div>
@@ -114,9 +114,9 @@
                     <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
                 </div>
             </div>
-               <!-- <div class="list-empty" v-show="assetsList.length===0">
+               <div class="list-empty" v-show="assetsList.length==0">
                                                暂无数据
-                                  </div> -->
+                                  </div>
             <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
                 <div class="col-md-1">
                     <el-checkbox v-model="item.checked" @change="selectItem(item)"></el-checkbox>
@@ -148,20 +148,19 @@
                 <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
             </span>
         </el-dialog>
-
-            <el-dialog title="选用消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
+        <el-dialog title="选用消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
             <div class="row list-search">
                 <div class="col-md-8 search-field">
                     <div class="label">资产名称：</div>
                     <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
                 </div>
             </div>
-               <!-- <div class="list-empty" v-show="consumeList.length===0">
+               <div class="list-empty" v-show="consumeList.length==0">
                                                暂无数据
-                                  </div> -->
+                                  </div>
             <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
                 <div class="col-md-1">
-                    <el-checkbox v-model="item.checked" @click="selectConsumeItem(item)"></el-checkbox>
+                    <el-checkbox v-model="item.checked" @change="selectConsumeItem(item)"></el-checkbox>
                 </div>
                 <div class="col-md-3">
                     <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
@@ -202,8 +201,6 @@ import {
   Message,
   Select
 } from "element-ui";
-import MultipleImg from "../../../../components/uploadImg/multipleImg.vue";
-import AddDialog from "../../../../components/addDialog/addDialog.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import hosAssetsSrv from "../../../services/hosAssets.service.js";
 import horseSrv from "../../../services/horse.service.js";
@@ -213,7 +210,7 @@ export default {
         addConsumeDialog:false,
       addItemDialog: false,
       consultingRoomList: [],
-      consumableAssetList:'',
+      consumableAssetList:[],
       horseInfoName: [],
       treatInfo: {},
       horseName: "",
@@ -224,7 +221,6 @@ export default {
       appointNum: "",
       treatDate: "",
       useConsume: [],
-      checked: true,
       treatWay: "",
       beginDate: "",
       beginTime: "",
@@ -262,21 +258,6 @@ export default {
           label: "外来"
         }
       ],
-      consume: [
-        { name: "阿莫西林", number: "123", value: "0", checked: false },
-        { name: "阿司匹林", number: "123", value: "0", checked: false },
-        { name: "阿门", number: "123", value: "0", checked: false }
-      ],
-      equipment: [
-        { name: "手术室1", number: "123", value: "0", checked: false },
-        { name: "手术室2", number: "123", value: "0", checked: false },
-        { name: "手术室3", number: "123", value: "0", checked: false }
-      ],
-      medicine: [
-        { name: "阿莫西林", number: "123", value: "0", checked: false },
-        { name: "阿司匹林", number: "123", value: "0", checked: false },
-        { name: "阿门", number: "123", value: "0", checked: false }
-      ]
     };
   },
   components: {
@@ -284,8 +265,6 @@ export default {
     "el-button": Button,
     "el-time-select": TimeSelect,
     "el-input": Input,
-    "multiple-img": MultipleImg,
-    "add-dialog": AddDialog,
     "el-select": Select
   },
 
@@ -309,30 +288,25 @@ export default {
       );
     });
   },
-  mounted() {
-    this.$el.addEventListener("animationend", this.resizeHorse);
-    // this.$el.addEventListener('animationend', this.resizePeople)
-  },
-  //    mounted() {
-  //     this.$el.addEventListener("animationend", this.resizeWay);
-  //     this.$el.addEventListener("animationend", this.resizeType);
-  //     this.$el.addEventListener("animationend", this.resizeHorse);
-  //     this.$el.addEventListener("animationend", this.resizeUse);
-  //   },
+     mounted() {
+      this.$el.addEventListener("animationend", this.resizeWay);
+      this.$el.addEventListener("animationend", this.resizeType);
+      this.$el.addEventListener("animationend", this.resizeHorse);
+      this.$el.addEventListener("animationend", this.resizeUse);
+    },
   methods: {
     resizeHorse() {
       this.$refs.selectHorse.resetInputWidth();
     },
-
-    //    resizeWay() {
-    //   this.$refs.selectWay.resetInputWidth();
-    // },
-    // resizeType() {
-    //   this.$refs.selectType.resetInputWidth();
-    // },
-    // resizeUse() {
-    //   this.$refs.selectUse.resetInputWidth();
-    // },
+   resizeWay() {
+      this.$refs.selectWay.resetInputWidth();
+    },
+    resizeType() {
+      this.$refs.selectType.resetInputWidth();
+    },
+    resizeUse() {
+      this.$refs.selectUse.resetInputWidth();
+    },
     getAssetsList(currentPage = this.currentPage) {
       this.addItemDialog = true;
       hosAssetsSrv
@@ -368,7 +342,7 @@ export default {
               consumeList[i].checked = false;
               consumeList[i].useNumber = 1;
             }
-            this.consumeList=consumeList;
+            this.consumeList = consumeList;
           },
           err => {
             this.$message.error(err.msg);
@@ -393,8 +367,8 @@ export default {
           this.treatName &&
           this.treatDesc &&
           this.useRoom &&
-          this.equipment &&
-          this.consume
+          this.hospitalAssetList &&
+          this.consumableAssetList
         )
       ) {
         this.$message.error("治疗信息不能为空！");
@@ -406,15 +380,16 @@ export default {
         beginDate: this.beginDate,
         beginTime: this.beginTime + ":00",
         endDate: this.endDate,
+        endTime: this.endTime + ":00",
         horseType: this.horseType,
         horseId: this.horseName,
         horseName: this.horseName,
         treatName: this.treatName,
         treatDesc: this.treatDesc,
         consultingRoomId: this.useRoom,
-        hospitalAssetList: this.equipment,
+         hospitalAssetList: this.hospitalAssetList,
         consumableAssetList: this.consumableAssetList,
-        hospitalAssetList: this.hospitalAssetList
+       
       };
       if (this.treatWay == 2) {
         this.treatInfo.appointNumber = this.appointNum;
@@ -430,14 +405,12 @@ export default {
       );
     },
     selectItem(item) {
-        console.log(1)
       if (item.checked) {
         this.hospitalAssetList.push({
           assetId: item.assetId,
           count: item.useNumber
         });
       }
-      console.log(this.hospitalAssetList)
     },
      selectConsumeItem(item) {
       if (item.checked) {
@@ -446,7 +419,6 @@ export default {
           count: item.useNumber
         });
       }
-      console.log(this.consumableAssetList)
     },
 
     increase(index, value, inventory) {
@@ -462,14 +434,14 @@ export default {
       if (value <= 0) {
         return 0;
       } else {
-        return this.assetsList[index].useNumber--;
+        return this.consumeList[index].useNumber--;
       }
     },
     increaseConsume(index, value, inventory) {
       if (value >= inventory) {
         return inventory;
       } else {
-        return this.assetsList[index].useNumber++;
+        return this.consumeList[index].useNumber++;
       }
     },
     //减少

@@ -1,10 +1,10 @@
 import axios from 'axios'
 export default {
-  get() {
+  getHorseResume(pageIndex, pageRecorders,horseName) {
     return axios({
-      url: '',
+      url: '/equestrianismApi/horseResume/list',
       method: 'get',
-      params: {}
+      params: {pageIndex, pageRecorders,horseName}
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -21,11 +21,11 @@ export default {
       }
     )
   },
-  post() {
+  getResumeDetail(horseId) {
     return axios({
-      url: ' ',
-      method: 'post',
-      data: {}
+      url: '/equestrianismApi/horseResume/detail',
+      method: 'get',
+      params: {horseId}
     }).then(
         resp => {
           if (resp.data.code === 10200) {

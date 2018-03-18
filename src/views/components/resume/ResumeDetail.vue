@@ -3,8 +3,8 @@
         <div class="content-title">
             <div class="title">马匹简历          
                 <div class="pre-next">
-                    <button class="btn btn-primary">上一条</button>
-                    <button class=" btn btn-primary">下一条</button>
+                    <button class="btn btn-primary" @click="lastItem">上一条</button>
+                    <button class=" btn btn-primary" @click="nextItem">下一条</button>
                 </div>
             </div>
             <router-link class="btn btn-info back-on" :to="'/resume/horseResume'">
@@ -17,33 +17,32 @@
                     <div class="title">基本信息</div>
                 </div>
             </div>
-            <div class="row list-search resume-bottom mb-2">
+            <div class="row list-search resume-bottom mb-2" v-if="horseInfo">
                 <div class="col-md-3">               
                     <img class="img-show" src="/static/img/horse.png">
-                    <div class="horse-name">小大马</div>
+                    <div class="horse-name">{{horseInfo.horseName}}</div>
                 </div>
                 <div class="col-md-7 mb-3">
-                    <table id="tab1" class="table table-striped">
+                    <table id="tab1" class="table table-striped" >
                         <tbody>
                             <tr>
-                                <th>姓名</th>
+                                <th>马匹名称</th>
                                 <th>护照号码</th>
-                                <th>马名</th>
                                 <th>变更马名</th>
                                 <th>身高</th>
                                 <th>性别</th>
                                 <th>出生国家</th>
-                                <th>父亲</th>
+                                <th>毛色</th>
                             </tr>
-                            <tr>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
+                            <tr >
+                                <td>{{horseInfo.horseName}}</td>
+                                <td>{{horseInfo.passportNumber}}</td>
+                                <td>{{horseInfo.usedName}}</td>
+                                <td>{{horseInfo.height}}</td>
+                                
+                                <td>{{horseInfo.sex}}</td>
+                                <td>{{horseInfo.country}}</td>
+                                <td>{{horseInfo.coatColour}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,7 +50,6 @@
                         <tbody>
                             <tr>
                                  <th>皮下微型条码</th>
-                                <th>外祖父</th>
                                 <th>头部描述</th>
                                 <th>左前肢描述</th>
                                 <th>右前肢描述</th>
@@ -59,23 +57,21 @@
                                 <th>右后肢描述</th>
                                 <th>体躯描述</th>
                             </tr>
-                            <tr>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-
+                            <tr> 
+                                 <td>{{horseInfo.barCode}}</td>
+                                  <td>{{horseInfo.headDesc}}</td>
+                                    <td>{{horseInfo.leftForeDesc}}</td>
+                                      <td>{{horseInfo.rightForeDesc}}</td>
+                                       <td>{{horseInfo.leftHindDesc}}</td>
+                                         <td>{{horseInfo.rightHindDesc}}</td>
+                                           <td>{{horseInfo.bodyDesc}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="resume-more-baseInfo col-md-2">
                     <router-link :to="{path: '/horse/updateBaseInfo',       
-                                         query: { disable: 1,}}"> 更多</router-link>
+                                         query: { disable: 1,horseId:item.horseId}}"> 更多</router-link>
                     <i class="fa fa-angle-right fa-lg"></i>
                 </div>
             </div>
@@ -377,29 +373,67 @@
 </template>
 
 <script>
-import { Button,Message } from "element-ui";
-import resumeSrv from '../../services/resume.service.js'
+import { Button, Message } from "element-ui";
+import resumeSrv from "../../services/resume.service.js";
 /* eslint-disable */
 export default {
   data() {
     return {
-      value: ""
+      horseInfo: {},
+      horseIdList:[]
     };
   },
   components: {
     "el-button": Button
   },
+  beforeRouteEnter: function(to, from, next) {
+    next(vm => {
+       vm.horseIdList =  to.query.horseIdList
+      vm.horseId = to.query.horseId;
+      resumeSrv.getResumeDetail(vm.horseId).then(
+        resp => {
+          vm.horseInfo = resp.data.horseInfo;
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
+    });
+  },
   methods: {
-    open() {
-      this.$message.success("修改成功");
-    }
+      getDetail(horseId){
+       resumeSrv.getResumeDetail(horseId).then(
+        resp => {
+          this.horseInfo = resp.data.horseInfo;
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+      },
+      lastItem(){
+        let len = this.horseIdList.length
+        let horseId = ''
+        for(let i=0;i<len;i++){
+           horseId =  this.horseIdList[i-1]
+        }
+        this.getDetail(horseId)
+      },
+      nextItem(){
+        let len = this.horseIdList.length
+        let horseId = ''
+        for(let i=0;i<len;i++){
+           horseId =  this.horseIdList[i+1]
+        }
+        this.getDetail(horseId)
+      }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.back-on{
-float: right;;
+.back-on {
+  float: right;
 }
 #tab1 {
   line-height: 20px;
