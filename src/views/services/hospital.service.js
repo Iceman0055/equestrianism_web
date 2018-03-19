@@ -483,11 +483,11 @@ export default {
       }
     );
   },
-  vaccInfoList(pageIndex, pageRecorders,horseId,operateDate,operatePlace ) {
+  vaccInfoList(pageIndex, pageRecorders, horseId, operateDate, operatePlace) {
     return axios({
       url: "/equestrianismApi/vaccinationInfo/list",
       method: "get",
-      params: { pageIndex, pageRecorders,horseId,operateDate,operatePlace }
+      params: { pageIndex, pageRecorders, horseId, operateDate, operatePlace }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -588,11 +588,11 @@ export default {
       }
     );
   },
-  treatList(pageIndex, pageRecorders,treatName,horseId) {
+  treatList(pageIndex, pageRecorders, treatName, horseId) {
     return axios({
       url: "/equestrianismApi/treatmentInfo/list",
       method: "get",
-      params: { pageIndex, pageRecorders,treatName,horseId }
+      params: { pageIndex, pageRecorders, treatName, horseId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -676,7 +676,7 @@ export default {
     return axios({
       url: "/equestrianismApi/treatmentInfo/detail",
       method: "get",
-      params: {treatmentId}
+      params: { treatmentId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -697,7 +697,7 @@ export default {
     return axios({
       url: "/equestrianismApi/treatmentInfo/hospitalAsset",
       method: "get",
-      params: {treatmentId}
+      params: { treatmentId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -718,7 +718,7 @@ export default {
     return axios({
       url: "/equestrianismApi/treatmentInfo/consumableAsset",
       method: "get",
-      params: {treatmentId}
+      params: { treatmentId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -736,13 +736,11 @@ export default {
     );
   },
 
-
-
-  treatCaseList(pageIndex, pageRecorders,titleTag,horseId) {
+  treatCaseList(pageIndex, pageRecorders, titleTag, horseId) {
     return axios({
       url: "/equestrianismApi/treatmentCaseInfo/list",
       method: "get",
-      params: { pageIndex, pageRecorders,titleTag,horseId }
+      params: { pageIndex, pageRecorders, titleTag, horseId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -826,7 +824,7 @@ export default {
     return axios({
       url: "/equestrianismApi/treatmentCaseInfo/detail",
       method: "get",
-      params: {treatmentCaseId}
+      params: { treatmentCaseId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -843,11 +841,11 @@ export default {
       }
     );
   },
-  deleteImage(){
+  deleteImage(casePhotoId) {
     return axios({
-      url:'/equestrianismApi/treatmentCasePhoto/delete',
+      url: "/equestrianismApi/treatmentCasePhoto/delete",
       method: "post",
-      data: {}
+      data: { casePhotoId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -862,6 +860,27 @@ export default {
         }
         return Promise.reject(err);
       }
-    )
+    );
   },
+  getImageList(treatmentCaseId, photoType) {
+    return axios({
+      url: "/equestrianismApi/treatmentCasePhoto/list",
+      method: "get",
+      params: { treatmentCaseId, photoType }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  }
 };

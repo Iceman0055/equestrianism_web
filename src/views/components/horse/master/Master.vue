@@ -6,7 +6,7 @@
         <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-3 search-field">
-                    <div class="label">姓名：</div>
+                    <div class="label">马主姓名：</div>
                     <input type="text" v-model="hostName" class="form-control input-field" placeholder="请输入姓名" />
                 </div>
                 <div class="col-md-3 search-field">
@@ -48,7 +48,7 @@
                                 <td>{{item.horseName}}</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateMaster',       
-                                                                           query: { disable: 1,hostId:item.hostId}}"> 查看</router-link>
+                                                                               query: { disable: 1,hostId:item.hostId}}"> 查看</router-link>
                                     <router-link :to="{path:'/horse/updateMaster',query:{hostId:item.hostId}}">修改</router-link>
                                     <a @click="deleteInfo(item.hostId)">删除</a>
                                 </td>
@@ -104,7 +104,13 @@ export default {
             systemSrv.dictionary().then(resp => {
                 vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
                 vm.convertSex = vm.dictInfoList.SEX
-                return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName,vm.contactWay)
+                if (to.query.hostName) {
+                    vm.hostName = to.query.hostName
+                    return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName, vm.contactWay)
+                } else {
+                    return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName, vm.contactWay)
+                }
+
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
@@ -119,7 +125,7 @@ export default {
     methods: {
         getMasterList(currentPage = this.currentPage) {
             this.showLoading = true
-            horseSrv.masterList(currentPage, this.pageRecorders, this.hostName,this.contactWay).then((resp) => {
+            horseSrv.masterList(currentPage, this.pageRecorders, this.hostName, this.contactWay).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders

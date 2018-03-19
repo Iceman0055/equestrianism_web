@@ -100,6 +100,9 @@ export default {
      beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
+            if(to.query.horseId){
+                vm.horseName = to.query.horseId
+            }
             hospitalSrv.vaccInfoList(vm.currentPage, vm.pageRecorders, vm.horseName,vm.time,vm.address).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders

@@ -10,8 +10,6 @@
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
         >
-        <img v-if="previewUrl" :src="previewUrl" class="avatar">
-            <i class="el-icon-plus"></i>
         </el-upload>
         <!-- <el-upload :disabled="useDisabled" :action="action" :on-change="submitFile" :on-success="handleSuccess" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
             <i class="el-icon-plus"></i>

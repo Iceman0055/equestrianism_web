@@ -74,6 +74,9 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
+             if(to.query.horseId){
+                vm.horseName = to.query.horseId
+            }
             hospitalSrv.nailList(vm.currentPage, vm.pageRecorders, vm.horseName).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders

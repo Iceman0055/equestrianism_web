@@ -11,10 +11,10 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
-                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称"/>
-                        <!-- <el-input 
-                            @input="setQueryKey"
-                        /> -->       
+                    <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />
+                    <!-- <el-input 
+                                    @input="setQueryKey"
+                                /> -->
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn" @click="getHorseList(1)">搜索</button>
@@ -145,7 +145,12 @@ export default {
                 vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
                 vm.convertSex = vm.dictInfoList.HORSE_SEX
                 vm.convertColor = vm.dictInfoList.HORSE_COAT_COLOUR
-                return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
+                if (to.query.horseName) {
+                    vm.horseName = to.query.horseName
+                    return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
+                }else{
+                     return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
+                }
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders

@@ -1,195 +1,195 @@
 <template>
-    <div class="content_page animated zoomIn">
-        <div class="content-title">
-            <div class="title">新增治疗日程</div>
-            <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
-                返回
-            </router-link>
-        </div>
-        <div class="content-show">
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">门诊方式：</div>
-                    <el-select ref="selectWay" size="large" v-model="treatWay" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field" v-if="treatWay==2">
-                    <div class="label">预约号：</div>
-                    <input type="text" v-model="appointNum" class="form-control input-field" placeholder="请输入预约号称" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">开始日期：</div>
-                    <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">开始时间：</div>
-                    <el-time-select size="large"  v-model="beginTime" :picker-options="{
-                                                      start: '00:00',
-                                                       step: '01:00',
-                                                         end: '24:00'
-                                                        }" placeholder="选择时间">
-                    </el-time-select>
-                </div>
-
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">结束日期：</div>
-                    <el-date-picker size="large"  v-model="endDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">结束时间：</div>
-                    <el-time-select size="large" v-model="endTime" :picker-options="{
-                                                            start: '00:00',
-                                                             step: '01:00',
-                                                            end: '24:00'
-                                                             }" placeholder="选择时间">
-                    </el-time-select>
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">马匹类型：</div>
-                    <el-select ref="selectType" size="large" v-model="horseType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field" v-if="horseType==1">
-                    <div class="label">马匹名称：</div>
-                    <el-select size="large" ref="selectHorse" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
-                        </el-option>
-                    </el-select>              
-              </div>
-               <div class="col-md-4 search-field" v-if="horseType==2">
-                    <div class="label">马匹名称：</div>
-                 <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />   
-              </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">治疗名称：</div>
-                    <input type="text" v-model="treatName" class="form-control input-field" placeholder="请输入治疗名称" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">治疗概述：</div>
-                    <input type="text" v-model="treatDesc" class="form-control input-field" placeholder="请输入治疗概述" />
-                </div>
-                 <div class="col-md-4 search-field">
-                    <div class="label">手术室使用：</div>
-                    <el-select size="large" ref="selectUse" v-model="useRoom" class="el-field-input" placeholder="请选择">
-                       <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>
-            <div class="row list-search">      
-                <div class="col-md-4 search-field">
-                    <div class="label">设备使用：</div>
-                     <textarea type="text" rows="2" v-model="hospitalAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
-       
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">消耗品使用：</div>
-             <textarea type="text" rows="2"  v-model="consumableAssetList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
-                </div>
-            </div>
-
-        </div>
-        <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addTreat">确定</el-button>
-        </div>
-
-        <el-dialog title="选用设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="52%" center>
-            <div class="row list-search">
-                <div class="col-md-8 search-field">
-                    <div class="label">资产名称：</div>
-                    <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
-                </div>
-            </div>
-               <div class="list-empty" v-show="assetsList.length==0">
-                                               暂无数据
-                                  </div>
-            <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
-                <div class="col-md-1">
-                    <el-checkbox v-model="item.checked" @change="selectItem(item)"></el-checkbox>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-                </div>
-                <div class="col-md-5">
-                    <div class="Spinner">
-                        <a class="Decrease" @click="decrease(index,item.useNumber)">
-                            <i class="fa fa-sort-desc"></i>
-                        </a>
-                        <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-                        <a class="Increase" @click="increase(index,item.useNumber,item.inventory)">
-                            <i class="fa fa-sort-asc"></i>
-                        </a>
-                    </div>
-                </div>     
-            </div>
-            <div class="page" style="float: right">
-                        <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
-                        </el-pagination>
-                    </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="addItemDialog = false">取 消</el-button>
-                <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
-        <el-dialog title="选用消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
-            <div class="row list-search">
-                <div class="col-md-8 search-field">
-                    <div class="label">资产名称：</div>
-                    <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
-                </div>
-            </div>
-               <div class="list-empty" v-show="consumeList.length==0">
-                                               暂无数据
-                                  </div>
-            <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
-                <div class="col-md-1">
-                    <el-checkbox v-model="item.checked" @change="selectConsumeItem(item)"></el-checkbox>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-                </div>
-                <div class="col-md-5">
-                    <div class="Spinner">
-                        <a class="Decrease" @click="decreaseConsume(index,item.useNumber)">
-                            <i class="fa fa-sort-desc"></i>
-                        </a>
-                        <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-                        <a class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
-                            <i class="fa fa-sort-asc"></i>
-                        </a>
-                    </div>
-                </div>     
-            </div>
-            <div class="page" style="float: right">
-                        <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
-                        </el-pagination>
-                    </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="addConsumeDialog = false">取 消</el-button>
-                <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
+  <div class="content_page animated zoomIn">
+    <div class="content-title">
+      <div class="title">新增治疗日程</div>
+      <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
+        返回
+      </router-link>
     </div>
+    <div class="content-show">
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">门诊方式：</div>
+          <el-select ref="selectWay" size="large" v-model="treatWay" class="el-field-input" placeholder="请选择">
+            <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field" v-if="treatWay==2">
+          <div class="label">预约号：</div>
+          <input type="text" v-model="appointNum" class="form-control input-field" placeholder="请输入预约号称" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">开始日期：</div>
+          <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">开始时间：</div>
+          <el-time-select size="large" v-model="beginTime" :picker-options="{
+                                                        start: '00:00',
+                                                         step: '01:00',
+                                                           end: '24:00'
+                                                          }" placeholder="选择时间">
+          </el-time-select>
+        </div>
+
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">结束日期：</div>
+          <el-date-picker size="large" v-model="endDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">结束时间：</div>
+          <el-time-select size="large" v-model="endTime" :picker-options="{
+                                                              start: '00:00',
+                                                               step: '01:00',
+                                                              end: '24:00'
+                                                               }" placeholder="选择时间">
+          </el-time-select>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">马匹类型：</div>
+          <el-select ref="selectType" size="large" v-model="horseType" class="el-field-input" placeholder="请选择">
+            <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field" v-if="horseType==1">
+          <div class="label">马匹名称：</div>
+          <el-select size="large" ref="selectHorse" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+            <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field" v-if="horseType==2">
+          <div class="label">马匹名称：</div>
+          <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">治疗名称：</div>
+          <input type="text" v-model="treatName" class="form-control input-field" placeholder="请输入治疗名称" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">治疗概述：</div>
+          <input type="text" v-model="treatDesc" class="form-control input-field" placeholder="请输入治疗概述" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">手术室使用：</div>
+          <el-select size="large" ref="selectUse" v-model="useRoom" class="el-field-input" placeholder="请选择">
+            <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">设备使用：</div>
+          <textarea type="text" rows="2" v-model="hospitalAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
+
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">消耗品使用：</div>
+          <textarea type="text" rows="2" v-model="consumableAssetList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="content-footer row">
+      <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addTreat">确定</el-button>
+    </div>
+
+    <el-dialog title="选用设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="52%" center>
+      <div class="row list-search">
+        <div class="col-md-8 search-field">
+          <div class="label">资产名称：</div>
+          <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
+        </div>
+      </div>
+      <div class="list-empty" v-show="assetsList.length==0">
+        暂无数据
+      </div>
+      <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
+        <div class="col-md-1">
+          <el-checkbox v-model="item.checked" @change="selectItem(item)"></el-checkbox>
+        </div>
+        <div class="col-md-3">
+          <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
+        </div>
+        <div class="col-md-3">
+          <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
+        </div>
+        <div class="col-md-5">
+          <div class="Spinner">
+            <a class="Decrease" @click="decrease(index,item.useNumber)">
+              <i class="fa fa-sort-desc"></i>
+            </a>
+            <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
+            <a class="Increase" @click="increase(index,item.useNumber,item.inventory)">
+              <i class="fa fa-sort-asc"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="page" style="float: right">
+        <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
+        </el-pagination>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addItemDialog = false">取 消</el-button>
+        <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="选用消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
+      <div class="row list-search">
+        <div class="col-md-8 search-field">
+          <div class="label">资产名称：</div>
+          <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
+        </div>
+      </div>
+      <div class="list-empty" v-show="consumeList.length==0">
+        暂无数据
+      </div>
+      <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
+        <div class="col-md-1">
+          <el-checkbox v-model="item.checked" @change="selectConsumeItem(item)"></el-checkbox>
+        </div>
+        <div class="col-md-3">
+          <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
+        </div>
+        <div class="col-md-3">
+          <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
+        </div>
+        <div class="col-md-5">
+          <div class="Spinner">
+            <a class="Decrease" @click="decreaseConsume(index,item.useNumber)">
+              <i class="fa fa-sort-desc"></i>
+            </a>
+            <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
+            <a class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
+              <i class="fa fa-sort-asc"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="page" style="float: right">
+        <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
+        </el-pagination>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addConsumeDialog = false">取 消</el-button>
+        <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 <script>
 import {
@@ -207,16 +207,16 @@ import horseSrv from "../../../services/horse.service.js";
 export default {
   data() {
     return {
-        addConsumeDialog:false,
+      addConsumeDialog: false,
       addItemDialog: false,
       consultingRoomList: [],
-      consumableAssetList:[],
+      consumableAssetList: [],
       horseInfoName: [],
       treatInfo: {},
       horseName: "",
       treatName: "",
-      consumeTreatName:'',
-      assetsTreatName:'',
+      consumeTreatName: '',
+      assetsTreatName: '',
       treatDesc: "",
       appointNum: "",
       treatDate: "",
@@ -288,17 +288,14 @@ export default {
       );
     });
   },
-     mounted() {
-      this.$el.addEventListener("animationend", this.resizeWay);
-      this.$el.addEventListener("animationend", this.resizeType);
-      this.$el.addEventListener("animationend", this.resizeHorse);
-      this.$el.addEventListener("animationend", this.resizeUse);
-    },
+  mounted() {
+    this.$el.addEventListener("animationend", this.resizeWay);
+    this.$el.addEventListener("animationend", this.resizeType);
+    this.$el.addEventListener("animationend", this.resizeHorse);
+    this.$el.addEventListener("animationend", this.resizeUse);
+  },
   methods: {
-    resizeHorse() {
-      this.$refs.selectHorse.resetInputWidth();
-    },
-   resizeWay() {
+    resizeWay() {
       this.$refs.selectWay.resetInputWidth();
     },
     resizeType() {
@@ -307,46 +304,49 @@ export default {
     resizeUse() {
       this.$refs.selectUse.resetInputWidth();
     },
+    resizeHorse() {
+      this.$refs.selectHorse.resetInputWidth();
+    },
     getAssetsList(currentPage = this.currentPage) {
       this.addItemDialog = true;
       hosAssetsSrv
         .assetsList(currentPage, this.pageRecorders, "", "", this.assetsTreatName)
         .then(
-          resp => {
-            this.currentPage = currentPage;
-            this.totalRecorders = resp.data.totalRecorders;
-            let assetsList = resp.data.assetInfoList;
-            let len = assetsList.length;
-            for (let i = 0; i < len; i++) {
-              assetsList[i].checked = false;
-              assetsList[i].useNumber = 1;
-            }
-            this.assetsList = assetsList;
-          },
-          err => {
-            this.$message.error(err.msg);
+        resp => {
+          this.currentPage = currentPage;
+          this.totalRecorders = resp.data.totalRecorders;
+          let assetsList = resp.data.assetInfoList;
+          let len = assetsList.length;
+          for (let i = 0; i < len; i++) {
+            assetsList[i].checked = false;
+            assetsList[i].useNumber = 1;
           }
+          this.assetsList = assetsList;
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
         );
     },
     getConsumeList(currentPage = this.current) {
-        this.addConsumeDialog = true
+      this.addConsumeDialog = true
       hosAssetsSrv
-        .consumeList(currentPage, this.page,'','', this.consumeTreatName)
+        .consumeList(currentPage, this.page, '', '', this.consumeTreatName)
         .then(
-          resp => {
-            this.current = currentPage;
-            this.total = resp.data.totalRecorders;
-            let consumeList = resp.data.assetInfoList;
-            let len = consumeList.length;
-            for (let i = 0; i < len; i++) {
-              consumeList[i].checked = false;
-              consumeList[i].useNumber = 1;
-            }
-            this.consumeList = consumeList;
-          },
-          err => {
-            this.$message.error(err.msg);
+        resp => {
+          this.current = currentPage;
+          this.total = resp.data.totalRecorders;
+          let consumeList = resp.data.assetInfoList;
+          let len = consumeList.length;
+          for (let i = 0; i < len; i++) {
+            consumeList[i].checked = false;
+            consumeList[i].useNumber = 1;
           }
+          this.consumeList = consumeList;
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
         );
     },
 
@@ -387,9 +387,9 @@ export default {
         treatName: this.treatName,
         treatDesc: this.treatDesc,
         consultingRoomId: this.useRoom,
-         hospitalAssetList: this.hospitalAssetList,
+        hospitalAssetList: this.hospitalAssetList,
         consumableAssetList: this.consumableAssetList,
-       
+
       };
       if (this.treatWay == 2) {
         this.treatInfo.appointNumber = this.appointNum;
@@ -412,7 +412,7 @@ export default {
         });
       }
     },
-     selectConsumeItem(item) {
+    selectConsumeItem(item) {
       if (item.checked) {
         this.consumableAssetList.push({
           assetId: item.assetId,
@@ -462,6 +462,7 @@ export default {
   height: 139px !important;
   overflow-y: scroll !important;
 }
+
 .baseInfo-title {
   height: 30px;
   line-height: 30px;
@@ -475,9 +476,11 @@ export default {
     display: inline-block;
   }
 }
+
 .addborder {
   border-radius: 5px;
 }
+
 .add-delete a {
   margin-left: 5px;
   cursor: pointer;

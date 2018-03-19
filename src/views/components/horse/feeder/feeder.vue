@@ -36,13 +36,15 @@
                             <tr v-for="item in feederList" :key="item">
                                 <td>{{item.feederName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
-                                <td><a @click="watchImage(item.idCardImage)">查看</a></td>
+                                <td>
+                                    <a @click="watchImage(item.idCardImage)">查看</a>
+                                </td>
                                 <td>{{item.skillDesc}}</td>
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.hireDate}}</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateFeeder',       
-                                                 query: { disable: 1,feederId:item.feederId}}"> 查看</router-link>
+                                                     query: { disable: 1,feederId:item.feederId}}"> 查看</router-link>
                                     <router-link :to="{path:'/horse/updateFeeder',query:{feederId:item.feederId}}">修改</router-link>
                                     <a @click="deleteInfo(item.feederId)">删除</a>
                                 </td>
@@ -86,7 +88,7 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            imageInfo:'',
+            imageInfo: '',
             imageDialog: false,
             deleteDialog: false,
             feederName: '',
@@ -105,7 +107,12 @@ export default {
             systemSrv.dictionary().then(resp => {
                 vm.dictInfoList = systemSrv.formatDic(resp.data.dictionaryInfoList);
                 vm.convertSex = vm.dictInfoList.SEX
-                return horseSrv.feederList(vm.currentPage, vm.pageRecorders, vm.feederName)
+                if (to.query.feederName) {
+                    vm.feederName = to.query.feederName
+                    return horseSrv.feederList(vm.currentPage, vm.pageRecorders, vm.feederName)
+                } else {
+                    return horseSrv.feederList(vm.currentPage, vm.pageRecorders, vm.feederName)
+                }
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
@@ -156,8 +163,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.showImage{
-    width: 100%;
-    // border:1px solid #ddd;
+.showImage {
+    width: 100%; // border:1px solid #ddd;
 }
 </style>

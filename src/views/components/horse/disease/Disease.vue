@@ -11,25 +11,26 @@
                 </div>
                 <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
-          <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
                         <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
-                    </el-select>                 </div>
+                    </el-select>
+                </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getTreatCaseList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <!-- <div class="col-md-1 search-field search-field_controls">
-                    <router-link class="btn btn-success" :to="'/horse/addDisease'">
-                        新增
-                    </router-link>
-                </div> -->
+                            <router-link class="btn btn-success" :to="'/horse/addDisease'">
+                                新增
+                            </router-link>
+                        </div> -->
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
-                                 <th>马匹</th>
+                                <th>马匹</th>
                                 <th>时间</th>
                                 <th>地点</th>
                                 <th>临诊</th>
@@ -51,17 +52,17 @@
                                 <td>{{item.advice}}</td>
                                 <td>{{item.titleTag}}</td>
                                 <td>{{item.remark}}</td>
-                               <td>
+                                <td>
                                     <!-- <router-link :to="{path: '/horse/updateDisease',       
-                                     query: { disable: 1,treatmentCaseId:item.treatmentCaseId}}"> 查看</router-link> -->
+                                             query: { disable: 1,treatmentCaseId:item.treatmentCaseId}}"> 查看</router-link> -->
                                     <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="list-empty" v-show="treatCaseList.length===0">
-                                                    暂无数据
-                                                </div>
+                        暂无数据
+                    </div>
                     <div class="page">
                         <el-pagination @current-change="getTreatCaseList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
@@ -80,60 +81,63 @@ import hospitalSrv from "../../../services/hospital.service.js";
 export default {
     data() {
         return {
-             horseName: "",
-             horseInfoName: [],
-          titleTag:'',
+            horseName: "",
+            horseInfoName: [],
+            titleTag: '',
             currentPage: 1,
-        pageRecorders: 10,
-         totalRecorders: 1,
-            showLoading:false,
-            treatCaseList:[],
+            pageRecorders: 10,
+            totalRecorders: 1,
+            showLoading: false,
+            treatCaseList: [],
         }
     },
- beforeRouteEnter: function(to, from, next) {
-    next(vm => {
-      vm.showLoading = true;
-      hospitalSrv
-        .treatCaseList(vm.currentPage, vm.pageRecorders, vm.titleTag, vm.horseName)
-        .then(
-          resp => {
-            vm.showLoading = false;
-            vm.totalRecorders = resp.data.totalRecorders;
-            vm.treatCaseList = resp.data.treatmentCaseList;
-          },
-          err => {
-            vm.showLoading = false;
-            vm.$message.error(err.msg);
-          }
-        );
-      horseSrv.getHorseName().then(
-        resp => {
-          vm.horseInfoName = resp.data.horseList;
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.showLoading = true;
+            if(to.query.horseId){
+                vm.horseName = to.query.horseId
+            }
+            hospitalSrv.treatCaseList(vm.currentPage, vm.pageRecorders, vm.titleTag, vm.horseName)
+                .then(
+                resp => {
+                    vm.showLoading = false;
+                    vm.totalRecorders = resp.data.totalRecorders;
+                    vm.treatCaseList = resp.data.treatmentCaseList;
+                },
+                err => {
+                    vm.showLoading = false;
+                    vm.$message.error(err.msg);
+                }
+                );
+            horseSrv.getHorseName().then(
+                resp => {
+                    vm.horseInfoName = resp.data.horseList;
+                },
+                err => {
+                    vm.$message.error(err.msg);
+                }
+            );
+        });
+    },
+    methods: {
+        getTreatCaseList(currentPage = this.currentPage) {
+            this.showLoading = true;
+            hospitalSrv
+                .treatCaseList(currentPage, this.pageRecorders, this.titleTag, this.horseName)
+                .then(
+                resp => {
+                    this.showLoading = false;
+                    this.currentPage = currentPage;
+                    this.totalRecorders = resp.data.totalRecorders;
+                    this.treatCaseList = resp.data.treatmentCaseList;
+                },
+                err => {
+                    this.showLoading = false;
+                    this.$message.error(err.msg);
+                }
+                );
         },
-        err => {
-          vm.$message.error(err.msg);
-        }
-      );
-    });
-  },
-  methods:{  
-       getTreatCaseList(currentPage = this.currentPage) {
-      this.showLoading = true;
-      hospitalSrv
-        .treatCaseList(currentPage, this.pageRecorders,this.titleTag, this.horseName)
-        .then(
-          resp => {
-            this.showLoading = false;
-            this.currentPage = currentPage;
-            this.totalRecorders = resp.data.totalRecorders;
-            this.treatCaseList = resp.data.treatmentCaseList;
-          },
-          err => {
-            this.showLoading = false;
-            this.$message.error(err.msg);
-          }
-        );
-    },},
+    },
     components: {
         'el-pagination': Pagination,
     }

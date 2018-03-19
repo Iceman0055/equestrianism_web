@@ -18,8 +18,8 @@
                 </div>      
             </div> 
        <div class="resume">       
-                <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row"  v-show="!showLoading">
+           <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="row" v-show="!showLoading">
                 <div class="col-md-3 distance" v-for="item in horseResumeList" :key="item">
                     <div class="resume-list">
                         <div class="resume-img">
@@ -28,7 +28,7 @@
                         <div class="resume-footer">
                             <div class="resume-name">{{item.horseName}}</div>
                             <div class="resume-detail">
-                                <router-link :to="{path:'/resume/resumeDetail',query:{horseId:item.horseId,horseIdList:horseIdList}}">
+                                <router-link :to="{path:'/resume/resumeDetail',query:{horseId:item.horseId}}">
                                     查看详情
                                 </router-link>
                             </div>
@@ -61,7 +61,6 @@ export default {
       horseInfoName: [],
       horseName: "",
       horseResumeList: [],
-      horseIdList: [],
       showLoading:false,
     };
   },
@@ -71,7 +70,7 @@ export default {
         resp => {
           vm.totalRecorders = resp.data.totalRecorders;
           vm.horseResumeList = resp.data.horseResumeList;
-          vm.horseIdList = resp.data.horseIdList;
+          window.localStorage.setItem('horseIdList',resp.data.horseIdList)
         },
         err => {
           vm.$message.error(err.msg);
