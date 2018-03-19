@@ -61,7 +61,7 @@
                                 </td>
                                 <td>
                                     <a v-if="!item.treatmentCaseId" @click="showTreatCase(item.treatmentId,item.treatmentCaseId)">添加病历</a>
-                                    <a v-if="item.treatmentCaseId" @click="getTreatCaseDetail(item.treatmentCaseId)">修改病历</a>
+                                    <a v-if="item.treatmentCaseId" @click="getTreatCaseDetail(item.treatmentCaseId,item.treatmentId)">修改病历</a>
                                     <router-link :to="{path: '/hospital/updateTreat',       
                                                                                                                                              query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
                                     <router-link :to="{path:'/hospital/updateTreat',query:{treatmentId:item.treatmentId}}">
@@ -82,7 +82,7 @@
                     </div>
                     <!-- 添加病历 -->
                     <el-dialog title="添加病历" :modal-append-to-body="false" :visible.sync="addDialog" width="60%" center>
-                        <div class="content-show text-center">
+                        <div class="content-show">
                             <div class="row mb-1 list-search">
                                 <div class="col-md-4 search-field">
                                     <div class="label">时间：</div>
@@ -119,13 +119,14 @@
                                 </div>
                             </div>
                             <div class="row mb-1 list-search">
-                                <div class="col-md-4 search-field">
+                                <div class="col-md-12 search-field">
                                     <div class="label">x光照片：</div>
                                     <multiple-img :name="'photo'" :data="{photoType:1}" v-on:successFile="successXRay" v-on:removeFile="removeXRay" :action="'/equestrianismApi/treatmentCasePhoto/add'" :imageUrl="xRayImg">
                                     </multiple-img>
                                 </div>
-
-                                <div class="col-md-4 search-field">
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
                                     <div class="label">数据照片：</div>
                                     <multiple-img :name="'photo'" :data="{photoType:2}" v-on:successFile="successData" v-on:removeFile="removeData" :action="'/equestrianismApi/treatmentCasePhoto/add'" :imageUrl="dataImg">
                                     </multiple-img>
@@ -138,7 +139,7 @@
                         </span>
                     </el-dialog>
                     <el-dialog title="修改病历" :modal-append-to-body="false" :visible.sync="updateDialog" width="60%" center>
-                        <div class="content-show text-center">
+                        <div class="content-show">
                             <div class="row mb-1 list-search">
                                 <div class="col-md-4 search-field">
                                     <div class="label">时间：</div>
@@ -175,8 +176,9 @@
                                 </div>
                             </div>
                             <div class="row mb-1 list-search">
-                                <div class="col-md-4 search-field">
+                                <div class="col-md-12 search-field">
                                     <div class="label">x光照片：</div>
+                                    {{xrayList}}
                                     <el-upload
                                         list-type="picture-card"
                                         :name="'photo'"
@@ -188,9 +190,20 @@
                                     ><i class="el-icon-plus"></i>
                                     </el-upload>
                                 </div>
-                                <div class="col-md-4 search-field">
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
                                     <div class="label">数据照片：</div>
-                                    <el-upload></el-upload>
+                                      <el-upload
+                                        list-type="picture-card"
+                                        :name="'photo'"
+                                        :data="{photoType: 2}"
+                                        :file-list="dataList"
+                                        :action="'/equestrianismApi/treatmentCasePhoto/add'"
+                                        :on-success="successData"
+                                        :on-remove="removeData"
+                                    ><i class="el-icon-plus"></i>
+                                    </el-upload>
                                     <!-- <multiple-img :name="'photo'" :data="{photoType:2}" v-on:successFile="successData" v-on:removeFile="removeData" :action="'/equestrianismApi/treatmentCasePhoto/add'" :imageUrl="dataImg" v-model="dataImg">
                                     </multiple-img> -->
                                     <!-- <multiple-img name='photo' :action="'/equestrianismApi/treatmentCasePhoho/addXRay'" :imageUrl="dataImg" v-on:successFile="successFile" v-on:removeFile="removeFile"></multiple-img> -->
@@ -199,12 +212,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row mb-1 list-search">
-                                                                                                                
-                                                                                                        </div> -->
                         <span slot="footer" class="dialog-footer">
                             <el-button @click="updateDialog = false">取 消</el-button>
-                            <el-button type="primary" @click="updateTreatCase">确 定</el-button>
+                            <el-button type="primary" @click="updateTreatCaseFun">确 定</el-button>
                         </span>
                     </el-dialog>
                 </div>
@@ -266,6 +276,8 @@ const PHOTO_TYPE_MAP = {
 export default {
     data() {
         return {
+            updateTreatCaseId:'',
+            updateTreatId:'',
             xrayList: [],
             dataList: [],
             casePhotoList: [[], [], []],
@@ -412,7 +424,7 @@ export default {
                 photoList: this.xRayPhoto.concat(this.dataPhoto)
 
             };
-            this.xrayList.concat(this.dataList).map(file => file.name);
+          
             hospitalSrv.addTreatCase(this.treatCase).then(
                 resp => {
                     this.addDialog = false;
@@ -424,8 +436,9 @@ export default {
                 }
             );
         },
-        getTreatCaseDetail(treatmentCaseId) {
-
+        getTreatCaseDetail(treatmentCaseId,treatmentId) {
+            this.updateTreatCaseId = treatmentCaseId
+            this.updateTreatId = treatmentId
             this.getImageList(treatmentCaseId, PHOTO_TYPE.XRAY);
             this.getImageList(treatmentCaseId, PHOTO_TYPE.DATA);
             hospitalSrv.getTreatCaseDetail(treatmentCaseId).then(resp => {
@@ -448,9 +461,8 @@ export default {
                 this.$message.error(err.msg);
             })
         },
-        updateTreatCase() {
-            if (
-                !(
+        updateTreatCaseFun() { 
+            if (!(
                     this.operatorDate &&
                     this.address &&
                     this.clinical &&
@@ -464,8 +476,8 @@ export default {
                 return;
             }
             this.updateTreatCase = {
-                treatmentId: this.treatmentId,
-                treatmentCaseId: this.treatmentCaseId,
+                treatmentId: this.updateTreatId,
+                treatmentCaseId: this.updateTreatCaseId,
                 operatorDate: this.operatorDate,
                 place: this.address,
                 clinical: this.clinical,
@@ -473,7 +485,7 @@ export default {
                 advice: this.advice,
                 titleTag: this.titleTag,
                 remark: this.remark,
-                photoList: this.xRayPhoto.concat(this.dataPhoto)
+                photoList: this.xrayList.concat(this.dataList).map(file => file.name)
 
             };
             hospitalSrv.updateTreatCase(this.updateTreatCase).then(

@@ -15,8 +15,7 @@ module.exports = {
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
+    // Run the build command with an extra argsuild finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report
@@ -29,9 +28,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/equestrianismApi": {
-      //  target: "http://vpn.juxinli.com:38080"
+       target: "http://vpn.juxinli.com:38080"
 
-        target:"http://192.168.100.124:8080"
+        // target:"http://192.168.100.124:8080"
       }
       
     },
