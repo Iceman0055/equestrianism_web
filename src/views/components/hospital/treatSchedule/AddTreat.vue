@@ -63,7 +63,7 @@
         </div>
         <div class="col-md-4 search-field" v-if="horseType==1">
           <div class="label">马匹名称：</div>
-          <el-select size="large" ref="selectHorse" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+          <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
             <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
             </el-option>
           </el-select>
@@ -291,7 +291,6 @@ export default {
   mounted() {
     this.$el.addEventListener("animationend", this.resizeWay);
     this.$el.addEventListener("animationend", this.resizeType);
-    this.$el.addEventListener("animationend", this.resizeHorse);
     this.$el.addEventListener("animationend", this.resizeUse);
   },
   methods: {
@@ -303,9 +302,6 @@ export default {
     },
     resizeUse() {
       this.$refs.selectUse.resetInputWidth();
-    },
-    resizeHorse() {
-      this.$refs.selectHorse.resetInputWidth();
     },
     getAssetsList(currentPage = this.currentPage) {
       this.addItemDialog = true;
@@ -434,7 +430,7 @@ export default {
       if (value <= 0) {
         return 0;
       } else {
-        return this.consumeList[index].useNumber--;
+        return this.assetsList[index].useNumber--;
       }
     },
     increaseConsume(index, value, inventory) {
@@ -450,7 +446,7 @@ export default {
       if (value <= 0) {
         return 0;
       } else {
-        return this.assetsList[index].useNumber--;
+        return this.consumeList[index].useNumber--;
       }
     }
   }

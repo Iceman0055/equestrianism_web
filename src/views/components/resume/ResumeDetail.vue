@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="!feederInfo">暂无数据</div>
-                <div class="col-md-5" v-if="feederInfo">
+                <div class="col-md-5"  v-if="feederInfo">
                     <ul class="resume-ul">
                         <li>{{feederInfo.feederName}}</li>
                         <li>{{feederInfo.horseName}}</li>
@@ -127,8 +127,8 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="treatmentCaseList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight" v-for="item in treatmentCaseList" :key="item">
-                    <ul class="resume-ul">
+                <div class="col-md-5 addHeight">
+                    <ul class="resume-ul" v-for="item in treatmentCaseList" :key="item">
                         <li v-if="item.horseType==1">{{item.horseId}}</li>
                         <li v-if="item.horseType==2">{{item.horseName}}</li>
                         <li>{{item.operatorDate}}</li>
@@ -142,8 +142,8 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="prizeList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight" v-for="item in prizeList" :key="item">
-                    <ul class="resume-ul">
+                <div class="col-md-5 addHeight">
+                    <ul class="resume-ul" v-for="item in prizeList" :key="item">
                         <li>{{item.horseName}}</li>
                         <li>{{item.eventName}}</li>
                         <li>{{item.eventPlace}}</li>
@@ -165,8 +165,8 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="vaccinationList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight" v-for="item in vaccinationList" :key="item">
-                    <ul class="resume-ul">
+                <div class="col-md-5 addHeight">
+                    <ul class="resume-ul" v-for="item in vaccinationList" :key="item">
                         <li>{{item.operateDate}}</li>
                         <li>{{item.operatePlace}}</li>
                         <li>{{item.name}}</li>
@@ -179,38 +179,18 @@
                     </div>
                 </div>
                 <div class="col-md-1"></div>
+                <div class="col-md-5 addHeight" v-if="treatmentInfoList.length==0">暂无数据</div>
                 <div class="col-md-5  col-md-offset-1 addHeight">
-                    <ul class="resume-ul">
-                        <li>2017-11-09 12:12:12</li>
-                        <li>阑尾炎</li>
-                        <li>肚子疼</li>
-                        <li>1号</li>
-                        <li>1号</li>
-                    </ul>
-                    <ul class="resume-ul">
-                        <li>2017-11-09 12:12:12</li>
-                        <li>阑尾炎</li>
-                        <li>肚子疼</li>
-                        <li>1号</li>
-                        <li>1号</li>
-                    </ul>
-                    <ul class="resume-ul">
-                        <li>2017-11-09 12:12:12</li>
-                        <li>阑尾炎</li>
-                        <li>肚子疼</li>
-                        <li>1号</li>
-                        <li>1号</li>
-                    </ul>
-                    <ul class="resume-ul">
-                        <li>2017-11-09 12:12:12</li>
-                        <li>阑尾炎</li>
-                        <li>肚子疼</li>
-                        <li>1号</li>
-                        <li>1号</li>
+                    <ul class="resume-ul" v-for="item in treatmentInfoList" :key="item">
+                       <li v-if="item.horseType==1">{{item.horseId}}</li>
+                        <li v-if="item.horseType==2">{{item.horseName}}</li>
+                        <li>{{convertWay[item.outpatientType]}}</li>
+                        <li v-if="item.outpatientType==2">{{item.appointNumber}}</li>
+                        <li>{{item.treatDesc}}</li>
+                        <li>{{item.treatName}}</li>
                     </ul>
                     <div class="resume-more">
-                        <router-link :to="{path: '/horse/updateTreatment',       
-                                                                                                                  query: { disable: 1,}}"> 更多</router-link>
+                        <router-link :to="{path: '/horse/treatment',query: {horseId:searchHorseId}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -226,8 +206,8 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="brigandineList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight" v-for="item in brigandineList" :key="item">
-                    <ul class="resume-ul">
+                <div class="col-md-5 addHeight">
+                    <ul class="resume-ul" v-for="item in brigandineList" :key="item">
                         <li>{{item.brigandineDate}}</li>
                         <li>{{item.realname}}</li>
                         <li>{{item.remark}}</li>
@@ -239,8 +219,8 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="contusionTeethList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight col-md-offset-1" v-for="item in contusionTeethList" :key="item">
-                    <ul class="resume-ul">
+                <div class="col-md-5 addHeight col-md-offset-1">
+                    <ul class="resume-ul"  v-for="item in contusionTeethList" :key="item">
                         <li>{{item.operateDate}}</li>
                         <li>{{item.realname}}</li>
                         <li>{{item.remark}}</li>
@@ -265,6 +245,7 @@ import systemSrv from '../../services/system.service.js'
 export default {
     data() {
         return {
+            convertWay:{'1':'普通','2':'预约'},
             convertSex: {},
             convertHorseSex: {},
             horseInfo: {},
@@ -276,6 +257,7 @@ export default {
             treatmentCaseList: [],
             prizeList: [],
             contusionTeethList: [],
+            treatmentInfoList:[],
             feederInfo: {},
             searchHorseId:''
         };
@@ -324,6 +306,7 @@ export default {
                 this.prizeList = resp.data.prizeList
                 this.contusionTeethList = resp.data.contusionTeethList
                 this.feederInfo = resp.data.feederInfo
+                this.treatmentInfoList = resp.data.treatmentInfoList
             },
             err => {
                 this.$message.error(err.msg);
@@ -354,6 +337,7 @@ export default {
                     vm.prizeList = resp.data.prizeList
                     vm.contusionTeethList = resp.data.contusionTeethList
                     vm.feederInfo = resp.data.feederInfo
+                      vm.treatmentInfoList = resp.data.treatmentInfoList
                 },
                 err => {
                     vm.$message.error(err.msg);
