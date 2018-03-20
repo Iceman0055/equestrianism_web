@@ -1,11 +1,27 @@
 <template>
-  <router-view>
+<div :menuList="menuList">
+  <router-view >
   </router-view>
+</div>
 </template>
 
 <script>
+import {Message} from 'element-ui'
+import systemSrv from './views/services/system.service.js'
 export default {
-  name: 'app'
+  name: 'app',
+  data(){
+    return{
+      menuList:[]
+    }
+  },
+   mounted(){
+ systemSrv.getMenuList().then(resp=>{
+       this.menuList =   resp.data.menuList
+        },err=>{
+this.$message.error(err.msg)
+        })
+   }
 }
 </script>
 
