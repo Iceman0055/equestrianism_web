@@ -9,7 +9,7 @@
         <router-link v-if="menu.subMenuList != null" tag="li" class="nav-item nav-dropdown" :to="{ path: convertMenu[menu.menuId]}" disabled>
           <div class="nav-link nav-dropdown-toggle" @click="handleClick">
             <i :class="convertIcon[menu.menuName]"></i> {{menu.menuName}}</div>
-          <ul class="nav-dropdown-items" v-for="subMenu in menu.subMenuList.filter(menu => menuEnableMap[menu.menuId])" :key="subMenu">
+          <ul class="nav-dropdown-items" v-for="subMenu in menu.subMenuList.filter(menu => menuEnableMap[menu.subMenuId])" :key="subMenu">
             <li class="nav-item">
               <router-link :to="convertMenu[subMenu.subMenuId]" class="nav-padding nav-link" exact>
                 <i class="icon-star"></i> {{subMenu.subMenuName}}</router-link>
@@ -161,11 +161,14 @@
   </div>
 </template>
 <script>
+import Bus from './bus.js'
+import Vue from 'vue'
 export default {
   props: ['menuList'],
   name: 'sidebar',
   data() {
     return {
+      menuEnableMap:{},
       convertIcon:{
         '马匹信息管理':'fa fa-hand-lizard-o fa-lg',
         '马匹简历':'fa fa-folder-open-o fa-lg',
@@ -218,8 +221,22 @@ export default {
       e.target.parentElement.classList.toggle('open')
     }
   },
-
-}
+  // watch:{
+  //   menuEnableMap:function(val){
+  // // this.menuEnableMap = window.localStorage.getItem('menuEnableMap')
+  //     //  console.log(val)
+  // }
+  // },
+  mounted(){
+      // this.menuEnableMap = window.localStorage.getItem('menuEnableMap')
+      //  console.log(this.menuEnableMap)
+    // var eventBus = new Vue({})
+    Bus.$on('menuEnableMap',function(menuEnableMap){
+        this.menuEnableMap = menuEnableMap
+        console.log(this.menuEnableMap)
+    })
+  }
+  }
 </script>
 
 <style lang="css">

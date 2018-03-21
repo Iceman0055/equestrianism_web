@@ -8,9 +8,9 @@ export default {
     }).then(
       resp => {
         if (resp.data.code === 10200) {
-          console.log(resp.data)
-          window.sessionStorage.setItem('sessionId', resp.data.sessionId)
-          axios.defaults.headers.common['sessionId'] = resp.data.sessionId
+          console.log(resp.data.data.sessionId)
+          window.sessionStorage.setItem('sessionId', resp.data.data.sessionId)
+          axios.defaults.headers.common['sessionId'] = resp.data.data.sessionId
           return Promise.resolve(resp.data)
         } else {
           return Promise.reject(resp.data)

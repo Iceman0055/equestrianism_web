@@ -33,11 +33,14 @@
 </template>
 
 <script>
+import Bus from '../../../components/bus.js'
 import md5 from 'js-md5';
 import { Message } from 'element-ui'
 import loginSrv from '../../services/login.service.js'
+import Vue from 'vue'
 /* eslint-disable */
 export default {
+  
   name: 'Login',
   data() {
     return {
@@ -47,6 +50,7 @@ export default {
   },
   methods: {
     login() {
+      var eventBus = new Vue({})
       if (!(this.username && this.password)) {
         this.$message.error('请输入用户信息')
         return;
@@ -57,7 +61,9 @@ export default {
           resp.data.menuList.map((value) => {
             menuEnableMap[value] = true;
           });
-          
+          // console.log(menuEnableMap)
+          // window.localStorage.setItem('menuEnableMap',menuEnableMap)
+          Bus.$emit('menuEnableMap',menuEnableMap)
           this.$router.push("/dashboard")
         }, err => {
           this.$message.error(err.msg)
