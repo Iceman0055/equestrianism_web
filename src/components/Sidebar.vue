@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <nav class="sidebar-nav">
-      <ul class="nav" v-for="menu in menuList" :key="menu">
+      <ul class="nav" v-for="menu in menuList.filter(menu => menuEnableMap[menu.menuId])" :key="menu">
         <li class="nav-item" v-if="menu.subMenuList == null">
           <router-link :to="convertMenu[menu.menuId]" class="nav-link">
             <i class="fa fa-bar-chart fa-lg"></i> {{menu.menuName}} </router-link>
@@ -9,7 +9,7 @@
         <router-link v-if="menu.subMenuList != null" tag="li" class="nav-item nav-dropdown" :to="{ path: convertMenu[menu.menuId]}" disabled>
           <div class="nav-link nav-dropdown-toggle" @click="handleClick">
             <i :class="convertIcon[menu.menuName]"></i> {{menu.menuName}}</div>
-          <ul class="nav-dropdown-items" v-for="subMenu in menu.subMenuList" :key="subMenu">
+          <ul class="nav-dropdown-items" v-for="subMenu in menu.subMenuList.filter(menu => menuEnableMap[menu.menuId])" :key="subMenu">
             <li class="nav-item">
               <router-link :to="convertMenu[subMenu.subMenuId]" class="nav-padding nav-link" exact>
                 <i class="icon-star"></i> {{subMenu.subMenuName}}</router-link>

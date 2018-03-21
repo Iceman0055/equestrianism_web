@@ -8,6 +8,7 @@ export default {
     }).then(
       resp => {
         if (resp.data.code === 10200) {
+          console.log(resp.data)
           window.sessionStorage.setItem('sessionId', resp.data.sessionId)
           axios.defaults.headers.common['sessionId'] = resp.data.sessionId
           return Promise.resolve(resp.data)

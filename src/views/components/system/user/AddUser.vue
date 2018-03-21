@@ -59,6 +59,7 @@
     </div>
 </template>
 <script>
+import md5 from 'js-md5';
 import { DatePicker, Button, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
 export default {
@@ -118,7 +119,7 @@ export default {
                 jobNumber: this.jobNumber,
                 realname: this.name,
                 loginName: this.loginName,
-                loginPassword: this.loginPassword,
+                loginPassword: md5(this.loginPassword),
                 departmentId: this.depart,
                 roleId: this.role,
                 email: this.email,

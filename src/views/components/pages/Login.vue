@@ -51,7 +51,13 @@ export default {
         this.$message.error('请输入用户信息')
         return;
       } else {
-        loginSrv.login(md5(this.username),md5(this.password)).then(resp => {
+        loginSrv.login(this.username, md5(this.password)).then(resp => {
+          window.localStorage.setItem('menuList', resp.data.menuList)
+          let menuEnableMap = {};
+          resp.data.menuList.map((value) => {
+            menuEnableMap[value] = true;
+          });
+          
           this.$router.push("/dashboard")
         }, err => {
           this.$message.error(err.msg)
