@@ -7,18 +7,18 @@
             <form class="card p-4" name="loginForm" novalidate>
               <div class="card-block">
                 <h1>登录</h1>
-                <p :class="{'login-info-error animated shake':login_err}" v-show="login_err">{{info}}</p>
+                <!-- <p :class="{'login-info-error animated shake':login_err}" v-show="login_err">{{info}}</p> -->
                 <div class="input-group mb-3">
                   <span class="input-group-addon">
                     <i class="icon-user"></i>
                   </span>
-                  <input type="text" @focus="login_err=false" v-model="username" class="form-control" placeholder="请输入用户名">
+                  <input type="text" v-model="username" class="form-control" placeholder="请输入用户名">
                 </div>
                 <div class="input-group mb-4">
                   <span class="input-group-addon">
                     <i class="icon-lock"></i>
                   </span>
-                  <input type="password" @focus="login_err=false" v-model="password" class="form-control" placeholder="请输入密码">
+                  <input type="password" v-model="password" class="form-control" placeholder="请输入密码">
                 </div>
                 <div class="text-center">
                   <button type="button" class="btn btn-primary px-4" @click="login">登录</button>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
+import { Message } from 'element-ui'
 import loginSrv from '../../services/login.service.js'
 /* eslint-disable */
 export default {
@@ -41,18 +43,20 @@ export default {
     return {
       username: '',
       password: '',
-      info: '',
-      login_err: false,
     }
   },
   methods: {
     login() {
       if (!(this.username && this.password)) {
-        this.login_err = true
-        this.info = '请输入用户信息'
+        this.$message.error('请输入用户信息')
+        return;
       } else {
-        this.login_err = false
-        this.$router.push("/dashboard")
+        loginSrv.login(md5(this.username),md5(this.password)).then(resp => {
+          this.$router.push("/dashboard")
+        }, err => {
+          this.$message.error(err.msg)
+        })
+
       }
     }
   }
@@ -60,8 +64,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 h1 {
   color: #fff;
 }

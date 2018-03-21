@@ -2,7 +2,7 @@
   <div class="app">
     <AppHeader/>
     <div class="app-body">
-      <Sidebar/>
+      <Sidebar :menu-list="menuList" />
       <main class="main">
         <breadcrumb :list="list" />
         <div class="container-fluid">
@@ -10,29 +10,39 @@
         </div>
       </main>
     </div>
-    <!-- <AppFooter/> -->
   </div>
 </template>
 
 <script>
 import AppHeader from '../components/header'
 import Sidebar from '../components/sidebar'
-// import AppFooter from '../components/Footer'
 import Breadcrumb from '../components/breadcrumb'
+import systemSrv from '../views/services/system.service.js'
 
 export default {
   name: 'full',
   components: {
     AppHeader,
     Sidebar,
-    // AppFooter,
     Breadcrumb
+  },
+  data() {
+    return {
+      menuList:[],
+
+    }
+  },
+   mounted() {
+    systemSrv.getMenuList().then(resp => {
+      this.menuList = resp.data.menuList
+    }, err => {
+      this.$message.error(err.msg)
+    })
   },
   computed: {
     name() {
       return this.$route.name
     },
-
     list() {
       let len = this.$route.matched.length
       let breads = []

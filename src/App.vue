@@ -1,45 +1,39 @@
 <template>
-<div :menuList="menuList">
-  <router-view >
-  </router-view>
-</div>
+  <keep-alive>
+    <router-view>
+    </router-view>
+  </keep-alive>
 </template>
 
 <script>
-import {Message} from 'element-ui'
-import systemSrv from './views/services/system.service.js'
+import { Message } from 'element-ui'
 export default {
   name: 'app',
-  data(){
-    return{
-      menuList:[]
+  data() {
+    return {
     }
   },
-   mounted(){
- systemSrv.getMenuList().then(resp=>{
-       this.menuList =   resp.data.menuList
-        },err=>{
-this.$message.error(err.msg)
-        })
-   }
+ 
 }
 </script>
 
 <style lang="scss">
-
 .breadcrumb .breadcrumb-item:first-child {
   display: none;
 }
-.breadcrumb-item + .breadcrumb-item::before {
-    content: "";
+
+.breadcrumb-item+.breadcrumb-item::before {
+  content: "";
 }
-.breadcrumb-item + .breadcrumb-item + .breadcrumb-item::before {
-    display: inline-block;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    color: #b0bec5;
-    content: "/";
+
+.breadcrumb-item+.breadcrumb-item+.breadcrumb-item::before {
+  display: inline-block;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  color: #b0bec5;
+  content: "/";
 }
+
 // .fc-day-grid-container{
 //   height: 610px!important;
 //   overflow: hidden!important;
@@ -143,13 +137,14 @@ this.$message.error(err.msg)
 .el-input.is-disabled .el-input__inner {
   // background-color: #cfd8dc;
   color: #607d8b;
-    background: #eee;
+  background: #eee;
 }
+
 .form-control:disabled {
-    /* background-color: #f7f7f7; */
-    opacity: 1;
-    border-color: #ddd;
-    background: #eee;
+  /* background-color: #f7f7f7; */
+  opacity: 1;
+  border-color: #ddd;
+  background: #eee;
 }
 
 .back {
@@ -179,8 +174,7 @@ this.$message.error(err.msg)
 .avatar-uploader-icon {
   // border: 1px solid #ddd;
   font-size: 28px;
-  color: #8c939d; 
-  // width: 441px;
+  color: #8c939d; // width: 441px;
   // height: 200px;
   line-height: 178px;
   text-align: center;

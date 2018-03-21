@@ -1,10 +1,10 @@
 import axios from 'axios'
 export default {
-  login() {
+  login(loginName,loginPassword) {
     return axios({
-      url: '',
+      url: '/equestrianismApi/auth/login',
       method: 'post',
-      data: {}
+      data: {loginName,loginPassword}
     }).then(
       resp => {
         if (resp.data.code === 10200) {

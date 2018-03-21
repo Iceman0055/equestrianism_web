@@ -918,7 +918,7 @@ export default {
     return axios({
       url: "/equestrianismApi/assetTypeInfo/comboBox",
       method: "get",
-      params: {  }
+      params: {}
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -956,25 +956,67 @@ export default {
       }
     );
   },
-  getMenuList(){
+  getMenuList() {
     return axios({
-    url:'/equestrianismApi/menuInfo/list',
-    method: "get",
-    params: { }
-  }).then(
-    resp => {
-      if (resp.data.code === 10200) {
-        return Promise.resolve(resp.data);
-      } else {
-        return Promise.reject(resp.data);
+      url: "/equestrianismApi/menuInfo/list",
+      method: "get",
+      params: {}
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
       }
-    },
-    err => {
-      if (!err.msg) {
-        err.msg = "网络故障";
+    );
+  },
+  getRoleMenuList(roleId) {
+    return axios({
+      url: "/equestrianismApi/roleInfo/menuList",
+      method: "get",
+      params: { roleId }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
       }
-      return Promise.reject(err);
-    }
-  );
+    );
+  },
+  updateMenuList(updateInfo) {
+    return axios({
+      url: "/equestrianismApi/roleInfo/updateMenu",
+      method: "post",
+      data: updateInfo
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
   }
 };

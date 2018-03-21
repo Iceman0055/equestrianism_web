@@ -31,7 +31,7 @@
                                 <td>{{item.remark}}</td>
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>
-                                    <a @click="permissionDialog=true">分配权限</a>
+                                    <a @click="getMenuOriginList(item.roleId)">分配权限</a>
                                     <router-link :to="{path:'/system/updateRole',query:{roleId:item.roleId}}">
                                         修改
                                     </router-link>
@@ -79,11 +79,11 @@
                     <button class="btn btn-info" @click="resetChecked">全不选</button>
                 </div>
             </div>
-            <el-tree :data="data2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
+            <el-tree :data="menuList" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
             </el-tree>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="permissionDialog = false">取 消</el-button>
-                <el-button type="primary" @click="permissionDialog = false">确 定</el-button>
+                <el-button type="primary" @click="updateMenuList">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -96,6 +96,10 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            deleteMenuList: [],
+            addMenuList: [],
+            origin: [],
+            roleId: '',
             pageRecorders: 10,
             totalRecorders: 1,
             currentPage: 1,
@@ -111,57 +115,7 @@ export default {
                 "0": "停用"
             },
             roleList: [],
-            options: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
-            data2: [{
-                id: 0,
-                label: '控制台',
-            }, {
-                id: 1,
-                label: '马匹信息管理',
-                children: [{
-                    id: 5,
-                    label: '基本信息',
-                }, {
-                    id: 6,
-                    label: '获奖信息',
-                }]
-            }, {
-                id: 2,
-                label: '马医院信息管理',
-                children: [{
-                    id: 7,
-                    label: '固定资产管理'
-                }, {
-                    id: 8,
-                    label: '消耗品管理'
-                }]
-            }, {
-                id: 3,
-                label: '马术中心资产管理',
-                children: [{
-                    id: 9,
-                    label: '固定资产管理'
-                }, {
-                    id: 10,
-                    label: '固定资产库存管理'
-                },]
-            }, {
-                id: 4,
-                label: '系统管理',
-                children: [{
-                    id: 11,
-                    label: '用户管理'
-                }, {
-                    id: 12,
-                    label: '部门管理'
-                }]
-            }],
+            menuList: [],
             defaultProps: {
                 children: 'children',
                 label: 'label'
@@ -180,10 +134,70 @@ export default {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
             })
+            systemSrv.getMenuList().then(resp => {
+                let menuList = resp.data.menuList
+                vm.menuList = menuList.map((menu) => {
+                    let convert = {
+                        id: menu.menuId,
+                        label: menu.menuName
+                    }
+                    if (menu.subMenuList) {
+                        convert.children = menu.subMenuList.map((sub) => {
+                            return {
+                                id: sub.subMenuId,
+                                label: sub.subMenuName
+                            }
+                        })
+                    }
+                    return convert;
+                })
+            }, err => {
+                vm.$message.error(err.msg)
+            })
 
         })
     },
     methods: {
+        updateMenuList() {
+            this.collectChange()
+            let updateInfo = {
+                roleId: this.roleId,
+                deleteMenuList: this.deleteMenuList,
+                addMenuList: this.addMenuList
+            }
+            systemSrv.updateMenuList(updateInfo).then(resp => {
+                this.$message.success('分配权限成功')
+                this.permissionDialog = false
+                this.getRole()
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
+        //数组去重
+        unique(array) {
+            var r = [];
+            for (var i = 0, l = array.length; i < l; i++) {
+                for (var j = i + 1; j < l; j++)
+                    if (array[i] === array[j]) j = ++i;
+                r.push(array[i]);
+            }
+            return r;
+        },
+        collectChange() {
+            let changed = this.$refs.tree.getCheckedKeys();
+            this.deleteMenuList = this.unique(this.origin.filter(i => { return changed.indexOf(i) === -1 }))
+            this.addMenuList = this.unique(changed.filter(i => { return this.origin.indexOf(i) === -1 }))
+        },
+        getMenuOriginList(roleId) {
+            this.roleId = roleId
+            this.permissionDialog = true
+            systemSrv.getRoleMenuList(roleId).then(resp => {
+                this.origin = resp.data.menuList
+                this.$refs.tree.setCheckedKeys(this.origin);
+            }, err => {
+                this.$message.error(err.msg)
+            })
+        },
         getRole(currentPage = this.currentPage) {
             this.showLoading = true
             systemSrv.roleList(currentPage, this.pageRecorders).then((resp) => {
@@ -227,7 +241,9 @@ export default {
         },
         //全选
         selectChecked() {
-            this.$refs.tree.setCheckedKeys([0, 1, 2, 3, 4, 5]);
+
+            this.$refs.tree.setCheckedKeys([0, 1, 2, 3, 4, 5, 6, 7]);
+
         },
         //全不选
         resetChecked() {
