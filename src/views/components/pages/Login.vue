@@ -57,7 +57,7 @@ export default {
           resp.data.menuList.map((value) => {
             menuEnableMap[value] = true;
           });
-          
+          window.localStorage.setItem('menuEnableMap', JSON.stringify(menuEnableMap))
           this.$router.push("/dashboard")
         }, err => {
           this.$message.error(err.msg)
