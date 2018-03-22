@@ -18,7 +18,7 @@
                   <span class="input-group-addon">
                     <i class="icon-lock"></i>
                   </span>
-                  <input type="password" v-model="password" class="form-control" placeholder="请输入密码">
+                  <input type="password" v-model="password" class="form-control" placeholder="请输入密码" @keyup.enter="login">
                 </div>
                 <div class="text-center">
                   <button type="button" class="btn btn-primary px-4" @click="login">登录</button>

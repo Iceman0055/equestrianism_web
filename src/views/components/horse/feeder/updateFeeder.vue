@@ -107,7 +107,7 @@ export default {
                 return horseSrv.getFeederDetail(vm.feederId);
             }).then(resp => {
                 vm.name = resp.data.feederName
-                vm.sex = resp.data.sex
+                vm.sex = parseInt(resp.data.sex)
                 vm.skill = resp.data.skillDesc
                 vm.horseName = resp.data.horseId
                 vm.workTime = resp.data.hireDate

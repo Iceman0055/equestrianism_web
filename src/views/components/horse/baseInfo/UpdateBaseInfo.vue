@@ -231,9 +231,9 @@ export default {
                 vm.changeDate = resp.data.changeDate
                 vm.birthDate = resp.data.birthday
                 vm.height = resp.data.height
-                vm.gender = vm.dictInfoList.HORSE_SEX[resp.data.sex]
+                vm.gender = parseInt(resp.data.sex)
                 vm.barCode = resp.data.barCode
-                vm.color = vm.dictInfoList.HORSE_COAT_COLOUR[resp.data.coatColour]
+                vm.color = parseInt(resp.data.coatColour)
                 vm.head = resp.data.headDesc
                 vm.leftFore = resp.data.leftForeDesc
                 vm.rightFore = resp.data.rightForeDesc

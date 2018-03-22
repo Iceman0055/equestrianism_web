@@ -90,7 +90,7 @@ export default {
                 return horseSrv.getMasterDetail(to.query.hostId);
             }).then(resp => {
                 vm.name = resp.data.hostName
-                vm.sex = resp.data.sex
+                vm.sex = parseInt(resp.data.sex)
                 vm.career = resp.data.occupation
                 vm.contact = resp.data.contactWay
                 vm.address = resp.data.address

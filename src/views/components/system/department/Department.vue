@@ -47,7 +47,7 @@
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>
                                     <!-- <a @click="stuffDialog=true">成员管理</a> -->
-                                    <a @click="permissionDialog=true">分配权限</a>
+                                    <!-- <a @click="permissionDialog=true">分配权限</a> -->
                                     <router-link :to="{path:'/system/updateDepart',query:{departmentId:item.departmentId}}">
                                         修改
                                     </router-link>
@@ -68,7 +68,7 @@
             </div>
         </div>
         <!-- 分配权限 -->
-        <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
+        <!-- <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
             <div class="row mb-3">
                 <div class="col-md-3">
                     <button class="btn btn-info" @click="selectChecked">全选</button>
@@ -83,7 +83,7 @@
                 <el-button @click="permissionDialog = false">取 消</el-button>
                 <el-button type="primary" @click="permissionDialog = false">确 定</el-button>
             </span>
-        </el-dialog>
+        </el-dialog> -->
         <!-- 成员管理 -->
         <!-- <el-dialog title="成员管理" :modal-append-to-body="false" :visible.sync="stuffDialog" width="30%" center>
             <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
@@ -129,7 +129,7 @@ export default {
             departName: '',
             // stuffDialog: false,
             showLoading: false,
-            permissionDialog: false,
+            // permissionDialog: false,
             statusDialog: false,
             deleteDialog: false,
             deleteContent: {},
