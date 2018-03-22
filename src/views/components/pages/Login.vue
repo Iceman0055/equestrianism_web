@@ -43,6 +43,15 @@ export default {
     return {
       username: '',
       password: '',
+      convertMenu: {
+        1: '/dashboard',
+        2: '/horse',
+        3: '/resume',
+        4: '/hospital',
+        5: '/hosAssets',
+        6: '/equestrian',
+        7: '/system',
+      }
     }
   },
   methods: {
@@ -58,7 +67,8 @@ export default {
             menuEnableMap[value] = true;
           });
           window.localStorage.setItem('menuEnableMap', JSON.stringify(menuEnableMap))
-          this.$router.push("/horse/baseInfo")
+          let path = this.convertMenu[resp.data.menuList[0]]
+          this.$router.push(path)
         }, err => {
           this.$message.error(err.msg)
         })
