@@ -59,19 +59,17 @@
                                 <td>{{item.contactWay}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>
-
-                                    <router-link :to="{path: '/horse/updateTreatment',       
+                                    <!-- <router-link :to="{path: '/horse/updateTreatment',       
                                                                                                      query: { disable: 1,hospitalAppointId:item.hospitalAppointId}}"> 查看治疗</router-link>
                                     <router-link :to="'/horse/AddTreatment'">
                                         添加治疗
-                                    </router-link>
+                                    </router-link> -->
                                     <router-link :to="{path:'/hospital/updateAppoint',query:{hospitalAppointId:item.hospitalAppointId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.hospitalAppointId)">删除</a>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                     <div class="list-empty" v-show="appointList.length===0">
