@@ -58,7 +58,7 @@ export default {
             menuEnableMap[value] = true;
           });
           window.localStorage.setItem('menuEnableMap', JSON.stringify(menuEnableMap))
-          this.$router.push("/dashboard")
+          this.$router.push("/horse/baseInfo")
         }, err => {
           this.$message.error(err.msg)
         })
