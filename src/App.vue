@@ -13,7 +13,7 @@ export default {
     return {
     }
   },
- 
+
 }
 </script>
 
@@ -303,7 +303,8 @@ input:focus {
       margin-bottom: 0;
     }
     .page {
-      float: right;
+      display: flex;
+      justify-content: flex-end;
       margin-top: 20px;
       .itemCount {
         position: absolute;

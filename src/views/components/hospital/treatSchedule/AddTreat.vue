@@ -22,39 +22,6 @@
       </div>
       <div class="row list-search">
         <div class="col-md-4 search-field">
-          <div class="label">开始日期：</div>
-          <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
-          </el-date-picker>
-        </div>
-        <div class="col-md-4 search-field">
-          <div class="label">开始时间：</div>
-          <el-time-select size="large" v-model="beginTime" :picker-options="{
-                                                        start: '00:00',
-                                                         step: '01:00',
-                                                           end: '24:00'
-                                                          }" placeholder="选择时间">
-          </el-time-select>
-        </div>
-
-      </div>
-      <div class="row list-search">
-        <div class="col-md-4 search-field">
-          <div class="label">结束日期：</div>
-          <el-date-picker size="large" v-model="endDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
-          </el-date-picker>
-        </div>
-        <div class="col-md-4 search-field">
-          <div class="label">结束时间：</div>
-          <el-time-select size="large" v-model="endTime" :picker-options="{
-                                                              start: '00:00',
-                                                               step: '01:00',
-                                                              end: '24:00'
-                                                               }" placeholder="选择时间">
-          </el-time-select>
-        </div>
-      </div>
-      <div class="row list-search">
-        <div class="col-md-4 search-field">
           <div class="label">马匹类型：</div>
           <el-select ref="selectType" size="large" v-model="horseType" class="el-field-input" placeholder="请选择">
             <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -75,12 +42,42 @@
       </div>
       <div class="row list-search">
         <div class="col-md-4 search-field">
-          <div class="label">治疗名称：</div>
-          <input type="text" v-model="treatName" class="form-control input-field" placeholder="请输入治疗名称" />
+          <div class="label">开始日期：</div>
+          <el-date-picker size="large" v-model="beginDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
+          </el-date-picker>
         </div>
         <div class="col-md-4 search-field">
-          <div class="label">治疗概述：</div>
-          <input type="text" v-model="treatDesc" class="form-control input-field" placeholder="请输入治疗概述" />
+          <div class="label">开始时间：</div>
+          <el-time-select size="large" v-model="beginTime" :picker-options="{
+                                                                          start: '00:00',
+                                                                           step: '01:00',
+                                                                             end: '24:00'
+                                                                            }" placeholder="选择时间">
+          </el-time-select>
+        </div>
+
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">结束日期：</div>
+          <el-date-picker size="large" v-model="endDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="选择日期时间">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">结束时间：</div>
+          <el-time-select size="large" v-model="endTime" :picker-options="{
+                                                                                start: '00:00',
+                                                                                 step: '01:00',
+                                                                                end: '24:00'
+                                                                                 }" placeholder="选择时间">
+          </el-time-select>
+        </div>
+      </div>
+
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">治疗名称：</div>
+          <input type="text" v-model="treatName" class="form-control input-field" placeholder="请输入治疗名称" />
         </div>
         <div class="col-md-4 search-field">
           <div class="label">手术室使用：</div>
@@ -94,14 +91,18 @@
         <div class="col-md-4 search-field">
           <div class="label">设备使用：</div>
           <textarea type="text" rows="2" v-model="hospitalAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
-
         </div>
         <div class="col-md-4 search-field">
           <div class="label">消耗品使用：</div>
           <textarea type="text" rows="2" v-model="consumableAssetList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
         </div>
       </div>
-
+      <div class="row list-search">
+        <div class="col-md-12 search-field">
+          <div class="label">治疗概述：</div>
+          <el-input type="textarea" :rows="3" :cols="2" v-model="treatDesc" placeholder="请输入治疗概述"></el-input>
+        </div>
+      </div>
     </div>
     <div class="content-footer row">
       <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addTreat">确定</el-button>
@@ -113,13 +114,16 @@
           <div class="label">资产名称：</div>
           <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
+         <div class="col-md-1 search-field search-field_controls">
+          <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
+        </div>
       </div>
       <div class="list-empty" v-show="assetsList.length==0">
         暂无数据
       </div>
       <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
         <div class="col-md-1">
-          <el-checkbox v-model="item.checked" @change="selectItem(item)"></el-checkbox>
+          <el-checkbox v-model="item.checked"></el-checkbox>
         </div>
         <div class="col-md-3">
           <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
@@ -145,7 +149,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addItemDialog = false">取 消</el-button>
-        <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
+        <el-button type="primary" @click="addItemSureFun">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog title="选用消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
@@ -154,13 +158,16 @@
           <div class="label">资产名称：</div>
           <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
+           <div class="col-md-1 search-field search-field_controls">
+          <button @click="getConsumeList(1)" class="btn btn-primary search-btn">搜索</button>
+        </div>
       </div>
       <div class="list-empty" v-show="consumeList.length==0">
         暂无数据
       </div>
       <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
         <div class="col-md-1">
-          <el-checkbox v-model="item.checked" @change="selectConsumeItem(item)"></el-checkbox>
+          <el-checkbox v-model="item.checked"></el-checkbox>
         </div>
         <div class="col-md-3">
           <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
@@ -186,7 +193,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addConsumeDialog = false">取 消</el-button>
-        <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
+        <el-button type="primary" @click="addConsumeSureFun">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -230,10 +237,10 @@ export default {
       useRoom: "",
       assetsName: "",
       currentPage: 1,
-      pageRecorders: 10,
+      pageRecorders: 5,
       totalRecorders: 1,
       current: 1,
-      page: 10,
+      page: 5,
       total: 1,
       assetsList: [],
       consumeList: [],
@@ -400,21 +407,29 @@ export default {
         }
       );
     },
-    selectItem(item) {
-      if (item.checked) {
-        this.hospitalAssetList.push({
-          assetId: item.assetId,
-          count: item.useNumber
-        });
+    addItemSureFun() {
+      let len = this.assetsList.length
+      for (let i = 0; i < len; i++) {
+        if (this.assetsList[i].checked) {
+          this.hospitalAssetList.push({
+            assetId: this.assetsList[i].assetId,
+            count: this.assetsList[i].useNumber
+          })
+        }
       }
+      this.addItemDialog = false
     },
-    selectConsumeItem(item) {
-      if (item.checked) {
-        this.consumableAssetList.push({
-          assetId: item.assetId,
-          count: item.useNumber
-        });
+    addConsumeSureFun() {
+      let len = this.consumeList.length
+      for (let i = 0; i < len; i++) {
+        if (this.consumeList[i].checked) {
+          this.consumableAssetList.push({
+            assetId: this.consumeList[i].assetId,
+            count: this.consumeList[i].useNumber
+          })
+        }
       }
+      this.addConsumeDialog = false
     },
 
     increase(index, value, inventory) {
