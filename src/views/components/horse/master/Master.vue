@@ -110,7 +110,6 @@ export default {
                 } else {
                     return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName, vm.contactWay)
                 }
-
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
@@ -119,7 +118,6 @@ export default {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {

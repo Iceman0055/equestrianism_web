@@ -70,7 +70,7 @@
                 <el-button type="primary" @click="deleteFeeder">确 定</el-button>
             </span>
         </el-dialog>
-        <el-dialog title="查看" :modal-append-to-body="false" :visible.sync="imageDialog" width="30%" center>
+        <el-dialog title="查看照片" :modal-append-to-body="false" :visible.sync="imageDialog" width="30%" center>
             <div class="text-center showImage">
                 <img :src="imageInfo">
             </div>
@@ -80,7 +80,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Message } from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
