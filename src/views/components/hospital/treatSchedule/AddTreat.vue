@@ -49,10 +49,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select size="large" v-model="beginTime" :picker-options="{
-                                                                          start: '00:00',
-                                                                           step: '01:00',
-                                                                             end: '24:00'
-                                                                            }" placeholder="选择时间">
+                                                                            start: '00:00',
+                                                                             step: '01:00',
+                                                                               end: '24:00'
+                                                                              }" placeholder="选择时间">
           </el-time-select>
         </div>
 
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select size="large" v-model="endTime" :picker-options="{
-                                                                                start: '00:00',
-                                                                                 step: '01:00',
-                                                                                end: '24:00'
-                                                                                 }" placeholder="选择时间">
+                                                                                  start: '00:00',
+                                                                                   step: '01:00',
+                                                                                  end: '24:00'
+                                                                                   }" placeholder="选择时间">
           </el-time-select>
         </div>
       </div>
@@ -90,11 +90,11 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">设备使用：</div>
-          <textarea type="text" rows="2" v-model="hospitalAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
+          <textarea type="text" rows="2" v-model="showAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">消耗品使用：</div>
-          <textarea type="text" rows="2" v-model="consumableAssetList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
+          <textarea type="text" rows="2" v-model="showConsumeList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
         </div>
       </div>
       <div class="row list-search">
@@ -114,7 +114,7 @@
           <div class="label">资产名称：</div>
           <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
-         <div class="col-md-1 search-field search-field_controls">
+        <div class="col-md-1 search-field search-field_controls">
           <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
         </div>
       </div>
@@ -143,7 +143,7 @@
           </div>
         </div>
       </div>
-      <div class="page" style="float: right">
+      <div class="page">
         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
         </el-pagination>
       </div>
@@ -158,7 +158,7 @@
           <div class="label">资产名称：</div>
           <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
-           <div class="col-md-1 search-field search-field_controls">
+        <div class="col-md-1 search-field search-field_controls">
           <button @click="getConsumeList(1)" class="btn btn-primary search-btn">搜索</button>
         </div>
       </div>
@@ -187,7 +187,7 @@
           </div>
         </div>
       </div>
-      <div class="page" style="float: right">
+      <div class="page">
         <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
         </el-pagination>
       </div>
@@ -218,6 +218,7 @@ export default {
       addItemDialog: false,
       consultingRoomList: [],
       consumableAssetList: [],
+      showConsumeList: '',
       horseInfoName: [],
       treatInfo: {},
       horseName: "",
@@ -245,6 +246,7 @@ export default {
       assetsList: [],
       consumeList: [],
       hospitalAssetList: [],
+      showAssetList: '',
       treatWayOptions: [
         {
           value: "1",
@@ -415,6 +417,8 @@ export default {
             assetId: this.assetsList[i].assetId,
             count: this.assetsList[i].useNumber
           })
+          this.showAssetList += '资产名称：' +this.assetsList[i].assetName+'，'+'数量：'+this.assetsList[i].useNumber+'；'
+          console.log(this.showAssetList)
         }
       }
       this.addItemDialog = false
@@ -427,6 +431,7 @@ export default {
             assetId: this.consumeList[i].assetId,
             count: this.consumeList[i].useNumber
           })
+          this.showConsumeList +='资产名称：' +this.consumeList[i].assetName+'，'+'数量：'+this.consumeList[i].useNumber+'；'
         }
       }
       this.addConsumeDialog = false

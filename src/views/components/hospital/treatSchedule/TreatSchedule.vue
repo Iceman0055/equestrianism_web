@@ -213,28 +213,28 @@
             </div>
         </div>
         <!-- 固定资产  -->
-        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
+        <el-dialog title="设备使用详情" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
             <div class="text-center">
                 <div class="row" v-for="item in assetList" :key="item">
                     <div class="col-md-7">名称：{{item.assetName}}</div>
                     <div class="col-md-5">数量：{{item.count}}</div>
                 </div>
             </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="assetsDialog = false">取 消</el-button>
+            <span slot="footer" class="dialog-footer text-center">
+                <!-- <el-button @click="assetsDialog = false">取 消</el-button> -->
                 <el-button type="primary" @click="assetsDialog = false">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 显示消耗品 -->
-        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
+        <el-dialog title="消耗品使用详情" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
             <div class="text-center">
                 <div class="row" v-for="item in consumeList" :key="item">
                     <div class="col-md-7">名称：{{item.assetName}}</div>
                     <div class="col-md-5">数量：{{item.count}}</div>
                 </div>
             </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="consumeDialog = false">取 消</el-button>
+            <span slot="footer" class="dialog-footer text-center">
+                <!-- <el-button @click="consumeDialog = false">取 消</el-button> -->
                 <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
             </span>
         </el-dialog>

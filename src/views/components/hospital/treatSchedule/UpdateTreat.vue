@@ -121,7 +121,7 @@
       </div>
       <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
         <div class="col-md-1">
-          <el-checkbox disabled v-model="item.checked"></el-checkbox>
+          <el-checkbox disabled v-model="item.checked" checked></el-checkbox>
         </div>
         <div class="col-md-3">
           <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
@@ -141,7 +141,7 @@
           </div>
         </div>
       </div>
-      <div class="page" style="float: right">
+      <div class="page">
         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
         </el-pagination>
       </div>
@@ -165,7 +165,7 @@
       </div>
       <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
         <div class="col-md-1">
-          <el-checkbox disabled v-model="item.checked"></el-checkbox>
+          <el-checkbox disabled v-model="item.checked" checked></el-checkbox>
         </div>
         <div class="col-md-3">
           <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
@@ -185,7 +185,7 @@
           </div>
         </div>
       </div>
-      <div class="page" style="float: right">
+      <div class="page">
         <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
         </el-pagination>
       </div>
