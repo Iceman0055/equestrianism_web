@@ -411,29 +411,37 @@ export default {
     },
     addItemSureFun() {
       let len = this.assetsList.length
+      let showAssetList = ''
+      let hospitalAssetList = []
       for (let i = 0; i < len; i++) {
         if (this.assetsList[i].checked) {
-          this.hospitalAssetList.push({
+         hospitalAssetList.push({
             assetId: this.assetsList[i].assetId,
             count: this.assetsList[i].useNumber
           })
-          this.showAssetList += '资产名称：' +this.assetsList[i].assetName+'，'+'数量：'+this.assetsList[i].useNumber+'；'
-          console.log(this.showAssetList)
+          showAssetList += '资产名称：' +this.assetsList[i].assetName+'，'+'数量：'+this.assetsList[i].useNumber+'；'
+
         }
       }
+      this.hospitalAssetList = hospitalAssetList
+      this.showAssetList = showAssetList
       this.addItemDialog = false
     },
     addConsumeSureFun() {
       let len = this.consumeList.length
+      let showConsumeList = '';
+      let consumableAssetList = [];
       for (let i = 0; i < len; i++) {
         if (this.consumeList[i].checked) {
-          this.consumableAssetList.push({
+          consumableAssetList.push({
             assetId: this.consumeList[i].assetId,
             count: this.consumeList[i].useNumber
           })
-          this.showConsumeList +='资产名称：' +this.consumeList[i].assetName+'，'+'数量：'+this.consumeList[i].useNumber+'；'
+          showConsumeList +='资产名称：' +this.consumeList[i].assetName+'，'+'数量：'+this.consumeList[i].useNumber+'；'
         }
       }
+      this.consumableAssetList = consumableAssetList
+      this.showConsumeList = showConsumeList
       this.addConsumeDialog = false
     },
 

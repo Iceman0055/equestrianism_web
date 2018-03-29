@@ -32,6 +32,12 @@ export default {
 .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item .date-num{
   cursor: pointer;
 }
+.__vev_calendar-wrapper .cal-wrapper .date-num{
+  line-height: 70px;
+}
+.__vev_calendar-wrapper .cal-wrapper .cal-body {
+    background: #fff;
+}
 .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
   background-color: #409EFF;
   border-color: #409EFF;
@@ -53,88 +59,72 @@ export default {
   content: "/";
 }
 
-.full-calendar-body .dates .dates-events .events-week .events-day {
-  cursor: pointer;
-  flex: 1;
-  min-height: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+// .full-calendar-body .dates .dates-events .events-week .events-day {
+//   cursor: pointer;
+//   flex: 1;
+//   min-height: 110px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
 
-.full-calendar-body .dates .week-row .day-cell {
-  flex: 1;
-  min-height: 100px;
-  // padding: 4px;
-  border-right: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
-}
 
-// .fc-day-grid-container{
-//   height: 610px!important;
-//   overflow: hidden!important;
+// .full-calendar-body .dates .week-row .day-cell {
+//   flex: 1;
+//   min-height: 100px;
+//   // padding: 4px;
+//   border-right: 1px solid #e0e0e0;
+//   border-bottom: 1px solid #e0e0e0;
 // }
-// .fc-week{
-//   height: 100px!important;
+
+
+// .fc-state-disabled {
+//   opacity: .45;
 // }
-// .el-select-dropdown__item{
-//   height: 60px;
-// }
-// .fc-title {
+
+// .fc-button {
+//   background: #20A8D8;
 //   color: #fff;
+//   width: 50px;
 // }
-// .fc-day-header {
-//   height: 30px;
-//   line-height: 30px;
-//   font-size: 18px;
-// }
-.fc-state-disabled {
-  opacity: .45;
-}
-
-.fc-button {
-  background: #20A8D8;
-  color: #fff;
-  width: 50px;
-}
 
 .el-dialog {
   border-radius: 5px;
 }
 
-.comp-full-calendar {
-  box-sizing: content-box;
-  max-width: 100%;
-  background: #E5ECDA
-}
+// .comp-full-calendar {
+//   box-sizing: content-box;
+//   max-width: 100%;
+//   background: #E5ECDA
+// }
 
 // //重写日历样式
-.full-calendar-header .header-center {
-  font-size: 16px
-}
-.full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-start{
-  margin-left: 0;
-}
-.full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
-  color: red
-}
+// .full-calendar-header .header-center {
+//   font-size: 16px
+// }
+// .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-start{
+//   margin-left: 0;
+// }
+// .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
+//   color: red
+// }
 
-.full-calendar-body .weeks {
-  height: 40px;
-  border-radius: 5px 5px 0 0;
-  line-height: 40px;
-  background: #ECF0CB
-}
+// .full-calendar-body .weeks {
+//   height: 40px;
+//   border-radius: 5px 5px 0 0;
+//   line-height: 40px;
+//   background: #ECF0CB
+// }
 
-.full-calendar-body .dates .more-events {
-  width: 230px;
-  border: none;
-  box-shadow: none;
-}
+// .full-calendar-body .dates .more-events {
+//   width: 230px;
+//   border: none;
+//   box-shadow: none;
+// }
 
-.full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {
-  background: #3794E6;
-  color: #ddd;
-}
+// .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {
+//   background: #3794E6;
+//   color: #ddd;
+// }
 
 .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
@@ -175,13 +165,11 @@ export default {
 
 .el-textarea.is-disabled .el-textarea__inner,
 .el-input.is-disabled .el-input__inner {
-  // background-color: #cfd8dc;
   color: #607d8b;
   background: #eee;
 }
 
 .form-control:disabled {
-  /* background-color: #f7f7f7; */
   opacity: 1;
   border-color: #ddd;
   background: #eee;
@@ -212,10 +200,8 @@ export default {
 }
 
 .avatar-uploader-icon {
-  // border: 1px solid #ddd;
   font-size: 28px;
-  color: #8c939d; // width: 441px;
-  // height: 200px;
+  color: #8c939d;
   line-height: 178px;
   text-align: center;
 }
