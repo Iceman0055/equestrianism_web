@@ -247,7 +247,7 @@ input:focus {
   border: 1px solid #cfd8dc;
   .table {
     line-height: 2rem;
-    font-size: 14px;
+    // font-size: 14px;
     tr {
       th {
         text-align: center
@@ -265,7 +265,7 @@ input:focus {
     }
   }
   .content-title {
-    border-radius: 5px;
+    // border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
     padding: 0.65rem 1.25rem;

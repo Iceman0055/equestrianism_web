@@ -4,12 +4,11 @@
       <div class="title">日程</div>
     </div>
     <vue-event-calendar :events="demoEvents" @month-changed="monthChange" @day-changed="dayChange">
-      <template scope="props">
+      <template slot-scope="props">
         <div class="event-item" v-for="(event,index) in props.showEvents" :key="event">
           <div class="reuse-head">
             <div class="reuse-title">{{index+1}}. {{event.title}}</div>
             <div class="reuse-date">{{event.date}}</div>
-            <!-- <el-button type="primary" v-if="otherAdd" icon="el-icon-edit" circle @click="showOtherAdd(event)"></el-button> -->
             <el-button @click="showDelete(event)" type="warning" icon="el-icon-delete" circle></el-button>
           </div>
           <div class="reuse-foot">
