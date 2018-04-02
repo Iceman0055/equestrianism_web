@@ -78,21 +78,16 @@ export default {
             useDisabled: false,
             files: {},
             horsePrizeId: '',
-            awardsInfo: {},
             horseInfoName: [],
             horseName: '',
         }
     },
     components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
         'upload-img': UploadImg,
-        "el-select": Select
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeSelect)
-
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -129,7 +124,7 @@ export default {
                 this.$message.error('获奖信息不能为空！')
                 return;
             }
-            this.awardsInfo = {
+            let awardsInfo = {
                 horsePrizeId: this.horsePrizeId,
                 horseId: this.horseName,
                 eventName: this.eventName,
@@ -143,8 +138,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.awardsInfo) {
-                formData.append(key, this.awardsInfo[key])
+            for (let key in awardsInfo) {
+                formData.append(key, awardsInfo[key])
             }
             horseSrv.updateAwards(formData).then((resp) => {
                 this.$message.success('修改获奖信息成功')

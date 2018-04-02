@@ -220,7 +220,6 @@ export default {
       consumableAssetList: [],
       showConsumeList: '',
       horseInfoName: [],
-      treatInfo: {},
       horseName: "",
       treatName: "",
       consumeTreatName: '',
@@ -379,7 +378,7 @@ export default {
         this.$message.error("治疗信息不能为空！");
         return;
       }
-      this.treatInfo = {
+      let treatInfo = {
         outpatientType: this.treatWay,
         // appointNumber: this.appointNum,
         beginDate: this.beginDate,
@@ -397,9 +396,9 @@ export default {
 
       };
       if (this.treatWay == 2) {
-        this.treatInfo.appointNumber = this.appointNum;
+        treatInfo.appointNumber = this.appointNum;
       }
-      hospitalSrv.addTreat(this.treatInfo).then(
+      hospitalSrv.addTreat(treatInfo).then(
         resp => {
           this.$message.success("添加治疗信息成功");
           this.$router.push("/hospital/treatSchedule");

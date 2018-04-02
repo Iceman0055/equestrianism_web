@@ -73,7 +73,6 @@ export default {
       horseInfoName: [],
       horseName: "",
       feederInfo:[],
-      vaccInfo:{}
     };
   },
     mounted() {
@@ -112,7 +111,7 @@ export default {
                 this.$message.error('接种疫苗信息不能为空！')
                 return;
             }
-            this.vaccInfo = {
+            let vaccInfo = {
                 userId: this.dealPeople,
                 horseId: this.horseName,
                 operateDate: this.time,
@@ -120,9 +119,8 @@ export default {
                 name:this.name,
                 vaccinationName:this.preventDisease,
                 vaccinationNumber:this.vaccineNum
-
             }
-            hospitalSrv.addVacc(this.vaccInfo).then((resp) => {
+            hospitalSrv.addVacc(vaccInfo).then((resp) => {
                 this.$message.success('添加疫苗信息成功')
                 this.$router.push('/hospital/Vaccination')
             }, (err) => {

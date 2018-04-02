@@ -176,7 +176,6 @@ export default {
             changeDate: '',
             birthDate: '',
             files: {},
-            horseInfo: {},
             rightImage: '',
             leftImage: '',
             upperEyelinerImage: '',
@@ -189,9 +188,6 @@ export default {
         }
     },
     components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select,
         'upload-img': UploadImg
     },
     mounted() {
@@ -233,7 +229,7 @@ export default {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
-            this.horseInfo = {
+            let horseInfo = {
                 passportNumber: this.passport,
                 horseName: this.horseName,
                 usedName: this.changeName,
@@ -255,8 +251,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.horseInfo) {
-                formData.append(key, this.horseInfo[key])
+            for (let key in horseInfo) {
+                formData.append(key, horseInfo[key])
             }
             horseSrv.addHorseInfo(formData).then((resp) => {
                 this.$message.success('添加马匹成功')

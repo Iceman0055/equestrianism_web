@@ -65,7 +65,6 @@ export default {
             useDisabled: false,
             horseInfoName: [],
             sexOptions: [],
-            masterInfo: {},
             hostId: '',
             // dictInfoList: [],
             dictionaryInfoList: []
@@ -98,7 +97,6 @@ export default {
             }).catch(err => {
                 vm.$message.error(err.msg)
             });
-
             horseSrv.getHorseName().then((resp) => {
                 vm.horseInfoName = resp.data.horseList
             }, (err) => {
@@ -116,7 +114,7 @@ export default {
                 this.$message.error('马主信息不能为空！')
                 return;
             }
-            this.masterInfo = {
+           let masterInfo = {
                 hostId: this.hostId,
                 hostName: this.name,
                 sex: this.sex,
@@ -125,7 +123,7 @@ export default {
                 address: this.address,
                 horseId: this.horseName,
             }
-            horseSrv.updateMaster(this.masterInfo).then((resp) => {
+            horseSrv.updateMaster(masterInfo).then((resp) => {
                 this.$message.success('修改马主信息成功')
                 this.$router.push('/horse/master')
             }, (err) => {

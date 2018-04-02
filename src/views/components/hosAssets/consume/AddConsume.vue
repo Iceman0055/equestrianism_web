@@ -165,7 +165,6 @@ export default {
             assetType: "",
             assetTypeList: [],
             typeDetailList: [],
-            assetsInfo: {},
             valueOptions: [],
             wayOptions: [],
             departName: '',
@@ -230,7 +229,7 @@ export default {
                 this.$message.error('消耗品信息不能为空！')
                 return;
             }
-            this.assetsInfo = {
+           let assetsInfo = {
                 inventory:this.inventory,
                 barCode:this.barCode,
                 typeId: this.assetType,
@@ -253,7 +252,7 @@ export default {
                 voucherNumber: this.voucherNum,
                 purchaseOrganize: this.buyForm,
             }
-            hosAssetsSrv.addConsume(this.assetsInfo).then((resp) => {
+            hosAssetsSrv.addConsume(assetsInfo).then((resp) => {
                 this.$message.success('添加消耗品信息成功')
                 this.$router.push('/hosAssets/consume')
             }, (err) => {

@@ -1,50 +1,51 @@
 <template>
-    <div class="animated fadeIn content_page">
-        <div class="content-title">
-            <div class="title">马匹简历列表</div>
-        </div>
-        <div class="content-show">
-             <div class="row list-search">
-                
-                <div class="col-md-4 search-field">
-                    <div class="label">马匹名称：</div>
-                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
-                        </el-option>
-                    </el-select>                 </div>
-
-                <div class="col-md-1 search-field search-field_controls">
-                    <button @click="getHorseResumeList(1)" class="btn btn-primary search-btn">搜索</button>
-                </div>      
-            </div> 
-       <div class="resume">       
-           <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
-            <div class="row" v-show="!showLoading">
-                <div class="col-md-3 distance" v-for="item in horseResumeList" :key="item">
-                    <div class="resume-list">
-                        <div class="resume-img">
-                            <img :src="'data:image/jpeg;base64,'+item.image">
-                        </div>
-                        <div class="resume-footer">
-                            <div class="resume-name">{{item.horseName}}</div>
-                            <div class="resume-detail">
-                                <router-link :to="{path:'/resume/resumeDetail',query:{horseId:item.horseId}}">
-                                    查看详情
-                                </router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row reverse">
-                <div class="page">
-                      <el-pagination @current-change="getHorseResumeList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
-                        </el-pagination>
-                </div>
-            </div>
-        </div>
-        </div>
+  <div class="animated fadeIn content_page">
+    <div class="content-title">
+      <div class="title">马匹简历列表</div>
     </div>
+    <div class="content-show">
+      <div class="row list-search">
+
+        <div class="col-md-4 search-field">
+          <div class="label">马匹名称：</div>
+          <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+            <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+            </el-option>
+          </el-select>
+        </div>
+
+        <div class="col-md-1 search-field search-field_controls">
+          <button @click="getHorseResumeList(1)" class="btn btn-primary search-btn">搜索</button>
+        </div>
+      </div>
+      <div class="resume">
+        <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+        <div class="row" v-show="!showLoading">
+          <div class="col-md-3 distance" v-for="item in horseResumeList" :key="item">
+            <div class="resume-list">
+              <div class="resume-img">
+                <img :src="'data:image/jpeg;base64,'+item.image">
+              </div>
+              <div class="resume-footer">
+                <div class="resume-name">{{item.horseName}}</div>
+                <div class="resume-detail">
+                  <router-link :to="{path:'/resume/resumeDetail',query:{horseId:item.horseId}}">
+                    查看详情
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row reverse">
+          <div class="page">
+            <el-pagination @current-change="getHorseResumeList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
+            </el-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -61,7 +62,7 @@ export default {
       horseInfoName: [],
       horseName: "",
       horseResumeList: [],
-      showLoading:false,
+      showLoading: false,
     };
   },
   beforeRouteEnter: function(to, from, next) {
@@ -70,7 +71,7 @@ export default {
         resp => {
           vm.totalRecorders = resp.data.totalRecorders;
           vm.horseResumeList = resp.data.horseResumeList;
-          window.localStorage.setItem('horseIdList',resp.data.horseIdList)
+          window.localStorage.setItem('horseIdList', resp.data.horseIdList)
         },
         err => {
           vm.$message.error(err.msg);
@@ -96,17 +97,17 @@ export default {
       resumeSrv
         .getHorseResume(currentPage, this.pageRecorders, this.horseName)
         .then(
-          resp => {
-            this.showLoading = false;
-            this.currentPage = currentPage;
-            this.totalRecorders = resp.data.totalRecorders;
-           this.horseResumeList = resp.data.horseResumeList;
-            this.horseIdList = resp.data.horseIdList;
-          },
-          err => {
-            this.showLoading = false;
-            this.$message.error(err.msg);
-          }
+        resp => {
+          this.showLoading = false;
+          this.currentPage = currentPage;
+          this.totalRecorders = resp.data.totalRecorders;
+          this.horseResumeList = resp.data.horseResumeList;
+          this.horseIdList = resp.data.horseIdList;
+        },
+        err => {
+          this.showLoading = false;
+          this.$message.error(err.msg);
+        }
         );
     }
   }

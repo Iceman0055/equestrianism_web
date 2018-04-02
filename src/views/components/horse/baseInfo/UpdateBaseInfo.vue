@@ -187,7 +187,6 @@ export default {
             useDisabled: false,
             gender: '',
             files: {},
-            updateInfo: {},
             sexOptions: [],
             colorOptions: [],
             horseInfoName: [],
@@ -274,7 +273,7 @@ export default {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 horseId: this.horseId,
                 passportNumber: this.passport,
                 horseName: this.horseName,
@@ -297,8 +296,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.updateInfo) {
-                formData.append(key, this.updateInfo[key])
+            for (let key in updateInfo) {
+                formData.append(key, updateInfo[key])
             }
             horseSrv.updateHorseInfo(formData).then(resp => {
                 this.$message.success('修改马匹成功')

@@ -67,7 +67,6 @@ export default {
       sex: "",
       imageUrl: "",
       files: {},
-      feederInfo: {},
       horseInfoName: [],
       horseName: '',
       sexOptions: [],
@@ -120,7 +119,7 @@ export default {
         this.$message.error('饲养员信息不能为空！')
         return;
       }
-      this.feederInfo = {
+      let feederInfo = {
         feederName: this.name,
         sex: this.sex,
         skillDesc: this.skill,
@@ -131,8 +130,8 @@ export default {
       for (let key in this.files) {
         formData.append(key, this.files[key])
       }
-      for (let key in this.feederInfo) {
-        formData.append(key, this.feederInfo[key])
+      for (let key in feederInfo) {
+        formData.append(key, feederInfo[key])
       }
       horseSrv.addFeeder(formData).then((resp) => {
         this.$message.success('添加饲养员信息成功')

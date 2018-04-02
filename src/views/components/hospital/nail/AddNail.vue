@@ -53,7 +53,6 @@ export default {
             horseName: '',
             operatePeople: '',
             horseInfoName: [],
-            nailInfo: {},
             feederInfo: []
         }
     },
@@ -86,13 +85,13 @@ export default {
                 this.$message.error('钉甲信息不能为空！')
                 return;
             }
-            this.nailInfo = {
+            let nailInfo = {
                 brigandineDate: this.time,
                 horseId: this.horseName,
                 userId: this.operatePeople,
                 remark:this.remark
             }
-            hospitalSrv.addNail(this.nailInfo).then((resp) => {
+            hospitalSrv.addNail(nailInfo).then((resp) => {
                 this.$message.success('添加钉甲成功')
                 this.$router.push('/hospital/nail')
             }, (err) => {

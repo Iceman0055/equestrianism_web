@@ -32,7 +32,7 @@
                         </thead>
                         <tbody>
                             <tr style="cursor:pointer" v-for="item in assetsList" :key="item" @click="getAssetsDetail(1, item)">
-                                <td><input type="radio" class="input-pointer" name="select" :checked="item.checked" ></td>
+                                <td><input type="radio" class="input-pointer" name="select" :checked="item.checked"></td>
                                 <td>{{item.typeName}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>
@@ -168,13 +168,13 @@ export default {
         return {
             dialogTitle: '',
             dialogTextTitle: '',
-             activeItem: undefined,
+            activeItem: undefined,
             deleteTextDialog: false,
             updateTextDialog: false,
             updateDialog: false,
             deleteDialog: false,
             showLoading: false,
-            loading:false,
+            loading: false,
             pageRecorders: 10,
             totalRecorders: 1,
             currentPage: 1,
@@ -195,12 +195,10 @@ export default {
             typeDetailId: '',
             dictionaryDetailId: '',
             assetsDetailList: [],
-            updateDetailInfo: {},
-            addDetailInfo: {},
-            searchDetailId:'',
-            fatherCode:'',
-            editDetail:true,
-            checked:false
+            searchDetailId: '',
+            fatherCode: '',
+            editDetail: true,
+            checked: false
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -208,15 +206,15 @@ export default {
             vm.showLoading = true
             systemSrv.assetsList(vm.currentPage, vm.pageRecorders, vm.typeName, ).then(resp => {
                 vm.showLoading = false
-                vm.totalRecorders = resp.data.totalRecorders              
+                vm.totalRecorders = resp.data.totalRecorders
                 let assetsList = resp.data.assetTypeList
                 let len = assetsList.length
                 let checkedArray = []
-                for(let i=0;i<len;i++){
+                for (let i = 0; i < len; i++) {
                     checkedArray.push({
-                        typeId:assetsList[i].typeId,
-                        typeName:assetsList[i].typeName,
-                        remark:assetsList[i].remark,
+                        typeId: assetsList[i].typeId,
+                        typeName: assetsList[i].typeName,
+                        remark: assetsList[i].remark,
                         checked: false
                     })
                 }
@@ -300,11 +298,11 @@ export default {
                 this.$message.error('资产信息不能为空！')
                 return;
             }
-            this.addInfo = {
+            let addInfo = {
                 typeName: this.assetsName,
                 remark: this.remark,
             }
-            systemSrv.addAssets(this.addInfo).then((resp) => {
+            systemSrv.addAssets(addInfo).then((resp) => {
                 this.$message.success('添加资产典成功')
                 this.updateDialog = false
                 this.getAssets()
@@ -317,33 +315,33 @@ export default {
                 this.$message.error('资产详情信息不能为空！')
                 return;
             }
-            this.addDetailInfo = {
+            let addDetailInfo = {
                 typeId: this.fatherCode,
                 typeDetailName: this.detailName,
                 remark: this.detailRemark,
             }
-            systemSrv.addAssetsDetail(this.addDetailInfo).then((resp) => {
+            systemSrv.addAssetsDetail(addDetailInfo).then((resp) => {
                 this.$message.success('添加资产详情成功')
                 this.updateTextDialog = false
-                this.getAssetsDetail(1,this.fatherCode)
+                this.getAssetsDetail(1, this.fatherCode)
             }, (err) => {
                 this.$message.error(err.msg)
             })
         },
         updateAssetsDetail() {
-            if (!(this.typeDetailId&&this.detailName && this.detailRemark)) {
+            if (!(this.typeDetailId && this.detailName && this.detailRemark)) {
                 this.$message.error('资产详情信息不能为空！')
                 return;
             }
-            this.updateDetailInfo = {
+            let updateDetailInfo = {
                 typeDetailId: this.typeDetailId,
                 typeDetailName: this.detailName,
                 remark: this.detailRemark,
             }
-            systemSrv.updateAssetsDetail(this.updateDetailInfo).then((resp) => {
+            systemSrv.updateAssetsDetail(updateDetailInfo).then((resp) => {
                 this.$message.success('修改资产详情成功')
                 this.updateTextDialog = false
-                this.getAssetsDetail(1,this.fatherCode)
+                this.getAssetsDetail(1, this.fatherCode)
             }, (err) => {
                 this.$message.error(err.msg)
             })
@@ -353,12 +351,12 @@ export default {
                 this.$message.error('资产信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 typeId: this.typeId,
                 typeName: this.assetsName,
                 remark: this.remark,
             }
-            systemSrv.updateAssets(this.updateInfo).then((resp) => {
+            systemSrv.updateAssets(updateInfo).then((resp) => {
                 this.$message.success('修改资产信息成功')
                 this.updateDialog = false
                 this.getAssets()
@@ -390,13 +388,11 @@ export default {
             systemSrv.deleteAssetsDetail(this.deleteContentInfo).then(resp => {
                 this.$message.success('删除成功')
                 this.deleteTextDialog = false
-                this.getAssetsDetail(1,this.fatherCode)
+                this.getAssetsDetail(1, this.fatherCode)
             }, err => {
                 this.$message.error(err.msg)
             })
-
         }
-
     },
     components: {
         'el-pagination': Pagination,

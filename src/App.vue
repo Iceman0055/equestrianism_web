@@ -29,9 +29,6 @@ export default {
     line-height: 30px;
     font-size: 20px;
 }
-.__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item .date-num{
-  cursor: pointer;
-}
 .__vev_calendar-wrapper .cal-wrapper .date-num{
   line-height: 70px;
 }

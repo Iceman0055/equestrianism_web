@@ -74,7 +74,6 @@ export default {
       doctorList: [],
       doctor: '',
       appointStatus: '',
-      appointInfo: {},
       statusList: [{
         value: '1',
         label: '已预约'
@@ -111,7 +110,7 @@ export default {
         this.$message.error('预约日程信息不能为空！')
         return;
       }
-      this.appointInfo = {
+     let appointInfo = {
         userId: this.doctor,
         appointDate: this.appointDate,
         contacts: this.contactPer,
@@ -121,7 +120,7 @@ export default {
         remark: this.note,
         appointStatus: this.appointStatus,
       }
-      hospitalSrv.addAppoint(this.appointInfo).then((resp) => {
+      hospitalSrv.addAppoint(appointInfo).then((resp) => {
         this.$message.success('添加预约日程成功')
         this.$router.push('/hospital/appointment')
       }, (err) => {

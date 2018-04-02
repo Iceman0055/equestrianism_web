@@ -259,7 +259,6 @@
 <script>
 import Vue from "vue";
 import { Pagination, Upload, DatePicker, Message, Select, Input } from "element-ui";
-import MultipleImg from "../../../../components/uploadImg/multipleImg.vue";
 import UploadImg from "../../../../components/uploadImg/uploadImg.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import horseSrv from "../../../services/horse.service.js";
@@ -327,7 +326,6 @@ export default {
         "el-pagination": Pagination,
         "el-upload": Upload,
         "el-date-picker": DatePicker,
-        "multiple-img": MultipleImg,
         "el-select": Select,
         "upload-img": UploadImg,
         'el-input': Input

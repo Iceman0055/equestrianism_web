@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
-                                     <input type="text" v-model="remark" :disabled="useDisabled" class="form-control" />
+                    <input type="text" v-model="remark" :disabled="useDisabled" class="form-control" />
 
                 </div>
             </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { DatePicker, Button, Message} from 'element-ui'
+import { DatePicker, Button, Message } from 'element-ui'
 import hospitalSrv from '../../../services/hospital.service.js'
 export default {
     data() {
@@ -40,11 +40,10 @@ export default {
             shortName: '',
             useDisabled: false,
             remark: '',
-            consultingRoomId:'',
-            operateInfo:{}
+            consultingRoomId: '',
         }
     },
-       beforeRouteEnter: function(to, from, next) {
+    beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.consultingRoomId = to.query.consultingRoomId
             hospitalSrv.operateRoomDetail(vm.consultingRoomId).then(resp => {
@@ -65,23 +64,23 @@ export default {
     },
     methods: {
         updateOperateRoom() {
-      if (!(this.name && this.shortName && this.remark)) {
-        this.$message.error('诊疗室信息不能为空！')
-        return;
-      }
-      this.operateInfo = {
-          consultingRoomId:this.consultingRoomId,
-        name: this.name,
-        shortName: this.shortName,
-        remark: this.remark,
-      }
-      hospitalSrv.updateOperateRoom(this.operateInfo).then((resp) => {
-        this.$message.success('修改诊疗室成功')
-        this.$router.push('/hospital/operateRoom')
-      }, (err) => {
-        this.$message.error(err.msg)
-      })
-    },
+            if (!(this.name && this.shortName && this.remark)) {
+                this.$message.error('诊疗室信息不能为空！')
+                return;
+            }
+            let operateInfo = {
+                consultingRoomId: this.consultingRoomId,
+                name: this.name,
+                shortName: this.shortName,
+                remark: this.remark,
+            }
+            hospitalSrv.updateOperateRoom(operateInfo).then((resp) => {
+                this.$message.success('修改诊疗室成功')
+                this.$router.push('/hospital/operateRoom')
+            }, (err) => {
+                this.$message.error(err.msg)
+            })
+        },
     }
 }
 </script>

@@ -217,8 +217,6 @@ export default {
             fatherCode: '',
             itemCode: '',
             itemValue: '',
-            updateDetailInfo: {},
-            addDetailInfo: {},
             searchDetailId: '',
         }
     },
@@ -321,13 +319,13 @@ export default {
                 this.$message.error('字典信息不能为空！')
                 return;
             }
-            this.addInfo = {
+            let addInfo = {
                 typeCode: this.dictType,
                 typeName: this.dictName,
                 remark: this.remark,
                 sort: this.sort
             }
-            systemSrv.addDict(this.addInfo).then((resp) => {
+            systemSrv.addDict(addInfo).then((resp) => {
                 this.$message.success('添加字典成功')
                 this.updateDialog = false
                 this.getDict()
@@ -340,12 +338,12 @@ export default {
                 this.$message.error('字项信息不能为空！')
                 return;
             }
-            this.addDetailInfo = {
+           let addDetailInfo = {
                 dictionaryId: this.fatherCode,
                 itemCode: this.itemCode,
                 itemValue: this.itemValue,
             }
-            systemSrv.addDicDetail(this.addDetailInfo).then((resp) => {
+            systemSrv.addDicDetail(addDetailInfo).then((resp) => {
                 this.$message.success('添加字项成功')
                 this.updateTextDialog = false
                 this.getDetailList(1, this.fatherCode)
@@ -358,12 +356,12 @@ export default {
                 this.$message.error('字项信息不能为空！')
                 return;
             }
-            this.updateDetailInfo = {
+            let updateDetailInfo = {
                 dictionaryDetailId: this.dictionaryDetailId,
                 itemCode: this.itemCode,
                 itemValue: this.itemValue,
             }
-            systemSrv.updateDicDetail(this.updateDetailInfo).then((resp) => {
+            systemSrv.updateDicDetail(updateDetailInfo).then((resp) => {
                 this.$message.success('修改字项成功')
                 this.updateTextDialog = false
                 this.getDetailList(1, this.fatherCode)
@@ -376,14 +374,14 @@ export default {
                 this.$message.error('字典信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 dictionaryId: this.dictionaryId,
                 typeCode: this.dictType,
                 typeName: this.dictName,
                 remark: this.remark,
                 sort: this.sort
             }
-            systemSrv.updateDict(this.updateInfo).then((resp) => {
+            systemSrv.updateDict(updateInfo).then((resp) => {
                 this.$message.success('修改字典成功')
                 this.updateDialog = false
                 this.getDict()
@@ -419,9 +417,7 @@ export default {
             }, err => {
                 this.$message.error(err.msg)
             })
-
         }
-
     },
     components: {
         'el-pagination': Pagination,

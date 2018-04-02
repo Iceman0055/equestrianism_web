@@ -63,7 +63,6 @@ export default {
             horseName: '',
             horseInfoName: [],
             sexOptions: [],
-            masterInfo: {}
         }
     },
     components: {
@@ -89,7 +88,6 @@ export default {
             }, err => {
                 vm.$message.error(err.msg)
             })
-
         })
     },
     mounted() {
@@ -102,7 +100,7 @@ export default {
                 this.$message.error('马主信息不能为空！')
                 return;
             }
-            this.masterInfo = {
+           let masterInfo = {
                 hostName: this.name,
                 sex: this.sex,
                 occupation: this.career,
@@ -110,7 +108,7 @@ export default {
                 address: this.address,
                 horseId: this.horseName,
             }
-            horseSrv.addMaster(this.masterInfo).then((resp) => {
+            horseSrv.addMaster(masterInfo).then((resp) => {
                 this.$message.success('添加马主信息成功')
                 this.$router.push('/horse/master')
             }, (err) => {

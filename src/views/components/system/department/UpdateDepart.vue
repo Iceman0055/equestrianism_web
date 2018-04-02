@@ -68,13 +68,13 @@ export default {
                 this.$message.error('部门信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 departmentId: this.departmentId,
                 departmentName: this.departName,
                 shortName: this.departShortName,
                 remark: this.note,
             }
-            systemSrv.updateDepart(this.updateInfo).then((resp) => {
+            systemSrv.updateDepart(updateInfo).then((resp) => {
                 this.$message.success('修改部门成功')
                 this.$router.push('/system/department')
             }, (err) => {

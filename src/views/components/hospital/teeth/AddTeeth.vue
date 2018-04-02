@@ -51,7 +51,6 @@ export default {
             time: '',
             horseName: '',
             operatePeople: '',
-            teethInfo:{},
             horseInfoName: [],
             remark:'',
             feederInfo:[]
@@ -86,13 +85,13 @@ export default {
                 this.$message.error('挫牙信息不能为空！')
                 return;
             }
-            this.teethInfo = {
+            let teethInfo = {
                 operateDate: this.time,
                 horseId: this.horseName,
                 userId: this.operatePeople,
                 remark:this.remark
             }
-            hospitalSrv.addTeeth(this.teethInfo).then((resp) => {
+            hospitalSrv.addTeeth(teethInfo).then((resp) => {
                 this.$message.success('添加挫牙成功')
                 this.$router.push('/hospital/teeth')
             }, (err) => {

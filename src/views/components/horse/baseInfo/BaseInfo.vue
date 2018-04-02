@@ -162,8 +162,6 @@ export default {
 
         })
     },
-    computed: {
-    },
     methods: {
         setQueryKey(e) {
             console.log(e)

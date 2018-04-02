@@ -48,7 +48,6 @@
                         </el-option>
                     </el-select>
                 </div>
-
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
@@ -65,7 +64,6 @@ export default {
         return {
             departList: [],
             roleList: [],
-            updateInfo: {},
             useDisabled: false,
             jobNumber: '',
             name: '',
@@ -75,7 +73,6 @@ export default {
             contact: '',
             depart: '',
             role: '',
-
         }
     },
     components: {
@@ -120,7 +117,7 @@ export default {
                 this.$message.error('用户信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 userId: this.$route.query.userId,
                 jobNumber: this.jobNumber,
                 realname: this.name,
@@ -130,7 +127,7 @@ export default {
                 email: this.email,
                 contactWay: this.contact
             }
-            systemSrv.updateUser(this.updateInfo).then((resp) => {
+            systemSrv.updateUser(updateInfo).then((resp) => {
                 this.$message.success('修改用户成功')
                 this.$router.push('/system/user')
             }, (err) => {

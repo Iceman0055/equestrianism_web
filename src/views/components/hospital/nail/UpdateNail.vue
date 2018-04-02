@@ -98,14 +98,14 @@ export default {
                 this.$message.error('钉甲信息不能为空！')
                 return;
             }
-            this.nailInfo = {
+            let nailInfo = {
                 brigandineId: this.brigandineId,
                 time: this.brigandineDate,
                 horseName: this.horseId,
                 operatePeople: this.userId,
                 remark:this.remark
             }
-            hospitalSrv.updateNail(this.nailInfo).then((resp) => {
+            hospitalSrv.updateNail(nailInfo).then((resp) => {
                 this.$message.success('修改钉甲成功')
                 this.$router.push('/hospital/nail')
             }, (err) => {

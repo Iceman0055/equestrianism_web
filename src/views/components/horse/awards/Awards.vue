@@ -156,8 +156,6 @@ export default {
         },
     },
     components: {
-        'el-pagination': Pagination,
-        "el-dialog": Dialog
     }
 }
 </script>

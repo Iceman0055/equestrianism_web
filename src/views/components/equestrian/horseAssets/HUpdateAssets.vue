@@ -168,7 +168,6 @@ export default {
             assetType: "",
             assetTypeList: [],
             typeDetailList: [],
-            assetsInfo: {},
             assetId: '',
             departName: '',
             departList: [],
@@ -282,7 +281,7 @@ export default {
                 this.$message.error('固定资产信息不能为空！')
                 return;
             }
-            this.assetsInfo = {
+            let assetsInfo = {
                 barCode:this.barCode,
                 assetId: this.assetId,
                 typeId: this.assetType,
@@ -305,7 +304,7 @@ export default {
                 voucherNumber: this.voucherNum,
                 purchaseOrganize: this.buyForm,
             }
-            equestrianSrv.updateHorseAssets(this.assetsInfo).then((resp) => {
+            equestrianSrv.updateHorseAssets(assetsInfo).then((resp) => {
                 this.$message.success('修改固定资产信息成功')
                 this.$router.push('/equestrian/horseAssets')
             }, (err) => {

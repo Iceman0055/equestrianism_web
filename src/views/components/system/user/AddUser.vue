@@ -67,7 +67,6 @@ export default {
         return {
             departList:[],
             roleList: [],
-            addInfo: {},
             jobNumber: '',
             name: '',
             loginName: '',
@@ -115,7 +114,7 @@ export default {
                 this.$message.error('用户信息不能为空！')
                 return;
             }
-            this.addInfo = {
+            let addInfo = {
                 jobNumber: this.jobNumber,
                 realname: this.name,
                 loginName: this.loginName,
@@ -125,8 +124,7 @@ export default {
                 email: this.email,
                 contactWay: this.contact
             }
-
-            systemSrv.addUser(this.addInfo).then((resp) => {
+            systemSrv.addUser(addInfo).then((resp) => {
                 this.$message.success('添加用户成功')
                 this.$router.push('/system/user')
             }, (err) => {

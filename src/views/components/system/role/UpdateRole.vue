@@ -42,7 +42,6 @@ export default {
             note: '',
             roleName: '',
             shortName: '',
-            updateInfo: {},
             roleId:'',
         }
     },
@@ -61,12 +60,9 @@ export default {
                 vm.$message.error(err.msg)
             })
         })
-
     },
-
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-
     },
     methods: {
         updateRole() {
@@ -74,13 +70,13 @@ export default {
                 this.$message.error('角色信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 roleId: this.roleId,
                 roleName: this.roleName,
                 shortName: this.shortName,
                 remark: this.note,
             }
-            systemSrv.updateRole(this.updateInfo).then((resp) => {
+            systemSrv.updateRole(updateInfo).then((resp) => {
                 this.$message.success('修改角色成功')
                 this.$router.push('/system/role')
             }, (err) => {

@@ -37,7 +37,6 @@ export default {
             name: '',
             shortName: '',
             remark:'',
-            operateInfo:{},
         }
     },
     components: {
@@ -50,12 +49,12 @@ export default {
         this.$message.error('诊疗室信息不能为空！')
         return;
       }
-      this.operateInfo = {
+      let operateInfo = {
         name: this.name,
         shortName: this.shortName,
         remark: this.remark,
       }
-      hospitalSrv.addOperateRoom(this.operateInfo).then((resp) => {
+      hospitalSrv.addOperateRoom(operateInfo).then((resp) => {
         this.$message.success('添加诊疗室成功')
         this.$router.push('/hospital/operateRoom')
       }, (err) => {
