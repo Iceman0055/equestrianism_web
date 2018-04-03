@@ -77,7 +77,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Message } from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
@@ -148,9 +147,6 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-    }
 }
 </script>
 

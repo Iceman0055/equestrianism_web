@@ -33,7 +33,7 @@
                     </button>
                 </div>
             </div>
-           <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -184,12 +184,6 @@ export default {
                 { switch: false, barCode: "", assetId: '', assetsName: "", value: "1" },
             ],
         };
-    },
-    components: {
-        "el-pagination": Pagination,
-        "el-dialog": Dialog,
-        'el-switch': Switch,
-        'el-input': Input
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {

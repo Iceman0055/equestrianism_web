@@ -126,7 +126,7 @@
                     <div class="label">备注：</div>
                     <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
                 </div>
-                 <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">数量：</div>
                     <input type="text" v-model="inventory" class="form-control input-field" placeholder="请输入数量" />
                 </div>
@@ -171,15 +171,10 @@ export default {
             userList: [],
             departList: [],
             managePeople: '',
-            barCode:'',
-            inventory:''
-       
+            barCode: '',
+            inventory: ''
+
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
     },
     mounted() {
         this.$el.addEventListener('animationend', this.valueResize)
@@ -221,7 +216,7 @@ export default {
     },
     methods: {
         addConsume() {
-            if (!(this.inventory&&this.barCode&&this.assetType && this.typeDetail && this.assetsNum && this.assetsName
+            if (!(this.inventory && this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
@@ -229,9 +224,9 @@ export default {
                 this.$message.error('消耗品信息不能为空！')
                 return;
             }
-           let assetsInfo = {
-                inventory:this.inventory,
-                barCode:this.barCode,
+            let assetsInfo = {
+                inventory: this.inventory,
+                barCode: this.barCode,
                 typeId: this.assetType,
                 typeDetailId: this.typeDetail,
                 assetNumber: this.assetsNum,

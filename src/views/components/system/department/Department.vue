@@ -69,30 +69,30 @@
         </div>
         <!-- 分配权限 -->
         <!-- <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <button class="btn btn-info" @click="selectChecked">全选</button>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <button class="btn btn-info" @click="selectChecked">全选</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-info" @click="resetChecked">全不选</button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <button class="btn btn-info" @click="resetChecked">全不选</button>
-                </div>
-            </div>
-            <el-tree @check-change="selectNode" :data="data2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
-            </el-tree>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="permissionDialog = false">取 消</el-button>
-                <el-button type="primary" @click="permissionDialog = false">确 定</el-button>
-            </span>
-        </el-dialog> -->
+                <el-tree @check-change="selectNode" :data="data2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
+                </el-tree>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="permissionDialog = false">取 消</el-button>
+                    <el-button type="primary" @click="permissionDialog = false">确 定</el-button>
+                </span>
+            </el-dialog> -->
         <!-- 成员管理 -->
         <!-- <el-dialog title="成员管理" :modal-append-to-body="false" :visible.sync="stuffDialog" width="30%" center>
-            <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
-            </el-tree>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="stuffDialog = false">取 消</el-button>
-                <el-button type="primary" @click="stuffDialog = false">确 定</el-button>
-            </span>
-        </el-dialog> -->
+                <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
+                </el-tree>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="stuffDialog = false">取 消</el-button>
+                    <el-button type="primary" @click="stuffDialog = false">确 定</el-button>
+                </span>
+            </el-dialog> -->
         <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
             <div class="text-center">
                 <span>确定要删除吗?</span>
@@ -206,14 +206,10 @@ export default {
             }
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            systemSrv.departList(vm.currentPage, vm.pageRecorders, vm.departName,vm.status).then(resp => {
+            systemSrv.departList(vm.currentPage, vm.pageRecorders, vm.departName, vm.status).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.departInfoList = resp.data.departmentInfoList
@@ -231,7 +227,7 @@ export default {
     methods: {
         getDepart(currentPage = this.currentPage) {
             this.showLoading = true
-            systemSrv.departList(currentPage, this.pageRecorders, this.departName,this.status).then(resp => {
+            systemSrv.departList(currentPage, this.pageRecorders, this.departName, this.status).then(resp => {
                 this.currentPage = currentPage
                 this.showLoading = false
                 this.totalRecorders = resp.data.totalRecorders

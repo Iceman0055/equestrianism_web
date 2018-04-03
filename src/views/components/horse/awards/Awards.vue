@@ -155,8 +155,6 @@ export default {
             })
         },
     },
-    components: {
-    }
 }
 </script>
 

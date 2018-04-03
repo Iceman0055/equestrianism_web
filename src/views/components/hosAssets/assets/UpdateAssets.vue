@@ -8,7 +8,7 @@
             </router-link>
         </div>
         <div class="content-show">
-             <div class="row list-search">
+            <div class="row list-search">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 search-field text-cente">
                     <div class="label">条形码：</div>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
-                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field"  />
+                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -174,9 +174,8 @@ export default {
             userList: [],
             valueOptions: [],
             wayOptions: [],
-            barCode:'',
-            inventory:'',
-
+            barCode: '',
+            inventory: '',
         }
     },
     mounted() {
@@ -187,12 +186,6 @@ export default {
         this.$el.addEventListener('animationend', this.classResize)
         this.$el.addEventListener('animationend', this.departResize)
         this.$el.addEventListener('animationend', this.peopleResize)
-
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -243,11 +236,9 @@ export default {
                         vm.wayOptions = dictDetail[i].dictionaryDetailList
                     }
                 }
-
             }, err => {
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {
@@ -274,7 +265,7 @@ export default {
             })
         },
         updateAssets() {
-            if (!(this.barCode&&this.assetType && this.typeDetail && this.assetsNum && this.assetsName
+            if (!(this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
@@ -283,7 +274,7 @@ export default {
                 return;
             }
             let assetsInfo = {
-                barCode:this.barCode,
+                barCode: this.barCode,
                 assetId: this.assetId,
                 typeId: this.assetType,
                 typeDetailId: this.typeDetail,
@@ -333,7 +324,6 @@ export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .content_page .content-show .list-search .search-field {
     padding-left: 84px;

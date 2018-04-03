@@ -183,10 +183,6 @@ export default {
             ],
         };
     },
-    components: {
-        "el-pagination": Pagination,
-        "el-dialog": Dialog
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
@@ -251,7 +247,7 @@ export default {
                 hosAssetsSrv.addConsumeInventory(arrList).then(resp => {
                     this.$message.success('增加库存成功')
                     this.addDialog = false
-                     this.getConsumeList()
+                    this.getConsumeList()
                 }, err => {
                     this.$message.error(err.msg)
                 })
@@ -277,7 +273,7 @@ export default {
             hosAssetsSrv.addConsumeInventory(arrList).then(resp => {
                 this.$message.success('增加库存成功')
                 this.addPerDialog = false
-                 this.getConsumeList()
+                this.getConsumeList()
             }, err => {
                 this.$message.error(err.msg)
             })
@@ -347,6 +343,7 @@ export default {
 .list-search {
     padding: 6px 15px;
 }
+
 .add-delete a {
     margin-left: 5px;
     cursor: pointer;

@@ -32,7 +32,7 @@
                     <div class="label">联系方式：</div>
                     <input type="text" v-model="contact" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-                 <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
                     <el-select ref="selectDepart" size="large" :disabled="useDisabled" v-model="depart" class="el-field-input">
                         <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
@@ -40,7 +40,7 @@
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">   
+            <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" :disabled="useDisabled" v-model="role" class="el-field-input">
@@ -75,10 +75,6 @@ export default {
             role: '',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeRole)
@@ -108,7 +104,6 @@ export default {
                 vm.$message.error(err.msg)
             })
         })
-
     },
     methods: {
         updateUser() {

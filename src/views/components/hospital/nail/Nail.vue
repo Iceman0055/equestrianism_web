@@ -136,13 +136,8 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-select':Select
-    }
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>

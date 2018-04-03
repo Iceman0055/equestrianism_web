@@ -39,10 +39,6 @@ export default {
             note: '',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     methods: {
         addDepart() {
             if (!(this.departName && this.departShortName && this.note)) {

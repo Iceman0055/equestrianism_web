@@ -7,7 +7,7 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">时间：</div>
-                      <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime" placeholder="选择时间">
+                    <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime" placeholder="选择时间">
                     </el-date-picker>
                 </div>
                 <div class="col-md-3 search-field">
@@ -19,8 +19,8 @@
                     <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
                         <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
                         </el-option>
-                    </el-select>               
-                 </div>
+                    </el-select>
+                </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getVaccList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
@@ -30,7 +30,7 @@
                     </router-link>
                 </div>
             </div>
-           <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -47,7 +47,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in vaccList" :key="item"> 
+                            <tr v-for="item in vaccList" :key="item">
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.operateDate}}</td>
                                 <td>{{item.operatePlace}}</td>
@@ -57,16 +57,16 @@
                                 <td>{{item.vaccinationNumber}}</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateVacc',       
-                                                 query: { disable: 1,vaccinationId:item.vaccinationId}}"> 查看</router-link>
+                                                             query: { disable: 1,vaccinationId:item.vaccinationId}}"> 查看</router-link>
                                     <router-link :to="{path:'/hospital/updateVacc',query:{vaccinationId:item.vaccinationId}}">修改</router-link>
-                               <a @click="deleteInfo(item.vaccinationId)">删除</a>
+                                    <a @click="deleteInfo(item.vaccinationId)">删除</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="list-empty" v-show="vaccList.length===0">
-                                                    暂无数据
-                                                </div>
+                        暂无数据
+                    </div>
                     <div class="page">
                         <el-pagination @current-change="getVaccList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-          <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
+        <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
             <div class="text-center">
                 <span>确定要删除吗?</span>
             </div>
@@ -91,25 +91,25 @@ import { Pagination, Select, DatePicker, Message } from "element-ui";
 import hospitalSrv from "../../../services/hospital.service.js";
 import horseSrv from '../../../services/horse.service.js'
 export default {
-  data() {
-    return {
-      time: "",
-      address:'',
-      currentPage: 1,
-      pageRecorders: 10,
-       totalRecorders: 1,
-      deleteDialog: false,
-      showLoading: false,
-      horseInfoName:[],
-      horseName:'',
-      deleteContent:{},
-      vaccList:[],
-    };
-  },
-     beforeRouteEnter: function(to, from, next) {
+    data() {
+        return {
+            time: "",
+            address: '',
+            currentPage: 1,
+            pageRecorders: 10,
+            totalRecorders: 1,
+            deleteDialog: false,
+            showLoading: false,
+            horseInfoName: [],
+            horseName: '',
+            deleteContent: {},
+            vaccList: [],
+        };
+    },
+    beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            hospitalSrv.vaccInfoList(vm.currentPage, vm.pageRecorders, vm.horseName,vm.time,vm.address).then(resp => {
+            hospitalSrv.vaccInfoList(vm.currentPage, vm.pageRecorders, vm.horseName, vm.time, vm.address).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.vaccList = resp.data.vaccinationInfoList
@@ -124,10 +124,10 @@ export default {
             })
         })
     },
-     methods: {
+    methods: {
         getVaccList(currentPage = this.currentPage) {
             this.showLoading = true
-            hospitalSrv.vaccInfoList(currentPage, this.pageRecorders, this.horseName,this.time,this.address).then((resp) => {
+            hospitalSrv.vaccInfoList(currentPage, this.pageRecorders, this.horseName, this.time, this.address).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders
@@ -152,11 +152,6 @@ export default {
             })
         }
     },
-  components: {
-    "el-pagination": Pagination,
-    "el-select": Select,
-    "el-date-picker": DatePicker
-  }
 };
 </script>
 

@@ -173,13 +173,7 @@ export default {
             managePeople: '',
             barCode:'',
             inventory:''
-
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
     },
     mounted() {
         this.$el.addEventListener('animationend', this.valueResize)

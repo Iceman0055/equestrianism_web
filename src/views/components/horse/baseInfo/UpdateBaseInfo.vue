@@ -196,10 +196,7 @@ export default {
         }
     },
     components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
         'upload-img': UploadImg,
-        'el-select': Select
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable

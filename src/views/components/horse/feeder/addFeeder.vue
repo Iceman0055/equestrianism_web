@@ -73,10 +73,7 @@ export default {
     };
   },
   components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
     'upload-img': UploadImg,
-    "el-select": Select
   },
   mounted() {
     this.$el.addEventListener('animationend', this.resizeSelect)
@@ -100,7 +97,6 @@ export default {
       }, err => {
         vm.$message.error(err.msg)
       })
-
     })
   },
   methods: {
@@ -140,7 +136,6 @@ export default {
         this.$message.error(err.msg)
       })
     }
-
   }
 };
 </script>

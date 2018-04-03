@@ -45,10 +45,6 @@ export default {
             roleId:'',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.roleId = to.query.roleId
@@ -83,7 +79,6 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-
     }
 }
 </script>

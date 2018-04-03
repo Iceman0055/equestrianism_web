@@ -106,10 +106,6 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-select': Select
-    }
 }
 </script>
 

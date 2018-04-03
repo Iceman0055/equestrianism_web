@@ -176,11 +176,6 @@ export default {
 
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
-    },
     mounted() {
         this.$el.addEventListener('animationend', this.valueResize)
         this.$el.addEventListener('animationend', this.wayResize)
@@ -188,7 +183,6 @@ export default {
         this.$el.addEventListener('animationend', this.classResize)
         this.$el.addEventListener('animationend', this.departResize)
         this.$el.addEventListener('animationend', this.peopleResize)
-
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -299,11 +293,9 @@ export default {
         peopleResize() {
             this.$refs.selectPeople.resetInputWidth()
         },
-
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .content_page .content-show .list-search .search-field {
     padding-left: 84px;

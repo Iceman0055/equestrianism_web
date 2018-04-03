@@ -73,7 +73,6 @@
                     </upload-img>
                 </div>
             </div>
-
         </div>
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>

@@ -59,11 +59,6 @@ export default {
             feederInfo: [],
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.brigandineId = to.query.brigandineId

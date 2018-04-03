@@ -188,11 +188,6 @@ export default {
         this.$el.addEventListener('animationend', this.peopleResize)
 
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.assetId = to.query.assetId

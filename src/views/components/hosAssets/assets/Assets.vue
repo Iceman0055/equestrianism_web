@@ -89,7 +89,7 @@
                                 <td>{{item.purchaseOrganize}}</td>
                                 <td>
                                     <router-link :to="{path: '/hosAssets/updateAssets',       
-                                                                                     query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
+                                                                                         query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
                                     <router-link :to="{path:'/hosAssets/updateAssets',query:{assetId:item.assetId}}">
                                         修改
                                     </router-link>
@@ -120,7 +120,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Message, Select } from 'element-ui'
 import hosAssetsSrv from '../../../services/hosAssets.service.js'
@@ -199,13 +198,8 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-select': Select
-    }
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>

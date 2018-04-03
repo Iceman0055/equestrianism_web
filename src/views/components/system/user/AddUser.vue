@@ -76,18 +76,7 @@ export default {
             contact: '',
             depart: '',
             role: '',
-            departOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeRole)

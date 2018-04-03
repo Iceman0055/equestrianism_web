@@ -39,10 +39,6 @@ export default {
             remark:'',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     methods: {
         addOperateRoom() {
       if (!(this.name && this.shortName && this.remark)) {

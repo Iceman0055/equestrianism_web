@@ -195,9 +195,6 @@ export default {
             })
         },
     },
-    components: {
-        "el-pagination": Pagination
-    }
 };
 </script>
 

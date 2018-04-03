@@ -40,10 +40,6 @@ export default {
             note: '',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     methods: {
            addRole() {
             if (!(this.roleName && this.shortName && this.note)) {

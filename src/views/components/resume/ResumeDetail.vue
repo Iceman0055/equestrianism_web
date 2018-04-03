@@ -70,7 +70,7 @@
                 </div>
                 <div class="resume-more-baseInfo col-md-2">
                     <router-link :to="{path: '/horse/baseInfo',       
-                                                                                                     query: {horseName:horseInfo.horseName}}"> 更多</router-link>
+                                                                                                         query: {horseName:horseInfo.horseName}}"> 更多</router-link>
                     <i class="fa fa-angle-right fa-lg"></i>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/feeder',       
-                                                                                                query: { feederName: feederInfo.feederName,}}"> 更多</router-link>
+                                                                                                    query: { feederName: feederInfo.feederName,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/vaccine',       
-                                            query: {horseId:searchHorseId}}"> 更多</router-link>
+                                                query: {horseId:searchHorseId}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
@@ -259,9 +259,6 @@ export default {
             searchHorseId: ''
         };
     },
-    components: {
-        "el-button": Button
-    },
     computed: {
         prevItem() {
             if (this.horseIdList && this.horseId) {
@@ -290,7 +287,6 @@ export default {
                 }
             }
             return;
-
         }
     },
     beforeRouteUpdate: function(to, from, next) {

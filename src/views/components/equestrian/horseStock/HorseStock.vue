@@ -184,10 +184,6 @@ export default {
             ],
         };
     },
-    components: {
-        "el-pagination": Pagination,
-        "el-dialog": Dialog,
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
@@ -218,7 +214,7 @@ export default {
         keyUpHandle(e, item) {
             if (!item.barCode) {
                 this.$message.error('请输入条形码')
-                return
+                return;
             }
             if (e.keyCode == 13) {
                 equestrianSrv.getAssetsInfo(item.barCode).then(resp => {
@@ -294,7 +290,6 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-       
         deleteData(index) {
             this.assets.splice(index, 1)
             this.confirmDialog = false

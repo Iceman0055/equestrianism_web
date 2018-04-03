@@ -262,7 +262,6 @@ import { Pagination, Upload, DatePicker, Message, Select, Input } from "element-
 import UploadImg from "../../../../components/uploadImg/uploadImg.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import horseSrv from "../../../services/horse.service.js";
-
 const PHOTO_TYPE = {
     XRAY: 1,
     DATA: 2,
@@ -323,12 +322,7 @@ export default {
         };
     },
     components: {
-        "el-pagination": Pagination,
-        "el-upload": Upload,
-        "el-date-picker": DatePicker,
-        "el-select": Select,
         "upload-img": UploadImg,
-        'el-input': Input
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {

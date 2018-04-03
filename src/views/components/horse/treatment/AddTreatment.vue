@@ -71,10 +71,6 @@ export default {
             ]
         };
     },
-    components: {
-        "el-date-picker": DatePicker,
-        "el-button": Button
-    },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSelect)
     },

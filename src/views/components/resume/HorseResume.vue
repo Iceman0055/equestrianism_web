@@ -87,10 +87,6 @@ export default {
       );
     });
   },
-  components: {
-    "el-pagination": Pagination,
-    "el-select": Select
-  },
   methods: {
     getHorseResumeList(currentPage = this.currentPage) {
       this.showLoading = true;

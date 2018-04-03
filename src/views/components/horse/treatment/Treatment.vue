@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateTreat',       
-                                                                 query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
+                                                                             query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
 
                                 </td>
                             </tr>
@@ -162,11 +162,6 @@ import horseSrv from "../../../services/horse.service.js"; export default {
             );
         });
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-date-picker': DatePicker,
-        'el-select': Select,
-    },
     methods: {
         watchAssetsDetail(treatmentId) {
             this.assetsDialog = true
@@ -210,7 +205,6 @@ import horseSrv from "../../../services/horse.service.js"; export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .fieldInput {
     width: 90%;

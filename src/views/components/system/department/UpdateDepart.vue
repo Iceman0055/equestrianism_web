@@ -43,10 +43,6 @@ export default {
             departmentId:'',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
     },

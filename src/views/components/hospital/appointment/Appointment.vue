@@ -116,7 +116,6 @@ export default {
                 "2": "已治疗",
                 "3": "取消",
             }
-
         };
     },
     beforeRouteEnter: function(to, from, next) {
@@ -167,13 +166,8 @@ export default {
             })
         }
     },
-    components: {
-        "el-pagination": Pagination,
-        "el-date-picker": DatePicker
-    }
 };
 </script>
-
 <style lang="scss" scoped>
 
 </style>

@@ -116,10 +116,6 @@ export default {
             })
         })
     },
-    components: {
-        "el-date-picker": DatePicker,
-        "el-button": Button,
-    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeDoctor)
@@ -155,7 +151,6 @@ export default {
         resizeStatus() {
             this.$refs.selectStatus.resetInputWidth()
         },
-
     }
 };
 </script>

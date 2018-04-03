@@ -65,11 +65,6 @@ export default {
             sexOptions: [],
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             horseSrv.getHorseName().then((resp) => {
@@ -100,7 +95,7 @@ export default {
                 this.$message.error('马主信息不能为空！')
                 return;
             }
-           let masterInfo = {
+            let masterInfo = {
                 hostName: this.name,
                 sex: this.sex,
                 occupation: this.career,
@@ -124,7 +119,6 @@ export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>

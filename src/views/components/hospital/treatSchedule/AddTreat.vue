@@ -49,10 +49,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select size="large" v-model="beginTime" :picker-options="{
-                                                                            start: '00:00',
-                                                                             step: '01:00',
-                                                                               end: '24:00'
-                                                                              }" placeholder="选择时间">
+                                                                                start: '00:00',
+                                                                                 step: '01:00',
+                                                                                   end: '24:00'
+                                                                                  }" placeholder="选择时间">
           </el-time-select>
         </div>
 
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select size="large" v-model="endTime" :picker-options="{
-                                                                                  start: '00:00',
-                                                                                   step: '01:00',
-                                                                                  end: '24:00'
-                                                                                   }" placeholder="选择时间">
+                                                                                      start: '00:00',
+                                                                                       step: '01:00',
+                                                                                      end: '24:00'
+                                                                                       }" placeholder="选择时间">
           </el-time-select>
         </div>
       </div>
@@ -268,14 +268,6 @@ export default {
       ],
     };
   },
-  components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
-    "el-time-select": TimeSelect,
-    "el-input": Input,
-    "el-select": Select
-  },
-
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
       horseSrv.getHorseName().then(
@@ -414,11 +406,11 @@ export default {
       let hospitalAssetList = []
       for (let i = 0; i < len; i++) {
         if (this.assetsList[i].checked) {
-         hospitalAssetList.push({
+          hospitalAssetList.push({
             assetId: this.assetsList[i].assetId,
             count: this.assetsList[i].useNumber
           })
-          showAssetList += '资产名称：' +this.assetsList[i].assetName+'，'+'数量：'+this.assetsList[i].useNumber+'；'
+          showAssetList += '资产名称：' + this.assetsList[i].assetName + '，' + '数量：' + this.assetsList[i].useNumber + '；'
 
         }
       }
@@ -436,7 +428,7 @@ export default {
             assetId: this.consumeList[i].assetId,
             count: this.consumeList[i].useNumber
           })
-          showConsumeList +='资产名称：' +this.consumeList[i].assetName+'，'+'数量：'+this.consumeList[i].useNumber+'；'
+          showConsumeList += '资产名称：' + this.consumeList[i].assetName + '，' + '数量：' + this.consumeList[i].useNumber + '；'
         }
       }
       this.consumableAssetList = consumableAssetList

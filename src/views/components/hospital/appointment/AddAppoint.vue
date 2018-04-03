@@ -93,12 +93,7 @@ export default {
       }, (err) => {
         vm.$message.error(err.msg)
       })
-
     })
-  },
-  components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
   },
   mounted() {
     this.$el.addEventListener('animationend', this.resizeDoctor)
@@ -110,7 +105,7 @@ export default {
         this.$message.error('预约日程信息不能为空！')
         return;
       }
-     let appointInfo = {
+      let appointInfo = {
         userId: this.doctor,
         appointDate: this.appointDate,
         contacts: this.contactPer,
@@ -133,7 +128,6 @@ export default {
     resizeStatus() {
       this.$refs.selectStatus.resetInputWidth()
     },
-
   }
 }; 
 </script>

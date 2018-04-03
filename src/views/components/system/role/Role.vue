@@ -241,20 +241,13 @@ export default {
         },
         //全选
         selectChecked() {
-
             this.$refs.tree.setCheckedKeys([0, 1, 2, 3, 4, 5, 6, 7]);
-
         },
         //全不选
         resetChecked() {
             this.$refs.tree.setCheckedKeys([]);
         },
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog,
-        'el-tree': Tree
-    }
 }
 </script>
 

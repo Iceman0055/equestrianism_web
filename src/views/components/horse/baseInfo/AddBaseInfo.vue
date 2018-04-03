@@ -260,12 +260,10 @@ export default {
             }, err => {
                 this.$message.error(err.msg)
             })
-
         },
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .baseInfo-title {
     height: 30px;

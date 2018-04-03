@@ -50,10 +50,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select :disabled="useDisabled" size="large" v-model="beginTime" :picker-options="{
-                                                                            start: '00:00',
-                                                                            step: '01:00',
-                                                                            end: '24:00'
-                                                                          }">
+                                                                                          start: '00:00',
+                                                                                          step: '01:00',
+                                                                                          end: '24:00'
+                                                                                        }">
           </el-time-select>
         </div>
       </div>
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select :disabled="useDisabled" size="large" v-model="endTime" :picker-options="{
-                                                                            start: '00:00',
-                                                                            step: '01:00',
-                                                                            end: '24:00'
-                                                                          }">
+                                                                                          start: '00:00',
+                                                                                          step: '01:00',
+                                                                                          end: '24:00'
+                                                                                        }">
           </el-time-select>
         </div>
       </div>
@@ -146,9 +146,9 @@
         </el-pagination>
       </div>
       <!-- <span slot="footer" class="dialog-footer">
-          <el-button @click="addItemDialog = false">取 消</el-button>
-          <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
-        </span> -->
+                        <el-button @click="addItemDialog = false">取 消</el-button>
+                        <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
+                      </span> -->
     </el-dialog>
     <el-dialog title="查看消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
       <div class="row list-search">
@@ -156,7 +156,7 @@
           <div class="label">资产名称：</div>
           <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
-         <div class="col-md-1 search-field search-field_controls">
+        <div class="col-md-1 search-field search-field_controls">
           <button @click="getConsumeList(1)" class="btn btn-primary search-btn">搜索</button>
         </div>
       </div>
@@ -190,9 +190,9 @@
         </el-pagination>
       </div>
       <!-- <span slot="footer" class="dialog-footer">
-          <el-button @click="addConsumeDialog = false">取 消</el-button>
-          <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
-        </span> -->
+                        <el-button @click="addConsumeDialog = false">取 消</el-button>
+                        <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
+                      </span> -->
     </el-dialog>
   </div>
 </template>
@@ -265,13 +265,6 @@ export default {
       ]
     };
   },
-  components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
-    "el-time-select": TimeSelect,
-    "el-input": Input,
-    "el-select": Select
-  },
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
       vm.treatmentId = to.query.treatmentId;
@@ -283,7 +276,6 @@ export default {
           vm.beginTime = resp.data.beginTime.slice(0, 5);
           vm.endDate = resp.data.endDate;
           vm.endTime = resp.data.endTime.slice(0, 5);
-
           vm.horseType = resp.data.horseType;
           if (vm.horseType == 1) {
             vm.horseName = resp.data.horseId;

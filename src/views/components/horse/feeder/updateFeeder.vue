@@ -75,10 +75,7 @@ export default {
             sexOptions: [],
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select,
+    components: {,
         'upload-img': UploadImg,
     },
     mounted() {

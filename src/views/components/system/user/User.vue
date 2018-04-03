@@ -43,7 +43,7 @@
                     </router-link>
                 </div>
             </div>
-               <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -60,9 +60,7 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
-                      
                         <tbody>
-                           
                             <tr v-for="item in userList" :key="item">
                                 <td>{{item.jobNumber}}</td>
                                 <td>{{item.realname}}</td>
@@ -113,14 +111,13 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Dialog, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            departList:[],
+            departList: [],
             roleList: [],
             statusDialog: false,
             showLoading: false,
@@ -148,10 +145,6 @@ export default {
                 label: '停用'
             }],
         }
-    },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -194,7 +187,6 @@ export default {
             this.deleteContent.userId = userId
             this.deleteContent.deleteFlag = 1
         },
-
         deleteUser() {
             systemSrv.deleteUser(this.deleteContent).then((resp) => {
                 this.$message.success('删除成功')
@@ -221,7 +213,6 @@ export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .content_page {
     .content-show {

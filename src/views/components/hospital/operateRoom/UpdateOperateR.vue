@@ -58,10 +58,6 @@ export default {
     mounted() {
         this.useDisabled = !!this.$route.query.disable
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     methods: {
         updateOperateRoom() {
             if (!(this.name && this.shortName && this.remark)) {

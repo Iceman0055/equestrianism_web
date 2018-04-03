@@ -128,11 +128,6 @@ export default {
             selectList: [],
         };
     },
-    components: {
-        "el-pagination": Pagination,
-        "el-dialog": Dialog,
-        'el-autocomplete': Input
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             horseSrv.getHorseName().then((resp) => {
@@ -159,7 +154,6 @@ export default {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {
@@ -202,7 +196,6 @@ export default {
             this.deleteContent.horseId = horseId
             this.deleteContent.deleteFlag = 1
         },
-
         deleteHorse() {
             horseSrv.deleteHorse(this.deleteContent).then((resp) => {
                 this.$message.success('删除成功')

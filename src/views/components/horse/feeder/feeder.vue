@@ -155,9 +155,6 @@ export default {
             this.imageInfo = `data:image/jpeg;base64,${image}`
         }
     },
-    components: {
-        'el-pagination': Pagination,
-    }
 }
 </script>
 

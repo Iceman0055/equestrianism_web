@@ -54,7 +54,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import { Pagination, Message } from 'element-ui'
 import hospitalSrv from '../../../services/hospital.service.js'
@@ -106,12 +105,8 @@ export default {
             })
         },
     },
-    components: {
-        'el-pagination': Pagination,
-    }
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>

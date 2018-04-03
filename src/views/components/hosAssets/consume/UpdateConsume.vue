@@ -186,12 +186,6 @@ export default {
         this.$el.addEventListener('animationend', this.classResize)
         this.$el.addEventListener('animationend', this.departResize)
         this.$el.addEventListener('animationend', this.peopleResize)
-
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -242,11 +236,9 @@ export default {
                         vm.wayOptions = dictDetail[i].dictionaryDetailList
                     }
                 }
-
             }, err => {
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {

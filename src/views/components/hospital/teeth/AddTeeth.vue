@@ -74,11 +74,6 @@ export default {
         this.$el.addEventListener('animationend', this.resizeHorse)
         this.$el.addEventListener('animationend', this.resizePeople)
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
-    },
     methods: {
         addTeeth() {
             if (!(this.time && this.horseName && this.operatePeople && this.remark)) {

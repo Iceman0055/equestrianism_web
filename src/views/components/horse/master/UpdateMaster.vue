@@ -102,7 +102,6 @@ export default {
             }, (err) => {
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {
@@ -131,14 +130,8 @@ export default {
             })
         },
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
-    },
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>
