@@ -1,9 +1,9 @@
 <template>
     <div class="content_page animated fadeIn">
-        <div class="content-title" key="0">
+        <div class="content-title">
             <div class="title">用户管理</div>
         </div>
-        <div class="content-show" key="1">
+        <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-2 search-field">
                     <div class="label">工号：</div>

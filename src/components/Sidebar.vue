@@ -85,7 +85,6 @@ export default {
       e.target.parentElement.classList.toggle('open')
     }
   },
-
 }
 </script>
 
