@@ -75,7 +75,7 @@ export default {
             sexOptions: [],
         }
     },
-    components: {,
+    components: {
         'upload-img': UploadImg,
     },
     mounted() {

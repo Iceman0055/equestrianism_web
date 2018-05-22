@@ -2,26 +2,26 @@
   <div class="app flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
           <div class="card-group mb-0">
             <form class="card p-4" name="loginForm" novalidate>
               <div class="card-block">
-                <h1>登录</h1>
+                <h2 class="mb-3">登录</h2>
                 <!-- <p :class="{'login-info-error animated shake':login_err}" v-show="login_err">{{info}}</p> -->
                 <div class="input-group mb-3">
-                  <span class="input-group-addon">
+                  <span class="input-group-addon login-addon">
                     <i class="icon-user"></i>
                   </span>
-                  <input type="text" v-model="username" class="form-control" placeholder="请输入用户名">
+                  <input type="text" v-model="username" class="form-control login-input" placeholder="请输入用户名">
                 </div>
                 <div class="input-group mb-4">
-                  <span class="input-group-addon">
+                  <span class="input-group-addon login-addon">
                     <i class="icon-lock"></i>
                   </span>
-                  <input type="password" v-model="password" class="form-control" placeholder="请输入密码" @keyup.enter="login">
+                  <input type="password" v-model="password" class="form-control login-input" placeholder="请输入密码" @keyup.enter="login">
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary px-4" @click="login">登录</button>
+                  <button type="button" class="btn btn-primary px-4 but-size" @click="login">登录</button>
                 </div>
               </div>
             </form>
@@ -80,7 +80,17 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+.but-size{
+  width:30%;
+}
+.login-addon{
+  border-radius:  5px 0 0 5px;
+}
+.login-input{
+  border-radius: 0 5px 5px 0;
+  border:none;
+}
+h2 {
   color: #fff;
 }
 

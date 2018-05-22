@@ -2354,13 +2354,14 @@ tbody.collapse.show {
 .input-group-addon {
   padding: 0.5rem 1rem;
   margin-bottom: 0;
-  font-size: 0.875rem;
+  /* font-size: 0.875rem; */
   font-weight: normal;
   line-height: 1.25;
   color: #607d8b;
   text-align: center;
-  background-color: #cfd8dc;
-  border: 1px solid rgba(0, 0, 0, 0.15); }
+  background-color: #fff;
+  /* border: 1px solid rgba(0, 0, 0, 0.15); */
+ }
   .input-group-addon.form-control-sm,
   .input-group-sm > .input-group-addon,
   .input-group-sm > .input-group-btn > .input-group-addon.btn {
@@ -3082,10 +3083,16 @@ tbody.collapse.show {
       width: 100%; } }
 
 .breadcrumb {
-  padding: 0.75rem 1rem;
+  /* padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: #fff; }
+  background-color: #fff; */
+  padding: 1.3rem 1rem 0.4rem 0;
+  font-size: 16px;
+  /* margin-bottom: 1rem; */
+  list-style: none;
+  background-color: #F0F2F5;
+ }
   .breadcrumb::after {
     display: block;
     clear: both;

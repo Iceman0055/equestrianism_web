@@ -12,7 +12,6 @@
                 <div class="col-md-4 search-field">
                     <div class="label">角色名称：</div>
                     <input type="text" v-model="roleName" :disabled="useDisabled" class="form-control input-field" />
-
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色简称：</div>
@@ -34,7 +33,6 @@
 <script>
 import { DatePicker, Button, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {
