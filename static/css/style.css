@@ -3083,11 +3083,8 @@ tbody.collapse.show {
       width: 100%; } }
 
 .breadcrumb {
-  /* padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  list-style: none;
-  background-color: #fff; */
-  padding: 1.3rem 1rem 0.4rem 0;
+  padding: 0.75rem 1rem;
+  /* padding: 1.3rem 1rem 0.4rem 0; */
   font-size: 16px;
   /* margin-bottom: 1rem; */
   list-style: none;
@@ -6098,6 +6095,8 @@ body {
 .breadcrumb {
   position: relative;
   margin-bottom: 1.5rem;
+  height: 60px;
+  line-height: 60px;
   /* border-bottom: 1px solid #cfd8dc; */
  }
 
