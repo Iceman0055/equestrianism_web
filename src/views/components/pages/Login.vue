@@ -80,16 +80,20 @@ export default {
 </script>
 
 <style scoped>
-.but-size{
-  width:30%;
+.but-size {
+  width: 30%;
+  font-size: 16px;
 }
-.login-addon{
-  border-radius:  5px 0 0 5px;
+
+.login-addon {
+  border-radius: 5px 0 0 5px;
 }
-.login-input{
+
+.login-input {
   border-radius: 0 5px 5px 0;
-  border:none;
+  border: none;
 }
+
 h2 {
   color: #fff;
 }
