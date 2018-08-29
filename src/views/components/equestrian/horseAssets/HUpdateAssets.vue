@@ -19,14 +19,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
                     <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input">
-                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
+                        <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" ref="selectClass" size="large" :disabled="useDisabled" v-model="typeDetail" class="el-field-input">
-                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
+                        <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -58,14 +58,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">价值类型：</div>
                     <el-select ref="selectValue" size="large" :disabled="useDisabled" v-model="valueType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in valueOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in valueOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">取得方式：</div>
                     <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="getWay" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in wayOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in wayOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -92,14 +92,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
                     <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="departName" class="el-field-input">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
                     <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
-                        <el-option v-for="item in userList" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>

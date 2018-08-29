@@ -50,7 +50,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
                     <el-select ref="selectColor" size="large" v-model="color" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in colorOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in colorOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>

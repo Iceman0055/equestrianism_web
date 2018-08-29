@@ -126,7 +126,7 @@
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="treatmentCaseList.length==0">暂无数据</div>
                 <div class="col-md-5 addHeight" v-if="treatmentCaseList.length!=0">
-                    <ul class="resume-ul" v-for="item in treatmentCaseList" :key="item">
+                    <ul class="resume-ul" v-for="(item,index) in treatmentCaseList" :key="index">
                         <li v-if="item.horseType==1">{{item.horseId}}</li>
                         <li v-if="item.horseType==2">{{item.horseName}}</li>
                         <li>{{item.operatorDate}}</li>
@@ -141,7 +141,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="prizeList.length==0">暂无数据</div>
                 <div class="col-md-5 addHeight" v-if="prizeList.length!=0">
-                    <ul class="resume-ul" v-for="item in prizeList" :key="item">
+                    <ul class="resume-ul" v-for="(item,index) in prizeList" :key="index">
                         <li>{{item.horseName}}</li>
                         <li>{{item.eventName}}</li>
                         <li>{{item.eventPlace}}</li>
@@ -164,7 +164,7 @@
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="vaccinationList.length==0">暂无数据</div>
                 <div class="col-md-5 addHeight" v-if="vaccinationList.length!=0">
-                    <ul class="resume-ul" v-for="item in vaccinationList" :key="item">
+                    <ul class="resume-ul" v-for="(item,index) in vaccinationList" :key="index">
                         <li>{{item.operateDate}}</li>
                         <li>{{item.operatePlace}}</li>
                         <li>{{item.name}}</li>
@@ -179,7 +179,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="treatmentInfoList.length==0">暂无数据</div>
                 <div class="col-md-5  col-md-offset-1 addHeight" v-if="treatmentInfoList.length!=0">
-                    <ul class="resume-ul" v-for="item in treatmentInfoList" :key="item">
+                    <ul class="resume-ul" v-for="(item,index) in treatmentInfoList" :key="index">
                         <li v-if="item.horseType==1">{{item.horseId}}</li>
                         <li v-if="item.horseType==2">{{item.horseName}}</li>
                         <li>{{convertWay[item.outpatientType]}}</li>
@@ -205,7 +205,7 @@
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="brigandineList.length==0">暂无数据</div>
                 <div class="col-md-5 addHeight" v-if="brigandineList.length!=0">
-                    <ul class="resume-ul" v-for="item in brigandineList" :key="item">
+                    <ul class="resume-ul" v-for="(item,index) in brigandineList" :key="index">
                         <li>{{item.brigandineDate}}</li>
                         <li>{{item.realname}}</li>
                         <li>{{item.remark}}</li>
@@ -218,7 +218,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="contusionTeethList.length==0">暂无数据</div>
                 <div class="col-md-5 addHeight col-md-offset-1" v-if="contusionTeethList.length!=0">
-                    <ul class="resume-ul" v-for="item in contusionTeethList" :key="item">
+                    <ul class="resume-ul" v-for="(item,index) in contusionTeethList" :key="index">
                         <li>{{item.operateDate}}</li>
                         <li>{{item.realname}}</li>
                         <li>{{item.remark}}</li>

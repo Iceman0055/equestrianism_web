@@ -35,7 +35,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
                     <el-select ref="selectDepart" size="large" :disabled="useDisabled" v-model="depart" class="el-field-input">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" :disabled="useDisabled" v-model="role" class="el-field-input">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
+                        <el-option v-for="(item,index) in roleList" :key="index" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <nav class="sidebar-nav">
-      <ul class="nav" v-for="menu in menuList.filter(menu => menuEnableMap[menu.menuId])" :key="menu">
+      <ul class="nav" v-for="(menu,index) in menuList.filter(menu => menuEnableMap[menu.menuId])" :key="index">
         <li class="nav-item" v-if="menu.subMenuList == null">
           <router-link :to="convertMenu[menu.menuId]" class="nav-link">
             <i class="fa fa-bar-chart fa-lg"></i> {{menu.menuName}} </router-link>
@@ -9,7 +9,7 @@
         <router-link v-if="menu.subMenuList != null" tag="li" class="nav-item nav-dropdown" :to="{ path: convertMenu[menu.menuId]}" disabled>
           <div class="nav-link nav-dropdown-toggle" @click="handleClick">
             <i :class="convertIcon[menu.menuName]"></i> {{menu.menuName}}</div>
-          <ul class="nav-dropdown-items" v-for="subMenu in menu.subMenuList.filter(menu => menuEnableMap[menu.subMenuId])" :key="subMenu">
+          <ul class="nav-dropdown-items" v-for="(subMenu,index) in menu.subMenuList.filter(menu => menuEnableMap[menu.subMenuId])" :key="index">
             <li class="nav-item">
               <router-link :to="convertMenu[subMenu.subMenuId]" class="nav-padding nav-link" exact>
                 <i class="icon-star"></i> {{subMenu.subMenuName}}</router-link>
@@ -22,11 +22,10 @@
 </template>
 <script>
 export default {
-  props: ['menuList'],
+  props: ['menuList', 'menuEnableMap'],
   name: 'sidebar',
   data() {
     return {
-      menuEnableMap: {},
       convertIcon: {
         '马匹信息管理': 'fa fa-hand-lizard-o fa-lg',
         '马匹简历': 'fa fa-folder-open-o fa-lg',
@@ -73,16 +72,28 @@ export default {
       }
     }
   },
-  mounted() {
-    this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
-    this.$watch("localStorage.menuEnableMap", () => {
-      this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
-    });
-  },
+  // mounted() {
+  //   this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+  //   this.$watch("localStorage.menuEnableMap", () => {
+  //     this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+  //   });
+  // },
   methods: {
     handleClick(e) {
-      e.preventDefault()
-      e.target.parentElement.classList.toggle('open')
+      let target = e.target.parentElement.classList
+      target.forEach(function(element) {
+        if (element == 'open') {
+          target.remove('open')
+        } else {
+          let data = document.querySelectorAll('.open')
+          data.forEach(function(element) {
+            element.classList.remove('open', 'active');
+          }, this);
+          e.preventDefault()
+          e.target.parentElement.classList.toggle('open')
+        }
+      }, this)
+
     }
   },
 }

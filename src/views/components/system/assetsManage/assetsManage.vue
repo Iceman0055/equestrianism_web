@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="cursor:pointer" v-for="item in assetsList" :key="item" @click="getAssetsDetail(1, item)">
+                            <tr style="cursor:pointer" v-for="(item,index) in assetsList" :key="index" @click="getAssetsDetail(1, item)">
                                 <td><input type="radio" class="input-pointer" name="select" :checked="item.checked"></td>
                                 <td>{{item.typeName}}</td>
                                 <td>{{item.remark}}</td>
@@ -71,7 +71,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in assetsDetailList" :key="item">
+                            <tr v-for="(item,index) in assetsDetailList" :key="index">
                                 <td>{{item.typeId}}</td>
                                 <td>{{item.typeDetailName}}</td>
                                 <td>{{item.remark}}</td>

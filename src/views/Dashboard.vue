@@ -5,7 +5,7 @@
     </div>
     <vue-event-calendar :events="demoEvents" @month-changed="monthChange" @day-changed="dayChange">
       <template slot-scope="props">
-        <div class="event-item" v-for="(event,index) in props.showEvents" :key="event">
+        <div class="event-item" v-for="(event,index) in props.showEvents" :key="index">
           <div class="reuse-head">
             <div class="reuse-title">{{index+1}}. {{event.title}}</div>
             <div class="reuse-date">{{event.date}}</div>

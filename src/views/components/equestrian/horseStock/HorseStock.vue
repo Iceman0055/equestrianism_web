@@ -8,14 +8,14 @@
                 <div class="col-md-2 search-field">
                     <div class="label">资产大类：</div>
                     <el-select size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
+                        <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
+                        <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -48,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in assetsList" :key="item">
+                            <tr v-for="(item,index) in assetsList" :key="index">
                                 <td>{{item.typeName}}</td>
                                 <td>{{item.typeDetailName}}</td>
                                 <td>{{item.assetNumber}}</td>
@@ -70,7 +70,7 @@
                         </el-pagination>
                     </div>
                     <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="addDialog" width="52%" center>
-                        <div class="row mb-3 list-search distance" v-for="(item,index) in assets" :key="item">
+                        <div class="row mb-3 list-search distance" v-for="(item,index) in assets" :key="index">
                             <el-switch class="top-distance" v-model="item.switch" active-color="#13ce66" inactive-color="#ff4949" active-text="扫描仪" inactive-text="人工输入">
                             </el-switch>
                             <div class="col-md-4 search-field" v-show="!item.switch">

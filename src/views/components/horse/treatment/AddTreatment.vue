@@ -40,7 +40,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
                     <el-select ref="selectInput" size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="(item,index) in options" :key="index" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>

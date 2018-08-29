@@ -8,7 +8,7 @@
                 <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -46,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in awardsList" :key="item">
+                            <tr v-for="(item,index) in awardsList" :key="index">
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.eventName}}</td>
                                 <td>{{item.eventDate}}</td>

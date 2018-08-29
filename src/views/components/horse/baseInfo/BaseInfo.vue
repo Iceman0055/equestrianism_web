@@ -46,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in horseList" :key="item">
+                            <tr v-for="(item,index) in horseList" :key="index">
                                 <td>{{item.passportNumber}}</td>
                                 <td>{{item.horseName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>

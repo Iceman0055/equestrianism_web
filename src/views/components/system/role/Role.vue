@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in roleList" :key="item">
+                            <tr v-for="(item,index) in roleList" :key="index">
                                 <td>{{item.roleName}}</td>
                                 <td>{{item.shortName}}</td>
                                 <td>{{item.remark}}</td>

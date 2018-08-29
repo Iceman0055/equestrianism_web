@@ -16,14 +16,14 @@
         <div class="col-md-4 search-field">
           <div class="label">预约医生：</div>
           <el-select ref="selectDoctor" size="large" v-model="doctor" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in doctorList" :key="item.userId" :label="item.realname" :value="item.userId">
+            <el-option v-for="(item,index) in doctorList" :key="index" :label="item.realname" :value="item.userId">
             </el-option>
           </el-select>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">预约状态：</div>
           <el-select ref="selectStatus" size="large" v-model="appointStatus" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="(item,index) in statusList" :key="index" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>

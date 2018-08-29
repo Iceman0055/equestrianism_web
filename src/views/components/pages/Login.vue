@@ -2,7 +2,7 @@
   <div class="app flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-5">
           <div class="card-group mb-0">
             <form class="card p-4" name="loginForm" novalidate>
               <div class="card-block">
@@ -12,7 +12,7 @@
                   <span class="input-group-addon login-addon">
                     <i class="icon-user"></i>
                   </span>
-                  <input type="text" v-model="username" class="form-control login-input" placeholder="请输入用户名">
+                  <input type="text" v-model="username" class="form-control login-input" placeholder="请输入用户名" @keyup.enter="login">
                 </div>
                 <div class="input-group mb-4">
                   <span class="input-group-addon login-addon">
@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
 .but-size {
-  width: 30%;
+  width: 50%;
   font-size: 16px;
 }
 

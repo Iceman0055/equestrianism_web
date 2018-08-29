@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="cursor:pointer" v-for="item in dictInfoList" :key="item" @click="getDetailList(1,item)">
+                            <tr style="cursor:pointer" v-for="(item,index) in dictInfoList" :key="index" @click="getDetailList(1,item)">
                                 <td><input type="radio" class="input-pointer" name="select" :checked="item.checked"></td>
                                 <td >{{item.typeName}}</td>
                                 <td>{{item.typeCode}}</td>
@@ -83,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in dictDetailList" :key="item">
+                            <tr v-for="(item,index) in dictDetailList" :key="index">
                                 <td>{{item.dictionaryId}}</td>
                                 <td>{{item.itemValue}}</td>
                                 <td>{{item.itemCode}}</td>

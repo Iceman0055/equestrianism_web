@@ -16,21 +16,21 @@
                 <div class="col-md-2 search-field">
                     <div class="label">状态：</div>
                     <el-select size="large" v-model="list_status" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="(item,index) in statusOptions" :key="index" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">部门：</div>
                     <el-select size="large" v-model="list_depart" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">角色：</div>
                     <el-select size="large" v-model="list_role" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
+                        <el-option v-for="(item,index) in roleList" :key="index" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
@@ -61,7 +61,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in userList" :key="item">
+                            <tr v-for="(item,index) in userList" :key="index">
                                 <td>{{item.jobNumber}}</td>
                                 <td>{{item.realname}}</td>
                                 <td>{{item.loginName}}</td>

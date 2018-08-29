@@ -33,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in feederList" :key="item">
+                            <tr v-for="(item,index) in feederList" :key="index">
                                 <td>{{item.feederName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
                                 <td>

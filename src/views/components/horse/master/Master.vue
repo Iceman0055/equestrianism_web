@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in masterList" :key="item">
+                            <tr v-for="(item,index) in masterList" :key="index">
                                 <td>{{item.hostName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
                                 <td>{{item.contactWay}}</td>

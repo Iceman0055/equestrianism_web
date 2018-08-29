@@ -13,7 +13,7 @@
                 <div class="col-md-3 search-field">
                     <div class="label">预约医生：</div>
                     <el-select size="large" v-model="doctor" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in doctorList" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in doctorList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in appointList" :key="item">
+                            <tr v-for="(item,index) in appointList" :key="index">
                                 <td>{{item.appointDate}}</td>
                                 <td>{{item.realname}}</td>
                                 <td>{{item.appointNumber}}</td>

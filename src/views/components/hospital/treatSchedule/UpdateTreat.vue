@@ -12,7 +12,7 @@
         <div class="col-md-4 search-field">
           <div class="label">门诊方式：</div>
           <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="treatWay" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="(item,index) in treatWayOptions" :key="index" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -25,14 +25,14 @@
         <div class="col-md-4 search-field">
           <div class="label">马匹类型：</div>
           <el-select ref="selectType" size="large" :disabled="useDisabled" v-model="horseType" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="(item,index) in horseTypeOptions" :key="index" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
         <div class="col-md-4 search-field" v-if="horseType==1">
           <div class="label">马匹名称：</div>
           <el-select size="large" :disabled="useDisabled" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-            <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+            <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
             </el-option>
           </el-select>
         </div>
@@ -50,10 +50,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select :disabled="useDisabled" size="large" v-model="beginTime" :picker-options="{
-                                                                                          start: '00:00',
-                                                                                          step: '01:00',
-                                                                                          end: '24:00'
-                                                                                        }">
+                                                                                                                  start: '00:00',
+                                                                                                                  step: '01:00',
+                                                                                                                  end: '24:00'
+                                                                                                                }">
           </el-time-select>
         </div>
       </div>
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select :disabled="useDisabled" size="large" v-model="endTime" :picker-options="{
-                                                                                          start: '00:00',
-                                                                                          step: '01:00',
-                                                                                          end: '24:00'
-                                                                                        }">
+                                                                                                                  start: '00:00',
+                                                                                                                  step: '01:00',
+                                                                                                                  end: '24:00'
+                                                                                                                }">
           </el-time-select>
         </div>
       </div>
@@ -81,7 +81,7 @@
         <div class="col-md-4 search-field">
           <div class="label">手术室使用：</div>
           <el-select size="large" ref="selectUse" :disabled="useDisabled" v-model="useRoom" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
+            <el-option v-for="(item,index) in consultingRoomList" :key="index" :label="item.consultingRoomName" :value="item.consultingRoomId">
             </el-option>
           </el-select>
         </div>
@@ -106,10 +106,10 @@
     <div class="content-footer row" v-show="!useDisabled">
       <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateTreat">确定</el-button>
     </div>
-    <el-dialog title="查看设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="52%" center>
+    <el-dialog title="查看设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="50%" center>
       <div class="row list-search">
         <div class="col-md-8 search-field">
-          <div class="label">资产名称：</div>
+          <div class="label" style="left:-18px">固定资产名称：</div>
           <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
         <div class="col-md-1 search-field search-field_controls">
@@ -119,42 +119,42 @@
       <div class="list-empty" v-show="assetsList.length==0">
         暂无数据
       </div>
-      <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
-        <div class="col-md-1">
+      <el-form ref="form" class="ml-3 mb-1" v-for="(item,index) in assetsList" :key="index" :inline="true"  label-width="98px">
+        <el-form-item>
           <el-checkbox disabled v-model="item.checked" checked></el-checkbox>
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-        </div>
-        <div class="col-md-5">
+        </el-form-item>
+        <el-form-item label="固定资产名称">
+          <el-input type="text" disabled v-model="item.assetName" placeholder="资产名称" />
+        </el-form-item>
+        <el-form-item label="数量">
+          <el-input type="text" disabled v-model="item.inventory" placeholder="库存" />
+        </el-form-item>
+        <el-form-item>
           <div class="Spinner">
-            <a class="Decrease" @click="decrease(index,item.useNumber)">
+            <button class="Decrease" disabled @click="decrease(index,item.useNumber)">
               <i class="fa fa-sort-desc"></i>
-            </a>
-            <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-            <a class="Increase" @click="increase(index,item.useNumber,item.inventory)">
+            </button>
+            <input class="Amount" disabled v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
+            <button class="Increase" disabled @click="increase(index,item.useNumber,item.inventory)">
               <i class="fa fa-sort-asc"></i>
-            </a>
+            </button>
           </div>
-        </div>
-      </div>
+        </el-form-item>
+      </el-form>
       <div class="page">
         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
         </el-pagination>
       </div>
       <!-- <span slot="footer" class="dialog-footer">
-                        <el-button @click="addItemDialog = false">取 消</el-button>
-                        <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
-                      </span> -->
+                                                <el-button @click="addItemDialog = false">取 消</el-button>
+                                                <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
+                                              </span> -->
     </el-dialog>
-    <el-dialog title="查看消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
+    <el-dialog title="查看消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="50%" center>
       <div class="row list-search">
         <div class="col-md-8 search-field">
-          <div class="label">资产名称：</div>
-          <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
+          <div class="label">消耗品名称：</div>
+          <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入消耗品名称" />
         </div>
         <div class="col-md-1 search-field search-field_controls">
           <button @click="getConsumeList(1)" class="btn btn-primary search-btn">搜索</button>
@@ -163,47 +163,49 @@
       <div class="list-empty" v-show="consumeList.length==0">
         暂无数据
       </div>
-      <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
-        <div class="col-md-1">
+      <el-form ref="form" class="ml-3 mb-1" v-for="(item,index) in consumeList" :key="index" :inline="true"  label-width="88px">
+        <el-form-item>
           <el-checkbox disabled v-model="item.checked" checked></el-checkbox>
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-        </div>
-        <div class="col-md-5">
+        </el-form-item>
+        <el-form-item label="消耗品名称">
+          <el-input type="text" disabled v-model="item.assetName" placeholder="消耗品名称" />
+        </el-form-item>
+        <el-form-item label="数量">
+          <el-input type="text" disabled v-model="item.inventory" placeholder="库存" />
+        </el-form-item>
+        <el-form-item>
           <div class="Spinner">
-            <a class="Decrease" @click="decreaseConsume(index,item.useNumber)">
+            <button class="Decrease" disabled @click="decreaseConsume(index,item.useNumber)">
               <i class="fa fa-sort-desc"></i>
-            </a>
-            <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-            <a class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
+            </button>
+            <input disabled class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
+            <button disabled class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
               <i class="fa fa-sort-asc"></i>
-            </a>
+            </button>
           </div>
-        </div>
-      </div>
+        </el-form-item>
+      </el-form>
       <div class="page">
         <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
         </el-pagination>
       </div>
       <!-- <span slot="footer" class="dialog-footer">
-                        <el-button @click="addConsumeDialog = false">取 消</el-button>
-                        <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
-                      </span> -->
+                                                <el-button @click="addConsumeDialog = false">取 消</el-button>
+                                                <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
+                                              </span> -->
     </el-dialog>
   </div>
 </template>
 <script>
 import {
+  Form,
   DatePicker,
   Button,
   TimeSelect,
   Input,
   Message,
-  Select
+  Select,
+
 } from "element-ui";
 import hospitalSrv from "../../../services/hospital.service.js";
 import hosAssetsSrv from "../../../services/hosAssets.service.js";
@@ -245,21 +247,21 @@ export default {
       hospitalAssetList: [],
       treatWayOptions: [
         {
-          value: "1",
+          value: 1,
           label: "普通"
         },
         {
-          value: "2",
+          value: 2,
           label: "预约"
         }
       ],
       horseTypeOptions: [
         {
-          value: "1",
+          value: 1,
           label: "中心"
         },
         {
-          value: "2",
+          value: 2,
           label: "外来"
         }
       ]
@@ -341,7 +343,7 @@ export default {
           let assetsList = resp.data.assetInfoList;
           let len = assetsList.length;
           for (let i = 0; i < len; i++) {
-            assetsList[i].checked = false;
+            assetsList[i].checked = true;
             assetsList[i].useNumber = 1;
           }
           this.assetsList = assetsList;
@@ -362,7 +364,7 @@ export default {
           let consumeList = resp.data.assetInfoList;
           let len = consumeList.length;
           for (let i = 0; i < len; i++) {
-            consumeList[i].checked = false;
+            consumeList[i].checked = true;
             consumeList[i].useNumber = 1;
           }
           this.consumeList = consumeList;
@@ -499,10 +501,9 @@ export default {
   display: block;
   overflow: hidden;
   width: 160px;
-  margin-top: 3px;
 }
 
-.Spinner a {
+.Spinner button {
   // display: inline-block;
   width: 35px;
   height: 35px;
@@ -521,18 +522,28 @@ export default {
   border-color: #d9d9d9;
   float: left;
   text-align: center;
-  color: #565656;
+  color: #560606;
   outline: 0;
 }
 
+.Decrease {
+  border-radius: 5px 0 0 5px;
+}
+
+.Increase {
+  border-radius: 0 5px 5px 0;
+}
+
 .Decrease i {
-  padding-left: 10px;
+  // padding-left: 10px;
   font-size: 20px;
   color: #409eff;
+  margin-top: -18px;
 }
 
 .Increase i {
-  padding-left: 10px;
+  // padding-left: 10px;
+  margin-top: -18px;
   position: relative;
   top: 8px;
   font-size: 22px;

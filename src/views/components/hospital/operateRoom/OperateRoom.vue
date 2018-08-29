@@ -8,7 +8,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室名称：</div>
                     <el-select size="large" v-model="name" class="el-field-input">
-                        <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
+                        <el-option v-for="(item,index) in consultingRoomList" :key="index" :label="item.consultingRoomName" :value="item.consultingRoomId">
                         </el-option>
                     </el-select>
                 </div>
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in operateRoomList" :key="item">
+                            <tr v-for="(item,index) in operateRoomList" :key="index">
                                 <td>{{item.name}}</td>
                                 <td>{{item.shortName}}</td>
                                 <td>{{convertStatus[item.status]}}</td>

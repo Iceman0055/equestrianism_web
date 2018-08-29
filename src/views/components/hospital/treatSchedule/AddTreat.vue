@@ -11,7 +11,7 @@
         <div class="col-md-4 search-field">
           <div class="label">门诊方式：</div>
           <el-select ref="selectWay" size="large" v-model="treatWay" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="(item,index) in treatWayOptions" :key="index" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -24,14 +24,14 @@
         <div class="col-md-4 search-field">
           <div class="label">马匹类型：</div>
           <el-select ref="selectType" size="large" v-model="horseType" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="(item,index) in horseTypeOptions" :key="index" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
         <div class="col-md-4 search-field" v-if="horseType==1">
           <div class="label">马匹名称：</div>
           <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-            <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+            <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
             </el-option>
           </el-select>
         </div>
@@ -82,7 +82,7 @@
         <div class="col-md-4 search-field">
           <div class="label">手术室使用：</div>
           <el-select size="large" ref="selectUse" v-model="useRoom" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
+            <el-option v-for="(item,index) in consultingRoomList" :key="index" :label="item.consultingRoomName" :value="item.consultingRoomId">
             </el-option>
           </el-select>
         </div>
@@ -111,8 +111,8 @@
     <el-dialog title="选用设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="52%" center>
       <div class="row list-search">
         <div class="col-md-8 search-field">
-          <div class="label">资产名称：</div>
-          <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
+          <div class="label" style="left:-18px">固定资产名称：</div>
+          <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入固定资产名称" />
         </div>
         <div class="col-md-1 search-field search-field_controls">
           <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
@@ -121,28 +121,28 @@
       <div class="list-empty" v-show="assetsList.length==0">
         暂无数据
       </div>
-      <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
-        <div class="col-md-1">
+      <el-form ref="form" class="ml-3 mb-1" v-for="(item,index) in assetsList" :key="index" :inline="true"  label-width="98px">
+        <el-form-item>
           <el-checkbox v-model="item.checked"></el-checkbox>
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-        </div>
-        <div class="col-md-5">
+        </el-form-item>
+        <el-form-item label="固定资产名称">
+          <el-input type="text" v-model="item.assetName" placeholder="资产名称" />
+        </el-form-item>
+        <el-form-item label="数量">
+          <el-input type="text" v-model="item.inventory" placeholder="库存" />
+        </el-form-item>
+        <el-form-item>
           <div class="Spinner">
-            <a class="Decrease" @click="decrease(index,item.useNumber)">
+            <button class="Decrease" @click="decrease(index,item.useNumber)">
               <i class="fa fa-sort-desc"></i>
-            </a>
+            </button>
             <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-            <a class="Increase" @click="increase(index,item.useNumber,item.inventory)">
+            <button class="Increase" @click="increase(index,item.useNumber,item.inventory)">
               <i class="fa fa-sort-asc"></i>
-            </a>
+            </button>
           </div>
-        </div>
-      </div>
+        </el-form-item>
+      </el-form>
       <div class="page">
         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
         </el-pagination>
@@ -165,28 +165,28 @@
       <div class="list-empty" v-show="consumeList.length==0">
         暂无数据
       </div>
-      <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
-        <div class="col-md-1">
+     <el-form ref="form" class="ml-3 mb-1" v-for="(item,index) in consumeList" :key="index" :inline="true"  label-width="88px">
+        <el-form-item>
           <el-checkbox v-model="item.checked"></el-checkbox>
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-        </div>
-        <div class="col-md-3">
-          <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-        </div>
-        <div class="col-md-5">
+        </el-form-item>
+        <el-form-item label="消耗品名称">
+          <el-input type="text" v-model="item.assetName" placeholder="消耗品名称" />
+        </el-form-item>
+        <el-form-item label="数量">
+          <el-input type="text" v-model="item.inventory" placeholder="库存" />
+        </el-form-item>
+        <el-form-item>
           <div class="Spinner">
-            <a class="Decrease" @click="decreaseConsume(index,item.useNumber)">
+            <button class="Decrease" @click="decreaseConsume(index,item.useNumber)">
               <i class="fa fa-sort-desc"></i>
-            </a>
+            </button>
             <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-            <a class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
+            <button class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
               <i class="fa fa-sort-asc"></i>
-            </a>
+            </button>
           </div>
-        </div>
-      </div>
+        </el-form-item>
+      </el-form>
       <div class="page">
         <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
         </el-pagination>
@@ -200,6 +200,7 @@
 </template>
 <script>
 import {
+  Form,
   DatePicker,
   Button,
   Input,
@@ -248,21 +249,21 @@ export default {
       showAssetList: '',
       treatWayOptions: [
         {
-          value: "1",
+          value: 1,
           label: "普通"
         },
         {
-          value: "2",
+          value: 2,
           label: "预约"
         }
       ],
       horseTypeOptions: [
         {
-          value: "1",
+          value: 1,
           label: "中心"
         },
         {
-          value: "2",
+          value: 2,
           label: "外来"
         }
       ],
@@ -518,10 +519,9 @@ export default {
   display: block;
   overflow: hidden;
   width: 160px;
-  margin-top: 3px;
 }
 
-.Spinner a {
+.Spinner button {
   // display: inline-block;
   width: 35px;
   height: 35px;
@@ -543,15 +543,19 @@ export default {
   color: #565656;
   outline: 0;
 }
+.Decrease {
+  border-radius: 5px 0 0 5px;
+}
 
+.Increase {
+  border-radius: 0 5px 5px 0;
+}
 .Decrease i {
-  padding-left: 10px;
   font-size: 20px;
   color: #409eff;
 }
 
 .Increase i {
-  padding-left: 10px;
   position: relative;
   top: 8px;
   font-size: 22px;
