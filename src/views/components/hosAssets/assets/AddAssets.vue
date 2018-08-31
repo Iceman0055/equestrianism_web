@@ -176,6 +176,10 @@ export default {
 
         }
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.$el.addEventListener('animationend', this.valueResize)
         this.$el.addEventListener('animationend', this.wayResize)

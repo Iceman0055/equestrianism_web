@@ -83,6 +83,10 @@ export default {
         this.$el.addEventListener('animationend', this.resizeSelect)
         this.$el.addEventListener('animationend', this.resizeHorse)
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.feederId = to.query.feederId

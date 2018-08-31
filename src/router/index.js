@@ -74,7 +74,7 @@ import role from "@/views/components/system/role/role";
 import addRole from "@/views/components/system/role/addRole";
 import updateRole from "@/views/components/system/role/updateRole";
 import dictionary from "@/views/components/system/dictionary/dictionary";
-import assetsManage from "@/views/components/system/assetsManage/assetsManage"
+import assetsManage from "@/views/components/system/assetsManage/assetsManage";
 // 马术中心资产管理
 import horseAssets from "@/views/components/equestrian/horseAssets/horseAssets";
 import hAddAssets from "@/views/components/equestrian/horseAssets/hAddAssets";
@@ -118,7 +118,10 @@ export default new Router({
             {
               path: "baseInfo",
               name: "马匹基本信息",
-              component: baseInfo
+              component: baseInfo,
+              meta: {
+                keepAlive: true //需要被缓存
+              }
             },
             {
               path: "addBaseInfo",
@@ -133,7 +136,10 @@ export default new Router({
             {
               path: "awards",
               name: "获奖信息",
-              component: awards
+              component: awards,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addAwards",
@@ -148,7 +154,10 @@ export default new Router({
             {
               path: "feeder",
               name: "饲养员信息",
-              component: feeder
+              component: feeder,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addFeeder",
@@ -163,7 +172,10 @@ export default new Router({
             {
               path: "master",
               name: "马主信息",
-              component: master
+              component: master,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addMaster",
@@ -178,7 +190,10 @@ export default new Router({
             {
               path: "treatment",
               name: "治疗信息",
-              component: treatment
+              component: treatment,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "updateTreatment",
@@ -193,7 +208,10 @@ export default new Router({
             {
               path: "vaccine",
               name: "接种疫苗信息",
-              component: vaccine
+              component: vaccine,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addVaccine",
@@ -208,7 +226,10 @@ export default new Router({
             {
               path: "disease",
               name: "病历信息",
-              component: disease
+              component: disease,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addDisease",
@@ -223,12 +244,18 @@ export default new Router({
             {
               path: "nailInfo",
               name: "钉甲信息",
-              component: nailInfo
+              component: nailInfo,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "teethInfo",
               name: "挫牙信息",
-              component: teethInfo
+              component: teethInfo,
+              meta: {
+                keepAlive: true
+              }
             }
           ]
         },
@@ -245,7 +272,10 @@ export default new Router({
             {
               path: "appointment",
               name: "预约日程管理",
-              component: appointment
+              component: appointment,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addAppoint",
@@ -260,7 +290,10 @@ export default new Router({
             {
               path: "vaccination",
               name: "接种疫苗管理",
-              component: vaccination
+              component: vaccination,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "updateVacc",
@@ -275,7 +308,10 @@ export default new Router({
             {
               path: "treatSchedule",
               name: "门诊治疗管理",
-              component: treatSchedule
+              component: treatSchedule,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addTreat",
@@ -290,7 +326,10 @@ export default new Router({
             {
               path: "operateRoom",
               name: "诊疗室管理",
-              component: operateRoom
+              component: operateRoom,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addOperateR",
@@ -305,7 +344,10 @@ export default new Router({
             {
               path: "nail",
               name: "钉甲管理",
-              component: nail
+              component: nail,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addNail",
@@ -320,7 +362,10 @@ export default new Router({
             {
               path: "teeth",
               name: "挫牙管理",
-              component: teeth
+              component: teeth,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addTeeth",
@@ -347,7 +392,10 @@ export default new Router({
             {
               path: "assets",
               name: "固定资产类品管理",
-              component: assets
+              component: assets,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addAssets",
@@ -367,7 +415,10 @@ export default new Router({
             {
               path: "consume",
               name: "消耗品类品管理",
-              component: consume
+              component: consume,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "consumeStock",
@@ -400,7 +451,10 @@ export default new Router({
             {
               path: "horseAssets",
               name: "固定资产类品管理",
-              component: horseAssets
+              component: horseAssets,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "hAddAssets",
@@ -432,7 +486,10 @@ export default new Router({
             {
               path: "horseResume",
               name: "简历查看",
-              component: horseResume
+              component: horseResume,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "resumeDetail",
@@ -455,7 +512,10 @@ export default new Router({
             {
               path: "user",
               name: "用户管理",
-              component: user
+              component: user,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addUser",
@@ -465,12 +525,15 @@ export default new Router({
             {
               path: "updateUser",
               name: "修改用户",
-              component: updateUser
+              component: updateUser,
             },
             {
               path: "department",
               name: "部门管理",
-              component: department
+              component: department,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addDepart",
@@ -485,7 +548,10 @@ export default new Router({
             {
               path: "role",
               name: "角色管理",
-              component: role
+              component: role,
+              meta: {
+                keepAlive: true
+              }
             },
             {
               path: "addRole",
@@ -506,7 +572,7 @@ export default new Router({
               path: "assetsManage",
               name: "资产管理",
               component: assetsManage
-            },
+            }
           ]
         }
       ]

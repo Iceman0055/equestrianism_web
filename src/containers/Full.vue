@@ -42,12 +42,20 @@ export default {
       vm.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
       vm.$watch("localStorage.menuEnableMap", () => {
         vm.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+        console.log(vm.menuEnableMap)
       });
     })
 
   },
-  //  mounted() {
-
+  // destroyed(){
+  //   console.log('unmounted',this)
+  // },
+  // mounted() {
+  //   console.log('mounted',this)
+  //   this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+  //   this.$watch("localStorage.menuEnableMap", () => {
+  //     this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+  //   });
   // },
   computed: {
     name() {

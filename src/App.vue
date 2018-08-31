@@ -1,8 +1,12 @@
 <template>
-  <keep-alive>
-    <router-view>
-    </router-view>
-  </keep-alive>
+  <!-- <div> -->
+    <keep-alive>
+      <router-view>
+      </router-view>
+    </keep-alive>
+    <!-- <router-view v-if="!$route.meta.keepAlive">
+    </router-view> -->
+  <!-- </div> -->
 </template>
 
 <script>
@@ -18,23 +22,28 @@ export default {
 </script>
 
 <style lang="scss">
-.__vev_calendar-wrapper .cal-wrapper .cal-header .title{
+.__vev_calendar-wrapper .cal-wrapper .cal-header .title {
   font-size: 18px;
 }
+
 .__vev_calendar-wrapper .cal-wrapper .cal-body {
-    border: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
+
 .__vev_calendar-wrapper .events-wrapper .date {
-    height: 30px;
-    line-height: 30px;
-    font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
 }
-.__vev_calendar-wrapper .cal-wrapper .date-num{
+
+.__vev_calendar-wrapper .cal-wrapper .date-num {
   line-height: 70px;
 }
+
 .__vev_calendar-wrapper .cal-wrapper .cal-body {
-    background: #fff;
+  background: #fff;
 }
+
 .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
   background-color: #409EFF;
   border-color: #409EFF;
@@ -63,8 +72,6 @@ export default {
 //   overflow: hidden;
 //   text-overflow: ellipsis;
 // }
-
-
 // .full-calendar-body .dates .week-row .day-cell {
 //   flex: 1;
 //   min-height: 100px;
@@ -72,18 +79,14 @@ export default {
 //   border-right: 1px solid #e0e0e0;
 //   border-bottom: 1px solid #e0e0e0;
 // }
-
-
 // .fc-state-disabled {
 //   opacity: .45;
 // }
-
 // .fc-button {
 //   background: #20A8D8;
 //   color: #fff;
 //   width: 50px;
 // }
-
 .el-dialog {
   border-radius: 5px;
 }
@@ -93,7 +96,6 @@ export default {
 //   max-width: 100%;
 //   background: #E5ECDA
 // }
-
 // //重写日历样式
 // .full-calendar-header .header-center {
 //   font-size: 16px
@@ -104,25 +106,21 @@ export default {
 // .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
 //   color: red
 // }
-
 // .full-calendar-body .weeks {
 //   height: 40px;
 //   border-radius: 5px 5px 0 0;
 //   line-height: 40px;
 //   background: #ECF0CB
 // }
-
 // .full-calendar-body .dates .more-events {
 //   width: 230px;
 //   border: none;
 //   box-shadow: none;
 // }
-
 // .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item {
 //   background: #3794E6;
 //   color: #ddd;
 // }
-
 .el-date-editor.el-input,
 .el-date-editor.el-input__inner {
   width: 100%;
@@ -243,8 +241,7 @@ input:focus {
   min-height: 100%;
   border: 1px solid #cfd8dc;
   .table {
-    line-height: 2rem;
-    // font-size: 14px;
+    line-height: 2rem; // font-size: 14px;
     tr {
       th {
         text-align: center

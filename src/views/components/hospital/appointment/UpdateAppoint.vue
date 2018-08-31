@@ -121,6 +121,10 @@ export default {
         this.$el.addEventListener('animationend', this.resizeDoctor)
         this.$el.addEventListener('animationend', this.resizeStatus)
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
         updateAppoint() {
             if (!(this.appointDate && this.doctor && this.appointStatus && this.appointNumber && this.appointDesc && this.note)) {

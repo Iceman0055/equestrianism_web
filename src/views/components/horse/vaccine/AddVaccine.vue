@@ -57,6 +57,10 @@ export default {
             value1: '',
         }
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     components: {
         'el-date-picker': DatePicker,
         'el-button': Button,

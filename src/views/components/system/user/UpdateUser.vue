@@ -80,6 +80,10 @@ export default {
         this.$el.addEventListener('animationend', this.resizeRole)
         this.$el.addEventListener('animationend', this.resizeDepart)
     },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             systemSrv.userDetail(to.query.userId).then((resp) => {

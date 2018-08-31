@@ -40,6 +40,10 @@ export default {
             note: '',
         }
     },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
            addRole() {
             if (!(this.roleName && this.shortName && this.note)) {

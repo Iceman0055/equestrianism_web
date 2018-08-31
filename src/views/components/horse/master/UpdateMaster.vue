@@ -74,6 +74,10 @@ export default {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeSelect)
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.hostId = to.query.hostId

@@ -203,6 +203,10 @@ export default {
         this.$el.addEventListener('animationend', this.resizeSelect)
         this.$el.addEventListener('animationend', this.resizeColor)
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.horseId = to.query.horseId

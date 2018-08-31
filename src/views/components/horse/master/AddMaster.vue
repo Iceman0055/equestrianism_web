@@ -85,6 +85,10 @@ export default {
             })
         })
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSex)
         this.$el.addEventListener('animationend', this.resizeHorse)

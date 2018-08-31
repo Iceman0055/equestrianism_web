@@ -267,6 +267,10 @@ export default {
       ]
     };
   },
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
       vm.treatmentId = to.query.treatmentId;

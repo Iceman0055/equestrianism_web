@@ -82,6 +82,10 @@ export default {
             })
         })
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable;
         this.$el.addEventListener('animationend', this.resizeHorse)

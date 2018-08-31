@@ -183,7 +183,10 @@ export default {
         this.$el.addEventListener('animationend', this.classResize)
         this.$el.addEventListener('animationend', this.departResize)
         this.$el.addEventListener('animationend', this.peopleResize)
-
+    },
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {

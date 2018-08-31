@@ -259,6 +259,10 @@ export default {
             searchHorseId: ''
         };
     },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     computed: {
         prevItem() {
             if (this.horseIdList && this.horseId) {

@@ -294,6 +294,10 @@ export default {
     this.$el.addEventListener("animationend", this.resizeType);
     this.$el.addEventListener("animationend", this.resizeUse);
   },
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
   methods: {
     resizeWay() {
       this.$refs.selectWay.resetInputWidth();
@@ -304,10 +308,9 @@ export default {
     resizeUse() {
       this.$refs.selectUse.resetInputWidth();
     },
-    getAssetsList(currentPage = this.currentPage) {
+    getAssetsList(currentPage = this.currentPage) {  
       this.addItemDialog = true;
-      hosAssetsSrv
-        .assetsList(currentPage, this.pageRecorders, "", "", this.assetsTreatName)
+      hosAssetsSrv.assetsList(currentPage, this.pageRecorders, "", "", this.assetsTreatName)
         .then(
         resp => {
           this.currentPage = currentPage;

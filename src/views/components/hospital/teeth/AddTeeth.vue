@@ -74,6 +74,10 @@ export default {
         this.$el.addEventListener('animationend', this.resizeHorse)
         this.$el.addEventListener('animationend', this.resizePeople)
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
         addTeeth() {
             if (!(this.time && this.horseName && this.operatePeople && this.remark)) {

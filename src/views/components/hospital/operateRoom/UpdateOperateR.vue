@@ -58,6 +58,10 @@ export default {
     mounted() {
         this.useDisabled = !!this.$route.query.disable
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
         updateOperateRoom() {
             if (!(this.name && this.shortName && this.remark)) {

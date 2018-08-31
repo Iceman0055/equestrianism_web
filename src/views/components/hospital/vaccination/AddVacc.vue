@@ -76,6 +76,10 @@ export default {
             feederInfo: [],
         };
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeHorse)
         this.$el.addEventListener('animationend', this.resizePeople)

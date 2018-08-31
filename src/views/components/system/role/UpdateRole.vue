@@ -43,6 +43,10 @@ export default {
             roleId:'',
         }
     },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.roleId = to.query.roleId

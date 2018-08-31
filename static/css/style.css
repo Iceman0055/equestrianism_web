@@ -7704,13 +7704,13 @@ base-chart.chart {
     .sidebar .nav .nav-item {
       position: relative;
       margin: 0;
-      transition: background .3s ease-in-out; }
+      transition: background .1s ease-in-out; }
       .sidebar .nav .nav-item ul {
         max-height: 0;
         padding: 0;
         margin: 0;
         overflow-y: hidden;
-        transition: max-height .3s ease-in-out; }
+        transition: max-height .1s ease-in-out; }
         .sidebar .nav .nav-item ul li {
           padding: 0;
           list-style: none; }

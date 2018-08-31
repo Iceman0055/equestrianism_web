@@ -59,6 +59,10 @@ export default {
         'el-date-picker': DatePicker,
         'el-button': Button,
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
     },

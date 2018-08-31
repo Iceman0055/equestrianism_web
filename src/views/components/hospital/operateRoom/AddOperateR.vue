@@ -39,6 +39,10 @@ export default {
             remark:'',
         }
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
         addOperateRoom() {
       if (!(this.name && this.shortName && this.remark)) {

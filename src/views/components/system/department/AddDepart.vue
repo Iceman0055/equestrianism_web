@@ -39,6 +39,10 @@ export default {
             note: '',
         }
     },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
         addDepart() {
             if (!(this.departName && this.departShortName && this.note)) {

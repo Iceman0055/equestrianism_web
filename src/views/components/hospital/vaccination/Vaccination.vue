@@ -106,6 +106,10 @@ export default {
             vaccList: [],
         };
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true

@@ -74,6 +74,10 @@ export default {
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSelect)
     },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     methods: {
         resizeSelect() {
             this.$refs.selectInput.resetInputWidth()

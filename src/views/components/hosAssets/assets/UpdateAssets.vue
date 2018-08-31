@@ -99,7 +99,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
                     <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
-                        <el-option v-for="(item,index) in userList" :key="index :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
@@ -186,6 +186,10 @@ export default {
         this.$el.addEventListener('animationend', this.classResize)
         this.$el.addEventListener('animationend', this.departResize)
         this.$el.addEventListener('animationend', this.peopleResize)
+    },
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
