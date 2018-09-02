@@ -80,7 +80,8 @@ import horseAssets from "@/views/components/equestrian/horseAssets/horseAssets";
 import hAddAssets from "@/views/components/equestrian/horseAssets/hAddAssets";
 import hUpdateAssets from "@/views/components/equestrian/horseAssets/hUpdateAssets";
 import horseStock from "@/views/components/equestrian/horseStock/horseStock";
-
+import assetsDetail from "@/views/components/equestrian/assetsDetail/AssetsDetail";
+import updateDetail from "@/views/components/equestrian/assetsDetail/UpdateDetail"
 // Views - Pages
 import page404 from "@/views/components/pages/page404";
 import page500 from "@/views/components/pages/page500";
@@ -470,7 +471,20 @@ export default new Router({
               path: "horseStock",
               name: "固定资产库存管理",
               component: horseStock
-            }
+            },
+            {
+              path: "assetsDetail",
+              name: "固定资产明细",
+              component: assetsDetail,
+              meta: {
+                keepAlive: true
+              }
+            },
+            {
+              path: "updateDetail",
+              name: "查看固定资产明细",
+              component: updateDetail
+            },
           ]
         },
         {

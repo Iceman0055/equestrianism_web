@@ -1,7 +1,7 @@
 <template>
     <div class="p-insurance-list content_page">
         <div class="content-title">
-            <div class="title">固定资产类品管理</div>
+            <div class="title">固定资产明细</div>
         </div>
         <div class="content-show">
             <div class="row list-search">
@@ -19,17 +19,21 @@
                         </el-option>
                     </el-select>
                 </div>
-                <div class="col-md-3 search-field">
-                    <div class="label">资产名称：</div>
-                    <input type="text" v-model="assetsName" placeholder="请输入资产名称" class="form-control input-field" />
+                <div class="col-md-2 search-field">
+                    <div class="label">资产编号：</div>
+                    <input type="text" v-model="assetsNum" placeholder="请输入资产编号" class="form-control input-field" />
+                </div>
+                <div class="col-md-2 search-field">
+                    <div class="label">条形码：</div>
+                    <input type="text" v-model="barCode" placeholder="请输入条形码" class="form-control input-field" />
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
-                    <router-link class="btn btn-success" :to="'/equestrian/hAddAssets'">
-                        新增
-                    </router-link>
+                    <button class="btn btn-success" >
+                        导出
+                    </button>
                 </div>
             </div>
             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
@@ -38,29 +42,16 @@
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
+                                <th>条形码</th>
                                 <th>资产大类</th>
                                 <th>资产分类</th>
                                 <th>资产编号</th>
                                 <th>资产名称</th>
-                                <th>价值</th>
-                                <th>面积</th>
+                                <th>报废时间</th>
+                                <th>添加时间</th>
 
-                                <th>价值类型</th>
-                                <th>取得方式</th>
-                                <th>财务出账日期</th>
-                                <th>制单日期</th>
-
-                                <th>保修截止日期</th>
-                                <th>管理部门</th>
-                                <th>管理人</th>
-
-                                <th>备注</th>
-                                <th>设计用途</th>
-                                <th>规格型号</th>
-                                <th>品牌</th>
-
-                                <th>会记凭证号</th>
-                                <th>采购组织形式</th>
+                                <th>添加人</th>
+                                
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -88,12 +79,10 @@
                                 <td>{{item.voucherNumber}}</td>
                                 <td>{{item.purchaseOrganize}}</td>
                                 <td>
-                                    <router-link :to="{path: '/equestrian/hUpdateAssets',       
+                                    <router-link :to="{path: '/equestrian/updateDetail',       
                                                                                      query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/equestrian/hUpdateAssets',query:{assetId:item.assetId}}">
-                                        修改
-                                    </router-link>
-                                    <a @click="deleteInfo(item.assetId)">删除</a>
+                                    
+                                    <a @click="deleteInfo(item.assetId)">报废</a>
                                 </td>
 
                             </tr>

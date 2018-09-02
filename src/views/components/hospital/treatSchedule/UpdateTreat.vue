@@ -31,7 +31,7 @@
         </div>
         <div class="col-md-4 search-field" v-if="horseType==1">
           <div class="label">马匹名称：</div>
-          <el-select size="large" :disabled="useDisabled" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+          <el-select size="large" :disabled="useDisabled" filterable v-model="horseName" class="el-field-input" >
             <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
             </el-option>
           </el-select>
@@ -283,11 +283,11 @@ export default {
           vm.endDate = resp.data.endDate;
           vm.endTime = resp.data.endTime.slice(0, 5);
           vm.horseType = resp.data.horseType;
-          if (vm.horseType == 1) {
-            vm.horseName = resp.data.horseId;
-          } else {
+          // if (vm.horseType == 1) {
+          //   vm.horseName = resp.data.horseId;
+          // } else {
             vm.horseName = resp.data.horseName;
-          }
+          // }
           vm.treatName = resp.data.treatName;
           vm.treatDesc = resp.data.treatDesc;
           vm.useRoom = resp.data.consultingRoomId;

@@ -90,11 +90,13 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">设备使用：</div>
-          <textarea type="text" rows="2" v-model="showAssetList" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击添加"></textarea>
+           <div type="text" rows="2"  v-html="showAssetList" class="form-control addborder" @click="clickShowDialog" placeholder="点击添加">
+           
+          </div>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">消耗品使用：</div>
-          <textarea type="text" rows="2" v-model="showConsumeList" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击添加"></textarea>
+          <div type="text" rows="2" v-html="showConsumeList" class="form-control addborder" @click="clickShowConsume" placeholder="点击添加"></div>
         </div>
       </div>
       <div class="row list-search">
@@ -108,94 +110,33 @@
       <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addTreat">确定</el-button>
     </div>
 
-    <el-dialog title="选用设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="52%" center>
-      <div class="row list-search">
-        <div class="col-md-8 search-field">
-          <div class="label" style="left:-18px">固定资产名称：</div>
-          <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入固定资产名称" />
-        </div>
-        <div class="col-md-1 search-field search-field_controls">
-          <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
-        </div>
-      </div>
-      <div class="list-empty" v-show="assetsList.length==0">
-        暂无数据
-      </div>
-      <el-form ref="form" class="ml-3 mb-1" v-for="(item,index) in assetsList" :key="index" :inline="true"  label-width="98px">
-        <el-form-item>
-          <el-checkbox v-model="item.checked"></el-checkbox>
-        </el-form-item>
-        <el-form-item label="固定资产名称">
-          <el-input type="text" v-model="item.assetName" placeholder="资产名称" />
-        </el-form-item>
-        <el-form-item label="数量">
-          <el-input type="text" v-model="item.inventory" placeholder="库存" />
-        </el-form-item>
-        <el-form-item>
-          <div class="Spinner">
-            <button class="Decrease" @click="decrease(index,item.useNumber)">
-              <i class="fa fa-sort-desc"></i>
-            </button>
-            <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-            <button class="Increase" @click="increase(index,item.useNumber,item.inventory)">
-              <i class="fa fa-sort-asc"></i>
-            </button>
-          </div>
-        </el-form-item>
-      </el-form>
-      <div class="page">
-        <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
-        </el-pagination>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addItemDialog = false">取 消</el-button>
-        <el-button type="primary" @click="addItemSureFun">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="选用消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
-      <div class="row list-search">
-        <div class="col-md-8 search-field">
-          <div class="label">资产名称：</div>
-          <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
-        </div>
-        <div class="col-md-1 search-field search-field_controls">
-          <button @click="getConsumeList(1)" class="btn btn-primary search-btn">搜索</button>
-        </div>
-      </div>
-      <div class="list-empty" v-show="consumeList.length==0">
-        暂无数据
-      </div>
-     <el-form ref="form" class="ml-3 mb-1" v-for="(item,index) in consumeList" :key="index" :inline="true"  label-width="88px">
-        <el-form-item>
-          <el-checkbox v-model="item.checked"></el-checkbox>
-        </el-form-item>
-        <el-form-item label="消耗品名称">
-          <el-input type="text" v-model="item.assetName" placeholder="消耗品名称" />
-        </el-form-item>
-        <el-form-item label="数量">
-          <el-input type="text" v-model="item.inventory" placeholder="库存" />
-        </el-form-item>
-        <el-form-item>
-          <div class="Spinner">
-            <button class="Decrease" @click="decreaseConsume(index,item.useNumber)">
-              <i class="fa fa-sort-desc"></i>
-            </button>
-            <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-            <button class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
-              <i class="fa fa-sort-asc"></i>
-            </button>
-          </div>
-        </el-form-item>
-      </el-form>
-      <div class="page">
-        <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
-        </el-pagination>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addConsumeDialog = false">取 消</el-button>
-        <el-button type="primary" @click="addConsumeSureFun">确 定</el-button>
-      </span>
-    </el-dialog>
+  <!-- 设备的 -->
+  <multi-select-dialog
+    title="选用设备"
+    width="800px"
+    :visible.sync="addItemDialog"
+    :query="queryAssets"
+    :columns="assetsColumns"
+    :value="assetSelected"
+    @submit="handleAssetsChange"
+    id-field="assetId"
+    inventory-field="inventory"
+    count-field="useNumber"
+  ></multi-select-dialog>
+
+<multi-select-dialog
+    title="选用消耗品"
+    width="800px"
+    :visible.sync="addConsumeDialog"
+    :query="queryConsume"
+    :columns="consumeColumns"
+    :value="consumeSelected"
+    @submit="handleConsumeChange"
+    id-field="assetId"
+    inventory-field="inventory"
+    count-field="useNumber"
+  ></multi-select-dialog>
+
   </div>
 </template>
 <script>
@@ -207,24 +148,55 @@ import {
   TimeSelect,
   Upload,
   Message,
-  Select
+  Select,
+  Table
 } from "element-ui";
+import AddAssets from "../../../../components/assetsDialog/addAssets.vue";
+import MultiSelectDialog from "../../../../components/multiSelectDialog/index.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import hosAssetsSrv from "../../../services/hosAssets.service.js";
 import horseSrv from "../../../services/horse.service.js";
 export default {
   data() {
     return {
+      addConsumeItem: [],
+      addAssetsItem: [],
+      consumeColumns: [
+        {
+          title: "消耗品名称",
+          dataIndex: "assetName",
+          width: "120"
+        },
+        {
+          title: "数量",
+          dataIndex: "inventory",
+          width: "120"
+        }
+      ],
+      assetsColumns: [
+        {
+          title: "固定资产名称",
+          dataIndex: "assetName",
+          width: "120"
+        },
+        {
+          title: "数量",
+          dataIndex: "inventory",
+          width: "120"
+        }
+      ],
+      selectAssets: [],
+
       addConsumeDialog: false,
       addItemDialog: false,
       consultingRoomList: [],
       consumableAssetList: [],
-      showConsumeList: '',
+      showConsumeList: "",
       horseInfoName: [],
       horseName: "",
       treatName: "",
-      consumeTreatName: '',
-      assetsTreatName: '',
+      consumeTreatName: "",
+      assetsTreatName: "",
       treatDesc: "",
       appointNum: "",
       treatDate: "",
@@ -246,7 +218,7 @@ export default {
       assetsList: [],
       consumeList: [],
       hospitalAssetList: [],
-      showAssetList: '',
+      showAssetList: "",
       treatWayOptions: [
         {
           value: 1,
@@ -266,8 +238,12 @@ export default {
           value: 2,
           label: "外来"
         }
-      ],
+      ]
     };
+  },
+  components: {
+    "add-assets": AddAssets,
+    "multi-select-dialog": MultiSelectDialog
   },
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
@@ -290,15 +266,70 @@ export default {
     });
   },
   mounted() {
+    // this.checked();
     this.$el.addEventListener("animationend", this.resizeWay);
     this.$el.addEventListener("animationend", this.resizeType);
     this.$el.addEventListener("animationend", this.resizeUse);
   },
-    beforeRouteLeave(to, from, next) {
-        to.meta.keepAlive = true
-        next()
+
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
+  computed: {
+    assetSelected() {
+      let selected = {};
+      this.hospitalAssetList.map(item => {
+        selected[item.assetId] = {
+          count: item.count,
+          ori: item.ori
+        };
+      });
+      return selected;
     },
+    consumeSelected() {
+      let selected = {};
+      this.hospitalAssetList.map(item => {
+        selected[item.assetId] = {
+          count: item.count,
+          ori: item.ori
+        };
+      });
+      return selected;
+    }
+  },
   methods: {
+    queryAssets(params, pageSize, current) {
+      console.debug("try to query: ", params, pageSize, current);
+      return hosAssetsSrv
+        .assetsList(current, pageSize, "", "", params.key)
+        .then(resp => {
+          // 处理返回值的格式
+          return Promise.resolve({
+            list: resp.data.assetInfoList,
+            total: resp.data.totalRecorders
+          });
+        });
+    },
+
+    queryConsume(params, pageSize, current) {
+      console.debug("try to query: ", params, pageSize, current);
+      return hosAssetsSrv
+        .consumeList(current, pageSize, "", "", params.key)
+        .then(resp => {
+          // 处理返回值的格式
+          return Promise.resolve({
+            list: resp.data.assetInfoList,
+            total: resp.data.totalRecorders
+          });
+        });
+    },
+    clickShowDialog() {
+      this.addItemDialog = true;
+    },
+    clickShowConsume() {
+      this.addConsumeDialog = true;
+    },
     resizeWay() {
       this.$refs.selectWay.resetInputWidth();
     },
@@ -307,47 +338,6 @@ export default {
     },
     resizeUse() {
       this.$refs.selectUse.resetInputWidth();
-    },
-    getAssetsList(currentPage = this.currentPage) {  
-      this.addItemDialog = true;
-      hosAssetsSrv.assetsList(currentPage, this.pageRecorders, "", "", this.assetsTreatName)
-        .then(
-        resp => {
-          this.currentPage = currentPage;
-          this.totalRecorders = resp.data.totalRecorders;
-          let assetsList = resp.data.assetInfoList;
-          let len = assetsList.length;
-          for (let i = 0; i < len; i++) {
-            assetsList[i].checked = false;
-            assetsList[i].useNumber = 1;
-          }
-          this.assetsList = assetsList;
-        },
-        err => {
-          this.$message.error(err.msg);
-        }
-        );
-    },
-    getConsumeList(currentPage = this.current) {
-      this.addConsumeDialog = true
-      hosAssetsSrv
-        .consumeList(currentPage, this.page, '', '', this.consumeTreatName)
-        .then(
-        resp => {
-          this.current = currentPage;
-          this.total = resp.data.totalRecorders;
-          let consumeList = resp.data.assetInfoList;
-          let len = consumeList.length;
-          for (let i = 0; i < len; i++) {
-            consumeList[i].checked = false;
-            consumeList[i].useNumber = 1;
-          }
-          this.consumeList = consumeList;
-        },
-        err => {
-          this.$message.error(err.msg);
-        }
-        );
     },
 
     addTreat() {
@@ -387,9 +377,8 @@ export default {
         treatName: this.treatName,
         treatDesc: this.treatDesc,
         consultingRoomId: this.useRoom,
-        hospitalAssetList: this.hospitalAssetList,
-        consumableAssetList: this.consumableAssetList,
-
+        hospitalAssetList: this.addAssetsItem,
+        consumableAssetList: this.addConsumeItem
       };
       if (this.treatWay == 2) {
         treatInfo.appointNumber = this.appointNum;
@@ -404,73 +393,52 @@ export default {
         }
       );
     },
-    addItemSureFun() {
-      let len = this.assetsList.length
-      let showAssetList = ''
-      let hospitalAssetList = []
-      for (let i = 0; i < len; i++) {
-        if (this.assetsList[i].checked) {
-          hospitalAssetList.push({
-            assetId: this.assetsList[i].assetId,
-            count: this.assetsList[i].useNumber
-          })
-          showAssetList += '资产名称：' + this.assetsList[i].assetName + '，' + '数量：' + this.assetsList[i].useNumber + '；'
-
-        }
+    handleConsumeChange(selected) {
+      console.debug("handleAssetsChange: ", selected);
+      let hospitalConsumeList = [];
+      let addConsumeItem = [];
+      let showConsumeList =''
+      for (let key in selected) {
+        hospitalConsumeList.push({
+          assetId: key,
+          count: selected[key].count,
+          ori: selected[key].ori // 往后台存的时候记得清掉这个字段
+        });
+        addConsumeItem.push({
+          assetId: key,
+          count: selected[key].count
+        });
+        showConsumeList +=
+          selected[key].ori.assetName + "  *" + selected[key].count + "<br/>";
       }
-      this.hospitalAssetList = hospitalAssetList
-      this.showAssetList = showAssetList
-      this.addItemDialog = false
-    },
-    addConsumeSureFun() {
-      let len = this.consumeList.length
-      let showConsumeList = '';
-      let consumableAssetList = [];
-      for (let i = 0; i < len; i++) {
-        if (this.consumeList[i].checked) {
-          consumableAssetList.push({
-            assetId: this.consumeList[i].assetId,
-            count: this.consumeList[i].useNumber
-          })
-          showConsumeList += '资产名称：' + this.consumeList[i].assetName + '，' + '数量：' + this.consumeList[i].useNumber + '；'
-        }
-      }
-      this.consumableAssetList = consumableAssetList
       this.showConsumeList = showConsumeList
-      this.addConsumeDialog = false
+      this.hospitalConsumeList = hospitalConsumeList;
+      this.addConsumeItem = addConsumeItem;
+      this.addConsumeDialog = false;
     },
-
-    increase(index, value, inventory) {
-      if (value >= inventory) {
-        return inventory;
-      } else {
-        return this.assetsList[index].useNumber++;
+    handleAssetsChange(selected) {
+      console.debug("handleAssetsChange: ", selected);
+      let hospitalAssetList = [];
+      let addAssetsItem = [];
+      let showAssetList = ''
+      for (let key in selected) {
+        hospitalAssetList.push({
+          assetId: key,
+          count: selected[key].count,
+          ori: selected[key].ori // 往后台存的时候记得清掉这个字段
+        });
+        addAssetsItem.push({
+          assetId: key,
+          count: selected[key].count
+        });
+        
+        showAssetList +=
+          selected[key].ori.assetName + "&nbsp;&nbsp;&nbsp;*" + selected[key].count + "<br/>";
       }
-    },
-    //减少
-    decrease(index, value) {
-      this.index = index;
-      if (value <= 0) {
-        return 0;
-      } else {
-        return this.assetsList[index].useNumber--;
-      }
-    },
-    increaseConsume(index, value, inventory) {
-      if (value >= inventory) {
-        return inventory;
-      } else {
-        return this.consumeList[index].useNumber++;
-      }
-    },
-    //减少
-    decreaseConsume(index, value) {
-      this.index = index;
-      if (value <= 0) {
-        return 0;
-      } else {
-        return this.consumeList[index].useNumber--;
-      }
+      this.showAssetList = showAssetList
+      this.addAssetsItem = addAssetsItem;
+      this.hospitalAssetList = hospitalAssetList;
+      this.addItemDialog = false;
     }
   }
 };
@@ -498,8 +466,12 @@ export default {
 
 .addborder {
   border-radius: 5px;
+  padding: 10px 5px;
 }
-
+.addborder:empty::before {
+  color: lightgrey;
+  content: attr(placeholder);
+}
 .add-delete a {
   margin-left: 5px;
   cursor: pointer;
