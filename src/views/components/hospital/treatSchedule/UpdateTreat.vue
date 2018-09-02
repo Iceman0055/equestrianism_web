@@ -89,7 +89,7 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">设备使用：</div>
-          <textarea type="text" rows="2" v-model="hospitalAssetList" :useDisabled="useDisabled" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击查看详情"></textarea>
+          <textarea type="text" rows="2" v-model="hospitalAssetList" :useDisabled="useDisabled" class="form-control addborder" @click="getAssetsList" placeholder="点击查看详情"></textarea>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">消耗品使用：</div>
@@ -113,7 +113,7 @@
           <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
         </div>
         <div class="col-md-1 search-field search-field_controls">
-          <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
+          <button @click="getAssetsList" class="btn btn-primary search-btn">搜索</button>
         </div>
       </div>
       <div class="list-empty" v-show="assetsList.length==0">
@@ -204,8 +204,7 @@ import {
   TimeSelect,
   Input,
   Message,
-  Select,
-
+  Select
 } from "element-ui";
 import hospitalSrv from "../../../services/hospital.service.js";
 import hosAssetsSrv from "../../../services/hosAssets.service.js";
@@ -267,10 +266,10 @@ export default {
       ]
     };
   },
-    beforeRouteLeave(to, from, next) {
-        to.meta.keepAlive = true
-        next()
-    },
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
       vm.treatmentId = to.query.treatmentId;
@@ -286,7 +285,7 @@ export default {
           // if (vm.horseType == 1) {
           //   vm.horseName = resp.data.horseId;
           // } else {
-            vm.horseName = resp.data.horseName;
+          vm.horseName = resp.data.horseName;
           // }
           vm.treatName = resp.data.treatName;
           vm.treatDesc = resp.data.treatDesc;
@@ -330,52 +329,45 @@ export default {
     resizeUse() {
       this.$refs.selectUse.resetInputWidth();
     },
-    getAssetsList(currentPage = this.currentPage) {
+    getAssetsList() {
       this.addItemDialog = true;
-      hosAssetsSrv
-        .assetsList(
-        currentPage,
-        this.pageRecorders,
-        "",
-        "",
-        this.assetsTreatName
-        )
-        .then(
+      hospitalSrv.getHospitalAsset(this.treatmentId).then(
         resp => {
-          this.currentPage = currentPage;
-          this.totalRecorders = resp.data.totalRecorders;
-          let assetsList = resp.data.assetInfoList;
-          let len = assetsList.length;
-          for (let i = 0; i < len; i++) {
-            assetsList[i].checked = true;
-            assetsList[i].useNumber = 1;
-          }
-          this.assetsList = assetsList;
+          console.log(resp)
+          // this.currentPage = currentPage;
+          // this.totalRecorders = resp.data.totalRecorders;
+          // let assetsList = resp.data.assetInfoList;
+          // let len = assetsList.length;
+          // for (let i = 0; i < len; i++) {
+          //   assetsList[i].checked = true;
+          //   assetsList[i].useNumber = 1;
+          // }
+          // this.assetsList = assetsList;
         },
         err => {
           this.$message.error(err.msg);
         }
-        );
+      );
     },
     getConsumeList(currentPage = this.current) {
       this.addConsumeDialog = true;
       hosAssetsSrv
         .consumeList(currentPage, this.page, "", "", this.consumeTreatName)
         .then(
-        resp => {
-          this.current = currentPage;
-          this.total = resp.data.totalRecorders;
-          let consumeList = resp.data.assetInfoList;
-          let len = consumeList.length;
-          for (let i = 0; i < len; i++) {
-            consumeList[i].checked = true;
-            consumeList[i].useNumber = 1;
+          resp => {
+            this.current = currentPage;
+            this.total = resp.data.totalRecorders;
+            let consumeList = resp.data.assetInfoList;
+            let len = consumeList.length;
+            for (let i = 0; i < len; i++) {
+              consumeList[i].checked = true;
+              consumeList[i].useNumber = 1;
+            }
+            this.consumeList = consumeList;
+          },
+          err => {
+            this.$message.error(err.msg);
           }
-          this.consumeList = consumeList;
-        },
-        err => {
-          this.$message.error(err.msg);
-        }
         );
     },
     updateTreat() {
@@ -413,7 +405,7 @@ export default {
         horseName: this.horseName,
         treatName: this.treatName,
         treatDesc: this.treatDesc,
-        consultingRoomId: this.useRoom,
+        consultingRoomId: this.useRoom
       };
       if (this.treatWay == 2) {
         treatInfo.appointNumber = this.appointNum;
