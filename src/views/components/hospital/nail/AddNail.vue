@@ -28,12 +28,12 @@
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">
+            <!-- <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
                     <input type="text" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addNail">确定</el-button>
@@ -88,7 +88,7 @@ export default {
                 brigandineDate: this.time,
                 horseId: this.horseName,
                 userId: this.operatePeople,
-                remark:this.remark
+                // remark:this.remark
             }
             hospitalSrv.addNail(nailInfo).then((resp) => {
                 this.$message.success('添加钉甲成功')

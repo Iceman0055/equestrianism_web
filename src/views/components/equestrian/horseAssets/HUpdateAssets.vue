@@ -8,7 +8,7 @@
             </router-link>
         </div>
         <div class="content-show">
-             <div class="row list-search">
+            <div class="row list-search">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 search-field text-cente">
                     <div class="label">条形码：</div>
@@ -91,7 +91,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="departName" class="el-field-input">
+                    <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
                         <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
-                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field"  />
+                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -147,6 +147,7 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            departmentId: '',
             managePeople: '',
             note: '',
             designPurpose: '',
@@ -174,8 +175,8 @@ export default {
             userList: [],
             valueOptions: [],
             wayOptions: [],
-            barCode:'',
-            inventory:''
+            barCode: '',
+            inventory: ''
         }
     },
     mounted() {
@@ -190,9 +191,10 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
+            vm.departmentId = to.query.departmentId
             vm.assetId = to.query.assetId
             equestrianSrv.getHorseAssetsDetail(vm.assetId).then(resp => {
-                vm.inventory =resp.data.inventory
+                vm.inventory = resp.data.inventory
                 vm.barCode = resp.data.barCode
                 vm.assetType = resp.data.typeId
                 vm.typeDetail = resp.data.typeDetailId
@@ -241,10 +243,21 @@ export default {
             }, err => {
                 vm.$message.error(err.msg)
             })
+            systemSrv.userComboBox(vm.departmentId).then(
+                resp => {
+                    vm.userList = resp.data.userList;
+                },
+                err => {
+                    vm.$message.error(err.msg);
+                }
+            );
 
         })
     },
     methods: {
+        changeDepart() {
+            this.managePeople = ''
+        },
         getManageUser() {
             if (!this.departName) {
                 this.$message.error('管理部门不能为空')
@@ -268,7 +281,7 @@ export default {
             })
         },
         updateAssets() {
-            if (!(this.barCode&&this.assetType && this.typeDetail && this.assetsNum && this.assetsName
+            if (!(this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
@@ -277,7 +290,7 @@ export default {
                 return;
             }
             let assetsInfo = {
-                barCode:this.barCode,
+                barCode: this.barCode,
                 assetId: this.assetId,
                 typeId: this.assetType,
                 typeDetailId: this.typeDetail,

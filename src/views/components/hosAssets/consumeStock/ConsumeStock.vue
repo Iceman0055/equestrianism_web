@@ -65,6 +65,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getConsumeList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -169,7 +170,7 @@ export default {
             assetType: "",
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             assetTypeList: [],
             typeDetailList: [],
             addDialog: false,
@@ -331,6 +332,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .distance {
     position: relative;
     .top-distance {
@@ -350,6 +360,7 @@ export default {
 }
 
 .add-delete {
+    margin-top: -10px;
     color: #409eff;
     margin-left: -40px;
     float: left;

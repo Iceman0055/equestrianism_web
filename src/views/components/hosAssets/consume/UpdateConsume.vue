@@ -91,7 +91,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="departName" class="el-field-input">
+                    <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
                         <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
@@ -147,6 +147,7 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            departmentId:'',
             managePeople: '',
             note: '',
             designPurpose: '',
@@ -193,6 +194,7 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
+            vm.departmentId = to.query.departmentId
             vm.assetId = to.query.assetId
             hosAssetsSrv.getConsumeDetail(vm.assetId).then(resp => {
                 vm.inventory = resp.data.inventory
@@ -243,9 +245,20 @@ export default {
             }, err => {
                 vm.$message.error(err.msg)
             })
+            systemSrv.userComboBox(vm.departmentId).then(
+                resp => {
+                    vm.userList = resp.data.userList;
+                },
+                err => {
+                    vm.$message.error(err.msg);
+                }
+            );
         })
     },
     methods: {
+        changeDepart() {
+            this.managePeople = ''
+        },
         getManageUser() {
             if (!this.departName) {
                 this.$message.error('管理部门不能为空')

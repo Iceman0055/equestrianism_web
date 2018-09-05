@@ -85,6 +85,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getUser" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -124,7 +125,7 @@ export default {
             deleteDialog: false,
             userList: [],
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             list_name: '',
             list_jobNumber: '',
             list_status: '',
@@ -216,6 +217,15 @@ export default {
 <style lang="scss" scoped>
 .content_page {
     .content-show {
+        .page {
+            justify-content: flex-end;
+            display: flex;
+            float: none;
+            .total {
+                line-height: 2.2;
+                color: #867a7a;
+            }
+        }
         .list-search {
             .search-field {
                 .label {

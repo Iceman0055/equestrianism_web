@@ -9,7 +9,10 @@
           <div class="reuse-head">
             <div class="reuse-title">{{index+1}}. {{event.title}}</div>
             <div class="reuse-date">{{event.date}}</div>
-            <el-button @click="showDelete(event)" type="warning" icon="el-icon-delete" circle></el-button>
+            <div>
+              <el-button type="success">完成</el-button>
+              <el-button @click="showDelete(event)" type="warning">报废</el-button>
+            </div>
           </div>
           <div class="reuse-foot">
             {{event.desc}}
@@ -18,25 +21,25 @@
       </template>
     </vue-event-calendar>
     <!-- <el-dialog title="添加事件" :modal-append-to-body="false" :visible.sync="addDialog" width="40%" center>
-      <div class="text-center content-show">
-        <div class="row list-search">
-          <div class="col-md-12 search-field">
-            <div class="label">标题：</div>
-            <input type="text" v-model="title" class="form-control input-field" placeholder="请输入标题" />
-          </div>
-        </div>
-        <div class="row list-search">
-          <div class="col-md-12 search-field">
-            <div class="label" style="left:-15px">描述(非必填)：</div>
-            <input type="text" v-model="desc" class="form-control input-field" placeholder="请输入描述" />
-          </div>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer text-center">
-        <el-button @click="addDialog = false">取 消</el-button>
-        <el-button type="primary" @click="addEvent">确 定</el-button>
-      </span>
-    </el-dialog> -->
+              <div class="text-center content-show">
+                <div class="row list-search">
+                  <div class="col-md-12 search-field">
+                    <div class="label">标题：</div>
+                    <input type="text" v-model="title" class="form-control input-field" placeholder="请输入标题" />
+                  </div>
+                </div>
+                <div class="row list-search">
+                  <div class="col-md-12 search-field">
+                    <div class="label" style="left:-15px">描述(非必填)：</div>
+                    <input type="text" v-model="desc" class="form-control input-field" placeholder="请输入描述" />
+                  </div>
+                </div>
+              </div>
+              <span slot="footer" class="dialog-footer text-center">
+                <el-button @click="addDialog = false">取 消</el-button>
+                <el-button type="primary" @click="addEvent">确 定</el-button>
+              </span>
+            </el-dialog> -->
     <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
       <div class="text-center">
         <span>确定要删除吗?</span>
@@ -61,7 +64,7 @@ export default {
       // otherAdd: false,
       deleteContent: {},
       // addDialog: false,
-      demoEvents: [ {
+      demoEvents: [{
         date: '2018/3/15',
         title: 'eat',
         desc: 'longlonglong description'

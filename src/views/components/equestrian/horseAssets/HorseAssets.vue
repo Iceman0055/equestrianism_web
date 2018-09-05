@@ -32,6 +32,23 @@
                     </router-link>
                 </div>
             </div>
+            <div class="row list-search">
+                <div class="col-md-1 search-field search-field_controls">
+                    <button class="btn btn-info" @click="batchImportDialog=true">批量导入</button>
+                </div>
+                <div class="col-md-1 search-field search-field_controls">
+                    <button class="btn btn-info">
+                        <a target="_blank" class="clearText" href="static/assets/固定资产导入模板.xls" download="">
+                            模板下载
+                        </a>
+                    </button>
+                </div>
+                <div class="col-md-1 search-field search-field_controls">
+                    <button class="btn btn-info">
+                        <a class="clearText" v-bind:href="exportExcel" target="_blank" download="data.xls">导出</a>
+                    </button>
+                </div>
+            </div>
             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
@@ -73,6 +90,7 @@
                                 <td>{{item.assetName}}</td>
                                 <td>{{item.price}}</td>
                                 <td>{{item.acreage}}</td>
+
                                 <td>{{item.priceTypeName}}</td>
                                 <td>{{item.acquireWayName}}</td>
                                 <td>{{item.financeAccountsDate}}</td>
@@ -89,8 +107,8 @@
                                 <td>{{item.purchaseOrganize}}</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/hUpdateAssets',       
-                                                                                     query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/equestrian/hUpdateAssets',query:{assetId:item.assetId}}">
+                                                                                                                 query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/equestrian/hUpdateAssets',query:{assetId:item.assetId,departmentId:item.departmentId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.assetId)">删除</a>
@@ -103,6 +121,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -118,28 +137,52 @@
                 <el-button type="primary" @click="deleteAssets">确 定</el-button>
             </span>
         </el-dialog>
+        <el-dialog title="批量导入" :modal-append-to-body="false" :visible.sync="batchImportDialog" width="40%" center>
+            <div class="text-center">
+                <el-upload :headers="headers" class="upload-demo" name="filename" action="/equestrianismApi/centerAssetInfo/batchImport" :on-success="handleSuccess" :file-list="fileList">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <!-- <el-button @click="batchImportDialog = false">取 消</el-button> -->
+                <el-button type="primary" @click="batchImportDialog=false">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
-import { Pagination, Message, Select } from 'element-ui'
+import { Pagination, Message, Select, Upload } from 'element-ui'
 import equestrianSrv from '../../../services/equestrian.service.js'
 import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            fileList: [],
+            batchImportDialog: false,
             deleteDialog: false,
             typeDetail: '',
             assetType: "",
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             assetTypeList: [],
             typeDetailList: [],
             deleteContent: {},
             showLoading: false,
             assetsName: '',
             assetsList: []
+        }
+    },
+    computed: {
+        exportExcel() {
+            return "/equestrianismApi/centerAssetInfo/exportExcel?typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetName
+        },
+        headers() {
+            return {
+                'sessionId': window.localStorage.getItem("sessionId")
+            }
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -161,6 +204,11 @@ export default {
         })
     },
     methods: {
+        handleSuccess(response, file, fileList) {
+            if (response.code == 10200) {
+                this.$message.success('批量导入成功')
+            }
+        },
         getAssetsType() {
             if (!this.assetType) {
                 this.$message.error('请先选择资产大类')
@@ -203,5 +251,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.clearText {
+    text-decoration: none;
+    color: #fff;
+}
 
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

@@ -17,7 +17,7 @@ Vue.use(Element, { size: "small" });
 Vue.use(animate);
 /* eslint-disable no-new */
 axios.defaults.headers.common["sessionId"] =
-  window.sessionStorage.getItem("sessionId") || "123456";
+  window.localStorage.getItem("sessionId") || "123456";
 
 Vue.filter("filterDate", function(value, formatString) {
   formatString = formatString || "YYYY-MM-DD";

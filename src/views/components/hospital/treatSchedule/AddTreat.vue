@@ -49,10 +49,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select size="large" v-model="beginTime" :picker-options="{
-                                                                                start: '00:00',
-                                                                                 step: '01:00',
-                                                                                   end: '24:00'
-                                                                                  }" placeholder="选择时间">
+                                                                                  start: '00:00',
+                                                                                   step: '01:00',
+                                                                                     end: '24:00'
+                                                                                    }" placeholder="选择时间">
           </el-time-select>
         </div>
 
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select size="large" v-model="endTime" :picker-options="{
-                                                                                      start: '00:00',
-                                                                                       step: '01:00',
-                                                                                      end: '24:00'
-                                                                                       }" placeholder="选择时间">
+                                                                                        start: '00:00',
+                                                                                         step: '01:00',
+                                                                                        end: '24:00'
+                                                                                         }" placeholder="选择时间">
           </el-time-select>
         </div>
       </div>
@@ -90,9 +90,7 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">设备使用：</div>
-           <div type="text" rows="2"  v-html="showAssetList" class="form-control addborder" @click="clickShowDialog" placeholder="点击添加">
-           
-          </div>
+          <div type="text" rows="2" v-html="showAssetList" class="form-control addborder" @click="clickShowDialog" placeholder="点击添加"> </div>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">消耗品使用：</div>
@@ -110,32 +108,10 @@
       <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addTreat">确定</el-button>
     </div>
 
-  <!-- 设备的 -->
-  <multi-select-dialog
-    title="选用设备"
-    width="800px"
-    :visible.sync="addItemDialog"
-    :query="queryAssets"
-    :columns="assetsColumns"
-    :value="assetSelected"
-    @submit="handleAssetsChange"
-    id-field="assetId"
-    inventory-field="inventory"
-    count-field="useNumber"
-  ></multi-select-dialog>
+    <!-- 设备的 -->
+    <multi-select-dialog title="选用设备" width="800px" :visible.sync="addItemDialog" :query="queryAssets" :columns="assetsColumns" :value="assetSelected" :disabled="false" @submit="handleAssetsChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
 
-<multi-select-dialog
-    title="选用消耗品"
-    width="800px"
-    :visible.sync="addConsumeDialog"
-    :query="queryConsume"
-    :columns="consumeColumns"
-    :value="consumeSelected"
-    @submit="handleConsumeChange"
-    id-field="assetId"
-    inventory-field="inventory"
-    count-field="useNumber"
-  ></multi-select-dialog>
+    <multi-select-dialog title="选用消耗品" width="800px" :visible.sync="addConsumeDialog" :query="queryConsume" :columns="consumeColumns" :value="consumeSelected" :disabled="false" @submit="handleConsumeChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
 
   </div>
 </template>
@@ -211,7 +187,7 @@ export default {
       assetsName: "",
       currentPage: 1,
       pageRecorders: 5,
-      totalRecorders: 1,
+      totalRecorders: 0,
       current: 1,
       page: 5,
       total: 1,
@@ -285,6 +261,7 @@ export default {
           ori: item.ori
         };
       });
+      console.log('selell', selected)
       return selected;
     },
     consumeSelected() {
@@ -394,10 +371,10 @@ export default {
       );
     },
     handleConsumeChange(selected) {
-      console.debug("handleAssetsChange: ", selected);
+      console.log('seleceefes',selected)
       let hospitalConsumeList = [];
       let addConsumeItem = [];
-      let showConsumeList =''
+      let showConsumeList = ''
       for (let key in selected) {
         hospitalConsumeList.push({
           assetId: key,
@@ -409,8 +386,9 @@ export default {
           count: selected[key].count
         });
         showConsumeList +=
-          selected[key].ori.assetName + "  *" + selected[key].count + "<br/>";
+          selected[key].ori.assetName + "&nbsp;&nbsp;&nbsp;*" + selected[key].count + "<br/>";
       }
+      
       this.showConsumeList = showConsumeList
       this.hospitalConsumeList = hospitalConsumeList;
       this.addConsumeItem = addConsumeItem;
@@ -431,7 +409,7 @@ export default {
           assetId: key,
           count: selected[key].count
         });
-        
+
         showAssetList +=
           selected[key].ori.assetName + "&nbsp;&nbsp;&nbsp;*" + selected[key].count + "<br/>";
       }
@@ -468,10 +446,12 @@ export default {
   border-radius: 5px;
   padding: 10px 5px;
 }
+
 .addborder:empty::before {
   color: lightgrey;
   content: attr(placeholder);
 }
+
 .add-delete a {
   margin-left: 5px;
   cursor: pointer;
@@ -518,6 +498,7 @@ export default {
   color: #565656;
   outline: 0;
 }
+
 .Decrease {
   border-radius: 5px 0 0 5px;
 }
@@ -525,6 +506,7 @@ export default {
 .Increase {
   border-radius: 0 5px 5px 0;
 }
+
 .Decrease i {
   font-size: 20px;
   color: #409eff;

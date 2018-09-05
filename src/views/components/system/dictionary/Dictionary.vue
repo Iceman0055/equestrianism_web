@@ -59,6 +59,7 @@
                         暂无数据 </div>
 
                     <div class="page">
+                      <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getDict" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -99,6 +100,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                      <div class="total"> 总共 {{total}} 条</div>
                         <el-pagination @current-change="getDetailList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
                         </el-pagination>
                     </div>
@@ -197,10 +199,10 @@ export default {
       showLoading: false,
       loading: false,
       pageRecorders: 10,
-      totalRecorders: 1,
+      totalRecorders: 0,
       currentPage: 1,
       page: 10,
-      total: 1,
+      total: 0,
       current: 1,
       typeCode: "",
       typeName: "",
@@ -478,6 +480,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .input-pointer {
   cursor: pointer;
 }

@@ -29,12 +29,12 @@
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">
+            <!-- <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
                     <input type="text" :disabled="useDisabled" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateNail">确定</el-button>
@@ -93,7 +93,7 @@ export default {
     },
     methods: {
         updateNail() {
-            if (!(this.time && this.horseName && this.operatePeople&& this.remark)) {
+            if (!(this.time && this.horseName && this.operatePeople)) {
                 this.$message.error('钉甲信息不能为空！')
                 return;
             }
@@ -102,7 +102,7 @@ export default {
                 time: this.brigandineDate,
                 horseName: this.horseId,
                 operatePeople: this.userId,
-                remark:this.remark
+                // remark:this.remark
             }
             hospitalSrv.updateNail(nailInfo).then((resp) => {
                 this.$message.success('修改钉甲成功')

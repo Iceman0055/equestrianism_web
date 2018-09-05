@@ -84,7 +84,7 @@ export default {
       hospitalAssetList: [],
       currentPage: 1,
       pageRecorders: 5,
-      totalRecorders: 1,
+      totalRecorders: 0,
       assetsTreatName:'',
     };
   },

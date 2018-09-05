@@ -39,6 +39,7 @@
         </div>
         <div class="row reverse">
           <div class="page">
+            <div class="total"> 总共 {{totalRecorders}} 条</div>
             <el-pagination @current-change="getHorseResumeList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
             </el-pagination>
           </div>
@@ -58,7 +59,7 @@ export default {
     return {
       currentPage: 1,
       pageRecorders: 4,
-      totalRecorders: 1,
+      totalRecorders: 0,
       horseInfoName: [],
       horseName: "",
       horseResumeList: [],
@@ -111,6 +112,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .reverse {
   flex-direction: row-reverse;
 }

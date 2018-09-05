@@ -1,45 +1,21 @@
 <template>
-    <el-dialog
-        :title="title"
-        :width="width"
-        :visible.sync="visible"
-        :modal-append-to-body="false"
-        class="content-show"
-        center
-    >
+    <el-dialog :title="title" :width="width" :visible.sync="visible" :modal-append-to-body="false" class="content-show" center>
         <div class="row list-search">
-        <div class="col-md-8 search-field">
-            <div class="label" style="left:-18px">固定资产名称：</div>
-            <input type="text" v-model="key" class="form-control input-field" placeholder="请输入固定资产名称" />
+            <div class="col-md-8 search-field">
+                <div class="label" style="left:-18px">固定资产名称：</div>
+                <input type="text" v-model="key" class="form-control input-field" placeholder="请输入固定资产名称" />
+            </div>
+            <div class="col-md-1 search-field search-field_controls">
+                <button @click="handleSearch()" class="btn btn-primary search-btn">搜索</button>
+            </div>
         </div>
-        <div class="col-md-1 search-field search-field_controls">
-            <button @click="handleSearch()" class="btn btn-primary search-btn">搜索</button>
-        </div>
-    </div>
         <div class="list-empty" v-show="tableData.length==0">
             暂无数据
         </div>
-        <el-table
-            ref="multipleTable"
-            :data="tableData"
-            @select="handleSelect"
-            tooltip-effect="dark"
-            style="width: 100%"
-        >
-            <el-table-column
-                type="selection"
-                width="55"
-            ></el-table-column>
-            <el-table-column
-                v-for="(column, index) in columns"
-                v-bind:key="index"
-                :prop="column.dataIndex"
-                :label="column.title"
-                :width="column.width"
-            ></el-table-column>
-            <el-table-column
-                label="操作"
-            >
+        <el-table ref="multipleTable" :data="tableData" @select="handleSelect" tooltip-effect="dark" style="width: 100%" :disabled="disabled">
+            <el-table-column :selectable="selectable" type="selection" width="55"></el-table-column>
+            <el-table-column v-for="(column, index) in columns" v-bind:key="index" :prop="column.dataIndex" :label="column.title" :width="column.width"></el-table-column>
+            <el-table-column label="操作">
                 <template slot-scope="scope">
                     <div class="Spinner">
                         <button class="Decrease" @click="decrease(scope.$index, scope.row)">
@@ -54,23 +30,11 @@
             </el-table-column>
         </el-table>
         <div class="page">
-            <el-pagination
-                @current-change="paginationChange"
-                :current-page="current"
-                :page-size="pageSize"
-                :total="total"
-                background
-                layout="prev, pager, next"
-            ></el-pagination>
+            <el-pagination @current-change="paginationChange" :current-page="current" :page-size="pageSize" :total="total" background layout="prev, pager, next"></el-pagination>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button
-                @click="handleCancel()"
-            >取 消</el-button>
-            <el-button
-                type="primary"
-                @click="handleSubmit()"
-            >确 定</el-button>
+            <el-button @click="handleCancel()">取 消</el-button>
+            <el-button v-show="!disabled" type="primary" @click="handleSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -86,6 +50,7 @@ export default {
         'idField', // 指定作为id的属性
         'countField', // 指定数量的属性
         'inventoryField', // 指定库存属性
+        'disabled'
     ],
     data() {
         return {
@@ -98,6 +63,7 @@ export default {
             pageSize: 5,
             total: 0,
             index: -1,
+
         };
     },
     mounted() {
@@ -109,6 +75,10 @@ export default {
         this.watchValue();
     },
     methods: {
+        selectable() {
+            return !this.disabled
+            // return !this.disabled || this.value[row[this.idField]];
+        },
         watch() {
             // 监控visible的变化
             this.watchVisible = this.$watch('visible', (newVal, oldVal) => {
@@ -118,13 +88,11 @@ export default {
             });
 
             this.watchValue = this.$watch('value', (newVal, oldVal) => {
-                console.debug('value change: ', newVal);
                 this.selected = Object.assign({}, newVal);
                 this.updateTableData();
             });
         },
         reset() {
-            console.debug('will reset')
             // 初始化请求
             this.key = '';
             this.current = 1;
@@ -165,7 +133,6 @@ export default {
             // this.applySelectStatus();
         },
         search() {
-            console.debug('search: ', this.key);
             // 搜索
             this.query({
                 key: this.key,
@@ -186,7 +153,7 @@ export default {
             this.search();
         },
         handleSelect(selections, row) {
-            console.debug('handleSelect: ', selections, row);
+            console.log('selection',selections)
             const { selected, counts } = this;
             if (selections.filter((selection) => selection[this.idField] === row[this.idField]).length > 0) {
                 selected[row[this.idField]] = {
@@ -237,90 +204,92 @@ export default {
 
 <style lang="scss" scoped>
 .el-select-dropdown__list {
-  height: 139px !important;
-  overflow-y: scroll !important;
+    height: 139px !important;
+    overflow-y: scroll !important;
 }
 
 .baseInfo-title {
-  height: 30px;
-  line-height: 30px;
-  border-left: 2px solid #2db7f5;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 12px;
-  .title {
-    font-size: 16px;
-    font-weight: bold;
-    display: inline-block;
-  }
+    height: 30px;
+    line-height: 30px;
+    border-left: 2px solid #2db7f5;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 12px;
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        display: inline-block;
+    }
 }
 
 .addborder {
-  border-radius: 5px;
+    border-radius: 5px;
 }
 
 .add-delete a {
-  margin-left: 5px;
-  cursor: pointer;
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 .add-delete {
-  color: #409eff;
-  margin-left: -40px;
-  float: left;
-  font-size: 40px;
-  display: inline-flex;
+    color: #409eff;
+    margin-left: -40px;
+    float: left;
+    font-size: 40px;
+    display: inline-flex;
 }
 
 .input-field {
-  border-radius: 5px;
-  height: 40px;
+    border-radius: 5px;
+    height: 40px;
 }
 
 .Spinner {
-  display: block;
-  overflow: hidden;
-  width: 160px;
+    display: block;
+    overflow: hidden;
+    width: 160px;
 }
 
 .Spinner button {
-  // display: inline-block;
-  width: 35px;
-  height: 35px;
-  border: 1px solid #d9d9d9;
-  background-color: #f7f7f7;
-  float: left;
-  cursor: pointer;
-  outline: 0;
+    // display: inline-block;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #d9d9d9;
+    background-color: #f7f7f7;
+    float: left;
+    cursor: pointer;
+    outline: 0;
 }
 
 .Spinner .Amount {
-  width: 50px;
-  height: 35px;
-  border-width: 1px 0;
-  border-style: solid;
-  border-color: #d9d9d9;
-  float: left;
-  text-align: center;
-  color: #565656;
-  outline: 0;
+    width: 50px;
+    height: 35px;
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: #d9d9d9;
+    float: left;
+    text-align: center;
+    color: #565656;
+    outline: 0;
 }
+
 .Decrease {
-  border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px;
 }
 
 .Increase {
-  border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
 }
+
 .Decrease i {
-  font-size: 20px;
-  color: #409eff;
+    font-size: 20px;
+    color: #409eff;
 }
 
 .Increase i {
-  position: relative;
-  top: 8px;
-  font-size: 22px;
-  color: #409eff;
+    position: relative;
+    top: 8px;
+    font-size: 22px;
+    color: #409eff;
 }
 </style>

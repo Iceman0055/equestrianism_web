@@ -55,6 +55,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getFeederList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -92,7 +93,7 @@ export default {
             deleteDialog: false,
             feederName: '',
             currentPage: 1,
-            totalRecorders: 1,
+            totalRecorders: 0,
             pageRecorders: 10,
             showLoading: false,
             feederList: [],
@@ -159,6 +160,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .showImage {
     width: 100%; // border:1px solid #ddd;
 }

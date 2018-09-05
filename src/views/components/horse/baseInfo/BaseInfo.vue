@@ -13,8 +13,8 @@
                     <div class="label">马匹名称：</div>
                     <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />
                     <!-- <el-input 
-                                    @input="setQueryKey"
-                                /> -->
+                                            @input="setQueryKey"
+                                        /> -->
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn" @click="getHorseList(1)">搜索</button>
@@ -73,6 +73,7 @@
                     <div class="list-empty" v-show="horseList.length===0">
                         暂无数据 </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getHorseList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -112,7 +113,7 @@ export default {
             currentPage: 1,
             pageRecorders: 10,
             showLoading: false,
-            totalRecorders: 1,
+            totalRecorders: 0,
             horseList: [],
             passportNumber: '',
             horseName: '',
@@ -128,6 +129,7 @@ export default {
             selectList: [],
         };
     },
+
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             horseSrv.getHorseName().then((resp) => {
@@ -143,8 +145,8 @@ export default {
                 if (to.query.horseName) {
                     vm.horseName = to.query.horseName
                     return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
-                }else{
-                     return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
+                } else {
+                    return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
                 }
             }).then(resp => {
                 vm.showLoading = false
@@ -224,5 +226,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

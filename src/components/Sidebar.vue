@@ -69,6 +69,7 @@ export default {
         32: '/system/role',
         33: '/system/dictionary',
         34: '/system/assetsManage',
+        35: '/equestrian/assetsDetail',
       },
       visibleMenu: []
     }
@@ -104,13 +105,12 @@ export default {
 
     }
   },
-  destroyed() {
-    console.log('unmounted', this)
-    this.unwatchList()
-    this.unwatchMap()
-  },
+  // destroyed() {
+  //   console.log('unmounted', this)
+  //   this.unwatchList()
+  //   this.unwatchMap()
+  // },
   mounted() {
-    console.debug('sidebar mounted: ', this)
     this.visibleMenu = this.getVisibleMenu(this.menuList, this.menuEnableMap)
     this.unwatchMap = this.$watch('menuEnableMap', this.updateVisibleMenu)
     this.unwatchList = this.$watch('menuList', this.updateVisibleMenu)
