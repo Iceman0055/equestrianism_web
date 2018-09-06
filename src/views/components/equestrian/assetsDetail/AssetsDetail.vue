@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-success">
-                        导出
+                        <a class="clearText" v-bind:href="exportExcel" target="_blank" download="data.xls">导出</a>
                     </button>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                                 <td>{{statusMap[item.scrapType]}}</td>
                                 <td>
                                     <!-- <router-link :to="{path: '/equestrian/updateDetail',       
-                                                  query: { disable: 1,assetId:item.assetId}}"> 查看</router-link> -->
+                                                              query: { disable: 1,assetId:item.assetId}}"> 查看</router-link> -->
 
                                     <a @click="deleteInfo(item.assetDetailId)">{{operateState[item.scrapType]}}</a>
                                 </td>
@@ -137,9 +137,9 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            operateState:{
-                1:'正常',
-                0:'已报废'
+            operateState: {
+                1: '正常',
+                0: '已报废'
             },
             statusMap: {
                 1: "报废",
@@ -178,6 +178,12 @@ export default {
                 vm.$message.error(err.msg)
             })
         })
+    },
+    computed: {
+        exportExcel() {
+            var sessionId = window.localStorage.getItem('sessionId')
+            return "/equestrianismApi/centerAssetDetail/exportExcel?sessionId=" + sessionId + "&typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetNumber
+        },
     },
     methods: {
         getAssetsType() {
@@ -221,6 +227,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.clearText {
+    text-decoration: none;
+    color: #fff;
+}
+
 .content_page .content-show .page {
     justify-content: flex-end;
     display: flex;

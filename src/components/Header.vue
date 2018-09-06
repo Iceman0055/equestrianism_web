@@ -28,6 +28,7 @@ export default {
     loginOut() {
       window.localStorage.setItem('menuEnableMap', '')
       window.localStorage.setItem('menuList', '')
+        window.localStorage.setItem('sessionId', '')
       this.$router.push('/pages/login')
 
     },

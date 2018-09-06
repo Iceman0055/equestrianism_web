@@ -86,7 +86,6 @@ export default {
                     this.reset();
                 }
             });
-
             this.watchValue = this.$watch('value', (newVal, oldVal) => {
                 this.selected = Object.assign({}, newVal);
                 this.updateTableData();
@@ -154,6 +153,7 @@ export default {
         },
         handleSelect(selections, row) {
             console.log('selection',selections)
+             console.log('row',row)
             const { selected, counts } = this;
             if (selections.filter((selection) => selection[this.idField] === row[this.idField]).length > 0) {
                 selected[row[this.idField]] = {

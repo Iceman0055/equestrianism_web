@@ -49,10 +49,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select size="large" v-model="beginTime" :picker-options="{
-                                                                                  start: '00:00',
-                                                                                   step: '01:00',
-                                                                                     end: '24:00'
-                                                                                    }" placeholder="选择时间">
+                                                                                      start: '00:00',
+                                                                                       step: '01:00',
+                                                                                         end: '24:00'
+                                                                                        }" placeholder="选择时间">
           </el-time-select>
         </div>
 
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select size="large" v-model="endTime" :picker-options="{
-                                                                                        start: '00:00',
-                                                                                         step: '01:00',
-                                                                                        end: '24:00'
-                                                                                         }" placeholder="选择时间">
+                                                                                            start: '00:00',
+                                                                                             step: '01:00',
+                                                                                            end: '24:00'
+                                                                                             }" placeholder="选择时间">
           </el-time-select>
         </div>
       </div>
@@ -107,10 +107,9 @@
     <div class="content-footer row">
       <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addTreat">确定</el-button>
     </div>
-
     <!-- 设备的 -->
     <multi-select-dialog title="选用设备" width="800px" :visible.sync="addItemDialog" :query="queryAssets" :columns="assetsColumns" :value="assetSelected" :disabled="false" @submit="handleAssetsChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
-
+    <!-- 消耗品 -->
     <multi-select-dialog title="选用消耗品" width="800px" :visible.sync="addConsumeDialog" :query="queryConsume" :columns="consumeColumns" :value="consumeSelected" :disabled="false" @submit="handleConsumeChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
 
   </div>
@@ -128,7 +127,7 @@ import {
   Table
 } from "element-ui";
 import AddAssets from "../../../../components/assetsDialog/addAssets.vue";
-import MultiSelectDialog from "../../../../components/multiSelectDialog/index.vue";
+import MultiSelectDialog from "../../../../components/MultiSelectDialog/index.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import hosAssetsSrv from "../../../services/hosAssets.service.js";
 import horseSrv from "../../../services/horse.service.js";
@@ -162,11 +161,9 @@ export default {
         }
       ],
       selectAssets: [],
-
       addConsumeDialog: false,
       addItemDialog: false,
       consultingRoomList: [],
-      consumableAssetList: [],
       showConsumeList: "",
       horseInfoName: [],
       horseName: "",
@@ -194,6 +191,7 @@ export default {
       assetsList: [],
       consumeList: [],
       hospitalAssetList: [],
+      hospitalConsumeList:[],
       showAssetList: "",
       treatWayOptions: [
         {
@@ -219,7 +217,7 @@ export default {
   },
   components: {
     "add-assets": AddAssets,
-    "multi-select-dialog": MultiSelectDialog
+    "multi-select-dialog": MultiSelectDialog,
   },
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
@@ -261,12 +259,11 @@ export default {
           ori: item.ori
         };
       });
-      console.log('selell', selected)
       return selected;
     },
     consumeSelected() {
       let selected = {};
-      this.hospitalAssetList.map(item => {
+      this.hospitalConsumeList.map(item => {
         selected[item.assetId] = {
           count: item.count,
           ori: item.ori
@@ -335,7 +332,7 @@ export default {
           this.treatDesc &&
           this.useRoom &&
           this.hospitalAssetList &&
-          this.consumableAssetList
+          this.hospitalConsumeList
         )
       ) {
         this.$message.error("治疗信息不能为空！");
@@ -343,7 +340,7 @@ export default {
       }
       let treatInfo = {
         outpatientType: this.treatWay,
-        // appointNumber: this.appointNum,
+        appointNumber: this.appointNum,
         beginDate: this.beginDate,
         beginTime: this.beginTime + ":00",
         endDate: this.endDate,
@@ -371,7 +368,7 @@ export default {
       );
     },
     handleConsumeChange(selected) {
-      console.log('seleceefes',selected)
+      console.log('seleceefes', selected)
       let hospitalConsumeList = [];
       let addConsumeItem = [];
       let showConsumeList = ''
@@ -388,7 +385,7 @@ export default {
         showConsumeList +=
           selected[key].ori.assetName + "&nbsp;&nbsp;&nbsp;*" + selected[key].count + "<br/>";
       }
-      
+
       this.showConsumeList = showConsumeList
       this.hospitalConsumeList = hospitalConsumeList;
       this.addConsumeItem = addConsumeItem;

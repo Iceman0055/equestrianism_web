@@ -8,8 +8,8 @@ export default {
     }).then(
       resp => {
         if (resp.data.code === 10200) {
-          axios.defaults.headers.common["sessionId"] = resp.data.sessionId;
-          window.localStorage.setItem("sessionId", resp.data.sessionId);
+          axios.defaults.headers.common["sessionId"] = resp.data.data.sessionId;
+          window.localStorage.setItem("sessionId", resp.data.data.sessionId);
           return Promise.resolve(resp.data);
         } else {
           return Promise.reject(resp.data);

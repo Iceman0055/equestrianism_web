@@ -107,7 +107,7 @@
                                 <td>{{item.purchaseOrganize}}</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/hUpdateAssets',       
-                                                                                                                 query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
+                                                                                                                     query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
                                     <router-link :to="{path:'/equestrian/hUpdateAssets',query:{assetId:item.assetId,departmentId:item.departmentId}}">
                                         修改
                                     </router-link>
@@ -177,7 +177,8 @@ export default {
     },
     computed: {
         exportExcel() {
-            return "/equestrianismApi/centerAssetInfo/exportExcel?typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetName
+            var sessionId = window.localStorage.getItem('sessionId')
+            return "/equestrianismApi/centerAssetInfo/exportExcel?sessionId=" + sessionId + "&typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetName
         },
         headers() {
             return {

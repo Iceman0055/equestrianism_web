@@ -63,10 +63,10 @@
                                     <a v-if="!item.treatmentCaseId" @click="showTreatCase(item.treatmentId,item.treatmentCaseId)">添加病历</a>
                                     <a v-if="item.treatmentCaseId" @click="getTreatCaseDetail(item.treatmentCaseId,item.treatmentId)">修改病历</a>
                                     <router-link :to="{path: '/hospital/updateTreat',       
-                                                                                                                                                                                                                                     query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
+                                                                                                                                                                                                                                             query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
                                     <!-- <router-link :to="{path:'/hospital/updateTreat',query:{treatmentId:item.treatmentId}}">
-                                        修改
-                                    </router-link> -->
+                                                修改
+                                            </router-link> -->
                                     <a @click="deleteInfo(item.treatmentId)">删除</a>
                                 </td>
                             </tr>
@@ -214,26 +214,26 @@
             </div>
         </div>
         <!-- 固定资产  -->
-        <el-dialog title="设备使用详情" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
-            <div class="text-center">
-                <div class="row" v-for="(item,index) in assetList" :key="index">
-                    <div class="col-md-7">名称：{{item.assetName}}</div>
-                    <div class="col-md-5">数量：{{item.count}}</div>
-                </div>
-            </div>
+        <el-dialog title="设备使用详情" :modal-append-to-body="false" :visible.sync="assetsDialog" width="40%" center>
+            <el-table highlight-current-row border :data="assetList" style="width: 100%">
+                <el-table-column prop="assetName" label="名称">
+                </el-table-column>
+                <el-table-column prop="count" label="数量">
+                </el-table-column>
+            </el-table>
             <span slot="footer" class="dialog-footer text-center">
                 <!-- <el-button @click="assetsDialog = false">取 消</el-button> -->
                 <el-button type="primary" @click="assetsDialog = false">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 显示消耗品 -->
-        <el-dialog title="消耗品使用详情" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
-            <div class="text-center">
-                <div class="row" v-for="(item,index) in consumeList" :key="index">
-                    <div class="col-md-7">名称：{{item.assetName}}</div>
-                    <div class="col-md-5">数量：{{item.count}}</div>
-                </div>
-            </div>
+        <el-dialog title="消耗品使用详情" :modal-append-to-body="false" :visible.sync="consumeDialog" width="40%" center>
+            <el-table highlight-current-row border :data="consumeList" style="width: 100%">
+                <el-table-column prop="assetName" label="名称">
+                </el-table-column>
+                <el-table-column prop="count" label="数量">
+                </el-table-column>
+            </el-table>
             <span slot="footer" class="dialog-footer text-center">
                 <!-- <el-button @click="consumeDialog = false">取 消</el-button> -->
                 <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
@@ -259,7 +259,7 @@
 
 <script>
 import Vue from "vue";
-import { Pagination, Upload, DatePicker, Message, Select, Input } from "element-ui";
+import { Pagination, Upload, DatePicker, Message, Select, Input, Table } from "element-ui";
 import UploadImg from "../../../../components/uploadImg/uploadImg.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import horseSrv from "../../../services/horse.service.js";
@@ -572,6 +572,7 @@ export default {
         color: #867a7a;
     }
 }
+
 .fieldInput {
     width: 90%;
 }
