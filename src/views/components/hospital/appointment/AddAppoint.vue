@@ -16,14 +16,14 @@
         <div class="col-md-4 search-field">
           <div class="label">预约医生：</div>
           <el-select ref="selectDoctor" size="large" v-model="doctor" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in doctorList" :key="item.userId" :label="item.realname" :value="item.userId">
+            <el-option v-for="(item,index) in doctorList" :key="index" :label="item.realname" :value="item.userId">
             </el-option>
           </el-select>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">预约状态：</div>
           <el-select ref="selectStatus" size="large" v-model="appointStatus" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="(item,index) in statusList" :key="index" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -74,7 +74,6 @@ export default {
       doctorList: [],
       doctor: '',
       appointStatus: '',
-      appointInfo: {},
       statusList: [{
         value: '1',
         label: '已预约'
@@ -94,16 +93,15 @@ export default {
       }, (err) => {
         vm.$message.error(err.msg)
       })
-
     })
-  },
-  components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
   },
   mounted() {
     this.$el.addEventListener('animationend', this.resizeDoctor)
     this.$el.addEventListener('animationend', this.resizeStatus)
+  },
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true
+    next()
   },
   methods: {
     addAppoint() {
@@ -111,7 +109,7 @@ export default {
         this.$message.error('预约日程信息不能为空！')
         return;
       }
-      this.appointInfo = {
+      let appointInfo = {
         userId: this.doctor,
         appointDate: this.appointDate,
         contacts: this.contactPer,
@@ -121,7 +119,7 @@ export default {
         remark: this.note,
         appointStatus: this.appointStatus,
       }
-      hospitalSrv.addAppoint(this.appointInfo).then((resp) => {
+      hospitalSrv.addAppoint(appointInfo).then((resp) => {
         this.$message.success('添加预约日程成功')
         this.$router.push('/hospital/appointment')
       }, (err) => {
@@ -134,7 +132,6 @@ export default {
     resizeStatus() {
       this.$refs.selectStatus.resetInputWidth()
     },
-
   }
 }; 
 </script>

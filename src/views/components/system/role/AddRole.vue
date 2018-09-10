@@ -38,12 +38,11 @@ export default {
             roleName: '',
             shortName: '',
             note: '',
-            addInfo:{}
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     methods: {
            addRole() {
@@ -51,12 +50,12 @@ export default {
                 this.$message.error('角色信息不能为空！')
                 return;
             }
-            this.addInfo = {
+            let addInfo = {
                 roleName: this.roleName,
                 shortName: this.shortName,
                 remark: this.note,
             }
-            systemSrv.addRole(this.addInfo).then((resp) => {
+            systemSrv.addRole(addInfo).then((resp) => {
                 this.$message.success('添加角色成功')
                 this.$router.push('/system/role')
             }, (err) => {

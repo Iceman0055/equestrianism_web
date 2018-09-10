@@ -70,8 +70,8 @@ export default {
     realname,
     jobNumber,
     status,
-    departmentName,
-    roleName,
+    departmentId,
+    roleId,
     pageRecorders
   ) {
     return axios({
@@ -83,8 +83,8 @@ export default {
         realname,
         jobNumber,
         status,
-        departmentName,
-        roleName
+        departmentId,
+        roleId
       }
     }).then(
       resp => {

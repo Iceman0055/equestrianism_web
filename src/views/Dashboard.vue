@@ -1,117 +1,144 @@
 <template>
   <div class="content_page background">
-    <!-- <div class="content-title-reuse">
-            <div class="title">日程</div>
+    <div class="content-title-reuse">
+      <div class="title">日程</div>
+    </div>
+    <vue-event-calendar :events="demoEvents" @month-changed="monthChange" @day-changed="dayChange">
+      <template slot-scope="props">
+        <div class="event-item" v-for="(event,index) in props.showEvents" :key="index">
+          <div class="reuse-head">
+            <div class="reuse-title">{{index+1}}. {{event.title}}</div>
+            <div class="reuse-date">{{event.date}}</div>
+            <div>
+              <el-button type="success">完成</el-button>
+              <el-button @click="showDelete(event)" type="warning">报废</el-button>
+            </div>
           </div>
-          <full-calendar id="element" class="test-fc animated slideInDown"  :events="fcEvents" lang="zh">
-            <template slot="fc-event-card" scope="p">
-              <p>
-                <i class="fa">sadfsd</i> {{ p.event.title }} test</p>
-            </template>
-          </full-calendar> -->
-
-    <div id='calendar'></div>
-
+          <div class="reuse-foot">
+            {{event.desc}}
+          </div>
+        </div>
+      </template>
+    </vue-event-calendar>
+    <!-- <el-dialog title="添加事件" :modal-append-to-body="false" :visible.sync="addDialog" width="40%" center>
+              <div class="text-center content-show">
+                <div class="row list-search">
+                  <div class="col-md-12 search-field">
+                    <div class="label">标题：</div>
+                    <input type="text" v-model="title" class="form-control input-field" placeholder="请输入标题" />
+                  </div>
+                </div>
+                <div class="row list-search">
+                  <div class="col-md-12 search-field">
+                    <div class="label" style="left:-15px">描述(非必填)：</div>
+                    <input type="text" v-model="desc" class="form-control input-field" placeholder="请输入描述" />
+                  </div>
+                </div>
+              </div>
+              <span slot="footer" class="dialog-footer text-center">
+                <el-button @click="addDialog = false">取 消</el-button>
+                <el-button type="primary" @click="addEvent">确 定</el-button>
+              </span>
+            </el-dialog> -->
+    <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
+      <div class="text-center">
+        <span>确定要删除吗?</span>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="deleteDialog = false">取 消</el-button>
+        <el-button type="primary" @click="deleteEvent">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
-
 <script>
-// let demoEvents = [
-//   {
-//     title: '上班',
-//     start: '2017-12-12',
-//     end: '2017-12-12',
-//     cssClass: 'family'
-//   },
-// ];
-// import fullCalendar from 'vue-fullcalendar'
-import $ from 'jquery'
-import fullcalendar from 'fullcalendar'
-import 'fullcalendar/dist/fullcalendar.min.css'
-import 'fullcalendar/dist/locale/zh-cn.js'
+import { Message, Button } from 'element-ui'
+import vueEventCalendar from 'vue-event-calendar'
 export default {
   data() {
     return {
-      // fcEvents: demoEvents
+      // date: '',
+      // title: '',
+      // desc: '',
+      deleteDialog: false,
+      // otherAdd: false,
+      deleteContent: {},
+      // addDialog: false,
+      demoEvents: [{
+        date: '2018/3/15',
+        title: 'eat',
+        desc: 'longlonglong description'
+      }, {
+        date: '2018/3/12',
+        title: 'this is a title'
+      }]
     }
   },
   methods: {
-
-  },
-  mounted() {
-    //初始化FullCalendar 
-    $('#calendar').fullCalendar({
-      height: 650,
-      //设置头部信息，如果不想显示，可以设置header为false
-      header: {
-        //日历头部左边：初始化切换按钮
-        left: 'prev,next today',
-        //日历头部中间：显示当前日期信息
-        center: 'title',
-        //日历头部右边：初始化视图
-        right: 'month'
-        // right: 'month,agendaWeek,agendaDay'
-      },
-      //设置是否显示周六和周日，设为false则不显示  
-      weekends: true,
-      //日历初始化时显示的日期，月视图显示该月，周视图显示该周，日视图显示该天，和当前日期没有关系
-      defaultDate: new Date(),
-      //日程数据 
-      events: [
-        {
-          title: '圣诞节',
-          start: '2017-12-25'
-        },
-        {
-          title: '事件1',
-          start: '2018-2-26 09:00',
-          end: '2018-2-26 18:00',
-          color: 'red',
-          className: 'doing',
-          textColor: '#fff'
-        },
-        {
-          title: '事件2',
-          start: '2018-2-26 09:00',
-          end: '2018-2-26 18:00',
-          color: 'red',
-          className: 'doing',
-          textColor: '#fff'
-        },
-      ]
-    });
+    showDelete(event) {
+      this.deleteDialog = true
+      this.deleteContent = event
+    },
+    deleteEvent() {
+      // let deleteArr = [this.deleteContent].length = 0
+      this.$message.success('删除成功')
+      this.deleteDialog = false
+    },
+    // addEvent() {
+    //   if (!(this.date && this.title)) {
+    //     this.$message.error('添加事件信息不能为空！')
+    //     return;
+    //   }
+    //   this.demoEvents.push({
+    //     date: this.date,
+    //     title: this.title,
+    //     desc: this.desc
+    //   })
+    //   this.$message.success('添加成功！')
+    //   this.addDialog = false
+    // },
+    monthChange(month) {
+      console.log(month)
+    },
+    dayChange(day) {
+      // this.title = ''
+      // this.desc = ''
+      // this.date = day.date
+      // this.addDialog = true
+      console.log(day)
+    }
   },
   name: 'dashboard',
   components: {
-    // 'full-calendar': fullCalendar
+    'el-button': Button
   }
 }
 </script>
-<style scoped>
-#calendar {
-  margin: 40px auto;
-  padding: 0 10px;
+<style lang="scss" scoped>
+.reuse-head {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  .reuse-title {
+    font-weight: 500;
+  }
+  .reuse-date {
+    color: #999;
+  }
 }
-/* Event 参数 className 的值 */
-.done:before {
-  content: "【 已完成 】";
-  background-color: yellow;
-  color: green;
-  text-align: center;
-  font-weight: bold;
-  width: 100%;
+
+.reuse-foot {
+  font-size: 16px;
+  color: #999;
+  padding-top: 8px;
+  margin-bottom: 8px;
+  border-top: 1px solid #ddd;
 }
-/* Event 参数 className 的值 */
-.doing:before {
-  content: "【 未完成 】";
-  background-color: yellow;
-  color: red;
-  text-align: center;
-  font-weight: bold;
+
+.content_page {
+  overflow-y: hidden
 }
-#element {
-  animation-duration: 1.5s;
-}
+
 .content-title-reuse {
   border-radius: 5px;
   padding-left: 20px;
@@ -120,6 +147,7 @@ export default {
   background-color: #DCEDF5;
   border-bottom: 1px solid #cfd8dc;
 }
+
 .background {
   background: #E5ECDA;
 }

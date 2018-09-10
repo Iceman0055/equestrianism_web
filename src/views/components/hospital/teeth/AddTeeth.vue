@@ -16,14 +16,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
                     <el-select ref="selectHorse" size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">操作人：</div>
                    <el-select ref="selectPeople" size="large" v-model="operatePeople" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in feederInfo" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in feederInfo" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
@@ -51,7 +51,6 @@ export default {
             time: '',
             horseName: '',
             operatePeople: '',
-            teethInfo:{},
             horseInfoName: [],
             remark:'',
             feederInfo:[]
@@ -75,10 +74,9 @@ export default {
         this.$el.addEventListener('animationend', this.resizeHorse)
         this.$el.addEventListener('animationend', this.resizePeople)
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     methods: {
         addTeeth() {
@@ -86,13 +84,13 @@ export default {
                 this.$message.error('挫牙信息不能为空！')
                 return;
             }
-            this.teethInfo = {
+            let teethInfo = {
                 operateDate: this.time,
                 horseId: this.horseName,
                 userId: this.operatePeople,
                 remark:this.remark
             }
-            hospitalSrv.addTeeth(this.teethInfo).then((resp) => {
+            hospitalSrv.addTeeth(teethInfo).then((resp) => {
                 this.$message.success('添加挫牙成功')
                 this.$router.push('/hospital/teeth')
             }, (err) => {

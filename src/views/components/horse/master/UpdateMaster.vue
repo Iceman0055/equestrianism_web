@@ -16,7 +16,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
                     <el-select ref="selectInput" size="large" :disabled="useDisabled" v-model="sex" class="el-field-input">
-                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" filterable :disabled="useDisabled" v-model="horseName" class="el-field-input">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -65,7 +65,6 @@ export default {
             useDisabled: false,
             horseInfoName: [],
             sexOptions: [],
-            masterInfo: {},
             hostId: '',
             // dictInfoList: [],
             dictionaryInfoList: []
@@ -74,6 +73,10 @@ export default {
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeSelect)
+    },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -90,7 +93,7 @@ export default {
                 return horseSrv.getMasterDetail(to.query.hostId);
             }).then(resp => {
                 vm.name = resp.data.hostName
-                vm.sex = resp.data.sex
+                vm.sex = parseInt(resp.data.sex)
                 vm.career = resp.data.occupation
                 vm.contact = resp.data.contactWay
                 vm.address = resp.data.address
@@ -98,13 +101,11 @@ export default {
             }).catch(err => {
                 vm.$message.error(err.msg)
             });
-
             horseSrv.getHorseName().then((resp) => {
                 vm.horseInfoName = resp.data.horseList
             }, (err) => {
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {
@@ -116,7 +117,7 @@ export default {
                 this.$message.error('马主信息不能为空！')
                 return;
             }
-            this.masterInfo = {
+           let masterInfo = {
                 hostId: this.hostId,
                 hostName: this.name,
                 sex: this.sex,
@@ -125,7 +126,7 @@ export default {
                 address: this.address,
                 horseId: this.horseName,
             }
-            horseSrv.updateMaster(this.masterInfo).then((resp) => {
+            horseSrv.updateMaster(masterInfo).then((resp) => {
                 this.$message.success('修改马主信息成功')
                 this.$router.push('/horse/master')
             }, (err) => {
@@ -133,14 +134,8 @@ export default {
             })
         },
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
-    },
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>

@@ -12,7 +12,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" filterable v-model="searchHorseId" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -44,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in treatmentList" :key="item">
+                            <tr v-for="(item,index) in treatmentList" :key="index">
                                 <td>{{treatWayOptions[item.outpatientType]}}</td>
                                 <td>{{item.appointNumber}}</td>
                                 <td>{{horseTypeOptions[item.horseType]}}</td>
@@ -63,12 +63,11 @@
                                     <a v-if="!item.treatmentCaseId" @click="showTreatCase(item.treatmentId,item.treatmentCaseId)">添加病历</a>
                                     <a v-if="item.treatmentCaseId" @click="getTreatCaseDetail(item.treatmentCaseId,item.treatmentId)">修改病历</a>
                                     <router-link :to="{path: '/hospital/updateTreat',       
-                                                                                                                                                                                                                     query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hospital/updateTreat',query:{treatmentId:item.treatmentId}}">
-                                        修改
-                                    </router-link>
+                                                                                                                                                                                                                                             query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
+                                    <!-- <router-link :to="{path:'/hospital/updateTreat',query:{treatmentId:item.treatmentId}}">
+                                                修改
+                                            </router-link> -->
                                     <a @click="deleteInfo(item.treatmentId)">删除</a>
-
                                 </td>
                             </tr>
                         </tbody>
@@ -77,6 +76,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getTreatList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -94,35 +94,37 @@
                                     <input type="text" v-model="address" class="form-control input-field" placeholder="请输入地点" />
                                 </div>
                                 <div class="col-md-4 search-field">
-                                    <div class="label">临诊：</div>
-                                    <input type="text" v-model="clinical" class="form-control input-field" placeholder="请输入临诊" />
-                                </div>
-                            </div>
-                            <div class="row mb-1 list-search">
-                                <div class="col-md-4 search-field">
-                                    <div class="label">初诊：</div>
-                                    <input type="text" v-model="firstVisit" class="form-control input-field" placeholder="请输入初诊" />
-                                </div>
-                                <div class="col-md-4 search-field">
-                                    <div class="label">医嘱：</div>
-                                    <input type="text" v-model="advice" class="form-control input-field" placeholder="请输入医嘱" />
-                                </div>
-                                <div class="col-md-4 search-field">
                                     <div class="label">标题标签：</div>
                                     <input type="text" v-model="titleTag" class="form-control input-field" placeholder="请输入标题标签" />
                                 </div>
                             </div>
                             <div class="row mb-1 list-search">
-                                <div class="col-md-4 search-field">
+                                <div class="col-md-12 search-field">
+                                    <div class="label">临诊：</div>
+                                    <el-input type="text" :rows="3" :col="2" v-model="clinical" placeholder="请输入临诊"></el-input>
+                                </div>
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
+                                    <div class="label">初诊：</div>
+                                    <el-input type="text" :rows="3" :col="2" v-model="firstVisit" placeholder="请输入初诊"></el-input>
+                                </div>
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
+                                    <div class="label">医嘱：</div>
+                                    <el-input type="text" :rows="3" :col="2" v-model="advice" placeholder="请输入医嘱"></el-input>
+                                </div>
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
                                     <div class="label">备注：</div>
-                                    <input type="text" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
+                                    <el-input type="text" :rows="3" :col="2" v-model="remark" placeholder="请输入备注"></el-input>
                                 </div>
                             </div>
                             <div class="row mb-1 list-search">
                                 <div class="col-md-12 search-field">
                                     <div class="label">x光照片：</div>
-                                    <!-- <multiple-img :name="'photo'" :data="{photoType:1}" v-on:successFile="successXRay" v-on:removeFile="removeXRay" :action="'/equestrianismApi/treatmentCasePhoto/add'" :imageUrl="xRayImg">
-                                                                                    </multiple-img> -->
                                     <el-upload list-type="picture-card" :name="'photo'" :data="{photoType: 1}" :file-list="xrayList" :action="'/equestrianismApi/treatmentCasePhoto/add'" :on-success="successXRay" :on-remove="removeXRay">
                                         <i class="el-icon-plus"></i>
                                     </el-upload>
@@ -131,8 +133,6 @@
                             <div class="row mb-1 list-search">
                                 <div class="col-md-12 search-field">
                                     <div class="label">数据照片：</div>
-                                    <!-- <multiple-img :name="'photo'" :data="{photoType:2}" v-on:successFile="successData" v-on:removeFile="removeData" :action="'/equestrianismApi/treatmentCasePhoto/add'" :imageUrl="dataImg">
-                                                                                    </multiple-img> -->
                                     <el-upload list-type="picture-card" :name="'photo'" :data="{photoType: 2}" :file-list="dataList" :action="'/equestrianismApi/treatmentCasePhoto/add'" :on-success="successData" :on-remove="removeData">
                                         <i class="el-icon-plus"></i>
                                     </el-upload>
@@ -157,29 +157,35 @@
                                     <input type="text" v-model="address" class="form-control input-field" placeholder="请输入地点" />
                                 </div>
                                 <div class="col-md-4 search-field">
-                                    <div class="label">临诊：</div>
-                                    <input type="text" v-model="clinical" class="form-control input-field" placeholder="请输入临诊" />
-                                </div>
-                            </div>
-                            <div class="row mb-1 list-search">
-                                <div class="col-md-4 search-field">
-                                    <div class="label">初诊：</div>
-                                    <input type="text" v-model="firstVisit" class="form-control input-field" placeholder="请输入初诊" />
-                                </div>
-                                <div class="col-md-4 search-field">
-                                    <div class="label">医嘱：</div>
-                                    <input type="text" v-model="advice" class="form-control input-field" placeholder="请输入医嘱" />
-                                </div>
-                                <div class="col-md-4 search-field">
                                     <div class="label">标题标签：</div>
                                     <input type="text" v-model="titleTag" class="form-control input-field" placeholder="请输入标题标签" />
                                 </div>
                             </div>
                             <div class="row mb-1 list-search">
-                                <div class="col-md-4 search-field">
-                                    <div class="label">备注：</div>
-                                    <input type="text" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
+                                <div class="col-md-12 search-field">
+                                    <div class="label">临诊：</div>
+                                    <el-input type="textarea" :rows="3" :cols="2" v-model="clinical"></el-input>
                                 </div>
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
+                                    <div class="label">初诊：</div>
+                                    <el-input type="textarea" :rows="3" :cols="2" v-model="firstVisit"></el-input>
+                                </div>
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
+                                    <div class="label">医嘱：</div>
+                                    <el-input type="textarea" :rows="3" :cols="2" v-model="advice"></el-input>
+                                </div>
+                            </div>
+                            <div class="row mb-1 list-search">
+                                <div class="col-md-12 search-field">
+                                    <div class="label">备注：</div>
+                                    <el-input type="textarea" :rows="3" :cols="2" v-model="remark"></el-input>
+                                </div>
+                            </div>
+                            <div class="row mb-1 list-search">
                             </div>
                             <div class="row mb-1 list-search">
                                 <div class="col-md-12 search-field">
@@ -195,11 +201,6 @@
                                     <el-upload list-type="picture-card" :on-preview="previewImage" :name="'photo'" :data="{photoType: 2}" :file-list="dataList" :action="'/equestrianismApi/treatmentCasePhoto/add'" :on-success="successData" :on-remove="removeData">
                                         <i class="el-icon-plus"></i>
                                     </el-upload>
-                                    <!-- <multiple-img :name="'photo'" :data="{photoType:2}" v-on:successFile="successData" v-on:removeFile="removeData" :action="'/equestrianismApi/treatmentCasePhoto/add'" :imageUrl="dataImg" v-model="dataImg">
-                                                                                                            </multiple-img> -->
-                                    <!-- <multiple-img name='photo' :action="'/equestrianismApi/treatmentCasePhoho/addXRay'" :imageUrl="dataImg" v-on:successFile="successFile" v-on:removeFile="removeFile"></multiple-img> -->
-                                    <!-- </multiple-img> <multiple-img v-on:successFile="successFile" :useDisabled="useDisabled" v-on:removeFile="removeFile" :imageUrl="dataImg">
-                                                                                                                                                                            </multiple-img> -->
                                 </div>
                             </div>
                         </div>
@@ -213,28 +214,28 @@
             </div>
         </div>
         <!-- 固定资产  -->
-        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
-            <div class="text-center">
-                <div class="row" v-for="item in assetList" :key="item">
-                    <div class="col-md-7">名称：{{item.assetName}}</div>
-                    <div class="col-md-5">数量：{{item.count}}</div>
-                </div>
-            </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="assetsDialog = false">取 消</el-button>
+        <el-dialog title="设备使用详情" :modal-append-to-body="false" :visible.sync="assetsDialog" width="40%" center>
+            <el-table highlight-current-row border :data="assetList" style="width: 100%">
+                <el-table-column prop="assetName" label="名称">
+                </el-table-column>
+                <el-table-column prop="count" label="数量">
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer text-center">
+                <!-- <el-button @click="assetsDialog = false">取 消</el-button> -->
                 <el-button type="primary" @click="assetsDialog = false">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 显示消耗品 -->
-        <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
-            <div class="text-center">
-                <div class="row" v-for="item in consumeList" :key="item">
-                    <div class="col-md-7">名称：{{item.assetName}}</div>
-                    <div class="col-md-5">数量：{{item.count}}</div>
-                </div>
-            </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="consumeDialog = false">取 消</el-button>
+        <el-dialog title="消耗品使用详情" :modal-append-to-body="false" :visible.sync="consumeDialog" width="40%" center>
+            <el-table highlight-current-row border :data="consumeList" style="width: 100%">
+                <el-table-column prop="assetName" label="名称">
+                </el-table-column>
+                <el-table-column prop="count" label="数量">
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer text-center">
+                <!-- <el-button @click="consumeDialog = false">取 消</el-button> -->
                 <el-button type="primary" @click="consumeDialog = false">确 定</el-button>
             </span>
         </el-dialog>
@@ -258,12 +259,10 @@
 
 <script>
 import Vue from "vue";
-import { Pagination, Upload, DatePicker, Message, Select } from "element-ui";
-import MultipleImg from "../../../../components/uploadImg/multipleImg.vue";
+import { Pagination, Upload, DatePicker, Message, Select, Input, Table } from "element-ui";
 import UploadImg from "../../../../components/uploadImg/uploadImg.vue";
 import hospitalSrv from "../../../services/hospital.service.js";
 import horseSrv from "../../../services/horse.service.js";
-
 const PHOTO_TYPE = {
     XRAY: 1,
     DATA: 2,
@@ -284,7 +283,7 @@ export default {
             casePhotoList: [[], [], []],
             treatmentId: '',
             treatmentCaseId: '',
-            searchHorseId:'',
+            searchHorseId: '',
             photo: '',
             advice: "",
             files: {},
@@ -305,7 +304,7 @@ export default {
             imageUrl: "",
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             horseName: "",
             horseInfoName: [],
             showLoading: false,
@@ -324,11 +323,6 @@ export default {
         };
     },
     components: {
-        "el-pagination": Pagination,
-        "el-upload": Upload,
-        "el-date-picker": DatePicker,
-        "multiple-img": MultipleImg,
-        "el-select": Select,
         "upload-img": UploadImg,
     },
     beforeRouteEnter: function(to, from, next) {
@@ -394,7 +388,7 @@ export default {
             hospitalSrv.deleteImage(file.name).then(resp => {
                 this.dataList = file.filter(_file => file.name !== _file.name);
                 this.$message.success('删除成功');
-               this.getTreatList();
+                this.getTreatList();
             }, err => {
                 this.$message.error(err.msg);
             })
@@ -569,6 +563,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
+
 .fieldInput {
     width: 90%;
 }

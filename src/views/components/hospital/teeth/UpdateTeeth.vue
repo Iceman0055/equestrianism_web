@@ -17,14 +17,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
                     <el-select ref="selectHorse" :disabled="useDisabled" size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">操作人：</div>
                      <el-select ref="selectPeople" size="large" :disabled="useDisabled" v-model="operatePeople" class="el-field-input">
-                        <el-option v-for="item in feederInfo" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in feederInfo" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
@@ -55,15 +55,13 @@ export default {
             operatePeople: '',
             horseInfoName: [],
             contusionTeethId: '',
-            teethInfo:{},
             feederInfo:[],
             remark:'',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -99,14 +97,14 @@ export default {
                 this.$message.error('挫牙信息不能为空！')
                 return;
             }
-            this.teethInfo = {
+            let teethInfo = {
                 contusionTeethId: this.contusionTeethId,
                 operateDate: this.time,
                 horseId: this.horseName,
                 userId: this.operatePeople,
                 remark:this.remark
             }
-            hospitalSrv.updateTeeth(this.teethInfo).then((resp) => {
+            hospitalSrv.updateTeeth(teethInfo).then((resp) => {
                 this.$message.success('修改挫牙成功')
                 this.$router.push('/hospital/teeth')
             }, (err) => {

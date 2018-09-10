@@ -19,14 +19,18 @@ import navbar from './Navbar'
 import { dropdown } from 'vue-strap'
 /* eslint-disable */
 export default {
-  name: 'header',
+  name: 'appHeader',
   components: {
     navbar,
     dropdown
   },
   methods: {
-    loginOut(){
+    loginOut() {
+      window.localStorage.setItem('menuEnableMap', '')
+      window.localStorage.setItem('menuList', '')
+        window.localStorage.setItem('sessionId', '')
       this.$router.push('/pages/login')
+
     },
     sidebarToggle(e) {
       e.preventDefault()

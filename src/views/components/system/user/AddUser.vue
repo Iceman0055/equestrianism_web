@@ -40,14 +40,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
                     <el-select ref="selectDepart" size="large" v-model="depart" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" v-model="role" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
+                        <el-option v-for="(item,index) in roleList" :key="index" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
@@ -67,7 +67,6 @@ export default {
         return {
             departList:[],
             roleList: [],
-            addInfo: {},
             jobNumber: '',
             name: '',
             loginName: '',
@@ -77,22 +76,15 @@ export default {
             contact: '',
             depart: '',
             role: '',
-            departOptions: [{
-                value: '选项1',
-                label: '假数据1'
-            }, {
-                value: '选项2',
-                label: '假数据2'
-            }],
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeRole)
         this.$el.addEventListener('animationend', this.resizeDepart)
+    },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -115,7 +107,7 @@ export default {
                 this.$message.error('用户信息不能为空！')
                 return;
             }
-            this.addInfo = {
+            let addInfo = {
                 jobNumber: this.jobNumber,
                 realname: this.name,
                 loginName: this.loginName,
@@ -125,8 +117,7 @@ export default {
                 email: this.email,
                 contactWay: this.contact
             }
-
-            systemSrv.addUser(this.addInfo).then((resp) => {
+            systemSrv.addUser(addInfo).then((resp) => {
                 this.$message.success('添加用户成功')
                 this.$router.push('/system/user')
             }, (err) => {

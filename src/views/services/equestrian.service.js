@@ -1,10 +1,10 @@
 import axios from "axios";
 export default {
-  horseAssetsList(pageIndex, pageRecorders,typeId,typeDetailId,assetName) {
+  horseAssetsList(pageIndex, pageRecorders, typeId, typeDetailId, assetName) {
     return axios({
       url: "/equestrianismApi/centerAssetInfo/list",
       method: "get",
-      params: { pageIndex, pageRecorders,typeId,typeDetailId,assetName }
+      params: { pageIndex, pageRecorders, typeId, typeDetailId, assetName }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -88,7 +88,7 @@ export default {
     return axios({
       url: "/equestrianismApi/centerAssetInfo/detail",
       method: "get",
-      params: {assetId}
+      params: { assetId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -147,11 +147,54 @@ export default {
       }
     );
   },
-  addAssetsInventory(inventoryList){
+  addAssetsInventory(inventoryList) {
     return axios({
       url: "/equestrianismApi/centerAssetInfo/inventory",
       method: "post",
-      data: {inventoryList}
+      data: { inventoryList }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+
+  assetDetailList(pageIndex, pageRecorders, typeId, typeDetailId, assetNumber,barCode) {
+    return axios({
+      url: "/equestrianismApi/centerAssetDetail/list",
+      method: "get",
+      params: { pageIndex, pageRecorders, typeId, typeDetailId,assetNumber, barCode }
+    }).then(
+      resp => {
+        if (resp.data.code === 10200) {
+          return Promise.resolve(resp.data);
+        } else {
+          return Promise.reject(resp.data);
+        }
+      },
+      err => {
+        if (!err.msg) {
+          err.msg = "网络故障";
+        }
+        return Promise.reject(err);
+      }
+    );
+  },
+  deleteAssetsDetail(deleteInfo) {
+    return axios({
+      url: "/equestrianismApi/centerAssetDetail/scrap",
+      method: "post",
+      data: deleteInfo
     }).then(
       resp => {
         if (resp.data.code === 10200) {

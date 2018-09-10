@@ -15,11 +15,13 @@
   },
   "dependencies": {
     "chart.js": "2.5.0",
+    "cnpm": "^6.0.0",
     "element-ui": "^2.0.7",
     "jquery": "^3.2.1",
     "js-md5": "^0.7.3",
-    "vue": "2.3.3",
+    "vue": "^2.5.2",
     "vue-chartjs": "2.6.3",
+    "vue-event-calendar": "^1.5.2",
     "vue-router": "2.5.3",
     "vue-strap": "github:wffranco/vue-strap"
   },
@@ -92,7 +94,7 @@
     "vue-fullcalendar": "^1.0.9",
     "vue-loader": "12.1.0",
     "vue-style-loader": "3.0.1",
-    "vue-template-compiler": "2.3.3",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "2.6.0",
     "webpack-bundle-analyzer": "2.8.2",
     "webpack-dev-middleware": "1.10.2",

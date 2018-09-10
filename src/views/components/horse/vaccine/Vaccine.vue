@@ -7,29 +7,31 @@
             <div class="row list-search">
                 <div class="col-md-3 search-field">
                     <div class="label">时间：</div>
-            <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime" placeholder="选择时间">
-                    </el-date-picker>                </div>
+                    <el-date-picker class="el-field-input" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" size="large" v-model="time" type="datetime" placeholder="选择时间">
+                    </el-date-picker>
+                </div>
                 <div class="col-md-3 search-field">
                     <div class="label">地点：</div>
                     <input type="text" v-model="address" class="form-control input-field" placeholder="请输入地址" />
                 </div>
-                  <div class="col-md-3 search-field">
+                <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
-                 <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                    <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
-                    </el-select>                 </div>
+                    </el-select>
+                </div>
 
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getVaccList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <!-- <div class="col-md-1 search-field search-field_controls">
-                    <router-link class="btn btn-success" :to="'/horse/addVaccine'">
-                        新增
-                    </router-link>
-                </div> -->
+                        <router-link class="btn btn-success" :to="'/horse/addVaccine'">
+                            新增
+                        </router-link>
+                    </div> -->
             </div>
-             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -46,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in vaccList" :key="item"> 
+                            <tr v-for="(item,index) in vaccList" :key="index">
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.operateDate}}</td>
                                 <td>{{item.operatePlace}}</td>
@@ -56,15 +58,16 @@
                                 <td>{{item.vaccinationNumber}}</td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateVacc',       
-                                                 query: { disable: 1,vaccinationId:item.vaccinationId}}"> 查看</router-link>                              
+                                                     query: { disable: 1,vaccinationId:item.vaccinationId}}"> 查看</router-link>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="list-empty" v-show="vaccList.length===0">
-                                                    暂无数据
-                                                </div>
+                        暂无数据
+                    </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getVaccList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -75,35 +78,30 @@
 </template>
 
 <script>
-import { Pagination, Select, Message,DatePicker } from 'element-ui'
+import { Pagination, Select, Message, DatePicker } from 'element-ui'
 import hospitalSrv from "../../../services/hospital.service.js";
 import horseSrv from '../../../services/horse.service.js'
 export default {
     data() {
         return {
-       time: "",
-      address:'',
-      currentPage: 1,
-      pageRecorders: 10,
-       totalRecorders: 1,
-      showLoading: false,
-      horseInfoName:[],
-      horseName:'',
-      vaccList:[],
+            time: "",
+            address: '',
+            currentPage: 1,
+            pageRecorders: 10,
+            totalRecorders: 0,
+            showLoading: false,
+            horseInfoName: [],
+            horseName: '',
+            vaccList: [],
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        "el-select":Select,
-         "el-date-picker": DatePicker
-    },
-     beforeRouteEnter: function(to, from, next) {
+    beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            if(to.query.horseId){
+            if (to.query.horseId) {
                 vm.horseName = to.query.horseId
             }
-            hospitalSrv.vaccInfoList(vm.currentPage, vm.pageRecorders, vm.horseName,vm.time,vm.address).then(resp => {
+            hospitalSrv.vaccInfoList(vm.currentPage, vm.pageRecorders, vm.horseName, vm.time, vm.address).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.vaccList = resp.data.vaccinationInfoList
@@ -118,10 +116,10 @@ export default {
             })
         })
     },
-     methods: {
+    methods: {
         getVaccList(currentPage = this.currentPage) {
             this.showLoading = true
-            hospitalSrv.vaccInfoList(currentPage, this.pageRecorders, this.horseName,this.time,this.address).then((resp) => {
+            hospitalSrv.vaccInfoList(currentPage, this.pageRecorders, this.horseName, this.time, this.address).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders
@@ -148,7 +146,14 @@ export default {
     },
 }
 </script>
-
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

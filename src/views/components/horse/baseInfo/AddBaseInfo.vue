@@ -49,7 +49,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
                     <el-select ref="selectColor" size="large" v-model="color" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in colorOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in colorOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -176,7 +176,6 @@ export default {
             changeDate: '',
             birthDate: '',
             files: {},
-            horseInfo: {},
             rightImage: '',
             leftImage: '',
             upperEyelinerImage: '',
@@ -189,14 +188,15 @@ export default {
         }
     },
     components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select,
         'upload-img': UploadImg
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSelect);
         this.$el.addEventListener('animationend', this.resizeColor)
+    },
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -233,7 +233,7 @@ export default {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
-            this.horseInfo = {
+            let horseInfo = {
                 passportNumber: this.passport,
                 horseName: this.horseName,
                 usedName: this.changeName,
@@ -255,8 +255,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.horseInfo) {
-                formData.append(key, this.horseInfo[key])
+            for (let key in horseInfo) {
+                formData.append(key, horseInfo[key])
             }
             horseSrv.addHorseInfo(formData).then((resp) => {
                 this.$message.success('添加马匹成功')
@@ -264,12 +264,10 @@ export default {
             }, err => {
                 this.$message.error(err.msg)
             })
-
         },
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .baseInfo-title {
     height: 30px;

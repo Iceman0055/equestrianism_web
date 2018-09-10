@@ -16,24 +16,24 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
                     <el-select ref="selectHorse" size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">操作人：</div>
                     <el-select ref="selectPeople" size="large" v-model="operatePeople" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in feederInfo" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in feederInfo" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">
+            <!-- <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
                     <input type="text" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addNail">确定</el-button>
@@ -53,14 +53,8 @@ export default {
             horseName: '',
             operatePeople: '',
             horseInfoName: [],
-            nailInfo: {},
             feederInfo: []
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -76,6 +70,10 @@ export default {
             })
         })
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeHorse)
         this.$el.addEventListener('animationend', this.resizePeople)
@@ -86,13 +84,13 @@ export default {
                 this.$message.error('钉甲信息不能为空！')
                 return;
             }
-            this.nailInfo = {
+            let nailInfo = {
                 brigandineDate: this.time,
                 horseId: this.horseName,
                 userId: this.operatePeople,
-                remark:this.remark
+                // remark:this.remark
             }
-            hospitalSrv.addNail(this.nailInfo).then((resp) => {
+            hospitalSrv.addNail(nailInfo).then((resp) => {
                 this.$message.success('添加钉甲成功')
                 this.$router.push('/hospital/nail')
             }, (err) => {

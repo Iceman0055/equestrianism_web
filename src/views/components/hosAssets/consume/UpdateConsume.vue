@@ -8,7 +8,7 @@
             </router-link>
         </div>
         <div class="content-show">
-             <div class="row list-search">
+            <div class="row list-search">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 search-field text-cente">
                     <div class="label">条形码：</div>
@@ -19,14 +19,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
                     <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input">
-                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
+                        <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" ref="selectClass" size="large" :disabled="useDisabled" v-model="typeDetail" class="el-field-input">
-                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
+                        <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -58,14 +58,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">价值类型：</div>
                     <el-select ref="selectValue" size="large" :disabled="useDisabled" v-model="valueType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in valueOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in valueOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">取得方式：</div>
                     <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="getWay" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in wayOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in wayOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -91,21 +91,21 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="departName" class="el-field-input">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                    <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
                     <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
-                        <el-option v-for="item in userList" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
-                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field"  />
+                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field" />
                 </div>
             </div>
             <div class="row list-search">
@@ -147,6 +147,7 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
+            departmentId:'',
             managePeople: '',
             note: '',
             designPurpose: '',
@@ -168,15 +169,14 @@ export default {
             assetType: "",
             assetTypeList: [],
             typeDetailList: [],
-            assetsInfo: {},
             assetId: '',
             departName: '',
             departList: [],
             userList: [],
             valueOptions: [],
             wayOptions: [],
-            barCode:'',
-            inventory:''
+            barCode: '',
+            inventory: ''
         }
     },
     mounted() {
@@ -187,15 +187,14 @@ export default {
         this.$el.addEventListener('animationend', this.classResize)
         this.$el.addEventListener('animationend', this.departResize)
         this.$el.addEventListener('animationend', this.peopleResize)
-
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        'el-select': Select
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
+            vm.departmentId = to.query.departmentId
             vm.assetId = to.query.assetId
             hosAssetsSrv.getConsumeDetail(vm.assetId).then(resp => {
                 vm.inventory = resp.data.inventory
@@ -243,14 +242,23 @@ export default {
                         vm.wayOptions = dictDetail[i].dictionaryDetailList
                     }
                 }
-
             }, err => {
                 vm.$message.error(err.msg)
             })
-
+            systemSrv.userComboBox(vm.departmentId).then(
+                resp => {
+                    vm.userList = resp.data.userList;
+                },
+                err => {
+                    vm.$message.error(err.msg);
+                }
+            );
         })
     },
     methods: {
+        changeDepart() {
+            this.managePeople = ''
+        },
         getManageUser() {
             if (!this.departName) {
                 this.$message.error('管理部门不能为空')
@@ -274,7 +282,7 @@ export default {
             })
         },
         updateConsume() {
-            if (!(this.barCode&&this.assetType && this.typeDetail && this.assetsNum && this.assetsName
+            if (!(this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
@@ -282,8 +290,8 @@ export default {
                 this.$message.error('固定资产信息不能为空！')
                 return;
             }
-            this.assetsInfo = {
-                barCode:this.barCode,
+            let assetsInfo = {
+                barCode: this.barCode,
                 assetId: this.assetId,
                 typeId: this.assetType,
                 typeDetailId: this.typeDetail,
@@ -305,7 +313,7 @@ export default {
                 voucherNumber: this.voucherNum,
                 purchaseOrganize: this.buyForm,
             }
-            hosAssetsSrv.updateConsume(this.assetsInfo).then((resp) => {
+            hosAssetsSrv.updateConsume(assetsInfo).then((resp) => {
                 this.$message.success('修改消耗品信息成功')
                 this.$router.push('/hosAssets/consume')
             }, (err) => {

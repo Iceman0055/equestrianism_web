@@ -8,7 +8,7 @@
                 <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -46,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in awardsList" :key="item">
+                            <tr v-for="(item,index) in awardsList" :key="index">
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.eventName}}</td>
                                 <td>{{item.eventDate}}</td>
@@ -55,7 +55,7 @@
                                 <td>{{item.penaltyTerm}}</td>
                                 <td>
                                     <router-link :to="{path: '/horse/updateAwards',       
-                                                                                         query: { disable: 1,horsePrizeId:item.horsePrizeId}}"> 查看</router-link>
+                                                                                             query: { disable: 1,horsePrizeId:item.horsePrizeId}}"> 查看</router-link>
                                     <router-link :to="{path:'/horse/updateAwards',query:{horsePrizeId:item.horsePrizeId}}">
                                         修改
                                     </router-link>
@@ -69,6 +69,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getAwardsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -95,7 +96,7 @@ export default {
         return {
             deleteDialog: false,
             currentPage: 1,
-            totalRecorders: 1,
+            totalRecorders: 0,
             pageRecorders: 10,
             horseInfoName: [],
             horseName: '',
@@ -109,7 +110,7 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            if(to.query.horseId){
+            if (to.query.horseId) {
                 vm.horseName = to.query.horseId
             }
             horseSrv.awardsList(vm.currentPage, vm.pageRecorders, vm.horseName, vm.eventName, vm.eventDate).then((resp) => {
@@ -130,7 +131,7 @@ export default {
     methods: {
         getAwardsList(currentPage = this.currentPage) {
             this.showLoading = true
-            horseSrv.awardsList(currentPage, this.pageRecorders,this.horseName, this.eventName, this.eventDate).then((resp) => {
+            horseSrv.awardsList(currentPage, this.pageRecorders, this.horseName, this.eventName, this.eventDate).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders
@@ -155,13 +156,17 @@ export default {
             })
         },
     },
-    components: {
-        'el-pagination': Pagination,
-        "el-dialog": Dialog
-    }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

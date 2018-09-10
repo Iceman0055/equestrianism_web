@@ -50,7 +50,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹性别：</div>
                     <el-select ref="selectInput" size="large" v-model="gender" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">毛色：</div>
                     <el-select ref="selectColor" size="large" v-model="color" :disabled="useDisabled" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in colorOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in colorOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -187,7 +187,6 @@ export default {
             useDisabled: false,
             gender: '',
             files: {},
-            updateInfo: {},
             sexOptions: [],
             colorOptions: [],
             horseInfoName: [],
@@ -197,15 +196,16 @@ export default {
         }
     },
     components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
         'upload-img': UploadImg,
-        'el-select': Select
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeSelect)
         this.$el.addEventListener('animationend', this.resizeColor)
+    },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -231,9 +231,9 @@ export default {
                 vm.changeDate = resp.data.changeDate
                 vm.birthDate = resp.data.birthday
                 vm.height = resp.data.height
-                vm.gender = vm.dictInfoList.HORSE_SEX[resp.data.sex]
+                vm.gender = parseInt(resp.data.sex)
                 vm.barCode = resp.data.barCode
-                vm.color = vm.dictInfoList.HORSE_COAT_COLOUR[resp.data.coatColour]
+                vm.color = parseInt(resp.data.coatColour)
                 vm.head = resp.data.headDesc
                 vm.leftFore = resp.data.leftForeDesc
                 vm.rightFore = resp.data.rightForeDesc
@@ -274,7 +274,7 @@ export default {
                 this.$message.error('马匹信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 horseId: this.horseId,
                 passportNumber: this.passport,
                 horseName: this.horseName,
@@ -297,8 +297,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.updateInfo) {
-                formData.append(key, this.updateInfo[key])
+            for (let key in updateInfo) {
+                formData.append(key, updateInfo[key])
             }
             horseSrv.updateHorseInfo(formData).then(resp => {
                 this.$message.success('修改马匹成功')

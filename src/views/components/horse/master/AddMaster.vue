@@ -15,7 +15,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">性别：</div>
                     <el-select ref="selectSex" size="large" v-model="sex" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+                        <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select ref="selectHorse" filterable size="large" v-model="horseName" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -63,13 +63,7 @@ export default {
             horseName: '',
             horseInfoName: [],
             sexOptions: [],
-            masterInfo: {}
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -89,8 +83,11 @@ export default {
             }, err => {
                 vm.$message.error(err.msg)
             })
-
         })
+    },
+     beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSex)
@@ -102,7 +99,7 @@ export default {
                 this.$message.error('马主信息不能为空！')
                 return;
             }
-            this.masterInfo = {
+            let masterInfo = {
                 hostName: this.name,
                 sex: this.sex,
                 occupation: this.career,
@@ -110,7 +107,7 @@ export default {
                 address: this.address,
                 horseId: this.horseName,
             }
-            horseSrv.addMaster(this.masterInfo).then((resp) => {
+            horseSrv.addMaster(masterInfo).then((resp) => {
                 this.$message.success('添加马主信息成功')
                 this.$router.push('/horse/master')
             }, (err) => {
@@ -126,7 +123,6 @@ export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
 
 </style>

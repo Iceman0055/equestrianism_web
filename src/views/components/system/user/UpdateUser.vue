@@ -32,23 +32,22 @@
                     <div class="label">联系方式：</div>
                     <input type="text" v-model="contact" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-                 <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">部门：</div>
                     <el-select ref="selectDepart" size="large" :disabled="useDisabled" v-model="depart" class="el-field-input">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">   
+            <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">角色：</div>
                     <el-select ref="selectRole" size="large" :disabled="useDisabled" v-model="role" class="el-field-input">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
+                        <el-option v-for="(item,index) in roleList" :key="index" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
-
             </div>
         </div>
         <div class="content-footer row" v-show="!useDisabled">
@@ -65,7 +64,6 @@ export default {
         return {
             departList: [],
             roleList: [],
-            updateInfo: {},
             useDisabled: false,
             jobNumber: '',
             name: '',
@@ -75,17 +73,16 @@ export default {
             contact: '',
             depart: '',
             role: '',
-
         }
-    },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeRole)
         this.$el.addEventListener('animationend', this.resizeDepart)
+    },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -111,7 +108,6 @@ export default {
                 vm.$message.error(err.msg)
             })
         })
-
     },
     methods: {
         updateUser() {
@@ -120,7 +116,7 @@ export default {
                 this.$message.error('用户信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 userId: this.$route.query.userId,
                 jobNumber: this.jobNumber,
                 realname: this.name,
@@ -130,7 +126,7 @@ export default {
                 email: this.email,
                 contactWay: this.contact
             }
-            systemSrv.updateUser(this.updateInfo).then((resp) => {
+            systemSrv.updateUser(updateInfo).then((resp) => {
                 this.$message.success('修改用户成功')
                 this.$router.push('/system/user')
             }, (err) => {

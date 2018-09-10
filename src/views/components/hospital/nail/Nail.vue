@@ -8,7 +8,7 @@
                 <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in nailList" :key="item">
+                            <tr v-for="(item,index) in nailList" :key="index">
                                 <td>{{item.brigandineDate}}</td>
                                 <td>{{item.horseName}}</td>
                                 <td>{{item.realname}}</td>
@@ -54,6 +54,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getNailList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -81,7 +82,7 @@ export default {
         return {
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             horseName: '',
             horseInfoName: [],
             nailList: [],
@@ -136,13 +137,16 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-select':Select
-    }
 }
 </script>
-
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

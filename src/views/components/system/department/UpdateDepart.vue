@@ -43,12 +43,12 @@ export default {
             departmentId:'',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
+    },
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -68,13 +68,13 @@ export default {
                 this.$message.error('部门信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 departmentId: this.departmentId,
                 departmentName: this.departName,
                 shortName: this.departShortName,
                 remark: this.note,
             }
-            systemSrv.updateDepart(this.updateInfo).then((resp) => {
+            systemSrv.updateDepart(updateInfo).then((resp) => {
                 this.$message.success('修改部门成功')
                 this.$router.push('/system/department')
             }, (err) => {

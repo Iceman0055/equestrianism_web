@@ -7,12 +7,17 @@ import router from "./router";
 import animate from "animate.css";
 import axios from "axios";
 import "element-ui/lib/theme-chalk/index.css";
+import vueEventCalendar from "vue-event-calendar";
+import 'vue-event-calendar/dist/style.css'
+Vue.use(vueEventCalendar, {
+  locale: "zh"
+});
 import moment from "moment/moment.js";
 Vue.use(Element, { size: "small" });
 Vue.use(animate);
 /* eslint-disable no-new */
 axios.defaults.headers.common["sessionId"] =
-  window.sessionStorage.getItem("sessionId") || "123456";
+  window.localStorage.getItem("sessionId") || "123456";
 
 Vue.filter("filterDate", function(value, formatString) {
   formatString = formatString || "YYYY-MM-DD";

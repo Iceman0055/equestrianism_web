@@ -1,12 +1,16 @@
 <template>
   <div class="app">
-    <AppHeader/>
+    <AppHeader />
     <div class="app-body">
-      <Sidebar :menu-list="menuList" />
+      <Sidebar :menu-list="menuList" :menu-enable-map="menuEnableMap" />
       <main class="main">
         <breadcrumb :list="list" />
         <div class="container-fluid">
-          <router-view></router-view>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive">
+            </router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
         </div>
       </main>
     </div>
@@ -28,17 +32,35 @@ export default {
   },
   data() {
     return {
-      menuList:[],
-
+      menuList: [],
+      menuEnableMap: {}
     }
   },
-   mounted() {
-    systemSrv.getMenuList().then(resp => {
-      this.menuList = resp.data.menuList
-    }, err => {
-      this.$message.error(err.msg)
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      systemSrv.getMenuList().then(resp => {
+        vm.menuList = resp.data.menuList
+      }, err => {
+        vm.$message.error(err.msg)
+      })
+      vm.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+      vm.$watch("localStorage.menuEnableMap", () => {
+        vm.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+      });
     })
+
   },
+  // destroyed() {
+  //   console.log('unmounted', this)
+  //   this.unwatch()
+  // },
+  // mounted() {
+  //   console.log('mounted',this)
+  //   this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+  //   this.$watch("localStorage.menuEnableMap", () => {
+  //     this.menuEnableMap = JSON.parse(window.localStorage.getItem('menuEnableMap'))
+  //   });
+  // },
   computed: {
     name() {
       return this.$route.name

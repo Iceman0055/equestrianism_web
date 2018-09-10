@@ -8,14 +8,14 @@
                 <div class="col-md-4 search-field">
                     <div class="label">部门名称：</div>
                     <el-select size="large" v-model="departName" class="el-field-input" placeholder="请选择部门名称">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">状态：</div>
                     <el-select size="large" v-model="status" class="el-field-input" placeholder="请选择状态">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="(item,index) in statusOptions" :key="index" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -41,13 +41,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in departInfoList" :key="item">
+                            <tr v-for="(item,index) in departInfoList" :key="index">
                                 <td>{{item.departmentName}}</td>
                                 <td>{{item.shortName}}</td>
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>
                                     <!-- <a @click="stuffDialog=true">成员管理</a> -->
-                                    <a @click="permissionDialog=true">分配权限</a>
+                                    <!-- <a @click="permissionDialog=true">分配权限</a> -->
                                     <router-link :to="{path:'/system/updateDepart',query:{departmentId:item.departmentId}}">
                                         修改
                                     </router-link>
@@ -61,6 +61,7 @@
                     <div class="list-empty" v-show="departInfoList.length===0">
                         暂无数据 </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getDepart" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -68,31 +69,31 @@
             </div>
         </div>
         <!-- 分配权限 -->
-        <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <button class="btn btn-info" @click="selectChecked">全选</button>
+        <!-- <el-dialog title="分配权限" :modal-append-to-body="false" :visible.sync="permissionDialog" width="30%" center>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <button class="btn btn-info" @click="selectChecked">全选</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-info" @click="resetChecked">全不选</button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <button class="btn btn-info" @click="resetChecked">全不选</button>
-                </div>
-            </div>
-            <el-tree @check-change="selectNode" :data="data2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
-            </el-tree>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="permissionDialog = false">取 消</el-button>
-                <el-button type="primary" @click="permissionDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
+                <el-tree @check-change="selectNode" :data="data2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
+                </el-tree>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="permissionDialog = false">取 消</el-button>
+                    <el-button type="primary" @click="permissionDialog = false">确 定</el-button>
+                </span>
+            </el-dialog> -->
         <!-- 成员管理 -->
         <!-- <el-dialog title="成员管理" :modal-append-to-body="false" :visible.sync="stuffDialog" width="30%" center>
-            <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
-            </el-tree>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="stuffDialog = false">取 消</el-button>
-                <el-button type="primary" @click="stuffDialog = false">确 定</el-button>
-            </span>
-        </el-dialog> -->
+                <el-tree :data="data3" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="defaultProps">
+                </el-tree>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="stuffDialog = false">取 消</el-button>
+                    <el-button type="primary" @click="stuffDialog = false">确 定</el-button>
+                </span>
+            </el-dialog> -->
         <el-dialog title="删除" :modal-append-to-body="false" :visible.sync="deleteDialog" width="20%" center>
             <div class="text-center">
                 <span>确定要删除吗?</span>
@@ -123,13 +124,13 @@ export default {
             departInfoList: [],
             departList: [],
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             currentPage: 1,
             status: '',
             departName: '',
             // stuffDialog: false,
             showLoading: false,
-            permissionDialog: false,
+            // permissionDialog: false,
             statusDialog: false,
             deleteDialog: false,
             deleteContent: {},
@@ -206,14 +207,10 @@ export default {
             }
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            systemSrv.departList(vm.currentPage, vm.pageRecorders, vm.departName,vm.status).then(resp => {
+            systemSrv.departList(vm.currentPage, vm.pageRecorders, vm.departName, vm.status).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.departInfoList = resp.data.departmentInfoList
@@ -231,7 +228,7 @@ export default {
     methods: {
         getDepart(currentPage = this.currentPage) {
             this.showLoading = true
-            systemSrv.departList(currentPage, this.pageRecorders, this.departName,this.status).then(resp => {
+            systemSrv.departList(currentPage, this.pageRecorders, this.departName, this.status).then(resp => {
                 this.currentPage = currentPage
                 this.showLoading = false
                 this.totalRecorders = resp.data.totalRecorders
@@ -285,5 +282,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

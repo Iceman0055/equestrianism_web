@@ -13,7 +13,7 @@
                 <div class="col-md-3 search-field">
                     <div class="label">预约医生：</div>
                     <el-select size="large" v-model="doctor" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in doctorList" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in doctorList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in appointList" :key="item">
+                            <tr v-for="(item,index) in appointList" :key="index">
                                 <td>{{item.appointDate}}</td>
                                 <td>{{item.realname}}</td>
                                 <td>{{item.appointNumber}}</td>
@@ -59,25 +59,24 @@
                                 <td>{{item.contactWay}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>
-
-                                    <router-link :to="{path: '/horse/updateTreatment',       
+                                    <!-- <router-link :to="{path: '/horse/updateTreatment',       
                                                                                                      query: { disable: 1,hospitalAppointId:item.hospitalAppointId}}"> 查看治疗</router-link>
                                     <router-link :to="'/horse/AddTreatment'">
                                         添加治疗
-                                    </router-link>
+                                    </router-link> -->
                                     <router-link :to="{path:'/hospital/updateAppoint',query:{hospitalAppointId:item.hospitalAppointId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.hospitalAppointId)">删除</a>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                     <div class="list-empty" v-show="appointList.length===0">
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getAppointList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -108,7 +107,7 @@ export default {
             deleteDialog: false,
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             doctorList: [],
             deleteContent: {},
             showLoading: false,
@@ -118,7 +117,6 @@ export default {
                 "2": "已治疗",
                 "3": "取消",
             }
-
         };
     },
     beforeRouteEnter: function(to, from, next) {
@@ -169,13 +167,16 @@ export default {
             })
         }
     },
-    components: {
-        "el-pagination": Pagination,
-        "el-date-picker": DatePicker
-    }
 };
 </script>
-
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

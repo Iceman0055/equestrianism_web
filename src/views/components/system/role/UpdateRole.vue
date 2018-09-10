@@ -12,7 +12,6 @@
                 <div class="col-md-4 search-field">
                     <div class="label">角色名称：</div>
                     <input type="text" v-model="roleName" :disabled="useDisabled" class="form-control input-field" />
-
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">角色简称：</div>
@@ -34,7 +33,6 @@
 <script>
 import { DatePicker, Button, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
-/* eslint-disable */
 export default {
     data() {
         return {
@@ -42,13 +40,12 @@ export default {
             note: '',
             roleName: '',
             shortName: '',
-            updateInfo: {},
             roleId:'',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -61,12 +58,9 @@ export default {
                 vm.$message.error(err.msg)
             })
         })
-
     },
-
     mounted() {
         this.useDisabled = !!this.$route.query.disable
-
     },
     methods: {
         updateRole() {
@@ -74,20 +68,19 @@ export default {
                 this.$message.error('角色信息不能为空！')
                 return;
             }
-            this.updateInfo = {
+            let updateInfo = {
                 roleId: this.roleId,
                 roleName: this.roleName,
                 shortName: this.shortName,
                 remark: this.note,
             }
-            systemSrv.updateRole(this.updateInfo).then((resp) => {
+            systemSrv.updateRole(updateInfo).then((resp) => {
                 this.$message.success('修改角色成功')
                 this.$router.push('/system/role')
             }, (err) => {
                 this.$message.error(err.msg)
             })
         },
-
     }
 }
 </script>

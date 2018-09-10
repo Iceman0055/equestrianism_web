@@ -58,7 +58,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
                     <el-select size="large" v-model="selectValue" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="(item,index) in options" :key="index" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
@@ -73,7 +73,6 @@
                     </upload-img>
                 </div>
             </div>
-
         </div>
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="open">确定</el-button>
@@ -109,6 +108,10 @@ export default {
         'el-button': Button,
         'upload-img': UploadImg,
         "el-select": Select
+    },
+    beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     methods: {
         uploadFun(file) {

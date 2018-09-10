@@ -29,6 +29,7 @@ export default {
                     return `data:image/jpeg;base64,${this.imageUrl}`;
                 }
             }
+            return this.imageUrl
         }
     },
     methods: {

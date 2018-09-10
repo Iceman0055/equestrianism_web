@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in masterList" :key="item">
+                            <tr v-for="(item,index) in masterList" :key="index">
                                 <td>{{item.hostName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
                                 <td>{{item.contactWay}}</td>
@@ -60,6 +60,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getMasterList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -77,7 +78,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Message } from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
@@ -90,7 +90,7 @@ export default {
             contactWay: '',
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             showLoading: false,
             masterList: [],
             convertSex: {},
@@ -110,7 +110,6 @@ export default {
                 } else {
                     return horseSrv.masterList(vm.currentPage, vm.pageRecorders, vm.hostName, vm.contactWay)
                 }
-
             }).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
@@ -119,7 +118,6 @@ export default {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
             })
-
         })
     },
     methods: {
@@ -150,12 +148,17 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-    }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

@@ -17,24 +17,24 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹：</div>
                     <el-select ref="selectHorse" :disabled="useDisabled" size="large" filterable v-model="horseName" class="el-field-input">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">操作人：</div>
                     <el-select ref="selectPeople" size="large" :disabled="useDisabled" v-model="operatePeople" class="el-field-input">
-                        <el-option v-for="item in feederInfo" :key="item.userId" :label="item.realname" :value="item.userId">
+                        <el-option v-for="(item,index) in feederInfo" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
                     </el-select>
                 </div>
             </div>
-            <div class="row list-search">
+            <!-- <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">备注：</div>
                     <input type="text" :disabled="useDisabled" v-model="remark" class="form-control input-field" placeholder="请输入备注" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateNail">确定</el-button>
@@ -59,11 +59,6 @@ export default {
             feederInfo: [],
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
-        "el-select": Select
-    },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.brigandineId = to.query.brigandineId
@@ -87,6 +82,10 @@ export default {
             })
         })
     },
+      beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
     mounted() {
         this.useDisabled = !!this.$route.query.disable;
         this.$el.addEventListener('animationend', this.resizeHorse)
@@ -94,18 +93,18 @@ export default {
     },
     methods: {
         updateNail() {
-            if (!(this.time && this.horseName && this.operatePeople&& this.remark)) {
+            if (!(this.time && this.horseName && this.operatePeople)) {
                 this.$message.error('钉甲信息不能为空！')
                 return;
             }
-            this.nailInfo = {
+            let nailInfo = {
                 brigandineId: this.brigandineId,
                 time: this.brigandineDate,
                 horseName: this.horseId,
                 operatePeople: this.userId,
-                remark:this.remark
+                // remark:this.remark
             }
-            hospitalSrv.updateNail(this.nailInfo).then((resp) => {
+            hospitalSrv.updateNail(nailInfo).then((resp) => {
                 this.$message.success('修改钉甲成功')
                 this.$router.push('/hospital/nail')
             }, (err) => {

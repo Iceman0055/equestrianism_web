@@ -8,14 +8,14 @@
                 <div class="col-md-2 search-field">
                     <div class="label">资产大类：</div>
                     <el-select size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
+                        <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
+                        <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -48,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in assetsList" :key="item">
+                            <tr v-for="(item,index) in assetsList" :key="index">
                                 <td>{{item.typeName}}</td>
                                 <td>{{item.typeDetailName}}</td>
                                 <td>{{item.assetNumber}}</td>
@@ -66,11 +66,12 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
                     <el-dialog title="增加库存" :modal-append-to-body="false" :visible.sync="addDialog" width="52%" center>
-                        <div class="row mb-3 list-search distance" v-for="(item,index) in assets" :key="item">
+                        <div class="row mb-3 list-search distance" v-for="(item,index) in assets" :key="index">
                             <el-switch class="top-distance" v-model="item.switch" active-color="#13ce66" inactive-color="#ff4949" active-text="扫描仪" inactive-text="人工输入">
                             </el-switch>
                             <div class="col-md-4 search-field" v-show="!item.switch">
@@ -167,7 +168,7 @@ export default {
             assetType: "",
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             assetTypeList: [],
             typeDetailList: [],
             assetsName: '',
@@ -183,10 +184,6 @@ export default {
                 { switch: false, barCode: "", assetId: '', assetsName: "", value: "1" },
             ],
         };
-    },
-    components: {
-        "el-pagination": Pagination,
-        "el-dialog": Dialog,
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -207,7 +204,7 @@ export default {
         })
     },
     methods: {
-         changeHandle(item) {
+        changeHandle(item) {
             equestrianSrv.getAssetsInfo(item.barCode).then(resp => {
                 item.assetId = resp.data.assetId
                 item.assetsName = resp.data.assetName
@@ -218,7 +215,7 @@ export default {
         keyUpHandle(e, item) {
             if (!item.barCode) {
                 this.$message.error('请输入条形码')
-                return
+                return;
             }
             if (e.keyCode == 13) {
                 equestrianSrv.getAssetsInfo(item.barCode).then(resp => {
@@ -282,7 +279,7 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-         getAssetsList(currentPage = this.currentPage) {
+        getAssetsList(currentPage = this.currentPage) {
             this.showLoading = true
             equestrianSrv.horseAssetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetsName).then((resp) => {
                 this.showLoading = false
@@ -294,7 +291,6 @@ export default {
                 this.$message.error(err.msg)
             })
         },
-       
         deleteData(index) {
             this.assets.splice(index, 1)
             this.confirmDialog = false
@@ -336,6 +332,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .distance {
     position: relative;
     .top-distance {
@@ -348,12 +353,14 @@ export default {
 .list-search {
     padding: 6px 15px;
 }
+
 .add-delete a {
     margin-left: 5px;
     cursor: pointer;
 }
 
 .add-delete {
+    margin-top: -10px;
     color: #409eff;
     margin-left: -40px;
     float: left;

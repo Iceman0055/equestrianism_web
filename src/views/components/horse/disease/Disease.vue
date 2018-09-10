@@ -12,7 +12,7 @@
                 <div class="col-md-3 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -20,10 +20,10 @@
                     <button @click="getTreatCaseList(1)" class="btn btn-primary search-btn">搜索</button>
                 </div>
                 <!-- <div class="col-md-1 search-field search-field_controls">
-                            <router-link class="btn btn-success" :to="'/horse/addDisease'">
-                                新增
-                            </router-link>
-                        </div> -->
+                                                    <router-link class="btn btn-success" :to="'/horse/addDisease'">
+                                                        新增
+                                                    </router-link>
+                                                </div> -->
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in treatCaseList" :key="item">
+                            <tr v-for="(item,index) in treatCaseList" :key="index">
                                 <td v-if="item.horseType==1">{{item.horseId}}</td>
                                 <td v-if="item.horseType==2">{{item.horseName}}</td>
                                 <td>{{item.operatorDate}}</td>
@@ -54,7 +54,7 @@
                                 <td>{{item.remark}}</td>
                                 <td>
                                     <!-- <router-link :to="{path: '/horse/updateDisease',       
-                                             query: { disable: 1,treatmentCaseId:item.treatmentCaseId}}"> 查看</router-link> -->
+                                                                     query: { disable: 1,treatmentCaseId:item.treatmentCaseId}}"> 查看</router-link> -->
                                     <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
                                 </td>
                             </tr>
@@ -64,6 +64,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getTreatCaseList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -86,7 +87,7 @@ export default {
             titleTag: '',
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             showLoading: false,
             treatCaseList: [],
         }
@@ -94,7 +95,7 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true;
-            if(to.query.horseId){
+            if (to.query.horseId) {
                 vm.horseName = to.query.horseId
             }
             hospitalSrv.treatCaseList(vm.currentPage, vm.pageRecorders, vm.titleTag, vm.horseName)
@@ -138,12 +139,16 @@ export default {
                 );
         },
     },
-    components: {
-        'el-pagination': Pagination,
-    }
 }
 </script>
-
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

@@ -1,201 +1,136 @@
 <template>
-    <div class="content_page animated zoomIn">
-        <div class="content-title">
-            <div class="title" v-if="!useDisabled">修改门诊治疗</div>
-            <div class="title" v-if="useDisabled">查看门诊治疗</div>
-            <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
-                返回
-            </router-link>
-        </div>
-        <div class="content-show">
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">门诊方式：</div>
-                     <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="treatWay" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in treatWayOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field" v-if="treatWay==2">
-                    <div class="label">预约号：</div>
-                    <input type="text" v-model="appointNum" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">开始日期：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="beginDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">开始时间：</div>
-                    <el-time-select :disabled="useDisabled" size="large" v-model="beginTime" :picker-options="{
-                                                            start: '00:00',
-                                                            step: '01:00',
-                                                            end: '24:00'
-                                                          }">
-                    </el-time-select>
-                </div>
-
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">结束日期：</div>
-                    <el-date-picker :disabled="useDisabled" size="large" v-model="endDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">结束时间：</div>
-                    <el-time-select :disabled="useDisabled" size="large" v-model="endTime" :picker-options="{
-                                                            start: '00:00',
-                                                            step: '01:00',
-                                                            end: '24:00'
-                                                          }">
-                    </el-time-select>
-                </div>
-
-            </div>
-            <div class="row list-search">
-
-                <div class="col-md-4 search-field">
-                    <div class="label">马匹类型：</div>
-                  <el-select ref="selectType" size="large" :disabled="useDisabled" v-model="horseType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                        <div class="col-md-4 search-field" v-if="horseType==1">
-                    <div class="label">马匹名称：</div>
-                    <el-select size="large" :disabled="useDisabled" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
-                        </el-option>
-                    </el-select>              
-              </div>
-               <div class="col-md-4 search-field" v-if="horseType==2">
-                    <div class="label">马匹名称：</div>
-                 <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field" placeholder="请输入马匹名称" />   
-              </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">治疗名称：</div>
-                    <input type="text" v-model="treatName" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">治疗概述：</div>
-                    <input type="text" v-model="treatDesc" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">手术室使用：</div>
-                   <el-select size="large" ref="selectUse" :disabled="useDisabled" v-model="useRoom" class="el-field-input" placeholder="请选择">
-                       <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>   
-                
-            <div class="row list-search">
-            
-                <div class="col-md-4 search-field">
-                    <div class="label">设备使用：</div>
-                     <textarea type="text" rows="2" v-model="hospitalAssetList" :useDisabled="useDisabled" class="form-control addborder" @click="getAssetsList(1)" placeholder="点击查看详情"></textarea>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">消耗品使用：</div>
-             <textarea type="text" rows="2"  v-model="consumableAssetList" :useDisabled="useDisabled" class="form-control addborder" @click="getConsumeList(1)" placeholder="点击查看详情"></textarea>
-
-                </div>
-            </div>
-        </div>
-        <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateTreat">确定</el-button>
-        </div>
-         <el-dialog title="查看设备" :modal-append-to-body="false" class="content-show" :visible.sync="addItemDialog" width="52%" center>
-            <div class="row list-search">
-                <div class="col-md-8 search-field">
-                    <div class="label">资产名称：</div>
-                    <input type="text" v-model="assetsTreatName" class="form-control input-field" placeholder="请输入资产名称" />
-                </div>
-            </div>
-               <div class="list-empty" v-show="assetsList.length==0">
-                                               暂无数据
-                                  </div>
-            <div class="row mb-3" v-for="(item,index) in assetsList" :key="item">
-                <div class="col-md-1">
-                    <el-checkbox disabled v-model="item.checked" @change="selectItem(item)"></el-checkbox>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-                </div>
-                <div class="col-md-5">
-                    <div class="Spinner">
-                        <a class="Decrease" @click="decrease(index,item.useNumber)">
-                            <i class="fa fa-sort-desc"></i>
-                        </a>
-                        <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-                        <a class="Increase" @click="increase(index,item.useNumber,item.inventory)">
-                            <i class="fa fa-sort-asc"></i>
-                        </a>
-                    </div>
-                </div>     
-            </div>
-            <div class="page" style="float: right">
-                        <el-pagination @current-change="getAssetsList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
-                        </el-pagination>
-                    </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="addItemDialog = false">取 消</el-button>
-                <el-button type="primary" @click="addItemDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
-        <el-dialog title="查看消耗品" :modal-append-to-body="false" class="content-show" :visible.sync="addConsumeDialog" width="52%" center>
-            <div class="row list-search">
-                <div class="col-md-8 search-field">
-                    <div class="label">资产名称：</div>
-                    <input type="text" v-model="consumeTreatName" class="form-control input-field" placeholder="请输入资产名称" />
-                </div>
-            </div>
-               <div class="list-empty" v-show="consumeList.length==0">
-                                               暂无数据
-                                  </div>
-            <div class="row mb-3" v-for="(item,index) in consumeList" :key="item">
-                <div class="col-md-1">
-                    <el-checkbox disabled v-model="item.checked" @change="selectConsumeItem(item)"></el-checkbox>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.assetName" class="form-control input-field" placeholder="资产名称" />
-                </div>
-                <div class="col-md-3">
-                    <input type="text" v-model="item.inventory" class="form-control input-field" placeholder="库存" />
-                </div>
-                <div class="col-md-5">
-                    <div class="Spinner">
-                        <a class="Decrease" @click="decreaseConsume(index,item.useNumber)">
-                            <i class="fa fa-sort-desc"></i>
-                        </a>
-                        <input class="Amount" v-model="item.useNumber" placeholder="使用数量" autocomplete="off">
-                        <a class="Increase" @click="increaseConsume(index,item.useNumber,item.inventory)">
-                            <i class="fa fa-sort-asc"></i>
-                        </a>
-                    </div>
-                </div>     
-            </div>
-            <div class="page" style="float: right">
-                        <el-pagination @current-change="getConsumeList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
-                        </el-pagination>
-                    </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="addConsumeDialog = false">取 消</el-button>
-                <el-button type="primary" @click="addConsumeDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
+  <div class="content_page animated zoomIn">
+    <div class="content-title">
+      <div class="title" v-if="!useDisabled">修改门诊治疗</div>
+      <div class="title" v-if="useDisabled">查看门诊治疗</div>
+      <router-link class="btn btn-info back" :to="'/hospital/treatSchedule'">
+        返回
+      </router-link>
     </div>
+    <div class="content-show">
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">门诊方式：</div>
+          <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="treatWay" class="el-field-input" placeholder="请选择">
+            <el-option v-for="(item,index) in treatWayOptions" :key="index" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field" v-if="treatWay==2">
+          <div class="label">预约号：</div>
+          <input type="text" v-model="appointNum" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">马匹类型：</div>
+          <el-select ref="selectType" size="large" :disabled="useDisabled" v-model="horseType" class="el-field-input" placeholder="请选择">
+            <el-option v-for="(item,index) in horseTypeOptions" :key="index" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field" v-if="horseType==1">
+          <div class="label">马匹名称：</div>
+          <el-select size="large" :disabled="useDisabled" filterable v-model="horseName" class="el-field-input">
+            <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field" v-if="horseType==2">
+          <div class="label">马匹名称：</div>
+          <input type="text" v-model="horseName" :disabled="useDisabled" class="form-control input-field" placeholder="请输入马匹名称" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">开始日期：</div>
+          <el-date-picker :disabled="useDisabled" size="large" v-model="beginDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">开始时间：</div>
+          <el-time-select :disabled="useDisabled" size="large" v-model="beginTime" :picker-options="{
+                                                                                                                                start: '00:00',
+                                                                                                                                step: '01:00',
+                                                                                                                                end: '24:00'
+                                                                                                                              }">
+          </el-time-select>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">结束日期：</div>
+          <el-date-picker :disabled="useDisabled" size="large" v-model="endDate" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">结束时间：</div>
+          <el-time-select :disabled="useDisabled" size="large" v-model="endTime" :picker-options="{
+                                                                                                                                start: '00:00',
+                                                                                                                                step: '01:00',
+                                                                                                                                end: '24:00'
+                                                                                                                              }">
+          </el-time-select>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">治疗名称：</div>
+          <input type="text" v-model="treatName" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">手术室使用：</div>
+          <el-select size="large" ref="selectUse" :disabled="useDisabled" v-model="useRoom" class="el-field-input" placeholder="请选择">
+            <el-option v-for="(item,index) in consultingRoomList" :key="index" :label="item.consultingRoomName" :value="item.consultingRoomId">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">设备使用：</div>
+          <div type="text" rows="2" v-html="showAssetList" class="form-control addborder" @click="clickShowDialog" placeholder="点击查看详情">
+
+          </div>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">消耗品使用：</div>
+          <div type="text" rows="2" v-html="showConsumeList" class="form-control addborder" @click="clickShowConsume" placeholder="点击查看详情"></div>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-12 search-field">
+          <div class="label">治疗概述：</div>
+          <el-input type="textarea" :rows="3" :cols="2" :disabled="useDisabled" v-model="treatDesc" placeholder="请输入治疗概述"></el-input>
+        </div>
+      </div>
+    </div>
+    <div class="content-footer row" v-show="!useDisabled">
+      <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateTreat">确定</el-button>
+    </div>
+
+    <multi-select-dialog title="查看设备" width="800px" :disabled="true" :visible.sync="addItemDialog" :query="queryAssets" :columns="assetsColumns" :value="assetSelected" @submit="handleAssetsChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
+
+  
+<multi-select-dialog
+    title="选用消耗品"
+    width="800px"
+    :visible.sync="addConsumeDialog"
+    :query="queryConsume"
+    :columns="consumeColumns"
+    :value="consumeSelected"
+    :disabled="true"
+    @submit="handleConsumeChange"
+    id-field="assetId"
+    inventory-field="inventory"
+    count-field="useNumber"
+  ></multi-select-dialog>
+   
+  </div>
 </template>
 <script>
 import {
+  Form,
   DatePicker,
   Button,
   TimeSelect,
@@ -206,9 +141,15 @@ import {
 import hospitalSrv from "../../../services/hospital.service.js";
 import hosAssetsSrv from "../../../services/hosAssets.service.js";
 import horseSrv from "../../../services/horse.service.js";
+import MultiSelectDialog from "../../../../components/multiSelectDialog/index.vue";
 export default {
   data() {
     return {
+      disabled:true,
+      showConsumeList:'',
+      showAssetList:'',
+      selectConsume: [],
+      selectAssets: [],
       treatmentId: "",
       useDisabled: false,
       addConsumeDialog: false,
@@ -216,7 +157,6 @@ export default {
       consultingRoomList: [],
       consumableAssetList: [],
       horseInfoName: [],
-      treatInfo: {},
       horseName: "",
       treatName: "",
       consumeTreatName: "",
@@ -234,42 +174,88 @@ export default {
       useRoom: "",
       assetsName: "",
       currentPage: 1,
-      pageRecorders: 10,
-      totalRecorders: 1,
+      pageRecorders: 5,
+      totalRecorders: 0,
       current: 1,
-      page: 10,
+      page: 5,
       total: 1,
       assetsList: [],
       consumeList: [],
       hospitalAssetList: [],
       treatWayOptions: [
         {
-          value: "1",
+          value: 1,
           label: "普通"
         },
         {
-          value: "2",
+          value: 2,
           label: "预约"
         }
       ],
       horseTypeOptions: [
         {
-          value: "1",
+          value: 1,
           label: "中心"
         },
         {
-          value: "2",
+          value: 2,
           label: "外来"
         }
-      ]
+      ],
+       consumeColumns: [
+        {
+          title: "消耗品名称",
+          dataIndex: "assetName",
+          width: "120"
+        },
+        {
+          title: "数量",
+          dataIndex: "inventory",
+          width: "120"
+        }
+      ],
+      assetsColumns: [
+        {
+          title: "固定资产名称",
+          dataIndex: "assetName",
+          width: "120"
+        },
+        {
+          title: "数量",
+          dataIndex: "inventory",
+          width: "120"
+        }
+      ],
     };
   },
   components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
-    "el-time-select": TimeSelect,
-    "el-input": Input,
-    "el-select": Select
+    "multi-select-dialog": MultiSelectDialog
+  },
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
+  computed: {
+    assetSelected() {
+      let selected = {}
+      this.selectAssets.map(item => {
+        selected[item.assetId] = {
+          count: item.count,
+          ori: item
+        };
+      });
+      return selected;
+    },
+    consumeSelected() {
+      let selected = {};
+      this.selectConsume.map(item => {
+        selected[item.assetId] = {
+          count: item.count,
+          ori: item
+        };
+      });
+      return selected;
+    }
   },
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
@@ -279,16 +265,15 @@ export default {
           vm.treatWay = resp.data.outpatientType;
           vm.appointNum = resp.data.appointNumber;
           vm.beginDate = resp.data.beginDate;
-          vm.beginTime = resp.data.beginTime.slice(0,5);
+          vm.beginTime = resp.data.beginTime.slice(0, 5);
           vm.endDate = resp.data.endDate;
-          vm.endTime = resp.data.endTime.slice(0,5);
-
+          vm.endTime = resp.data.endTime.slice(0, 5);
           vm.horseType = resp.data.horseType;
-          if( vm.horseType ==1){
-               vm.horseName = resp.data.horseId;
-          }else{
-                vm.horseName = resp.data.horseName;
-          }
+          // if (vm.horseType == 1) {
+          //   vm.horseName = resp.data.horseId;
+          // } else {
+          vm.horseName = resp.data.horseName;
+          // }
           vm.treatName = resp.data.treatName;
           vm.treatDesc = resp.data.treatDesc;
           vm.useRoom = resp.data.consultingRoomId;
@@ -313,6 +298,8 @@ export default {
           vm.$message.error(err.msg);
         }
       );
+      vm.getSelectAsset()
+      vm.getSelectConsume()
     });
   },
   mounted() {
@@ -322,6 +309,88 @@ export default {
     this.$el.addEventListener("animationend", this.resizeUse);
   },
   methods: {
+      handleConsumeChange(selected) {
+      console.debug("handleAssetsChange: ", selected);
+      let selectConsume = [];
+      let addConsumeItem = [];
+      let showConsumeList =''
+      for (let key in selected) {
+        selectConsume.push({
+          assetId: key,
+          count: selected[key].count,
+          ori: selected[key].ori // 往后台存的时候记得清掉这个字段
+        });
+        addConsumeItem.push({
+          assetId: key,
+          count: selected[key].count
+        });
+        showConsumeList +=
+          selected[key].ori.assetName + "&nbsp;&nbsp;&nbsp;*" + selected[key].count + "<br/>";
+      }
+      this.showConsumeList = showConsumeList
+      this.selectConsume = selectConsume;
+      this.addConsumeItem = addConsumeItem;
+      this.addConsumeDialog = false;
+    },
+    handleAssetsChange(selected) {
+      console.debug("handleAssetsChange: ", selected);
+      let selectAssets = [];
+      let addAssetsItem = [];
+      let showAssetList = ''
+      for (let key in selected) {
+        selectAssets.push({
+          assetId: key,
+          count: selected[key].count,
+          ori: selected[key].ori // 往后台存的时候记得清掉这个字段
+        });
+        addAssetsItem.push({
+          assetId: key,
+          count: selected[key].count
+        });
+        showAssetList +=
+          selected[key].ori.assetName + "&nbsp;&nbsp;&nbsp;*" + selected[key].count + "<br/>";
+      }
+      this.showAssetList = showAssetList
+      this.addAssetsItem = addAssetsItem;
+      this.selectAssets = selectAssets;
+      this.addItemDialog = false;
+    },
+    queryAssets(params, pageSize, current) {
+      return hosAssetsSrv
+        .assetsList(current, pageSize, "", "", params.key)
+        .then(resp => {
+          // 处理返回值的格式
+          return Promise.resolve({
+            list: resp.data.assetInfoList,
+            total: resp.data.totalRecorders
+          });
+        });
+    },
+    queryConsume(params, pageSize, current) {
+      return hosAssetsSrv
+        .consumeList(current, pageSize, "", "", params.key)
+        .then(resp => {
+          // 处理返回值的格式
+          return Promise.resolve({
+            list: resp.data.assetInfoList,
+            total: resp.data.totalRecorders
+          });
+        });
+    },
+    getSelectAsset() {
+      hospitalSrv.getHospitalAsset(this.treatmentId).then(resp => {
+        this.selectAssets = resp.data.assetList
+      }, err => {
+        this.$message.error(err.msg);
+      })
+    },
+    getSelectConsume() {
+      hospitalSrv.getConsumableAsset(this.treatmentId).then(resp => {
+        this.selectConsume = resp.data.assetList
+      }, err => {
+        this.$message.error(err.msg);
+      })
+    },
     resizeWay() {
       this.$refs.selectWay.resetInputWidth();
     },
@@ -331,54 +400,13 @@ export default {
     resizeUse() {
       this.$refs.selectUse.resetInputWidth();
     },
-    getAssetsList(currentPage = this.currentPage) {
+    clickShowDialog() {
       this.addItemDialog = true;
-      hosAssetsSrv
-        .assetsList(
-          currentPage,
-          this.pageRecorders,
-          "",
-          "",
-          this.assetsTreatName
-        )
-        .then(
-          resp => {
-            this.currentPage = currentPage;
-            this.totalRecorders = resp.data.totalRecorders;
-            let assetsList = resp.data.assetInfoList;
-            let len = assetsList.length;
-            for (let i = 0; i < len; i++) {
-              assetsList[i].checked = false;
-              assetsList[i].useNumber = 1;
-            }
-            this.assetsList = assetsList;
-          },
-          err => {
-            this.$message.error(err.msg);
-          }
-        );
     },
-    getConsumeList(currentPage = this.current) {
+    clickShowConsume() {
       this.addConsumeDialog = true;
-      hosAssetsSrv
-        .consumeList(currentPage, this.page, "", "", this.consumeTreatName)
-        .then(
-          resp => {
-            this.current = currentPage;
-            this.total = resp.data.totalRecorders;
-            let consumeList = resp.data.assetInfoList;
-            let len = consumeList.length;
-            for (let i = 0; i < len; i++) {
-              consumeList[i].checked = false;
-              consumeList[i].useNumber = 1;
-            }
-            this.consumeList = consumeList;
-          },
-          err => {
-            this.$message.error(err.msg);
-          }
-        );
     },
+  
     updateTreat() {
       if (this.treatWay == 2 && !this.appointNum) {
         this.$message.error("预约号不能为空！");
@@ -395,13 +423,13 @@ export default {
           this.horseName &&
           this.treatName &&
           this.treatDesc &&
-          this.useRoom 
+          this.useRoom
         )
       ) {
         this.$message.error("治疗信息不能为空！");
         return;
       }
-      this.treatInfo = {
+      let treatInfo = {
         treatmentId: this.treatmentId,
         outpatientType: this.treatWay,
         // appointNumber: this.appointNum,
@@ -414,12 +442,12 @@ export default {
         horseName: this.horseName,
         treatName: this.treatName,
         treatDesc: this.treatDesc,
-        consultingRoomId: this.useRoom,
+        consultingRoomId: this.useRoom
       };
       if (this.treatWay == 2) {
-        this.treatInfo.appointNumber = this.appointNum;
+        treatInfo.appointNumber = this.appointNum;
       }
-      hospitalSrv.updateTreat(this.treatInfo).then(
+      hospitalSrv.updateTreat(treatInfo).then(
         resp => {
           this.$message.success("修改治疗信息成功");
           this.$router.push("/hospital/treatSchedule");
@@ -429,69 +457,6 @@ export default {
         }
       );
     },
-    selectItem(item) {
-      if (item.checked) {
-        this.hospitalAssetList.push({
-          assetId: item.assetId,
-          count: item.useNumber
-        });
-      }
-    },
-    selectConsumeItem(item) {
-      if (item.checked) {
-        this.consumableAssetList.push({
-          assetId: item.assetId,
-          count: item.useNumber
-        });
-      }
-    },
-
-    increase(index, value, inventory) {
-      if (value >= inventory) {
-        return inventory;
-      } else {
-        return this.assetsList[index].useNumber++;
-      }
-    },
-    //减少
-    decrease(index, value) {
-      this.index = index;
-      if (value <= 0) {
-        return 0;
-      } else {
-        return this.assetsList[index].useNumber--;
-      }
-    },
-    increaseConsume(index, value, inventory) {
-      if (value >= inventory) {
-        return inventory;
-      } else {
-        return this.consumeList[index].useNumber++;
-      }
-    },
-    //减少
-    decreaseConsume(index, value) {
-      this.index = index;
-      if (value <= 0) {
-        return 0;
-      } else {
-        return this.consumeList[index].useNumber--;
-      }
-    },
-
-    uploadFun(file) {
-      this.files[file.name] = file.file;
-    },
-    successFile(res) {
-      //上传成功后，接口返回的值，点击确定把这个值再传过去
-      console.log(res);
-    },
-    removeFile(file) {
-      console.log(file);
-    },
-    open() {
-      this.$message.success("修改成功");
-    }
   }
 };
 </script>
@@ -499,7 +464,13 @@ export default {
 <style lang="scss" scoped>
 .addborder {
   border-radius: 5px;
+  padding: 10px 5px;
 }
+.addborder:empty::before {
+  color: lightgrey;
+  content: attr(placeholder);
+}
+
 .add-delete a {
   margin-left: 5px;
   cursor: pointer;
@@ -522,10 +493,9 @@ export default {
   display: block;
   overflow: hidden;
   width: 160px;
-  margin-top: 3px;
 }
 
-.Spinner a {
+.Spinner button {
   // display: inline-block;
   width: 35px;
   height: 35px;
@@ -544,23 +514,34 @@ export default {
   border-color: #d9d9d9;
   float: left;
   text-align: center;
-  color: #565656;
+  color: #560606;
   outline: 0;
 }
 
+.Decrease {
+  border-radius: 5px 0 0 5px;
+}
+
+.Increase {
+  border-radius: 0 5px 5px 0;
+}
+
 .Decrease i {
-  padding-left: 10px;
+  // padding-left: 10px;
   font-size: 20px;
   color: #409eff;
+  margin-top: -18px;
 }
 
 .Increase i {
-  padding-left: 10px;
+  // padding-left: 10px;
+  margin-top: -18px;
   position: relative;
   top: 8px;
   font-size: 22px;
   color: #409eff;
 }
+
 .baseInfo-title {
   height: 30px;
   line-height: 30px;

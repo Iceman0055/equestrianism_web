@@ -12,7 +12,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select size="large" filterable v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in treatmentList" :key="item">
+                            <tr v-for="(item,index) in treatmentList" :key="index">
                                 <td>{{treatWayOptions[item.outpatientType]}}</td>
                                 <td>{{item.appointNumber}}</td>
                                 <td>{{horseTypeOptions[item.horseType]}}</td>
@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     <router-link :to="{path: '/hospital/updateTreat',       
-                                                                 query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
+                                                                             query: { disable:1,treatmentId:item.treatmentId}}"> 查看</router-link>
 
                                 </td>
                             </tr>
@@ -68,6 +68,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getTreatList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -78,7 +79,7 @@
         <!-- 固定资产  -->
         <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="assetsDialog" width="22%" center>
             <div class="text-center">
-                <div class="row" v-for="item in assetList" :key="item">
+                <div class="row" v-for="(item,index) in assetList" :key="index">
                     <div class="col-md-7">名称：{{item.assetName}}</div>
                     <div class="col-md-5">数量：{{item.count}}</div>
                 </div>
@@ -91,7 +92,7 @@
         <!-- 显示消耗品 -->
         <el-dialog title="提示" :modal-append-to-body="false" :visible.sync="consumeDialog" width="22%" center>
             <div class="text-center">
-                <div class="row" v-for="item in consumeList" :key="item">
+                <div class="row" v-for="(item,index) in consumeList" :key="index">
                     <div class="col-md-7">名称：{{item.assetName}}</div>
                     <div class="col-md-5">数量：{{item.count}}</div>
                 </div>
@@ -116,7 +117,7 @@ import horseSrv from "../../../services/horse.service.js"; export default {
             assetsDialog: false,
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             horseName: "",
             horseInfoName: [],
             showLoading: false,
@@ -162,11 +163,6 @@ import horseSrv from "../../../services/horse.service.js"; export default {
             );
         });
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-date-picker': DatePicker,
-        'el-select': Select,
-    },
     methods: {
         watchAssetsDetail(treatmentId) {
             this.assetsDialog = true
@@ -210,8 +206,16 @@ import horseSrv from "../../../services/horse.service.js"; export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .fieldInput {
     width: 90%;
 }

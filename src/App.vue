@@ -1,8 +1,6 @@
 <template>
-  <keep-alive>
-    <router-view>
-    </router-view>
-  </keep-alive>
+  <router-view>
+  </router-view>
 </template>
 
 <script>
@@ -13,11 +11,38 @@ export default {
     return {
     }
   },
- 
+
 }
 </script>
 
 <style lang="scss">
+.__vev_calendar-wrapper .cal-wrapper .cal-header .title {
+  font-size: 18px;
+}
+
+.__vev_calendar-wrapper .cal-wrapper .cal-body {
+  border: 1px solid #ddd;
+}
+
+.__vev_calendar-wrapper .events-wrapper .date {
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+}
+
+.__vev_calendar-wrapper .cal-wrapper .date-num {
+  line-height: 70px;
+}
+
+.__vev_calendar-wrapper .cal-wrapper .cal-body {
+  background: #fff;
+}
+
+.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
+  background-color: #409EFF;
+  border-color: #409EFF;
+}
+
 .breadcrumb .breadcrumb-item:first-child {
   display: none;
 }
@@ -34,49 +59,43 @@ export default {
   content: "/";
 }
 
-// .fc-day-grid-container{
-//   height: 610px!important;
-//   overflow: hidden!important;
+// .full-calendar-body .dates .dates-events .events-week .events-day {
+//   cursor: pointer;
+//   flex: 1;
+//   min-height: 110px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
 // }
-// .fc-week{
-//   height: 100px!important;
+// .full-calendar-body .dates .week-row .day-cell {
+//   flex: 1;
+//   min-height: 100px;
+//   // padding: 4px;
+//   border-right: 1px solid #e0e0e0;
+//   border-bottom: 1px solid #e0e0e0;
 // }
-// .el-select-dropdown__item{
-//   height: 60px;
+// .fc-state-disabled {
+//   opacity: .45;
 // }
-.fc-title {
-  color: #fff;
-}
-
-.fc-day-header {
-  height: 30px;
-  line-height: 30px;
-  font-size: 18px;
-}
-
-.fc-state-disabled {
-  opacity: .45;
-}
-
-.fc-button {
-  background: #20A8D8;
-  color: #fff;
-  width: 50px;
-}
-
+// .fc-button {
+//   background: #20A8D8;
+//   color: #fff;
+//   width: 50px;
+// }
 .el-dialog {
   border-radius: 5px;
 }
 
-.comp-full-calendar {
-  box-sizing: content-box;
-  max-width: 100%;
-  background: #E5ECDA
-}
-
+// .comp-full-calendar {
+//   box-sizing: content-box;
+//   max-width: 100%;
+//   background: #E5ECDA
+// }
 // //重写日历样式
 // .full-calendar-header .header-center {
 //   font-size: 16px
+// }
+// .full-calendar-body .dates .dates-events .events-week .events-day .event-box .event-item.is-start{
+//   margin-left: 0;
 // }
 // .full-calendar-body .dates .dates-events .events-week .events-day .event-box .more-link {
 //   color: red
@@ -135,13 +154,11 @@ export default {
 
 .el-textarea.is-disabled .el-textarea__inner,
 .el-input.is-disabled .el-input__inner {
-  // background-color: #cfd8dc;
   color: #607d8b;
   background: #eee;
 }
 
 .form-control:disabled {
-  /* background-color: #f7f7f7; */
   opacity: 1;
   border-color: #ddd;
   background: #eee;
@@ -172,10 +189,8 @@ export default {
 }
 
 .avatar-uploader-icon {
-  // border: 1px solid #ddd;
   font-size: 28px;
-  color: #8c939d; // width: 441px;
-  // height: 200px;
+  color: #8c939d;
   line-height: 178px;
   text-align: center;
 }
@@ -220,8 +235,7 @@ input:focus {
   min-height: 100%;
   border: 1px solid #cfd8dc;
   .table {
-    line-height: 2rem;
-    font-size: 14px;
+    line-height: 2rem; // font-size: 14px;
     tr {
       th {
         text-align: center
@@ -239,7 +253,7 @@ input:focus {
     }
   }
   .content-title {
-    border-radius: 5px;
+    // border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
     padding: 0.65rem 1.25rem;
@@ -303,7 +317,8 @@ input:focus {
       margin-bottom: 0;
     }
     .page {
-      float: right;
+      display: flex;
+      justify-content: flex-end;
       margin-top: 20px;
       .itemCount {
         position: absolute;

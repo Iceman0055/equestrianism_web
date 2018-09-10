@@ -8,14 +8,14 @@
                 <div class="col-md-3 search-field">
                     <div class="label">资产大类：</div>
                     <el-select size="large" v-model="assetType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in assetTypeList" :key="item.typeId" :label="item.typeName" :value="item.typeId">
+                        <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-3 search-field">
                     <div class="label">资产分类：</div>
                     <el-select @focus="getAssetsType" size="large" v-model="typeDetail" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in typeDetailList" :key="item.typeDetailId" :label="item.typeDetailName" :value="item.typeDetailId">
+                        <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
                         </el-option>
                     </el-select>
                 </div>
@@ -66,7 +66,7 @@
                         </thead>
                         <tbody>
 
-                            <tr v-for="item in assetsList" :key="item">
+                            <tr v-for="(item,index) in assetsList" :key="index">
                                 <td>{{item.typeName}}</td>
                                 <td>{{item.typeDetailName}}</td>
                                 <td>{{item.assetNumber}}</td>
@@ -89,8 +89,8 @@
                                 <td>{{item.purchaseOrganize}}</td>
                                 <td>
                                     <router-link :to="{path: '/hosAssets/updateConsume',       
-                                                                                     query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hosAssets/updateConsume',query:{assetId:item.assetId}}">
+                                                                                     query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hosAssets/updateConsume',query:{assetId:item.assetId,departmentId:item.departmentId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.assetId)">删除</a>
@@ -103,6 +103,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getConsumeList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -133,7 +134,7 @@ export default {
             assetType: "",
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             assetTypeList: [],
             typeDetailList: [],
             deleteContent: {},
@@ -199,13 +200,17 @@ export default {
             })
         }
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-select': Select
-    }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

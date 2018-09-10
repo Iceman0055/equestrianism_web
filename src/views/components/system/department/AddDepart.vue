@@ -39,9 +39,9 @@ export default {
             note: '',
         }
     },
-    components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     methods: {
         addDepart() {
@@ -49,12 +49,12 @@ export default {
                 this.$message.error('部门信息不能为空！')
                 return;
             }
-            this.addInfo = {
+            let addInfo = {
                 departmentName: this.departName,
                 shortName: this.departShortName,
                 remark: this.note,
             }
-            systemSrv.addDepart(this.addInfo).then((resp) => {
+            systemSrv.addDepart(addInfo).then((resp) => {
                 this.$message.success('添加部门成功')
                 this.$router.push('/system/department')
             }, (err) => {

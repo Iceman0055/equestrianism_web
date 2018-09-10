@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="cursor:pointer" v-for="item in dictInfoList" :key="item" @click="getDetailList(1,item)">
+                            <tr style="cursor:pointer" v-for="(item,index) in dictInfoList" :key="index" @click="getDetailList(1,item)">
                                 <td><input type="radio" class="input-pointer" name="select" :checked="item.checked"></td>
                                 <td >{{item.typeName}}</td>
                                 <td>{{item.typeCode}}</td>
@@ -59,6 +59,7 @@
                         暂无数据 </div>
 
                     <div class="page">
+                      <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getDict" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -83,7 +84,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in dictDetailList" :key="item">
+                            <tr v-for="(item,index) in dictDetailList" :key="index">
                                 <td>{{item.dictionaryId}}</td>
                                 <td>{{item.itemValue}}</td>
                                 <td>{{item.itemCode}}</td>
@@ -99,6 +100,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                      <div class="total"> 总共 {{total}} 条</div>
                         <el-pagination @current-change="getDetailList" :current-page="current" :page-size="page" background layout="prev, pager, next" :total="total">
                         </el-pagination>
                     </div>
@@ -182,256 +184,312 @@
 </template>
 
 <script>
-import { Pagination, Dialog, Message } from 'element-ui'
-import systemSrv from '../../../services/system.service.js'
+import { Pagination, Dialog, Message } from "element-ui";
+import systemSrv from "../../../services/system.service.js";
 export default {
-    data() {
-        return {
-            dialogTitle: '',
-            dialogTextTitle: '',
-            activeItem: undefined,
-            deleteTextDialog: false,
-            updateTextDialog: false,
-            updateDialog: false,
-            deleteDialog: false,
-            showLoading: false,
-            loading:false,
-            pageRecorders: 10,
-            totalRecorders: 1,
-            currentPage: 1,
-            page: 10,
-            total: 1,
-            current: 1,
-            typeCode: '',
-            typeName: '',
-            dictInfoList: [],
-            dictName: '',
-            dictType: '',
-            remark: '',
-            sort: '',
-            deleteContent: {},
-            deleteContentInfo: {},
-            dictionaryId: '',
-            dictionaryDetailId: '',
-            dictDetailList: [],
-            fatherCode: '',
-            itemCode: '',
-            itemValue: '',
-            updateDetailInfo: {},
-            addDetailInfo: {},
-            searchDetailId: '',
+  data() {
+    return {
+      dialogTitle: "",
+      dialogTextTitle: "",
+      activeItem: undefined,
+      deleteTextDialog: false,
+      updateTextDialog: false,
+      updateDialog: false,
+      deleteDialog: false,
+      showLoading: false,
+      loading: false,
+      pageRecorders: 10,
+      totalRecorders: 0,
+      currentPage: 1,
+      page: 10,
+      total: 0,
+      current: 1,
+      typeCode: "",
+      typeName: "",
+      dictInfoList: [],
+      dictName: "",
+      dictType: "",
+      remark: "",
+      sort: "",
+      deleteContent: {},
+      deleteContentInfo: {},
+      dictionaryId: "",
+      dictionaryDetailId: "",
+      dictDetailList: [],
+      fatherCode: "",
+      itemCode: "",
+      itemValue: "",
+      searchDetailId: ""
+    };
+  },
+  beforeRouteEnter: function(to, from, next) {
+    next(vm => {
+      vm.showLoading = true;
+      systemSrv
+        .dictionaryList(
+          vm.currentPage,
+          vm.pageRecorders,
+          vm.typeName,
+          vm.typeCode
+        )
+        .then(
+          resp => {
+            vm.showLoading = false;
+            vm.totalRecorders = resp.data.totalRecorders;
+            let dictInfoList = resp.data.dictionaryInfoList;
+            let len = dictInfoList.length;
+            let checkedArray = [];
+            for (let i = 0; i < len; i++) {
+              checkedArray.push({
+                typeName: dictInfoList[i].typeName,
+                typeCode: dictInfoList[i].typeCode,
+                remark: dictInfoList[i].remark,
+                sort: dictInfoList[i].sort,
+                dictionaryId: dictInfoList[i].dictionaryId,
+                checked: false
+              });
+            }
+            vm.dictInfoList = checkedArray;
+          },
+          err => {
+            vm.showLoading = false;
+            vm.$message.error(err.msg);
+          }
+        );
+    });
+  },
+  methods: {
+    getDict(currentPage = this.currentPage) {
+      this.showLoading = true;
+      systemSrv
+        .dictionaryList(
+          currentPage,
+          this.pageRecorders,
+          this.typeName,
+          this.typeCode
+        )
+        .then(
+          resp => {
+            this.currentPage = currentPage;
+            this.showLoading = false;
+            this.totalRecorders = resp.data.totalRecorders;
+            this.dictInfoList = resp.data.dictionaryInfoList;
+          },
+          err => {
+            this.showLoading = false;
+            this.$message.error(err.msg);
+          }
+        );
+    },
+    getDetailList(currentPage, item = this.activeItem) {
+      this.activeItem && (this.activeItem.checked = false);
+      item.checked = true;
+      this.activeItem = item;
+      this.loading = true;
+      this.searchDetailId = item.dictionaryId;
+      systemSrv.dicDetailList(currentPage, this.page, item.dictionaryId).then(
+        resp => {
+          this.current = currentPage;
+          this.loading = false;
+          this.total = resp.data.totalRecorders;
+          this.dictDetailList = resp.data.dictionaryDetailList;
+        },
+        err => {
+          this.loading = false;
+          this.$message.error(err.msg);
         }
+      );
     },
-    beforeRouteEnter: function(to, from, next) {
-        next(vm => {
-            vm.showLoading = true
-            systemSrv.dictionaryList(vm.currentPage, vm.pageRecorders, vm.typeName, vm.typeCode).then(resp => {
-                vm.showLoading = false
-                vm.totalRecorders = resp.data.totalRecorders
-                let dictInfoList = resp.data.dictionaryInfoList
-                let len = dictInfoList.length
-                let checkedArray = []
-                for (let i = 0; i < len; i++) {
-                    checkedArray.push({
-                        typeName: dictInfoList[i].typeName,
-                        typeCode: dictInfoList[i].typeCode,
-                        remark: dictInfoList[i].remark,
-                        sort: dictInfoList[i].sort,
-                        dictionaryId: dictInfoList[i].dictionaryId,
-                        checked: false
-                    })
-                }
-                vm.dictInfoList = checkedArray
-            }, err => {
-                vm.showLoading = false
-                vm.$message.error(err.msg)
-            })
-
-        })
+    addDictDialog(index, dictionaryId) {
+      event.stopPropagation();
+      this.updateDialog = true;
+      if (index == 1) {
+        this.dialogTitle = "新增";
+      } else {
+        this.dictionaryId = dictionaryId;
+        this.dialogTitle = "修改";
+        systemSrv.getDict(dictionaryId).then(
+          resp => {
+            this.dictName = resp.data.typeName;
+            this.dictType = resp.data.typeCode;
+            this.sort = resp.data.sort;
+            this.remark = resp.data.remark;
+          },
+          err => {
+            this.$message.error(err.msg);
+          }
+        );
+      }
     },
-    methods: {
-        getDict(currentPage = this.currentPage) {
-            this.showLoading = true
-            systemSrv.dictionaryList(currentPage, this.pageRecorders, this.typeName, this.typeCode).then(resp => {
-                this.currentPage = currentPage
-                this.showLoading = false
-                this.totalRecorders = resp.data.totalRecorders
-                this.dictInfoList = resp.data.dictionaryInfoList
-            }, err => {
-                this.showLoading = false
-                this.$message.error(err.msg)
-            })
+    addDictTextDialog(index, id) {
+      this.updateTextDialog = true;
+      if (index == 1) {
+        this.dialogTextTitle = "新增";
+        this.fatherCode = id;
+        this.itemCode = "";
+        this.itemValue = "";
+      } else {
+        this.dictionaryDetailId = id;
+        this.dialogTextTitle = "修改";
+        systemSrv.getDicDetail(this.dictionaryDetailId).then(
+          resp => {
+            this.fatherCode = resp.data.dictionaryId;
+            this.itemCode = resp.data.itemCode;
+            this.itemValue = resp.data.itemValue;
+          },
+          err => {
+            this.$message.error(err.msg);
+          }
+        );
+      }
+    },
+    addDict() {
+      if (!(this.dictName && this.dictType && this.remark && this.sort)) {
+        this.$message.error("字典信息不能为空！");
+        return;
+      }
+      let addInfo = {
+        typeCode: this.dictType,
+        typeName: this.dictName,
+        remark: this.remark,
+        sort: this.sort
+      };
+      systemSrv.addDict(addInfo).then(
+        resp => {
+          this.$message.success("添加字典成功");
+          this.updateDialog = false;
+          this.getDict();
         },
-        getDetailList(currentPage, item = this.activeItem) {
-            this.activeItem && (this.activeItem.checked = false);
-            item.checked = true;
-            this.activeItem = item;
-            this.loading = true
-             this.searchDetailId = item.dictionaryId
-            systemSrv.dicDetailList(currentPage, this.page, item.dictionaryId).then(resp => {
-                this.current = currentPage
-                this.loading = false
-                this.total = resp.data.totalRecorders
-                this.dictDetailList = resp.data.dictionaryDetailList
-            }, err => {
-                this.loading = false
-                this.$message.error(err.msg)
-            })
-        },
-        addDictDialog(index, dictionaryId) {
-            event.stopPropagation()
-            this.updateDialog = true
-            if (index == 1) {
-                this.dialogTitle = '新增'
-            } else {
-                this.dictionaryId = dictionaryId
-                this.dialogTitle = '修改'
-                systemSrv.getDict(dictionaryId).then(resp => {
-                    this.dictName = resp.data.typeName
-                    this.dictType = resp.data.typeCode
-                    this.sort = resp.data.sort
-                    this.remark = resp.data.remark
-                }, err => {
-                    this.$message.error(err.msg)
-                })
-
-            }
-        },
-        addDictTextDialog(index, id) {
-            this.updateTextDialog = true
-            if (index == 1) {
-                this.dialogTextTitle = '新增'
-                this.fatherCode = id
-                this.itemCode = ''
-                this.itemValue = ''
-            } else {
-                this.dictionaryDetailId = id
-                this.dialogTextTitle = '修改'
-                systemSrv.getDicDetail(this.dictionaryDetailId).then(resp => {
-                    this.fatherCode = resp.data.dictionaryId
-                    this.itemCode = resp.data.itemCode
-                    this.itemValue = resp.data.itemValue
-                }, err => {
-                    this.$message.error(err.msg)
-                })
-            }
-        },
-        addDict() {
-            if (!(this.dictName && this.dictType && this.remark && this.sort)) {
-                this.$message.error('字典信息不能为空！')
-                return;
-            }
-            this.addInfo = {
-                typeCode: this.dictType,
-                typeName: this.dictName,
-                remark: this.remark,
-                sort: this.sort
-            }
-            systemSrv.addDict(this.addInfo).then((resp) => {
-                this.$message.success('添加字典成功')
-                this.updateDialog = false
-                this.getDict()
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        addDictDetail() {
-            if (!(this.fatherCode && this.itemCode && this.itemValue)) {
-                this.$message.error('字项信息不能为空！')
-                return;
-            }
-            this.addDetailInfo = {
-                dictionaryId: this.fatherCode,
-                itemCode: this.itemCode,
-                itemValue: this.itemValue,
-            }
-            systemSrv.addDicDetail(this.addDetailInfo).then((resp) => {
-                this.$message.success('添加字项成功')
-                this.updateTextDialog = false
-                this.getDetailList(1, this.fatherCode)
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        updateDictDetail() {
-            if (!(this.fatherCode && this.itemCode && this.itemValue)) {
-                this.$message.error('字项信息不能为空！')
-                return;
-            }
-            this.updateDetailInfo = {
-                dictionaryDetailId: this.dictionaryDetailId,
-                itemCode: this.itemCode,
-                itemValue: this.itemValue,
-            }
-            systemSrv.updateDicDetail(this.updateDetailInfo).then((resp) => {
-                this.$message.success('修改字项成功')
-                this.updateTextDialog = false
-                this.getDetailList(1, this.fatherCode)
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        updateDict() {
-            if (!(this.dictName && this.dictType && this.remark && this.sort)) {
-                this.$message.error('字典信息不能为空！')
-                return;
-            }
-            this.updateInfo = {
-                dictionaryId: this.dictionaryId,
-                typeCode: this.dictType,
-                typeName: this.dictName,
-                remark: this.remark,
-                sort: this.sort
-            }
-            systemSrv.updateDict(this.updateInfo).then((resp) => {
-                this.$message.success('修改字典成功')
-                this.updateDialog = false
-                this.getDict()
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        deleteInfo(dictId) {
-            event.stopPropagation()
-            this.deleteDialog = true
-            this.deleteContent.dictionaryId = dictId
-            this.deleteContent.deleteFlag = 1
-        },
-        deleteDict() {
-            systemSrv.deleteDict(this.deleteContent).then((resp) => {
-                this.$message.success('删除成功')
-                this.deleteDialog = false
-                this.getDict()
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        deleteDetailInfo(dicDetailId) {
-            this.deleteTextDialog = true
-            this.deleteContentInfo.dictionaryDetailId = dicDetailId
-            this.deleteContentInfo.deleteFlag = 1
-        },
-        deleteTextDetail() {
-            systemSrv.deleteDicDetail(this.deleteContentInfo).then(resp => {
-                this.$message.success('删除成功')
-                this.deleteTextDialog = false
-                this.getDetailList(1, this.fatherCode)
-            }, err => {
-                this.$message.error(err.msg)
-            })
-
+        err => {
+          this.$message.error(err.msg);
         }
-
+      );
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog,
+    addDictDetail() {
+      var reg = /^[0-9]*$/;
+      if (!(this.fatherCode && this.itemCode && this.itemValue)) {
+        this.$message.error("字项信息不能为空！");
+        return;
+      }
+      if (!reg.test(this.itemCode)) {
+        this.$message.error("字典代码必须为数字！");
+        return;
+      }
+      let addDetailInfo = {
+        dictionaryId: this.fatherCode,
+        itemCode: this.itemCode,
+        itemValue: this.itemValue
+      };
+      systemSrv.addDicDetail(addDetailInfo).then(
+        resp => {
+          this.$message.success("添加字项成功");
+          this.updateTextDialog = false;
+          this.getDetailList(1, this.fatherCode);
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    updateDictDetail() {
+      var reg = /^[0-9]*$/;
+      if (!(this.fatherCode && this.itemCode && this.itemValue)) {
+        this.$message.error("字项信息不能为空！");
+        return;
+      }
+      if (!reg.test(this.itemCode)) {
+        this.$message.error("字典代码必须为数字！");
+        return;
+      }
+      let updateDetailInfo = {
+        dictionaryDetailId: this.dictionaryDetailId,
+        itemCode: this.itemCode,
+        itemValue: this.itemValue
+      };
+      systemSrv.updateDicDetail(updateDetailInfo).then(
+        resp => {
+          this.$message.success("修改字项成功");
+          this.updateTextDialog = false;
+          this.getDetailList(1, this.fatherCode);
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    updateDict() {
+      if (!(this.dictName && this.dictType && this.remark && this.sort)) {
+        this.$message.error("字典信息不能为空！");
+        return;
+      }
+      let updateInfo = {
+        dictionaryId: this.dictionaryId,
+        typeCode: this.dictType,
+        typeName: this.dictName,
+        remark: this.remark,
+        sort: this.sort
+      };
+      systemSrv.updateDict(updateInfo).then(
+        resp => {
+          this.$message.success("修改字典成功");
+          this.updateDialog = false;
+          this.getDict();
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    deleteInfo(dictId) {
+      event.stopPropagation();
+      this.deleteDialog = true;
+      this.deleteContent.dictionaryId = dictId;
+      this.deleteContent.deleteFlag = 1;
+    },
+    deleteDict() {
+      systemSrv.deleteDict(this.deleteContent).then(
+        resp => {
+          this.$message.success("删除成功");
+          this.deleteDialog = false;
+          this.getDict();
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    deleteDetailInfo(dicDetailId) {
+      this.deleteTextDialog = true;
+      this.deleteContentInfo.dictionaryDetailId = dicDetailId;
+      this.deleteContentInfo.deleteFlag = 1;
+    },
+    deleteTextDetail() {
+      systemSrv.deleteDicDetail(this.deleteContentInfo).then(
+        resp => {
+          this.$message.success("删除成功");
+          this.deleteTextDialog = false;
+          this.getDetailList(1, this.fatherCode);
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
     }
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .input-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>

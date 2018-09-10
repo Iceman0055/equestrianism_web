@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in roleList" :key="item">
+                            <tr v-for="(item,index) in roleList" :key="index">
                                 <td>{{item.roleName}}</td>
                                 <td>{{item.shortName}}</td>
                                 <td>{{item.remark}}</td>
@@ -45,6 +45,7 @@
                     <div class="list-empty" v-show="roleList.length===0">
                         暂无数据 </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getRole" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -101,7 +102,7 @@ export default {
             origin: [],
             roleId: '',
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             currentPage: 1,
             statusDialog: false,
             showLoading: false,
@@ -241,23 +242,24 @@ export default {
         },
         //全选
         selectChecked() {
-
             this.$refs.tree.setCheckedKeys([0, 1, 2, 3, 4, 5, 6, 7]);
-
         },
         //全不选
         resetChecked() {
             this.$refs.tree.setCheckedKeys([]);
         },
     },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog,
-        'el-tree': Tree
-    }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

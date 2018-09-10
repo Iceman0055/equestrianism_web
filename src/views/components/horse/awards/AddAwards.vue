@@ -11,7 +11,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select ref="selectInput" filterable size="large" v-model="horseName" class="el-field-input" placeholder="请选择马匹名称">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -65,7 +65,6 @@ export default {
     data() {
         return {
             files: {},
-            awardsInfo: {},
             horseName: '',
             horseInfoName: [],
             eventName: "",
@@ -78,10 +77,7 @@ export default {
         };
     },
     components: {
-        "el-date-picker": DatePicker,
-        "el-button": Button,
         'upload-img': UploadImg,
-        "el-select": Select
     },
     mounted() {
         this.$el.addEventListener('animationend', this.resizeSelect)
@@ -108,7 +104,7 @@ export default {
                 this.$message.error('获奖信息不能为空！')
                 return;
             }
-            this.awardsInfo = {
+            let awardsInfo = {
                 horseId: this.horseName,
                 eventName: this.eventName,
                 eventDate: this.eventDate,
@@ -121,8 +117,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.awardsInfo) {
-                formData.append(key, this.awardsInfo[key])
+            for (let key in awardsInfo) {
+                formData.append(key, awardsInfo[key])
             }
             horseSrv.addAwards(formData).then((resp) => {
                 this.$message.success('添加获奖信息成功')

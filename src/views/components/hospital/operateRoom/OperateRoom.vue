@@ -8,7 +8,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">诊疗室名称：</div>
                     <el-select size="large" v-model="name" class="el-field-input">
-                        <el-option v-for="item in consultingRoomList" :key="item.consultingRoomId" :label="item.consultingRoomName" :value="item.consultingRoomId">
+                        <el-option v-for="(item,index) in consultingRoomList" :key="index" :label="item.consultingRoomName" :value="item.consultingRoomId">
                         </el-option>
                     </el-select>
                 </div>
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in operateRoomList" :key="item">
+                            <tr v-for="(item,index) in operateRoomList" :key="index">
                                 <td>{{item.name}}</td>
                                 <td>{{item.shortName}}</td>
                                 <td>{{convertStatus[item.status]}}</td>
@@ -60,6 +60,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getOperateRoomList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -97,7 +98,7 @@ export default {
             deleteDialog: false,
             currentPage: 1,
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             showLoading: false,
             name: "",
             shortName: "",
@@ -195,12 +196,17 @@ export default {
             })
         },
     },
-    components: {
-        "el-pagination": Pagination
-    }
 };
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

@@ -2,26 +2,26 @@
   <div class="app flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-5">
           <div class="card-group mb-0">
             <form class="card p-4" name="loginForm" novalidate>
               <div class="card-block">
-                <h1>登录</h1>
+                <h2 class="mb-3">登录</h2>
                 <!-- <p :class="{'login-info-error animated shake':login_err}" v-show="login_err">{{info}}</p> -->
                 <div class="input-group mb-3">
-                  <span class="input-group-addon">
+                  <span class="input-group-addon login-addon">
                     <i class="icon-user"></i>
                   </span>
-                  <input type="text" v-model="username" class="form-control" placeholder="请输入用户名">
+                  <input type="text" v-model="username" class="form-control login-input" placeholder="请输入用户名" @keyup.enter="login">
                 </div>
                 <div class="input-group mb-4">
-                  <span class="input-group-addon">
+                  <span class="input-group-addon login-addon">
                     <i class="icon-lock"></i>
                   </span>
-                  <input type="password" v-model="password" class="form-control" placeholder="请输入密码">
+                  <input type="password" v-model="password" class="form-control login-input" placeholder="请输入密码" @keyup.enter="login">
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary px-4" @click="login">登录</button>
+                  <button type="button" class="btn btn-primary px-4 but-size" @click="login">登录</button>
                 </div>
               </div>
             </form>
@@ -46,6 +46,15 @@ export default {
     return {
       username: '',
       password: '',
+      convertMenu: {
+        1: '/dashboard',
+        2: '/horse',
+        3: '/resume',
+        4: '/hospital',
+        5: '/hosAssets',
+        6: '/equestrian',
+        7: '/system',
+      }
     }
   },
   methods: {
@@ -61,10 +70,9 @@ export default {
           resp.data.menuList.map((value) => {
             menuEnableMap[value] = true;
           });
-          // console.log(menuEnableMap)
-          // window.localStorage.setItem('menuEnableMap',menuEnableMap)
-          Bus.$emit('menuEnableMap',menuEnableMap)
-          this.$router.push("/dashboard")
+          window.localStorage.setItem('menuEnableMap', JSON.stringify(menuEnableMap))
+          let path = this.convertMenu[resp.data.menuList[0]]
+          this.$router.push(path)
         }, err => {
           this.$message.error(err.msg)
         })
@@ -76,7 +84,21 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+.but-size {
+  width: 50%;
+  font-size: 16px;
+}
+
+.login-addon {
+  border-radius: 5px 0 0 5px;
+}
+
+.login-input {
+  border-radius: 0 5px 5px 0;
+  border: none;
+}
+
+h2 {
   color: #fff;
 }
 

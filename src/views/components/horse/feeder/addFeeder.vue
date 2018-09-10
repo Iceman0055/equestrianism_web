@@ -15,7 +15,7 @@
         <div class="col-md-4 search-field">
           <div class="label">性别：</div>
           <el-select ref="selectInput" size="large" v-model="sex" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in sexOptions" :key="item.dictionaryDetailId" :label="item.itemValue" :value="item.dictionaryDetailId">
+            <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
             </el-option>
           </el-select>
         </div>
@@ -28,7 +28,7 @@
         <div class="col-md-4 search-field">
           <div class="label">匹配马匹：</div>
           <el-select ref="selectHorse" filterable size="large" v-model="horseName" class="el-field-input" placeholder="请选择">
-            <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+            <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
             </el-option>
           </el-select>
         </div>
@@ -67,17 +67,13 @@ export default {
       sex: "",
       imageUrl: "",
       files: {},
-      feederInfo: {},
       horseInfoName: [],
       horseName: '',
       sexOptions: [],
     };
   },
   components: {
-    "el-date-picker": DatePicker,
-    "el-button": Button,
     'upload-img': UploadImg,
-    "el-select": Select
   },
   mounted() {
     this.$el.addEventListener('animationend', this.resizeSelect)
@@ -101,9 +97,12 @@ export default {
       }, err => {
         vm.$message.error(err.msg)
       })
-
     })
   },
+   beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
+    },
   methods: {
     resizeSelect() {
       this.$refs.selectInput.resetInputWidth()
@@ -120,7 +119,7 @@ export default {
         this.$message.error('饲养员信息不能为空！')
         return;
       }
-      this.feederInfo = {
+      let feederInfo = {
         feederName: this.name,
         sex: this.sex,
         skillDesc: this.skill,
@@ -131,8 +130,8 @@ export default {
       for (let key in this.files) {
         formData.append(key, this.files[key])
       }
-      for (let key in this.feederInfo) {
-        formData.append(key, this.feederInfo[key])
+      for (let key in feederInfo) {
+        formData.append(key, feederInfo[key])
       }
       horseSrv.addFeeder(formData).then((resp) => {
         this.$message.success('添加饲养员信息成功')
@@ -141,7 +140,6 @@ export default {
         this.$message.error(err.msg)
       })
     }
-
   }
 };
 </script>

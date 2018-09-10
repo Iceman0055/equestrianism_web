@@ -70,7 +70,7 @@
                 </div>
                 <div class="resume-more-baseInfo col-md-2">
                     <router-link :to="{path: '/horse/baseInfo',       
-                                                         query: {horseName:horseInfo.horseName}}"> 更多</router-link>
+                                                                                                         query: {horseName:horseInfo.horseName}}"> 更多</router-link>
                     <i class="fa fa-angle-right fa-lg"></i>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="!feederInfo">暂无数据</div>
-                <div class="col-md-5"  v-if="feederInfo">
+                <div class="col-md-5" v-if="feederInfo">
                     <ul class="resume-ul">
                         <li>{{feederInfo.feederName}}</li>
                         <li>{{feederInfo.horseName}}</li>
@@ -110,13 +110,11 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/feeder',       
-                                                    query: { feederName: feederInfo.feederName,}}"> 更多</router-link>
+                                                                                                    query: { feederName: feederInfo.feederName,}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
-
             </div>
-
             <div class="row list-search">
                 <div class="col-md-6 resume-title">
                     <div class="title">病历信息</div>
@@ -127,8 +125,8 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="treatmentCaseList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight">
-                    <ul class="resume-ul" v-for="item in treatmentCaseList" :key="item">
+                <div class="col-md-5 addHeight" v-if="treatmentCaseList.length!=0">
+                    <ul class="resume-ul" v-for="(item,index) in treatmentCaseList" :key="index">
                         <li v-if="item.horseType==1">{{item.horseId}}</li>
                         <li v-if="item.horseType==2">{{item.horseName}}</li>
                         <li>{{item.operatorDate}}</li>
@@ -142,8 +140,8 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="prizeList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight">
-                    <ul class="resume-ul" v-for="item in prizeList" :key="item">
+                <div class="col-md-5 addHeight" v-if="prizeList.length!=0">
+                    <ul class="resume-ul" v-for="(item,index) in prizeList" :key="index">
                         <li>{{item.horseName}}</li>
                         <li>{{item.eventName}}</li>
                         <li>{{item.eventPlace}}</li>
@@ -165,8 +163,8 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="vaccinationList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight">
-                    <ul class="resume-ul" v-for="item in vaccinationList" :key="item">
+                <div class="col-md-5 addHeight" v-if="vaccinationList.length!=0">
+                    <ul class="resume-ul" v-for="(item,index) in vaccinationList" :key="index">
                         <li>{{item.operateDate}}</li>
                         <li>{{item.operatePlace}}</li>
                         <li>{{item.name}}</li>
@@ -174,15 +172,15 @@
                     </ul>
                     <div class="resume-more">
                         <router-link :to="{path: '/horse/vaccine',       
-                                                     query: {horseId:searchHorseId}}"> 更多</router-link>
+                                                query: {horseId:searchHorseId}}"> 更多</router-link>
                         <i class="fa fa-angle-right fa-lg"></i>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="treatmentInfoList.length==0">暂无数据</div>
-                <div class="col-md-5  col-md-offset-1 addHeight">
-                    <ul class="resume-ul" v-for="item in treatmentInfoList" :key="item">
-                       <li v-if="item.horseType==1">{{item.horseId}}</li>
+                <div class="col-md-5  col-md-offset-1 addHeight" v-if="treatmentInfoList.length!=0">
+                    <ul class="resume-ul" v-for="(item,index) in treatmentInfoList" :key="index">
+                        <li v-if="item.horseType==1">{{item.horseId}}</li>
                         <li v-if="item.horseType==2">{{item.horseName}}</li>
                         <li>{{convertWay[item.outpatientType]}}</li>
                         <li v-if="item.outpatientType==2">{{item.appointNumber}}</li>
@@ -206,8 +204,8 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-5 addHeight" v-if="brigandineList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight">
-                    <ul class="resume-ul" v-for="item in brigandineList" :key="item">
+                <div class="col-md-5 addHeight" v-if="brigandineList.length!=0">
+                    <ul class="resume-ul" v-for="(item,index) in brigandineList" :key="index">
                         <li>{{item.brigandineDate}}</li>
                         <li>{{item.realname}}</li>
                         <li>{{item.remark}}</li>
@@ -219,8 +217,8 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-5 addHeight" v-if="contusionTeethList.length==0">暂无数据</div>
-                <div class="col-md-5 addHeight col-md-offset-1">
-                    <ul class="resume-ul"  v-for="item in contusionTeethList" :key="item">
+                <div class="col-md-5 addHeight col-md-offset-1" v-if="contusionTeethList.length!=0">
+                    <ul class="resume-ul" v-for="(item,index) in contusionTeethList" :key="index">
                         <li>{{item.operateDate}}</li>
                         <li>{{item.realname}}</li>
                         <li>{{item.remark}}</li>
@@ -236,7 +234,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import { Button, Message } from "element-ui";
 import resumeSrv from "../../services/resume.service.js";
@@ -245,7 +242,7 @@ import systemSrv from '../../services/system.service.js'
 export default {
     data() {
         return {
-            convertWay:{'1':'普通','2':'预约'},
+            convertWay: { '1': '普通', '2': '预约' },
             convertSex: {},
             convertHorseSex: {},
             horseInfo: {},
@@ -257,43 +254,50 @@ export default {
             treatmentCaseList: [],
             prizeList: [],
             contusionTeethList: [],
-            treatmentInfoList:[],
+            treatmentInfoList: [],
             feederInfo: {},
-            searchHorseId:''
+            searchHorseId: ''
         };
     },
-    components: {
-        "el-button": Button
+        beforeRouteLeave(to, from, next) {
+        to.meta.keepAlive = true
+        next()
     },
     computed: {
         prevItem() {
             if (this.horseIdList && this.horseId) {
                 let i = this.horseIdList.indexOf(this.horseId);
-                return {
-                    path: '/resume/resumeDetail',
-                    query: {
-                        horseId: this.horseIdList[i - 1],
-                    },
-                };
+                if (i != 0) {
+                    return {
+                        path: '/resume/resumeDetail',
+                        query: {
+                            horseId: this.horseIdList[i - 1],
+                        },
+                    };
+                }
             }
             return;
         },
         nextItem() {
             if (this.horseIdList && this.horseId) {
                 let i = this.horseIdList.indexOf(this.horseId);
-                return {
-                    path: '/resume/resumeDetail',
-                    query: {
-                        horseId: this.horseIdList[i + 1],
-                    },
-                };
+                if (i < this.horseIdList.length - 1) {
+                    return {
+                        path: '/resume/resumeDetail',
+                        query: {
+                            horseId: this.horseIdList[i + 1],
+                        },
+                    };
+                }
             }
             return;
         }
     },
     beforeRouteUpdate: function(to, from, next) {
         var horseIdList = window.localStorage.getItem('horseIdList')
-        this.horseIdList = horseIdList.split(',')
+        if (horseIdList) {
+            this.horseIdList = horseIdList.split(',')
+        }
         this.horseId = to.query.horseId;
         resumeSrv.getResumeDetail(this.horseId).then(
             resp => {
@@ -317,9 +321,9 @@ export default {
             this.convertSex = dictInfoList.SEX
             this.convertHorseSex = dictInfoList.HORSE_SEX
         }, err => {
-
+            this.$message.error(err.msg);
         })
-
+        next();
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -337,7 +341,7 @@ export default {
                     vm.prizeList = resp.data.prizeList
                     vm.contusionTeethList = resp.data.contusionTeethList
                     vm.feederInfo = resp.data.feederInfo
-                      vm.treatmentInfoList = resp.data.treatmentInfoList
+                    vm.treatmentInfoList = resp.data.treatmentInfoList
                 },
                 err => {
                     vm.$message.error(err.msg);
@@ -348,7 +352,7 @@ export default {
                 vm.convertSex = dictInfoList.SEX
                 vm.convertHorseSex = dictInfoList.HORSE_SEX
             }, err => {
-
+                vm.$message.error(err.msg);
             })
         });
     },

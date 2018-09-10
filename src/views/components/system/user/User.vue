@@ -1,9 +1,9 @@
 <template>
     <div class="content_page animated fadeIn">
-        <div class="content-title" key="0">
+        <div class="content-title">
             <div class="title">用户管理</div>
         </div>
-        <div class="content-show" key="1">
+        <div class="content-show">
             <div class="row list-search">
                 <div class="col-md-2 search-field">
                     <div class="label">工号：</div>
@@ -16,21 +16,21 @@
                 <div class="col-md-2 search-field">
                     <div class="label">状态：</div>
                     <el-select size="large" v-model="list_status" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="(item,index) in statusOptions" :key="index" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">部门：</div>
                     <el-select size="large" v-model="list_depart" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in departList" :key="item.departmentId" :label="item.departmentName" :value="item.departmentId">
+                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-2 search-field">
                     <div class="label">角色：</div>
                     <el-select size="large" v-model="list_role" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
+                        <el-option v-for="(item,index) in roleList" :key="index" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
                 </div>
@@ -43,7 +43,7 @@
                     </router-link>
                 </div>
             </div>
-               <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
+            <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
             <div class="row" v-show="!showLoading">
                 <div class="col-lg-12">
                     <table class="table table-bordered table-striped table-sm">
@@ -60,10 +60,8 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
-                      
                         <tbody>
-                           
-                            <tr v-for="item in userList" :key="item">
+                            <tr v-for="(item,index) in userList" :key="index">
                                 <td>{{item.jobNumber}}</td>
                                 <td>{{item.realname}}</td>
                                 <td>{{item.loginName}}</td>
@@ -87,6 +85,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getUser" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -113,21 +112,20 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Dialog, Message } from 'element-ui'
 import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            departList:[],
+            departList: [],
             roleList: [],
             statusDialog: false,
             showLoading: false,
             deleteDialog: false,
             userList: [],
             pageRecorders: 10,
-            totalRecorders: 1,
+            totalRecorders: 0,
             list_name: '',
             list_jobNumber: '',
             list_status: '',
@@ -148,10 +146,6 @@ export default {
                 label: '停用'
             }],
         }
-    },
-    components: {
-        'el-pagination': Pagination,
-        'el-dialog': Dialog
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -194,7 +188,6 @@ export default {
             this.deleteContent.userId = userId
             this.deleteContent.deleteFlag = 1
         },
-
         deleteUser() {
             systemSrv.deleteUser(this.deleteContent).then((resp) => {
                 this.$message.success('删除成功')
@@ -221,10 +214,18 @@ export default {
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .content_page {
     .content-show {
+        .page {
+            justify-content: flex-end;
+            display: flex;
+            float: none;
+            .total {
+                line-height: 2.2;
+                color: #867a7a;
+            }
+        }
         .list-search {
             .search-field {
                 .label {

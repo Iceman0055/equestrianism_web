@@ -33,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in feederList" :key="item">
+                            <tr v-for="(item,index) in feederList" :key="index">
                                 <td>{{item.feederName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
                                 <td>
@@ -55,6 +55,7 @@
                         暂无数据
                     </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getFeederList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -70,7 +71,7 @@
                 <el-button type="primary" @click="deleteFeeder">确 定</el-button>
             </span>
         </el-dialog>
-        <el-dialog title="查看" :modal-append-to-body="false" :visible.sync="imageDialog" width="30%" center>
+        <el-dialog title="查看照片" :modal-append-to-body="false" :visible.sync="imageDialog" width="30%" center>
             <div class="text-center showImage">
                 <img :src="imageInfo">
             </div>
@@ -80,7 +81,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 import { Pagination, Message } from 'element-ui'
 import horseSrv from '../../../services/horse.service.js'
@@ -93,7 +93,7 @@ export default {
             deleteDialog: false,
             feederName: '',
             currentPage: 1,
-            totalRecorders: 1,
+            totalRecorders: 0,
             pageRecorders: 10,
             showLoading: false,
             feederList: [],
@@ -156,13 +156,19 @@ export default {
             this.imageInfo = `data:image/jpeg;base64,${image}`
         }
     },
-    components: {
-        'el-pagination': Pagination,
-    }
 }
 </script>
 
 <style lang="scss" scoped>
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 .showImage {
     width: 100%; // border:1px solid #ddd;
 }

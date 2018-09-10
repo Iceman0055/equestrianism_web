@@ -13,8 +13,8 @@
                     <div class="label">马匹名称：</div>
                     <input type="text" v-model="horseName" class="form-control input-field" placeholder="请输入马匹名称" />
                     <!-- <el-input 
-                                    @input="setQueryKey"
-                                /> -->
+                                            @input="setQueryKey"
+                                        /> -->
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-primary search-btn" @click="getHorseList(1)">搜索</button>
@@ -46,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in horseList" :key="item">
+                            <tr v-for="(item,index) in horseList" :key="index">
                                 <td>{{item.passportNumber}}</td>
                                 <td>{{item.horseName}}</td>
                                 <td>{{convertSex[item.sex]}}</td>
@@ -73,6 +73,7 @@
                     <div class="list-empty" v-show="horseList.length===0">
                         暂无数据 </div>
                     <div class="page">
+                        <div class="total"> 总共 {{totalRecorders}} 条</div>
                         <el-pagination @current-change="getHorseList" :current-page="currentPage" :page-size="pageRecorders" background layout="prev, pager, next" :total="totalRecorders">
                         </el-pagination>
                     </div>
@@ -112,7 +113,7 @@ export default {
             currentPage: 1,
             pageRecorders: 10,
             showLoading: false,
-            totalRecorders: 1,
+            totalRecorders: 0,
             horseList: [],
             passportNumber: '',
             horseName: '',
@@ -128,11 +129,7 @@ export default {
             selectList: [],
         };
     },
-    components: {
-        "el-pagination": Pagination,
-        "el-dialog": Dialog,
-        'el-autocomplete': Input
-    },
+
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             horseSrv.getHorseName().then((resp) => {
@@ -148,8 +145,8 @@ export default {
                 if (to.query.horseName) {
                     vm.horseName = to.query.horseName
                     return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
-                }else{
-                     return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
+                } else {
+                    return horseSrv.horseInfoList(vm.currentPage, vm.pageRecorders, vm.passportNumber, vm.horseName)
                 }
             }).then(resp => {
                 vm.showLoading = false
@@ -159,10 +156,7 @@ export default {
                 vm.showLoading = false
                 vm.$message.error(err.msg)
             })
-
         })
-    },
-    computed: {
     },
     methods: {
         setQueryKey(e) {
@@ -204,7 +198,6 @@ export default {
             this.deleteContent.horseId = horseId
             this.deleteContent.deleteFlag = 1
         },
-
         deleteHorse() {
             horseSrv.deleteHorse(this.deleteContent).then((resp) => {
                 this.$message.success('删除成功')
@@ -233,5 +226,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.content_page .content-show .page {
+    justify-content: flex-end;
+    display: flex;
+    float: none;
+    .total {
+        line-height: 2.2;
+        color: #867a7a;
+    }
+}
 </style>

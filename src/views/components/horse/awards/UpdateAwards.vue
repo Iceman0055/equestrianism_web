@@ -12,7 +12,7 @@
                 <div class="col-md-4 search-field">
                     <div class="label">马匹名称：</div>
                     <el-select ref="selectInput" filterable size="large" disabled v-model="horseName" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="item in horseInfoName" :key="item.horseId" :label="item.horseName" :value="item.horseId">
+                        <el-option v-for="(item,index) in horseInfoName" :key="index" :label="item.horseName" :value="item.horseId">
                         </el-option>
                     </el-select>
                 </div>
@@ -78,21 +78,16 @@ export default {
             useDisabled: false,
             files: {},
             horsePrizeId: '',
-            awardsInfo: {},
             horseInfoName: [],
             horseName: '',
         }
     },
     components: {
-        'el-date-picker': DatePicker,
-        'el-button': Button,
         'upload-img': UploadImg,
-        "el-select": Select
     },
     mounted() {
         this.useDisabled = !!this.$route.query.disable
         this.$el.addEventListener('animationend', this.resizeSelect)
-
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -129,7 +124,7 @@ export default {
                 this.$message.error('获奖信息不能为空！')
                 return;
             }
-            this.awardsInfo = {
+            let awardsInfo = {
                 horsePrizeId: this.horsePrizeId,
                 horseId: this.horseName,
                 eventName: this.eventName,
@@ -143,8 +138,8 @@ export default {
             for (let key in this.files) {
                 formData.append(key, this.files[key])
             }
-            for (let key in this.awardsInfo) {
-                formData.append(key, this.awardsInfo[key])
+            for (let key in awardsInfo) {
+                formData.append(key, awardsInfo[key])
             }
             horseSrv.updateAwards(formData).then((resp) => {
                 this.$message.success('修改获奖信息成功')
@@ -152,7 +147,6 @@ export default {
             }, err => {
                 this.$message.error(err.msg)
             })
-
         }
     }
 }
