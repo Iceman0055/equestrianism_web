@@ -7,7 +7,7 @@
             <i class="fa fa-bar-chart fa-lg"></i> {{menu.menuName}} </router-link>
         </li>
         <router-link v-if="menu.subMenuList != null" tag="li" class="nav-item nav-dropdown" :to="{ path: convertMenu[menu.menuId]}" disabled>
-          <div class="nav-link nav-dropdown-toggle" @click="handleClick(index)">
+          <div class="nav-link nav-dropdown-toggle" @click="handleClick">
             <i :class="convertIcon[menu.menuName]"></i> {{menu.menuName}}</div>
           <ul class="nav-dropdown-items" v-for="(subMenu,index) in menu.subMenuList.filter(menu => menuEnableMap[menu.subMenuId])" :key="index">
             <li class="nav-item">
@@ -16,6 +16,7 @@
             </li>
           </ul>
         </router-link>
+
       </ul>
     </nav>
   </div>
@@ -24,6 +25,7 @@
 export default {
   props: ['menuList', 'menuEnableMap'],
   name: 'sidebar',
+
   data() {
     return {
       convertIcon: {
@@ -80,30 +82,66 @@ export default {
   //   },
   // },
   methods: {
+    filterData(value) {
+
+    },
     getVisibleMenu(menuList = [], menuEnableMap = []) {
-      return menuList.filter(menu => menuEnableMap[menu.menuId])
+
+      // menuList.forEach((menu) => {
+      //   console.log(menu)
+      //   // if (menu.subMenuList !== null) {
+      //   //   newSubMenu = menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
+      //     menu.subMenuList.forEach((subMenu) => {
+      //       // newSubMenu = menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
+      //       if (this.menuEnableMap[subMenu.subMenuId]) {
+      //         // newMenu.subMenuList.push(subMenu)
+      //         }
+      //     })
+      // })
+      let newMenu = []
+      menuList.forEach((menu) => {
+        if (menu.subMenuList != null) {
+          let flg = []
+          flg = menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
+          if (flg != null) {
+            menu.subMenuList = flg;
+            newMenu.push(menu)
+          } 
+          // else {
+          //   newMenu.push(menu)
+          // }
+        } else if (this.menuEnableMap[menu.menuId]) {
+          newMenu.push(menu)
+        }
+      })
+      return newMenu
+
     },
     updateVisibleMenu() {
       this.visibleMenu = this.getVisibleMenu(this.menuList, this.menuEnableMap)
     },
     handleClick(e) {
-      // console.log('e', e)
-      // console.log('visibleMenu', this.visibleMenu)
-      // let target = e.target.parentElement.classList
-      // target.forEach(function(element) {
-      //   if (element == 'open') {
-      //     target.remove('open')
-      //   } else {
-      //     let data = document.querySelectorAll('.open')
-      //     data.forEach(function(element) {
-      //       element.classList.remove('open', 'active');
-      //     }, this);
-      //     e.preventDefault()
-      //     e.target.parentElement.classList.toggle('open')
-      //   }
-      // }, this)
-
+      e.preventDefault()
+      e.target.parentElement.classList.toggle('open')
     }
+    // handleClick(e) {
+    // console.log('e', e)
+    // console.log('visibleMenu', this.visibleMenu)
+    // let target = e.target.parentElement.classList
+    // target.forEach(function(element) {
+    //   if (element == 'open') {
+    //     target.remove('open')
+    //   } else {
+    //     let data = document.querySelectorAll('.open')
+    //     data.forEach(function(element) {
+    //       element.classList.remove('open', 'active');
+    //     }, this);
+    //     e.preventDefault()
+    //     e.target.parentElement.classList.toggle('open')
+    //   }
+    // }, this)
+
+    // }
   },
   // destroyed() {
   //   console.log('unmounted', this)

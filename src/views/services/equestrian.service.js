@@ -169,11 +169,25 @@ export default {
     );
   },
 
-  assetDetailList(pageIndex, pageRecorders, typeId, typeDetailId, assetNumber,barCode) {
+  assetDetailList(
+    pageIndex,
+    pageRecorders,
+    typeId,
+    typeDetailId,
+    assetNumber,
+    barCode
+  ) {
     return axios({
       url: "/equestrianismApi/centerAssetDetail/list",
       method: "get",
-      params: { pageIndex, pageRecorders, typeId, typeDetailId,assetNumber, barCode }
+      params: {
+        pageIndex,
+        pageRecorders,
+        typeId,
+        typeDetailId,
+        assetNumber,
+        barCode
+      }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -190,11 +204,11 @@ export default {
       }
     );
   },
-  deleteAssetsDetail(deleteInfo) {
+  deleteAssetsDetail(assetDetailId) {
     return axios({
       url: "/equestrianismApi/centerAssetDetail/scrap",
       method: "post",
-      data: deleteInfo
+      data: { assetDetailId }
     }).then(
       resp => {
         if (resp.data.code === 10200) {
@@ -210,5 +224,5 @@ export default {
         return Promise.reject(err);
       }
     );
-  },
+  }
 };
