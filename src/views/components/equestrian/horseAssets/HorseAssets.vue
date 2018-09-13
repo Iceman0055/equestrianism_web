@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-info">
-                        <a target="_blank" class="clearText" href="static/assets/固定资产导入模板.xls" download="">
+                        <a target="_blank" class="clearText" href="/static/assets/固定资产导入模板.xls" download="">
                             模板下载
                         </a>
                     </button>

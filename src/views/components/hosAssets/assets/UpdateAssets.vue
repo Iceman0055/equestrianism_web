@@ -1,143 +1,156 @@
 <template>
-    <div class="content_page animated zoomIn">
-        <div class="content-title">
-            <div class="title" v-if="!useDisabled">修改固定资产</div>
-            <div class="title" v-if="useDisabled">查看固定资产</div>
-            <router-link class="btn btn-info back" :to="'/hosAssets/assets'">
-                返回
-            </router-link>
-        </div>
-        <div class="content-show">
-            <div class="row list-search">
-                <div class="col-md-4"></div>
-                <div class="col-md-4 search-field text-cente">
-                    <div class="label">条形码：</div>
-                    <input type="text" :disabled="useDisabled" v-model="barCode" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">资产大类：</div>
-                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input">
-                        <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">资产分类：</div>
-                    <el-select @focus="getAssetsType" ref="selectClass" size="large" :disabled="useDisabled" v-model="typeDetail" class="el-field-input">
-                        <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">资产编号：</div>
-                    <input type="text" v-model="assetsNum" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">资产名称：</div>
-                    <input type="text" v-model="assetsName" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-
-                <div class="col-md-4 search-field">
-                    <div class="label">价值：</div>
-                    <input type="text" v-model="value" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">面积：</div>
-                    <input type="text" v-model="area" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">规格型号：</div>
-                    <input type="text" v-model="format" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">价值类型：</div>
-                    <el-select ref="selectValue" size="large" :disabled="useDisabled" v-model="valueType" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="(item,index) in valueOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">取得方式：</div>
-                    <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="getWay" class="el-field-input" placeholder="请选择">
-                        <el-option v-for="(item,index) in wayOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>
-
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">财务出账日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">制单日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
-                    </el-date-picker>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">保修截止日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
-                    </el-date-picker>
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">管理部门：</div>
-                    <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
-                        <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">管理人：</div>
-                    <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
-                        <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">设计用途：</div>
-                    <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">品牌：</div>
-                    <input type="text" v-model="brand" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">会记凭证号：</div>
-                    <input type="text" v-model="voucherNum" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">采购组织形式：</div>
-                    <input type="text" v-model="buyForm" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-            </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">备注：</div>
-                    <input type="text" v-model="note" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-                <div class="col-md-4 search-field" v-show="useDisabled">
-                    <div class="label">数量：</div>
-                    <input type="text" v-model="inventory" :disabled="useDisabled" class="form-control input-field" />
-                </div>
-
-            </div>
-        </div>
-        <div class="content-footer row" v-show="!useDisabled">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateAssets">确定</el-button>
-        </div>
+  <div class="content_page animated zoomIn">
+    <div class="content-title">
+      <div class="title" v-if="!useDisabled">修改固定资产</div>
+      <div class="title" v-if="useDisabled">查看固定资产</div>
+      <router-link class="btn btn-info back" :to="'/hosAssets/assets'">
+        返回
+      </router-link>
     </div>
+    <div class="content-show">
+      <div class="row list-search">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 search-field text-cente">
+          <div class="label">条形码：</div>
+          <input type="text" :disabled="useDisabled" v-model="barCode" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">资产大类：</div>
+          <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input">
+            <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">资产分类：</div>
+          <el-select @focus="getAssetsType" ref="selectClass" size="large" :disabled="useDisabled" v-model="typeDetail" class="el-field-input">
+            <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">资产编号：</div>
+          <input type="text" v-model="assetsNum" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">资产名称：</div>
+          <input type="text" v-model="assetsName" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+
+        <div class="col-md-4 search-field">
+          <div class="label">价值：</div>
+          <input type="text" v-model="value" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">面积：</div>
+          <input type="text" v-model="area" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">规格型号：</div>
+          <input type="text" v-model="format" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">价值类型：</div>
+          <el-select ref="selectValue" size="large" :disabled="useDisabled" v-model="valueType" class="el-field-input" placeholder="请选择">
+            <el-option v-for="(item,index) in valueOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">取得方式：</div>
+          <el-select ref="selectWay" size="large" :disabled="useDisabled" v-model="getWay" class="el-field-input" placeholder="请选择">
+            <el-option v-for="(item,index) in wayOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">财务入账日期：</div>
+          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">制单日期：</div>
+          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+          </el-date-picker>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">保修截止日期：</div>
+          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+          </el-date-picker>
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">管理部门：</div>
+          <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
+            <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">管理人：</div>
+          <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
+            <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">设计用途：</div>
+          <input type="text" :disabled="useDisabled" v-model="designPurpose" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">品牌：</div>
+          <input type="text" v-model="brand" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">会记凭证号：</div>
+          <input type="text" v-model="voucherNum" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field">
+          <div class="label">采购组织形式：</div>
+          <input type="text" v-model="buyForm" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field">
+          <div class="label">备注：</div>
+          <input type="text" v-model="note" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field" v-show="useDisabled">
+          <div class="label">数量：</div>
+          <input type="text" v-model="inventory" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field" v-show="useDisabled">
+          <div class="label">使用状态：</div>
+          <input type="text" v-model="useStatus" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field" v-show="!useDisabled">
+          <div class="label">资金来源：</div>
+          <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field" v-show="useDisabled">
+          <div class="label">资金来源：</div>
+          <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+    </div>
+    <div class="content-footer row" v-show="!useDisabled">
+      <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateAssets">确定</el-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -176,7 +189,9 @@ export default {
       wayOptions: [],
       barCode: "",
       inventory: "",
-      departmentId:''
+      departmentId: '',
+      useStatus: '',
+      financeSource: ""
     };
   },
   mounted() {
@@ -219,6 +234,8 @@ export default {
           vm.brand = resp.data.brand;
           vm.voucherNum = resp.data.voucherNumber;
           vm.buyForm = resp.data.purchaseOrganize;
+          vm.useStatus = resp.data.useStatus;
+          vm.financeSource = resp.data.financeSource
         },
         err => {
           vm.$message.error(err.msg);
@@ -257,7 +274,7 @@ export default {
           vm.$message.error(err.msg);
         }
       );
-       systemSrv.userComboBox(vm.departmentId).then(
+      systemSrv.userComboBox(vm.departmentId).then(
         resp => {
           vm.userList = resp.data.userList;
         },
@@ -266,11 +283,11 @@ export default {
         }
       );
 
-    //  vm.getManageUser()
+      //  vm.getManageUser()
     });
   },
   methods: {
-    changeDepart(){
+    changeDepart() {
       this.managePeople = ''
     },
     getManageUser() {
@@ -323,7 +340,7 @@ export default {
           this.format &&
           this.brand &&
           this.voucherNum &&
-          this.buyForm
+          this.buyForm && this.useStatus && this.financeSource
         )
       ) {
         this.$message.error("固定资产信息不能为空！");
@@ -350,7 +367,9 @@ export default {
         specificationModel: this.format,
         brand: this.brand,
         voucherNumber: this.voucherNum,
-        purchaseOrganize: this.buyForm
+        purchaseOrganize: this.buyForm,
+        useStatus: this.useStatus,
+        financeSource: this.financeSource
       };
       hosAssetsSrv.updateAssets(assetsInfo).then(
         resp => {

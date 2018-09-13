@@ -82,28 +82,24 @@ export default {
   //   },
   // },
   methods: {
-    filterData(value) {
-
-    },
     getVisibleMenu(menuList = [], menuEnableMap = []) {
+      // menuList.filter((menu, index, self) =>{
+      //   if (menu.subMenuList) {
+      //     menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
+      //   } else {
+      //    this.menuEnableMap[menu.menuId]
+      //   }
+      //    console.log('menuList', menuList)
+      //   return menuList
 
-      // menuList.forEach((menu) => {
-      //   console.log(menu)
-      //   // if (menu.subMenuList !== null) {
-      //   //   newSubMenu = menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
-      //     menu.subMenuList.forEach((subMenu) => {
-      //       // newSubMenu = menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
-      //       if (this.menuEnableMap[subMenu.subMenuId]) {
-      //         // newMenu.subMenuList.push(subMenu)
-      //         }
-      //     })
+      //   // console.log('self',self)
       // })
       let newMenu = []
       menuList.forEach((menu) => {
-        if (menu.subMenuList != null) {
+        if (menu.subMenuList && menu.subMenuList.length > 0) {
           let flg = []
           flg = menu.subMenuList.filter(subMenu => this.menuEnableMap[subMenu.subMenuId])
-          if (flg != null) {
+          if (flg && flg.length > 0) {
             menu.subMenuList = flg;
             newMenu.push(menu)
           } 
