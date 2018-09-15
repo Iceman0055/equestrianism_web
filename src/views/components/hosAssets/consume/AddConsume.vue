@@ -71,8 +71,8 @@
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">财务出账日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择财务出账日期">
+                    <div class="label">财务入账日期：</div>
+                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择财务入账日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -130,6 +130,16 @@
                     <div class="label">数量：</div>
                     <input type="text" v-model="inventory" class="form-control input-field" placeholder="请输入数量" />
                 </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">使用状态：</div>
+                    <input type="text" v-model="useStatus" class="form-control input-field" placeholder="请输入使用状态" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">资金来源：</div>
+                    <input type="text" v-model="financeSource" class="form-control input-field" placeholder="请输入资金来源" />
+                </div>
 
             </div>
         </div>
@@ -172,7 +182,9 @@ export default {
             departList: [],
             managePeople: '',
             barCode: '',
-            inventory: ''
+            inventory: '',
+             useStatus: '',
+            financeSource: ""
 
         }
     },
@@ -223,7 +235,7 @@ export default {
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
-                && this.buyForm)) {
+                && this.buyForm &&this.useStatus&&this.financeSource)) {
                 this.$message.error('消耗品信息不能为空！')
                 return;
             }
@@ -249,6 +261,8 @@ export default {
                 brand: this.brand,
                 voucherNumber: this.voucherNum,
                 purchaseOrganize: this.buyForm,
+                useStatus:this.useStatus,
+                financeSource:this.financeSource
             }
             hosAssetsSrv.addConsume(assetsInfo).then((resp) => {
                 this.$message.success('添加消耗品信息成功')
