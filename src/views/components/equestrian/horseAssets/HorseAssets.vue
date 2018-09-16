@@ -80,6 +80,7 @@
                                 <th>采购组织形式</th>
                                      <th>使用状态</th>
                                 <th>资金来源</th>
+                                <th>报废日期</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -109,6 +110,7 @@
                                 <td>{{item.purchaseOrganize}}</td>
                                  <td>{{item.useStatus}}</td>
                                 <td>{{item.financeSource}}</td>
+                                <td>{{item.scrapDate}}</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/hUpdateAssets',       
                                                                                                                      query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
