@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-success" @click="addDialog=true">
-                        增加库存
+                        批量增加库存
                     </button>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                                 <input type="text" disabled v-model="item.assetsName" class="form-control input-field" placeholder="资产名称" />
                             </div>
                             <div class="col-md-3 search-field">
-                                <div class="label">增加库存数：</div>
+                                <div class="label" style="left:-14px">增加库存数：</div>
                                 <div class="Spinner">
                                     <a class="Decrease" @click="decrease(index,item.value)">
                                         <i class="fa fa-sort-desc"></i>
@@ -118,14 +118,14 @@
                         <div class="row mb-3 list-search">
                             <div class="col-md-4 search-field">
                                 <div class="label">条形码：</div>
-                                <input type="text" v-model="barCode" class="form-control input-field" placeholder="条形码" />
+                                <input type="text" v-model="barCode" disabled class="form-control input-field" placeholder="条形码" />
                             </div>
                             <div class="col-md-4 search-field">
                                 <div class="label">资产名称：</div>
                                 <input type="text" disabled v-model="assetName" class="form-control input-field" placeholder="库存" />
                             </div>
                             <div class="col-md-3 search-field">
-                                <div class="label">增加库存数：</div>
+                                <div class="label"  style="left:-14px">增加库存数：</div>
                                 <div class="Spinner">
                                     <a class="Decrease" @click="decreasePer()">
                                         <i class="fa fa-sort-desc"></i>
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         <span slot="footer" class="dialog-footer">
-                            <el-button @click="addDialog = false">取 消</el-button>
+                            <el-button @click="addPerDialog = false">取 消</el-button>
                             <el-button type="primary" @click="addPerFun">确 定</el-button>
                         </span>
                     </el-dialog>

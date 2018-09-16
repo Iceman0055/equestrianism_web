@@ -64,7 +64,7 @@
 
                                 <th>价值类型</th>
                                 <th>取得方式</th>
-                                <th>财务出账日期</th>
+                                <th>财务入账日期</th>
                                 <th>制单日期</th>
 
                                 <th>保修截止日期</th>
@@ -78,6 +78,8 @@
 
                                 <th>会记凭证号</th>
                                 <th>采购组织形式</th>
+                                     <th>使用状态</th>
+                                <th>资金来源</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -105,6 +107,8 @@
                                 <td>{{item.brand}}</td>
                                 <td>{{item.voucherNumber}}</td>
                                 <td>{{item.purchaseOrganize}}</td>
+                                 <td>{{item.useStatus}}</td>
+                                <td>{{item.financeSource}}</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/hUpdateAssets',       
                                                                                                                      query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>

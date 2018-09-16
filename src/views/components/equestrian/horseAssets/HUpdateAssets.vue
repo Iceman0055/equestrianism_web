@@ -18,7 +18,7 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">资产大类：</div>
-                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input">
+                    <el-select ref="selectCate" size="large" :disabled="useDisabled" v-model="assetType" class="el-field-input" style="height:0">
                         <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                         </el-option>
                     </el-select>
@@ -73,35 +73,37 @@
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">财务出账日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+                    <div class="label" style="left:-12px">财务入账日期：</div>
+                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">制单日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">保修截止日期：</div>
-                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+                    <div class="label" style="left:-12px">保修截止日期：</div>
+                    <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date">
                     </el-date-picker>
                 </div>
             </div>
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">管理部门：</div>
-                    <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
+                    <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="departName" class="el-field-input">
                         <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
-                    <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
+                    <input type="text" :disabled="useDisabled" v-model="managePeople" class="form-control input-field" />
+
+                    <!-- <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
                         <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
-                    </el-select>
+                    </el-select> -->
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
@@ -118,7 +120,7 @@
                     <input type="text" v-model="voucherNum" :disabled="useDisabled" class="form-control input-field" />
                 </div>
                 <div class="col-md-4 search-field">
-                    <div class="label">采购组织形式：</div>
+                    <div class="label" style="left:-12px">采购组织形式</div>
                     <input type="text" v-model="buyForm" :disabled="useDisabled" class="form-control input-field" />
                 </div>
             </div>
@@ -131,9 +133,35 @@
                     <div class="label">数量：</div>
                     <input type="text" v-model="inventory" :disabled="useDisabled" class="form-control input-field" />
                 </div>
-
-            </div>
+<div class="col-md-4 search-field" v-show="useDisabled">
+          <div class="label">使用状态：</div>
+          <input type="text" v-model="useStatus" :disabled="useDisabled" class="form-control input-field" />
         </div>
+          <div class="col-md-4 search-field" v-show="!useDisabled">
+          <div class="label">使用状态：</div>
+          <input type="text" v-model="useStatus" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+        <div class="col-md-4 search-field" v-show="!useDisabled">
+          <div class="label">资金来源：</div>
+          <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+      </div>
+      <div class="row list-search">
+        <div class="col-md-4 search-field" v-show="useDisabled">
+          <div class="label">资金来源：</div>
+          <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
+        </div>
+           <div class="col-md-4 search-field">
+                    <div class="label">报废日期：</div>
+                    <el-date-picker class="el-field-input" :disabled="useDisabled" size="large" @change="changeDate" v-model="scrapDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择制单日期">
+                    </el-date-picker>
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label" style="left:-14px">报废剩余日期：</div>
+                    <input type="text" v-model="leftDate" style="display:inline-block;width:90%" class="form-control input-field" disabled />天
+                </div>
+      </div>
+    </div>
         <div class="content-footer row" v-show="!useDisabled">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateAssets">确定</el-button>
         </div>
@@ -141,208 +169,268 @@
 </template>
 
 <script>
-import { DatePicker, Button, Select, Message } from 'element-ui'
-import equestrianSrv from '../../../services/equestrian.service.js'
-import systemSrv from '../../../services/system.service.js'
+import { DatePicker, Button, Select, Message } from "element-ui";
+import equestrianSrv from "../../../services/equestrian.service.js";
+import systemSrv from "../../../services/system.service.js";
+import moment from "moment";
 export default {
-    data() {
-        return {
-            departmentId: '',
-            managePeople: '',
-            note: '',
-            designPurpose: '',
-            format: '',
-            brand: '',
-            voucherNum: '',
-            buyForm: '',
-            assetsNum: '',
-            assetsName: '',
-            value: '',
-            area: '',
-            valueType: '',
-            getWay: '',
-            useDisabled: false,
-            financialDate: '',
-            makeDate: '',
-            endDate: '',
-            typeDetail: '',
-            assetType: "",
-            assetTypeList: [],
-            typeDetailList: [],
-            assetId: '',
-            departName: '',
-            departList: [],
-            userList: [],
-            valueOptions: [],
-            wayOptions: [],
-            barCode: '',
-            inventory: ''
+  data() {
+    return {
+      departmentId: "",
+      managePeople: "",
+      note: "",
+      designPurpose: "",
+      format: "",
+      brand: "",
+      voucherNum: "",
+      buyForm: "",
+      assetsNum: "",
+      assetsName: "",
+      value: "",
+      area: "",
+      valueType: "",
+      getWay: "",
+      useDisabled: false,
+      financialDate: "",
+      makeDate: "",
+      endDate: "",
+      typeDetail: "",
+      assetType: "",
+      assetTypeList: [],
+      typeDetailList: [],
+      assetId: "",
+      departName: "",
+      departList: [],
+      userList: [],
+      valueOptions: [],
+      wayOptions: [],
+      barCode: "",
+      inventory: "",
+      useStatus: "",
+      financeSource: "",
+      scrapDate: "",
+      leftDate: ""
+    };
+  },
+  mounted() {
+    this.useDisabled = !!this.$route.query.disable;
+    this.$el.addEventListener("animationend", this.valueResize);
+    this.$el.addEventListener("animationend", this.wayResize);
+    this.$el.addEventListener("animationend", this.cateResize);
+    this.$el.addEventListener("animationend", this.classResize);
+    this.$el.addEventListener("animationend", this.departResize);
+    // this.$el.addEventListener('animationend', this.peopleResize)
+  },
+  beforeRouteEnter: function(to, from, next) {
+    next(vm => {
+      vm.departmentId = to.query.departmentId;
+      vm.assetId = to.query.assetId;
+      systemSrv.assetsInfoComboBox().then(
+        resp => {
+          vm.assetTypeList = resp.data.assetTypeList;
+        },
+        err => {
+          vm.$message.error(err.msg);
         }
-    },
-    mounted() {
-        this.useDisabled = !!this.$route.query.disable
-        this.$el.addEventListener('animationend', this.valueResize)
-        this.$el.addEventListener('animationend', this.wayResize)
-        this.$el.addEventListener('animationend', this.cateResize)
-        this.$el.addEventListener('animationend', this.classResize)
-        this.$el.addEventListener('animationend', this.departResize)
-        this.$el.addEventListener('animationend', this.peopleResize)
-
-    },
-    beforeRouteEnter: function(to, from, next) {
-        next(vm => {
-            vm.departmentId = to.query.departmentId
-            vm.assetId = to.query.assetId
-            equestrianSrv.getHorseAssetsDetail(vm.assetId).then(resp => {
-                vm.inventory = resp.data.inventory
-                vm.barCode = resp.data.barCode
-                vm.assetType = resp.data.typeId
-                vm.typeDetail = resp.data.typeDetailId
-                vm.assetsNum = resp.data.assetNumber
-                vm.assetsName = resp.data.assetName
-                vm.value = resp.data.price
-                vm.area = resp.data.acreage
-                vm.valueType = resp.data.priceType
-                vm.getWay = resp.data.acquireWay
-                vm.financialDate = resp.data.financeAccountsDate
-                vm.makeDate = resp.data.tabDate
-                vm.endDate = resp.data.guaranteeDate
-                vm.departName = resp.data.manageDepartment
-                vm.managePeople = resp.data.manageUser
-                vm.note = resp.data.remark
-                vm.designPurpose = resp.data.purpose
-                vm.format = resp.data.specificationModel
-                vm.brand = resp.data.brand
-                vm.voucherNum = resp.data.voucherNumber
-                vm.buyForm = resp.data.purchaseOrganize
-            }, err => {
-                vm.$message.error(err.msg)
-            })
-            systemSrv.assetsInfoComboBox().then(resp => {
-                vm.assetTypeList = resp.data.assetTypeList
-            }, err => {
-                vm.$message.error(err.msg)
-            })
-            systemSrv.getDepart().then((resp) => {
-                vm.departList = resp.data.departmentList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
-            systemSrv.dictionary().then(resp => {
-                let dictDetail = resp.data.dictionaryInfoList
-                let len = dictDetail.length
-                for (let i = 0; i < len; i++) {
-                    if (dictDetail[i].typeCode == 'PRICE_TYPE') {
-                        vm.valueOptions = dictDetail[i].dictionaryDetailList
-                    }
-                    if (dictDetail[i].typeCode == 'ACQUIRE_WAY') {
-                        vm.wayOptions = dictDetail[i].dictionaryDetailList
-                    }
-                }
-
-            }, err => {
-                vm.$message.error(err.msg)
-            })
-            systemSrv.userComboBox(vm.departmentId).then(
-                resp => {
-                    vm.userList = resp.data.userList;
-                },
-                err => {
-                    vm.$message.error(err.msg);
-                }
-            );
-
+      );
+      equestrianSrv
+        .getHorseAssetsDetail(vm.assetId)
+        .then(resp => {
+          vm.inventory = resp.data.inventory;
+          vm.barCode = resp.data.barCode;
+          vm.assetType = resp.data.typeId;
+          vm.typeDetail = resp.data.typeDetailId;
+          vm.assetsNum = resp.data.assetNumber;
+          vm.assetsName = resp.data.assetName;
+          vm.value = resp.data.price;
+          vm.area = resp.data.acreage;
+          vm.valueType = resp.data.priceType;
+          vm.getWay = resp.data.acquireWay;
+          vm.financialDate = resp.data.financeAccountsDate;
+          vm.makeDate = resp.data.tabDate;
+          vm.endDate = resp.data.guaranteeDate;
+          vm.departName = resp.data.manageDepartment;
+          vm.managePeople = resp.data.manageUser;
+          vm.note = resp.data.remark;
+          vm.designPurpose = resp.data.purpose;
+          vm.format = resp.data.specificationModel;
+          vm.brand = resp.data.brand;
+          vm.voucherNum = resp.data.voucherNumber;
+          vm.buyForm = resp.data.purchaseOrganize;
+          vm.useStatus = resp.data.useStatus;
+          vm.financeSource = resp.data.financeSource;
+          vm.scrapDate = resp.data.scrapDate;
+          if (vm.scrapDate) {
+            vm.leftDate = moment(vm.scrapDate).diff(moment(), "days");
+          }
+          return systemSrv.assetsDetailComboBox(resp.data.typeId);
         })
+        .then(resp => {
+          vm.typeDetailList = resp.data.typeDetailList;
+        })
+        .catch(err => {
+          vm.$message.error(err.msg);
+        });
+
+      systemSrv.getDepart().then(
+        resp => {
+          vm.departList = resp.data.departmentList;
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
+      systemSrv.dictionary().then(
+        resp => {
+          let dictDetail = resp.data.dictionaryInfoList;
+          let len = dictDetail.length;
+          for (let i = 0; i < len; i++) {
+            if (dictDetail[i].typeCode == "PRICE_TYPE") {
+              vm.valueOptions = dictDetail[i].dictionaryDetailList;
+            }
+            if (dictDetail[i].typeCode == "ACQUIRE_WAY") {
+              vm.wayOptions = dictDetail[i].dictionaryDetailList;
+            }
+          }
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
+      systemSrv.userComboBox(vm.departmentId).then(
+        resp => {
+          vm.userList = resp.data.userList;
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
+    });
+  },
+  methods: {
+    changeDate(date) {
+      this.leftDate = moment(date).diff(moment(), "days");
     },
-    methods: {
-        changeDepart() {
-            this.managePeople = ''
+    // changeDepart() {
+    //     this.managePeople = ''
+    // },
+    // getManageUser() {
+    //     if (!this.departName) {
+    //         this.$message.error('管理部门不能为空')
+    //         return;
+    //     }
+    //     systemSrv.userComboBox(this.departName).then((resp) => {
+    //         this.userList = resp.data.userList
+    //     }, (err) => {
+    //         this.$message.error(err.msg)
+    //     })
+    // },
+    getAssetsType() {
+      if (!this.assetType) {
+        this.$message.error("请先选择资产大类");
+        return;
+      }
+      systemSrv.assetsDetailComboBox(this.assetType).then(
+        resp => {
+          this.typeDetailList = resp.data.typeDetailList;
         },
-        getManageUser() {
-            if (!this.departName) {
-                this.$message.error('管理部门不能为空')
-                return;
-            }
-            systemSrv.userComboBox(this.departName).then((resp) => {
-                this.userList = resp.data.userList
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    updateAssets() {
+      if (
+        !(
+          this.barCode &&
+          this.assetType &&
+          this.typeDetail &&
+          this.assetsNum &&
+          this.assetsName &&
+          this.value &&
+          this.area &&
+          this.valueType &&
+          this.getWay &&
+          this.financialDate &&
+          this.makeDate &&
+          this.endDate &&
+          this.departName &&
+          this.managePeople &&
+          this.note &&
+          this.designPurpose &&
+          this.format &&
+          this.brand &&
+          this.voucherNum &&
+          this.buyForm &&
+          this.useStatus &&
+          this.financeSource &&
+          this.scrapDate
+        )
+      ) {
+        this.$message.error("固定资产信息不能为空！");
+        return;
+      }
+      let assetsInfo = {
+        barCode: this.barCode,
+        assetId: this.assetId,
+        typeId: this.assetType,
+        typeDetailId: this.typeDetail,
+        assetNumber: this.assetsNum,
+        assetName: this.assetsName,
+        price: this.value,
+        acreage: this.area,
+        priceType: this.valueType,
+        acquireWay: this.getWay,
+        financeAccountsDate: this.financialDate,
+        tabDate: this.makeDate,
+        guaranteeDate: this.endDate,
+        manageDepartment: this.departName,
+        manageUser: this.managePeople,
+        remark: this.note,
+        purpose: this.designPurpose,
+        specificationModel: this.format,
+        brand: this.brand,
+        voucherNumber: this.voucherNum,
+        purchaseOrganize: this.buyForm,
+        useStatus: this.useStatus,
+        financeSource: this.financeSource,
+        scrapDate: this.scrapDate
+      };
+      equestrianSrv.updateHorseAssets(assetsInfo).then(
+        resp => {
+          this.$message.success("修改固定资产信息成功");
+          this.$router.push("/equestrian/horseAssets");
         },
-        getAssetsType() {
-            if (!this.assetType) {
-                this.$message.error('请先选择资产大类')
-                return;
-            }
-            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
-                this.typeDetailList = resp.data.typeDetailList
-            }, err => {
-                this.$message.error(err.msg)
-            })
-        },
-        updateAssets() {
-            if (!(this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
-                && this.value && this.area && this.valueType && this.getWay && this.financialDate
-                && this.makeDate && this.endDate && this.departName && this.managePeople
-                && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
-                && this.buyForm)) {
-                this.$message.error('固定资产信息不能为空！')
-                return;
-            }
-            let assetsInfo = {
-                barCode: this.barCode,
-                assetId: this.assetId,
-                typeId: this.assetType,
-                typeDetailId: this.typeDetail,
-                assetNumber: this.assetsNum,
-                assetName: this.assetsName,
-                price: this.value,
-                acreage: this.area,
-                priceType: this.valueType,
-                acquireWay: this.getWay,
-                financeAccountsDate: this.financialDate,
-                tabDate: this.makeDate,
-                guaranteeDate: this.endDate,
-                manageDepartment: this.departName,
-                manageUser: this.managePeople,
-                remark: this.note,
-                purpose: this.designPurpose,
-                specificationModel: this.format,
-                brand: this.brand,
-                voucherNumber: this.voucherNum,
-                purchaseOrganize: this.buyForm,
-            }
-            equestrianSrv.updateHorseAssets(assetsInfo).then((resp) => {
-                this.$message.success('修改固定资产信息成功')
-                this.$router.push('/equestrian/horseAssets')
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        cateResize() {
-            this.$refs.selectCate.resetInputWidth()
-        },
-        classResize() {
-            this.$refs.selectClass.resetInputWidth()
-        },
-        valueResize() {
-            this.$refs.selectValue.resetInputWidth()
-        },
-        wayResize() {
-            this.$refs.selectWay.resetInputWidth()
-        },
-        departResize() {
-            this.$refs.selectDepart.resetInputWidth()
-        },
-        peopleResize() {
-            this.$refs.selectPeople.resetInputWidth()
-        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    cateResize() {
+      this.$refs.selectCate.resetInputWidth();
+    },
+    classResize() {
+      this.$refs.selectClass.resetInputWidth();
+    },
+    valueResize() {
+      this.$refs.selectValue.resetInputWidth();
+    },
+    wayResize() {
+      this.$refs.selectWay.resetInputWidth();
+    },
+    departResize() {
+      this.$refs.selectDepart.resetInputWidth();
     }
-}
+    // peopleResize() {
+    //     this.$refs.selectPeople.resetInputWidth()
+    // },
+  }
+};
 </script>
 
 <style lang="scss" scoped>
+
 .content_page .content-show .list-search .search-field {
-    padding-left: 84px;
+  padding-left: 84px;
 }
 </style>

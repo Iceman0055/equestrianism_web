@@ -57,8 +57,8 @@
                                 <th>品牌</th>
                                 <th>会记凭证号</th>
                                 <th>采购组织形式</th>
-                                    <th>使用状态</th>
-                                <th>资金来源</th>
+                                    <!-- <th>使用状态</th>
+                                <th>资金来源</th> -->
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -86,8 +86,8 @@
                                 <td>{{item.voucherNumber}}</td>
                                 <td>{{item.purchaseOrganize}}</td>
 
-                                <td>{{item.useStatus}}</td>
-                                <td>{{item.financeSource}}</td>
+                                <!-- <td>{{item.useStatus}}</td>
+                                <td>{{item.financeSource}}</td> -->
                                 <td>
                                     <router-link :to="{path: '/hosAssets/updateAssets',       
                                                                                          query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>

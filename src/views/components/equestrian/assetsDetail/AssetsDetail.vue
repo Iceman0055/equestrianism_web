@@ -67,7 +67,9 @@
                                 <th>会记凭证号</th>
                                 <th>采购组织形式</th>
                                 <th>状态</th>
-
+                                <th>使用状态</th>
+                                <th>资金来源</th>
+                                <th>报废时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -97,11 +99,16 @@
                                 <td>{{item.voucherNumber}}</td>
                                 <td>{{item.purchaseOrganize}}</td>
                                 <td>{{statusMap[item.scrapType]}}</td>
+                                 <td>{{item.useStatus}}</td>
+                                <td>{{item.financeSource}}</td>
+                                <td>{{item.scrapDate}}</td>
                                 <td>
                                     <!-- <router-link :to="{path: '/equestrian/updateDetail',       
                                                                           query: { disable: 1,assetId:item.assetId}}"> 查看</router-link> -->
 
-                                    <a @click="deleteInfo(item.assetDetailId)">{{operateState[item.scrapType]}}</a>
+                                    <a @click="deleteInfo(item.assetDetailId)" v-if="operateState[item.scrapType] === '报废'" style="color:red">{{operateState[item.scrapType]}}</a>
+                                  <a style="color:#999;cursor:none" v-if="operateState[item.scrapType] !== '报废'">{{operateState[item.scrapType]}}</a>
+
                                 </td>
 
                             </tr>
@@ -131,115 +138,159 @@
 </template>
 
 <script>
-import { Pagination, Message, Select } from 'element-ui'
-import equestrianSrv from '../../../services/equestrian.service.js'
-import systemSrv from '../../../services/system.service.js'
+import { Pagination, Message, Select } from "element-ui";
+import equestrianSrv from "../../../services/equestrian.service.js";
+import systemSrv from "../../../services/system.service.js";
 export default {
-    data() {
-        return {
-            operateState: {
-                1: '已报废',
-                0: '报废'
-            },
-            statusMap: {
-                1: "报废",
-                0: '正常'
-            },
-            assetNumber: '',
-            deleteDialog: false,
-            typeDetail: '',
-            assetType: "",
-            currentPage: 1,
-            pageRecorders: 10,
-            totalRecorders: 0,
-            assetTypeList: [],
-            typeDetailList: [],
-            deleteContent: {},
-            showLoading: false,
-            assetsName: '',
-            assetsList: [],
-            barCode: '',
-            assetDetailId: ''
+  data() {
+    return {
+      operateState: {
+        1: "已报废",
+        0: "报废"
+      },
+      statusMap: {
+        1: "报废",
+        0: "正常"
+      },
+      assetNumber: "",
+      deleteDialog: false,
+      typeDetail: "",
+      assetType: "",
+      currentPage: 1,
+      pageRecorders: 10,
+      totalRecorders: 0,
+      assetTypeList: [],
+      typeDetailList: [],
+      deleteContent: {},
+      showLoading: false,
+      assetsName: "",
+      assetsList: [],
+      barCode: "",
+      assetDetailId: ""
+    };
+  },
+  beforeRouteEnter: function(to, from, next) {
+    next(vm => {
+      vm.showLoading = true;
+      equestrianSrv
+        .assetDetailList(
+          vm.currentPage,
+          vm.pageRecorders,
+          vm.assetType,
+          vm.typeDetail,
+          vm.assetNumber,
+          vm.barCode
+        )
+        .then(
+          resp => {
+            vm.showLoading = false;
+            vm.totalRecorders = resp.data.totalRecorders;
+            vm.assetsList = resp.data.assetDetailList;
+          },
+          err => {
+            vm.showLoading = false;
+            vm.$message.error(err.msg);
+          }
+        );
+      systemSrv.assetsInfoComboBox().then(
+        resp => {
+          vm.assetTypeList = resp.data.assetTypeList;
+        },
+        err => {
+          vm.$message.error(err.msg);
         }
-    },
-    beforeRouteEnter: function(to, from, next) {
-        next(vm => {
-            vm.showLoading = true
-            equestrianSrv.assetDetailList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetNumber, vm.barCode).then(resp => {
-                vm.showLoading = false
-                vm.totalRecorders = resp.data.totalRecorders
-                vm.assetsList = resp.data.assetDetailList
-            }, err => {
-                vm.showLoading = false
-                vm.$message.error(err.msg)
-            })
-            systemSrv.assetsInfoComboBox().then(resp => {
-                vm.assetTypeList = resp.data.assetTypeList
-            }, err => {
-                vm.$message.error(err.msg)
-            })
-        })
-    },
-    computed: {
-        exportExcel() {
-            var sessionId = window.localStorage.getItem('sessionId')
-            return "/equestrianismApi/centerAssetDetail/exportExcel?sessionId=" + sessionId + "&typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetNumber + '&barCode=' + this.barCode
+      );
+    });
+  },
+  computed: {
+    exportExcel() {
+      var sessionId = window.localStorage.getItem("sessionId");
+      return (
+        "/equestrianismApi/centerAssetDetail/exportExcel?sessionId=" +
+        sessionId +
+        "&typeId=" +
+        this.assetType +
+        "&typeDetailId=" +
+        this.typeDetail +
+        "&assetName=" +
+        this.assetNumber +
+        "&barCode=" +
+        this.barCode
+      );
+    }
+  },
+  methods: {
+    getAssetsType() {
+      if (!this.assetType) {
+        this.$message.error("请先选择资产大类");
+        return;
+      }
+      systemSrv.assetsDetailComboBox(this.assetType).then(
+        resp => {
+          this.typeDetailList = resp.data.typeDetailList;
         },
-    },
-    methods: {
-        getAssetsType() {
-            if (!this.assetType) {
-                this.$message.error('请先选择资产大类')
-                return;
-            }
-            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
-                this.typeDetailList = resp.data.typeDetailList
-            }, err => {
-                this.$message.error(err.msg)
-            })
-        },
-        getAssetsList(currentPage = this.currentPage) {
-            this.showLoading = true
-            equestrianSrv.assetDetailList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetNumber, this.barCode).then((resp) => {
-                this.showLoading = false
-                this.currentPage = currentPage
-                this.totalRecorders = resp.data.totalRecorders
-                this.assetsList = resp.data.assetDetailList
-            }, (err) => {
-                this.showLoading = false
-                this.$message.error(err.msg)
-            })
-        },
-        deleteInfo(assetDetailId) {
-            this.deleteDialog = true
-            this.assetDetailId = assetDetailId
-        },
-        deleteAssets() {
-            equestrianSrv.deleteAssetsDetail(this.assetDetailId).then(resp => {
-                this.$message.success('修改成功')
-                this.deleteDialog = false
-                this.getAssetsList()
-            }, err => {
-                this.$message.error(err.msg)
-            })
+        err => {
+          this.$message.error(err.msg);
         }
+      );
     },
-}
+    getAssetsList(currentPage = this.currentPage) {
+      this.showLoading = true;
+      equestrianSrv
+        .assetDetailList(
+          currentPage,
+          this.pageRecorders,
+          this.assetType,
+          this.typeDetail,
+          this.assetNumber,
+          this.barCode
+        )
+        .then(
+          resp => {
+            this.showLoading = false;
+            this.currentPage = currentPage;
+            this.totalRecorders = resp.data.totalRecorders;
+            this.assetsList = resp.data.assetDetailList;
+          },
+          err => {
+            this.showLoading = false;
+            this.$message.error(err.msg);
+          }
+        );
+    },
+    deleteInfo(assetDetailId) {
+      this.deleteDialog = true;
+      this.assetDetailId = assetDetailId;
+    },
+    deleteAssets() {
+      equestrianSrv.deleteAssetsDetail(this.assetDetailId).then(
+        resp => {
+          this.$message.success("修改成功");
+          this.deleteDialog = false;
+          this.getAssetsList();
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .clearText {
-    text-decoration: none;
-    color: #fff;
+  text-decoration: none;
+  color: #fff;
 }
 
 .content_page .content-show .page {
-    justify-content: flex-end;
-    display: flex;
-    float: none;
-    .total {
-        line-height: 2.2;
-        color: #867a7a;
-    }
+  justify-content: flex-end;
+  display: flex;
+  float: none;
+  .total {
+    line-height: 2.2;
+    color: #867a7a;
+  }
 }
 </style>

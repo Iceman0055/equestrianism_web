@@ -72,17 +72,17 @@
             <div class="row list-search">
                 <div class="col-md-4 search-field">
                     <div class="label">财务入账日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择财务入账日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择财务入账日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">制单日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择制单日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择制单日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">保修截止日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择保修截止日期">
+                    <el-date-picker class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择保修截止日期">
                     </el-date-picker>
                 </div>
             </div>
@@ -96,10 +96,11 @@
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">管理人：</div>
-                    <el-select size="large" @focus="getManageUser" ref="selectPeople" v-model="managePeople" class="el-field-input" placeholder="请选择管理人">
+                   <input type="text" v-model="managePeople" class="form-control input-field" placeholder="请输入管理人" />
+                    <!-- <el-select size="large" @focus="getManageUser" ref="selectPeople" v-model="managePeople" class="el-field-input" placeholder="请选择管理人">
                         <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
                         </el-option>
-                    </el-select>
+                    </el-select> -->
                 </div>
                 <div class="col-md-4 search-field">
                     <div class="label">设计用途：</div>
@@ -130,18 +131,9 @@
                     <div class="label">数量：</div>
                     <input type="text" v-model="inventory" class="form-control input-field" placeholder="请输入数量" />
                 </div>
-                <div class="col-md-4 search-field">
-                    <div class="label">使用状态：</div>
-                    <input type="text" v-model="useStatus" class="form-control input-field" placeholder="请输入使用状态" />
-                </div>
+              
             </div>
-            <div class="row list-search">
-                <div class="col-md-4 search-field">
-                    <div class="label">资金来源：</div>
-                    <input type="text" v-model="financeSource" class="form-control input-field" placeholder="请输入资金来源" />
-                </div>
-
-            </div>
+        
         </div>
         <div class="content-footer row">
             <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addAssets">确定</el-button>
@@ -150,171 +142,203 @@
 </template>
 
 <script>
-import { DatePicker, Button, Select, Message } from 'element-ui'
-import hosAssetsSrv from '../../../services/hosAssets.service.js'
-import systemSrv from '../../../services/system.service.js'
+import { DatePicker, Button, Select, Message } from "element-ui";
+import hosAssetsSrv from "../../../services/hosAssets.service.js";
+import systemSrv from "../../../services/system.service.js";
 export default {
-    data() {
-        return {
-            note: '',
-            designPurpose: '',
-            format: '',
-            brand: '',
-            voucherNum: '',
-            buyForm: '',
-            assetsNum: '',
-            assetsName: '',
-            value: '',
-            area: '',
-            valueType: '',
-            getWay: '',
-            financialDate: '',
-            makeDate: '',
-            endDate: '',
-            typeDetail: '',
-            assetType: "",
-            assetTypeList: [],
-            typeDetailList: [],
-            valueOptions: [],
-            wayOptions: [],
-            departName: '',
-            userList: [],
-            departList: [],
-            managePeople: '',
-            barCode: '',
-            inventory: '',
-            useStatus: '',
-            financeSource: ""
+  data() {
+    return {
+      note: "",
+      designPurpose: "",
+      format: "",
+      brand: "",
+      voucherNum: "",
+      buyForm: "",
+      assetsNum: "",
+      assetsName: "",
+      value: "",
+      area: "",
+      valueType: "",
+      getWay: "",
+      financialDate: "",
+      makeDate: "",
+      endDate: "",
+      typeDetail: "",
+      assetType: "",
+      assetTypeList: [],
+      typeDetailList: [],
+      valueOptions: [],
+      wayOptions: [],
+      departName: "",
+      // userList: [],
+      departList: [],
+      managePeople: "",
+      barCode: "",
+      inventory: "",
+    };
+  },
+  beforeRouteLeave(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
+  mounted() {
+    this.$el.addEventListener("animationend", this.valueResize);
+    this.$el.addEventListener("animationend", this.wayResize);
+    this.$el.addEventListener("animationend", this.cateResize);
+    this.$el.addEventListener("animationend", this.classResize);
+    this.$el.addEventListener("animationend", this.departResize);
+    // this.$el.addEventListener("animationend", this.peopleResize);
+  },
+  beforeRouteEnter: function(to, from, next) {
+    next(vm => {
+      systemSrv.assetsInfoComboBox().then(
+        resp => {
+          vm.assetTypeList = resp.data.assetTypeList;
+        },
+        err => {
+          vm.$message.error(err.msg);
         }
-    },
-    beforeRouteLeave(to, from, next) {
-        to.meta.keepAlive = true
-        next()
-    },
-    mounted() {
-        this.$el.addEventListener('animationend', this.valueResize)
-        this.$el.addEventListener('animationend', this.wayResize)
-        this.$el.addEventListener('animationend', this.cateResize)
-        this.$el.addEventListener('animationend', this.classResize)
-        this.$el.addEventListener('animationend', this.departResize)
-        this.$el.addEventListener('animationend', this.peopleResize)
-    },
-    beforeRouteEnter: function(to, from, next) {
-        next(vm => {
-            systemSrv.assetsInfoComboBox().then(resp => {
-                vm.assetTypeList = resp.data.assetTypeList
-            }, err => {
-                vm.$message.error(err.msg)
-            })
-            systemSrv.getDepart().then((resp) => {
-                vm.departList = resp.data.departmentList
-            }, (err) => {
-                vm.$message.error(err.msg)
-            })
+      );
+      systemSrv.getDepart().then(
+        resp => {
+          vm.departList = resp.data.departmentList;
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
 
-            systemSrv.dictionary().then(resp => {
-                let dictDetail = resp.data.dictionaryInfoList
-                let len = dictDetail.length
-                for (let i = 0; i < len; i++) {
-                    if (dictDetail[i].typeCode == 'PRICE_TYPE') {
-                        vm.valueOptions = dictDetail[i].dictionaryDetailList
-                    }
-                    if (dictDetail[i].typeCode == 'ACQUIRE_WAY') {
-                        vm.wayOptions = dictDetail[i].dictionaryDetailList
-                    }
-                }
-            }, err => {
-                vm.$message.error(err.msg)
-            })
-        })
+      systemSrv.dictionary().then(
+        resp => {
+          let dictDetail = resp.data.dictionaryInfoList;
+          let len = dictDetail.length;
+          for (let i = 0; i < len; i++) {
+            if (dictDetail[i].typeCode == "PRICE_TYPE") {
+              vm.valueOptions = dictDetail[i].dictionaryDetailList;
+            }
+            if (dictDetail[i].typeCode == "ACQUIRE_WAY") {
+              vm.wayOptions = dictDetail[i].dictionaryDetailList;
+            }
+          }
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
+    });
+  },
+  methods: {
+    addAssets() {
+      if (
+        !(
+          this.inventory &&
+          this.barCode &&
+          this.assetType &&
+          this.typeDetail &&
+          this.assetsNum &&
+          this.assetsName &&
+          this.value &&
+          this.area &&
+          this.valueType &&
+          this.getWay &&
+          this.financialDate &&
+          this.makeDate &&
+          this.endDate &&
+          this.departName &&
+          this.managePeople &&
+          this.note &&
+          this.designPurpose &&
+          this.format &&
+          this.brand &&
+          this.voucherNum &&
+          this.buyForm 
+        )
+      ) {
+        this.$message.error("固定资产信息不能为空！");
+        return;
+      }
+      let assetsInfo = {
+        inventory: this.inventory,
+        barCode: this.barCode,
+        typeId: this.assetType,
+        typeDetailId: this.typeDetail,
+        assetNumber: this.assetsNum,
+        assetName: this.assetsName,
+        price: this.value,
+        acreage: this.area,
+        priceType: this.valueType,
+        acquireWay: this.getWay,
+        financeAccountsDate: this.financialDate,
+        tabDate: this.makeDate,
+        guaranteeDate: this.endDate,
+        manageDepartment: this.departName,
+        manageUser: this.managePeople,
+        remark: this.note,
+        purpose: this.designPurpose,
+        specificationModel: this.format,
+        brand: this.brand,
+        voucherNumber: this.voucherNum,
+        purchaseOrganize: this.buyForm,
+      };
+      hosAssetsSrv.addAssets(assetsInfo).then(
+        resp => {
+          this.$message.success("添加固定资产信息成功");
+          this.$router.push("/hosAssets/assets");
+        },
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
     },
-    methods: {
-        addAssets() {
-            if (!(this.inventory && this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
-                && this.value && this.area && this.valueType && this.getWay && this.financialDate
-                && this.makeDate && this.endDate && this.departName && this.managePeople
-                && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
-                && this.buyForm && this.useStatus && this.financeSource)) {
-                this.$message.error('固定资产信息不能为空！')
-                return;
-            }
-            let assetsInfo = {
-                inventory: this.inventory,
-                barCode: this.barCode,
-                typeId: this.assetType,
-                typeDetailId: this.typeDetail,
-                assetNumber: this.assetsNum,
-                assetName: this.assetsName,
-                price: this.value,
-                acreage: this.area,
-                priceType: this.valueType,
-                acquireWay: this.getWay,
-                financeAccountsDate: this.financialDate,
-                tabDate: this.makeDate,
-                guaranteeDate: this.endDate,
-                manageDepartment: this.departName,
-                manageUser: this.managePeople,
-                remark: this.note,
-                purpose: this.designPurpose,
-                specificationModel: this.format,
-                brand: this.brand,
-                voucherNumber: this.voucherNum,
-                purchaseOrganize: this.buyForm,
-                useStatus: this.useStatus,
-                financeSource: this.financeSource
-            }
-            hosAssetsSrv.addAssets(assetsInfo).then((resp) => {
-                this.$message.success('添加固定资产信息成功')
-                this.$router.push('/hosAssets/assets')
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
+    // getManageUser() {
+    //     if (!this.departName) {
+    //         this.$message.error('管理部门不能为空')
+    //         return;
+    //     }
+    //     systemSrv.userComboBox(this.departName).then((resp) => {
+    //         this.userList = resp.data.userList
+    //     }, (err) => {
+    //         this.$message.error(err.msg)
+    //     })
+    // },
+    getAssetsType() {
+      if (!this.assetType) {
+        this.$message.error("请先选择资产大类");
+        return;
+      }
+      systemSrv.assetsDetailComboBox(this.assetType).then(
+        resp => {
+          this.typeDetailList = resp.data.typeDetailList;
         },
-        getManageUser() {
-            if (!this.departName) {
-                this.$message.error('管理部门不能为空')
-                return;
-            }
-            systemSrv.userComboBox(this.departName).then((resp) => {
-                this.userList = resp.data.userList
-            }, (err) => {
-                this.$message.error(err.msg)
-            })
-        },
-        getAssetsType() {
-            if (!this.assetType) {
-                this.$message.error('请先选择资产大类')
-                return;
-            }
-            systemSrv.assetsDetailComboBox(this.assetType).then(resp => {
-                this.typeDetailList = resp.data.typeDetailList
-            }, err => {
-                this.$message.error(err.msg)
-            })
-        },
-        cateResize() {
-            this.$refs.selectCate.resetInputWidth()
-        },
-        classResize() {
-            this.$refs.selectClass.resetInputWidth()
-        },
-        valueResize() {
-            this.$refs.selectValue.resetInputWidth()
-        },
-        wayResize() {
-            this.$refs.selectWay.resetInputWidth()
-        },
-        departResize() {
-            this.$refs.selectDepart.resetInputWidth()
-        },
-        peopleResize() {
-            this.$refs.selectPeople.resetInputWidth()
-        },
-    }
-}
+        err => {
+          this.$message.error(err.msg);
+        }
+      );
+    },
+    cateResize() {
+      this.$refs.selectCate.resetInputWidth();
+    },
+    classResize() {
+      this.$refs.selectClass.resetInputWidth();
+    },
+    valueResize() {
+      this.$refs.selectValue.resetInputWidth();
+    },
+    wayResize() {
+      this.$refs.selectWay.resetInputWidth();
+    },
+    departResize() {
+      this.$refs.selectDepart.resetInputWidth();
+    },
+    // peopleResize() {
+    //   this.$refs.selectPeople.resetInputWidth();
+    // }
+  }
+};
 </script>
 <style lang="scss" scoped>
+
 .content_page .content-show .list-search .search-field {
-    padding-left: 84px;
+  padding-left: 84px;
 }
 </style>

@@ -16,6 +16,10 @@ export default {
 </script>
 
 <style lang="scss">
+.el-select .el-input.is-disabled .el-input__inner {
+    cursor: not-allowed;
+    height: 40px!important;
+}
 .__vev_calendar-wrapper .cal-wrapper .cal-header .title {
   font-size: 18px;
 }

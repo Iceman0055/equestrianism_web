@@ -68,7 +68,7 @@
 
             <div class="row list-search">
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-success" :disabled="!activeItem" @click="addDictTextDialog(1,searchDetailId)">新增字项</button>
+                    <button class="btn btn-success" :disabled="!activeItem" @click="addDictTextDialog(1,searchDetailId)">新增子项</button>
                 </div>
             </div>
              <div class="wait-loading" v-show="loading"><img src="/static/img/loading.gif"></div>
@@ -77,7 +77,7 @@
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>父节点</th>
+                                <th>父节点名称</th>
                                 <th>名称</th>
                                 <th>代码</th>
                                 <th>操作</th>
@@ -159,8 +159,8 @@
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">
-                        <div class="label">父节点：</div>
-                        <input type="text" disabled v-model="fatherCode" class="form-control input-field" placeholder="父节点" />
+                        <div class="label">父节点名称：</div>
+                        <input type="text" disabled v-model="fatherCode" class="form-control input-field" placeholder="父节点名称" />
                     </div>
                     <div class="col-md-6 search-field">
                         <div class="label">字典名称：</div>

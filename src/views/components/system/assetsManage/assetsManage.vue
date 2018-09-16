@@ -15,7 +15,7 @@
             </div>
             <div class="row list-search">
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-success" @click="addAssetsDialog(1)">新增</button>
+                    <button class="btn btn-success" @click="addAssetsDialog(1)">新增资产大类</button>
                 </div>
             </div>
             <div class="wait-loading" v-show="showLoading"><img src="/static/img/loading.gif"></div>
@@ -25,7 +25,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>资产名称</th>
+                                <th>资产大类名称</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
@@ -56,7 +56,7 @@
 
             <div class="row list-search">
                 <div class="col-md-1 search-field search-field_controls">
-                    <button class="btn btn-success" :disabled="!activeItem" @click="addAssetsTextDialog(1,searchDetailId)">新增详情</button>
+                    <button class="btn btn-success" :disabled="!activeItem" @click="addAssetsTextDialog(1,searchDetailId)">新增资产分类</button>
                 </div>
             </div>
             <div class="wait-loading" v-show="loading"><img src="/static/img/loading.gif"></div>
@@ -65,8 +65,8 @@
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>父节点</th>
-                                <th>详情名称</th>
+                                <th>资产大类名称</th>
+                                <th>资产分类名称</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
@@ -119,8 +119,8 @@
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">
-                        <div class="label">资产名称：</div>
-                        <input type="text" v-model="assetsName" class="form-control input-field" placeholder="资产名称" />
+                        <div class="label" style="left:-22px;">资产大类名称：</div>
+                        <input type="text" v-model="assetsName" class="form-control input-field" placeholder="资产大类名称" />
                     </div>
                     <div class="col-md-6 search-field">
                         <div class="label">备注：</div>
@@ -138,12 +138,12 @@
             <div class="content-show text-center">
                 <div class="row mb-1 list-search">
                     <div class="col-md-6 search-field">
-                        <div class="label">父节点：</div>
-                        <input type="text" v-model="fatherCode" disabled class="form-control input-field" placeholder="父节点" />
+                        <div class="label" style="left:-22px;">资产大类名称：</div>
+                        <input type="text" v-model="fatherCode" disabled class="form-control input-field" placeholder="资产大类名称" />
                     </div>
                     <div class="col-md-6 search-field">
-                        <div class="label">详情名称：</div>
-                        <input type="text" v-model="detailName" class="form-control input-field" placeholder="详情名称" />
+                        <div class="label" style="left:-15px;">资产分类名称：</div>
+                        <input type="text" v-model="detailName" class="form-control input-field" placeholder="资产分类名称" />
                     </div>
                 </div>
                 <div class="row mb-1 list-search">
@@ -261,12 +261,12 @@ export default {
             event.stopPropagation()
             this.updateDialog = true
             if (index == 1) {
-                this.dialogTitle = '新增'
+                this.dialogTitle = '新增资产大类'
                 this.assetsName = ''
                 this.remark = ''
             } else {
                 this.typeId = typeId
-                this.dialogTitle = '修改'
+                this.dialogTitle = '修改资产大类'
                 systemSrv.getAssets(typeId).then(resp => {
                     this.assetsName = resp.data.typeName
                     this.remark = resp.data.remark
@@ -279,13 +279,13 @@ export default {
         addAssetsTextDialog(index, id) {
             this.updateTextDialog = true
             if (index == 1) {
-                this.dialogTextTitle = '新增'
+                this.dialogTextTitle = '新增资产分类'
                 this.fatherCode = id
                 this.detailName = ''
                 this.detailRemark = ''
             } else {
                 this.typeDetailId = id
-                this.dialogTextTitle = '修改'
+                this.dialogTextTitle = '修改资产分类'
                 systemSrv.getAssetsDetail(this.typeDetailId).then(resp => {
                     this.fatherCode = resp.data.typeId
                     this.detailName = resp.data.typeDetailName

@@ -74,34 +74,35 @@
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">财务入账日期：</div>
-          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date">
           </el-date-picker>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">制单日期：</div>
-          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="makeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date">
           </el-date-picker>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">保修截止日期：</div>
-          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
+          <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="endDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date">
           </el-date-picker>
         </div>
       </div>
       <div class="row list-search">
         <div class="col-md-4 search-field">
           <div class="label">管理部门：</div>
-          <el-select size="large" :disabled="useDisabled" @change="changeDepart" ref="selectDepart" v-model="departName" class="el-field-input">
+          <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="departName" class="el-field-input">
             <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
             </el-option>
           </el-select>
         </div>
         <div class="col-md-4 search-field">
           <div class="label">管理人：</div>
-          <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
+           <input type="text" :disabled="useDisabled" v-model="managePeople" class="form-control input-field" />
+          <!-- <el-select size="large" @focus="getManageUser" :disabled="useDisabled" ref="selectPeople" v-model="managePeople" class="el-field-input">
             <el-option v-for="(item,index) in userList" :key="index" :label="item.realname" :value="item.userId">
             </el-option>
-          </el-select>
+          </el-select> -->
         </div>
         <div class="col-md-4 search-field">
           <div class="label">设计用途：</div>
@@ -130,20 +131,6 @@
         <div class="col-md-4 search-field" v-show="useDisabled">
           <div class="label">数量：</div>
           <input type="text" v-model="inventory" :disabled="useDisabled" class="form-control input-field" />
-        </div>
-        <div class="col-md-4 search-field" v-show="useDisabled">
-          <div class="label">使用状态：</div>
-          <input type="text" v-model="useStatus" :disabled="useDisabled" class="form-control input-field" />
-        </div>
-        <div class="col-md-4 search-field" v-show="!useDisabled">
-          <div class="label">资金来源：</div>
-          <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
-        </div>
-      </div>
-      <div class="row list-search">
-        <div class="col-md-4 search-field" v-show="useDisabled">
-          <div class="label">资金来源：</div>
-          <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
         </div>
       </div>
     </div>
@@ -184,14 +171,12 @@ export default {
       assetId: "",
       departName: "",
       departList: [],
-      userList: [],
+      // userList: [],
       valueOptions: [],
       wayOptions: [],
       barCode: "",
       inventory: "",
-      departmentId: '',
-      useStatus: '',
-      financeSource: ""
+      departmentId: "",
     };
   },
   mounted() {
@@ -201,7 +186,7 @@ export default {
     this.$el.addEventListener("animationend", this.cateResize);
     this.$el.addEventListener("animationend", this.classResize);
     this.$el.addEventListener("animationend", this.departResize);
-    this.$el.addEventListener("animationend", this.peopleResize);
+    // this.$el.addEventListener("animationend", this.peopleResize);
   },
   beforeRouteLeave(to, from, next) {
     to.meta.keepAlive = true;
@@ -210,9 +195,18 @@ export default {
   beforeRouteEnter: function(to, from, next) {
     next(vm => {
       vm.assetId = to.query.assetId;
-      vm.departmentId = to.query.departmentId
-      hosAssetsSrv.getAssetsDetail(vm.assetId).then(
+      vm.departmentId = to.query.departmentId;
+      systemSrv.assetsInfoComboBox().then(
         resp => {
+          vm.assetTypeList = resp.data.assetTypeList;
+        },
+        err => {
+          vm.$message.error(err.msg);
+        }
+      );
+      hosAssetsSrv
+        .getAssetsDetail(vm.assetId)
+        .then(resp => {
           vm.inventory = resp.data.inventory;
           vm.barCode = resp.data.barCode;
           vm.assetType = resp.data.typeId;
@@ -234,21 +228,15 @@ export default {
           vm.brand = resp.data.brand;
           vm.voucherNum = resp.data.voucherNumber;
           vm.buyForm = resp.data.purchaseOrganize;
-          vm.useStatus = resp.data.useStatus;
-          vm.financeSource = resp.data.financeSource
-        },
-        err => {
+          return systemSrv.assetsDetailComboBox(resp.data.typeId);
+        })
+        .then(resp => {
+          vm.typeDetailList = resp.data.typeDetailList;
+        })
+        .catch(err => {
           vm.$message.error(err.msg);
-        }
-      );
-      systemSrv.assetsInfoComboBox().then(
-        resp => {
-          vm.assetTypeList = resp.data.assetTypeList;
-        },
-        err => {
-          vm.$message.error(err.msg);
-        }
-      );
+        });
+
       systemSrv.getDepart().then(
         resp => {
           vm.departList = resp.data.departmentList;
@@ -274,36 +262,44 @@ export default {
           vm.$message.error(err.msg);
         }
       );
-      systemSrv.userComboBox(vm.departmentId).then(
-        resp => {
-          vm.userList = resp.data.userList;
-        },
-        err => {
-          vm.$message.error(err.msg);
-        }
-      );
+      //     systemSrv.assetsDetailComboBox(vm.assetType).then(
+      //   resp => {
+      //     vm.typeDetailList = resp.data.typeDetailList;
+      //   },
+      //   err => {
+      //     vm.$message.error(err.msg);
+      //   }
+      // );
+      // systemSrv.userComboBox(vm.departmentId).then(
+      //   resp => {
+      //     vm.userList = resp.data.userList;
+      //   },
+      //   err => {
+      //     vm.$message.error(err.msg);
+      //   }
+      // );
 
       //  vm.getManageUser()
     });
   },
   methods: {
-    changeDepart() {
-      this.managePeople = ''
-    },
-    getManageUser() {
-      if (!this.departName) {
-        this.$message.error("管理部门不能为空");
-        return;
-      }
-      systemSrv.userComboBox(this.departName).then(
-        resp => {
-          this.userList = resp.data.userList;
-        },
-        err => {
-          this.$message.error(err.msg);
-        }
-      );
-    },
+    // changeDepart() {
+    //   this.managePeople = ''
+    // },
+    // getManageUser() {
+    //   if (!this.departName) {
+    //     this.$message.error("管理部门不能为空");
+    //     return;
+    //   }
+    //   systemSrv.userComboBox(this.departName).then(
+    //     resp => {
+    //       this.userList = resp.data.userList;
+    //     },
+    //     err => {
+    //       this.$message.error(err.msg);
+    //     }
+    //   );
+    // },
     getAssetsType() {
       if (!this.assetType) {
         this.$message.error("请先选择资产大类");
@@ -340,7 +336,7 @@ export default {
           this.format &&
           this.brand &&
           this.voucherNum &&
-          this.buyForm && this.useStatus && this.financeSource
+          this.buyForm
         )
       ) {
         this.$message.error("固定资产信息不能为空！");
@@ -368,8 +364,6 @@ export default {
         brand: this.brand,
         voucherNumber: this.voucherNum,
         purchaseOrganize: this.buyForm,
-        useStatus: this.useStatus,
-        financeSource: this.financeSource
       };
       hosAssetsSrv.updateAssets(assetsInfo).then(
         resp => {
@@ -395,14 +389,15 @@ export default {
     },
     departResize() {
       this.$refs.selectDepart.resetInputWidth();
-    },
-    peopleResize() {
-      this.$refs.selectPeople.resetInputWidth();
     }
+    // peopleResize() {
+    //   this.$refs.selectPeople.resetInputWidth();
+    // }
   }
 };
 </script>
 <style lang="scss" scoped>
+
 .content_page .content-show .list-search .search-field {
   padding-left: 84px;
 }
