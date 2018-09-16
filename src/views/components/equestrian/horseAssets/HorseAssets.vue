@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button class="btn btn-info">
-                        <a target="_blank" class="clearText" href="static/assets/固定资产导入模板.xls" download="">
+                        <a target="_blank" class="clearText" href="/static/assets/固定资产导入模板.xls" download="">
                             模板下载
                         </a>
                     </button>
@@ -141,7 +141,7 @@
             <div class="text-center">
                 <el-upload :headers="headers" class="upload-demo" name="filename" action="/equestrianismApi/centerAssetInfo/batchImport" :on-success="handleSuccess" :file-list="fileList">
                     <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    <div slot="tip" class="el-upload__tip">只能上传xls格式的Excel文件</div>
                 </el-upload>
             </div>
             <span slot="footer" class="dialog-footer">

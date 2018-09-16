@@ -99,7 +99,7 @@
                                 <td>{{statusMap[item.scrapType]}}</td>
                                 <td>
                                     <!-- <router-link :to="{path: '/equestrian/updateDetail',       
-                                                              query: { disable: 1,assetId:item.assetId}}"> 查看</router-link> -->
+                                                                          query: { disable: 1,assetId:item.assetId}}"> 查看</router-link> -->
 
                                     <a @click="deleteInfo(item.assetDetailId)">{{operateState[item.scrapType]}}</a>
                                 </td>
@@ -138,8 +138,8 @@ export default {
     data() {
         return {
             operateState: {
-                1: '正常',
-                0: '已报废'
+                1: '已报废',
+                0: '报废'
             },
             statusMap: {
                 1: "报废",
@@ -158,7 +158,8 @@ export default {
             showLoading: false,
             assetsName: '',
             assetsList: [],
-            barCode: ''
+            barCode: '',
+            assetDetailId: ''
         }
     },
     beforeRouteEnter: function(to, from, next) {
@@ -182,7 +183,7 @@ export default {
     computed: {
         exportExcel() {
             var sessionId = window.localStorage.getItem('sessionId')
-            return "/equestrianismApi/centerAssetDetail/exportExcel?sessionId=" + sessionId + "&typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetNumber
+            return "/equestrianismApi/centerAssetDetail/exportExcel?sessionId=" + sessionId + "&typeId=" + this.assetType + '&typeDetailId=' + this.typeDetail + '&assetName=' + this.assetNumber + '&barCode=' + this.barCode
         },
     },
     methods: {
@@ -211,11 +212,11 @@ export default {
         },
         deleteInfo(assetDetailId) {
             this.deleteDialog = true
-            this.deleteContent.assetDetailId = assetDetailId
+            this.assetDetailId = assetDetailId
         },
         deleteAssets() {
-            equestrianSrv.deleteAssetsDetail(this.deleteContent).then(resp => {
-                this.$message.success('删除成功')
+            equestrianSrv.deleteAssetsDetail(this.assetDetailId).then(resp => {
+                this.$message.success('修改成功')
                 this.deleteDialog = false
                 this.getAssetsList()
             }, err => {

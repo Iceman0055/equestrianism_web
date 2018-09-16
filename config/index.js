@@ -6,7 +6,7 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: './',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
@@ -28,8 +28,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/equestrianismApi": {
-       target: "http://vpn.juxinli.com:38080"
+       // target: "http://vpn.juxinli.com:38080"
         // target:"http://192.168.100.124:8080"
+		target: "http://localhost:8080"
+      //  target: "http://vpn.juxinli.com:38080"
       }
       
     },

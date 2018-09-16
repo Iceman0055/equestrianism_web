@@ -73,7 +73,7 @@
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">财务出账日期：</div>
+                    <div class="label">财务入账日期：</div>
                     <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime">
                     </el-date-picker>
                 </div>
@@ -131,6 +131,20 @@
                     <div class="label">数量：</div>
                     <input type="text" v-model="inventory" :disabled="useDisabled" class="form-control input-field" />
                 </div>
+                <div class="col-md-4 search-field" v-show="useDisabled">
+                    <div class="label">使用状态：</div>
+                    <input type="text" v-model="useStatus" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+                <div class="col-md-4 search-field" v-show="!useDisabled">
+                    <div class="label">资金来源：</div>
+                    <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field" v-show="useDisabled">
+                    <div class="label">资金来源：</div>
+                    <input type="text" v-model="financeSource" :disabled="useDisabled" class="form-control input-field" />
+                </div>
 
             </div>
         </div>
@@ -147,7 +161,7 @@ import systemSrv from '../../../services/system.service.js'
 export default {
     data() {
         return {
-            departmentId:'',
+            departmentId: '',
             managePeople: '',
             note: '',
             designPurpose: '',
@@ -176,7 +190,9 @@ export default {
             valueOptions: [],
             wayOptions: [],
             barCode: '',
-            inventory: ''
+            inventory: '',
+            useStatus: '',
+            financeSource: ""
         }
     },
     mounted() {
@@ -218,6 +234,8 @@ export default {
                 vm.brand = resp.data.brand
                 vm.voucherNum = resp.data.voucherNumber
                 vm.buyForm = resp.data.purchaseOrganize
+                vm.useStatus = resp.data.useStatus
+                vm.financeSource = resp.data.financeSource
             }, err => {
                 vm.$message.error(err.msg)
             })
@@ -286,7 +304,7 @@ export default {
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
-                && this.buyForm)) {
+                && this.buyForm && this.useStatus && this.financeSource)) {
                 this.$message.error('固定资产信息不能为空！')
                 return;
             }
@@ -312,6 +330,8 @@ export default {
                 brand: this.brand,
                 voucherNumber: this.voucherNum,
                 purchaseOrganize: this.buyForm,
+                useStatus: this.useStatus,
+                financeSource: this.financeSource
             }
             hosAssetsSrv.updateConsume(assetsInfo).then((resp) => {
                 this.$message.success('修改消耗品信息成功')

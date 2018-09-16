@@ -7,7 +7,7 @@
             </router-link>
         </div>
         <div class="content-show">
-             <div class="row list-search">
+            <div class="row list-search">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 search-field text-cente">
                     <div class="label">条形码：</div>
@@ -71,8 +71,8 @@
 
             <div class="row list-search">
                 <div class="col-md-4 search-field">
-                    <div class="label">财务出账日期：</div>
-                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择财务出账日期">
+                    <div class="label">财务入账日期：</div>
+                    <el-date-picker class="el-field-input" size="large" v-model="financialDate" format="yyyy-MM-dd HH:mm:00" value-format="yyyy-MM-dd HH:mm:00" type="datetime" placeholder="选择财务入账日期">
                     </el-date-picker>
                 </div>
                 <div class="col-md-4 search-field">
@@ -126,9 +126,19 @@
                     <div class="label">备注：</div>
                     <input type="text" v-model="note" class="form-control input-field" placeholder="请输入备注" />
                 </div>
-                  <div class="col-md-4 search-field">
+                <div class="col-md-4 search-field">
                     <div class="label">数量：</div>
                     <input type="text" v-model="inventory" class="form-control input-field" placeholder="请输入数量" />
+                </div>
+                <div class="col-md-4 search-field">
+                    <div class="label">使用状态：</div>
+                    <input type="text" v-model="useStatus" class="form-control input-field" placeholder="请输入使用状态" />
+                </div>
+            </div>
+            <div class="row list-search">
+                <div class="col-md-4 search-field">
+                    <div class="label">资金来源：</div>
+                    <input type="text" v-model="financeSource" class="form-control input-field" placeholder="请输入资金来源" />
                 </div>
 
             </div>
@@ -171,12 +181,13 @@ export default {
             userList: [],
             departList: [],
             managePeople: '',
-            barCode:'',
-            inventory:'',
-
+            barCode: '',
+            inventory: '',
+            useStatus: '',
+            financeSource: ""
         }
     },
-      beforeRouteLeave(to, from, next) {
+    beforeRouteLeave(to, from, next) {
         to.meta.keepAlive = true
         next()
     },
@@ -219,17 +230,17 @@ export default {
     },
     methods: {
         addAssets() {
-            if (!(this.inventory&&this.barCode&&this.assetType && this.typeDetail && this.assetsNum && this.assetsName
+            if (!(this.inventory && this.barCode && this.assetType && this.typeDetail && this.assetsNum && this.assetsName
                 && this.value && this.area && this.valueType && this.getWay && this.financialDate
                 && this.makeDate && this.endDate && this.departName && this.managePeople
                 && this.note && this.designPurpose && this.format && this.brand && this.voucherNum
-                && this.buyForm)) {
+                && this.buyForm && this.useStatus && this.financeSource)) {
                 this.$message.error('固定资产信息不能为空！')
                 return;
             }
             let assetsInfo = {
-                inventory:this.inventory,
-                barCode:this.barCode,
+                inventory: this.inventory,
+                barCode: this.barCode,
                 typeId: this.assetType,
                 typeDetailId: this.typeDetail,
                 assetNumber: this.assetsNum,
@@ -249,6 +260,8 @@ export default {
                 brand: this.brand,
                 voucherNumber: this.voucherNum,
                 purchaseOrganize: this.buyForm,
+                useStatus: this.useStatus,
+                financeSource: this.financeSource
             }
             hosAssetsSrv.addAssets(assetsInfo).then((resp) => {
                 this.$message.success('添加固定资产信息成功')
