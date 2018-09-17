@@ -195,7 +195,7 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            equestrianSrv.horseAssetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetsName).then(resp => {
+            equestrianSrv.horseAssetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetName).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.assetsList = resp.data.assetInfoList
@@ -229,7 +229,7 @@ export default {
         },
         getAssetsList(currentPage = this.currentPage) {
             this.showLoading = true
-            equestrianSrv.horseAssetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetsName).then((resp) => {
+            equestrianSrv.horseAssetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetName).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders
