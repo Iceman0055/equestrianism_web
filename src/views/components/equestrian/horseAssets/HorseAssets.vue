@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-3 search-field">
                     <div class="label">资产名称：</div>
-                    <input type="text" v-model="assetsName" placeholder="请输入资产名称" class="form-control input-field" />
+                    <input type="text" v-model="assetName" placeholder="请输入资产名称" class="form-control input-field" />
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
@@ -177,7 +177,7 @@ export default {
             typeDetailList: [],
             deleteContent: {},
             showLoading: false,
-            assetsName: '',
+            assetName: "",
             assetsList: []
         }
     },
