@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import Bus from '../../../components/bus.js'
 import md5 from 'js-md5';
 import { Message } from 'element-ui'
 import loginSrv from '../../services/login.service.js'
@@ -59,7 +58,6 @@ export default {
   },
   methods: {
     login() {
-      var eventBus = new Vue({})
       if (!(this.username && this.password)) {
         this.$message.error('请输入用户信息')
         return;

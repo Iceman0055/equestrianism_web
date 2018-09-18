@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-3 search-field">
                     <div class="label">资产名称：</div>
-                    <input type="text" v-model="assetsName" placeholder="请输入资产名称" class="form-control input-field" />
+                    <input type="text" v-model="assetName" placeholder="请输入资产名称" class="form-control input-field" />
                 </div>
                 <div class="col-md-1 search-field search-field_controls">
                     <button @click="getAssetsList(1)" class="btn btn-primary search-btn">搜索</button>
@@ -78,7 +78,7 @@
 
                                 <th>会记凭证号</th>
                                 <th>采购组织形式</th>
-                                     <th>使用状态</th>
+                                <th>使用状态</th>
                                 <th>资金来源</th>
                                 <th>报废日期</th>
                                 <th>操作</th>
@@ -108,13 +108,13 @@
                                 <td>{{item.brand}}</td>
                                 <td>{{item.voucherNumber}}</td>
                                 <td>{{item.purchaseOrganize}}</td>
-                                 <td>{{item.useStatus}}</td>
+                                <td>{{item.useStatus}}</td>
                                 <td>{{item.financeSource}}</td>
                                 <td>{{item.scrapDate}}</td>
                                 <td>
-                                    <router-link :to="{path: '/equestrian/hUpdateAssets',       
-                                                                                                                     query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/equestrian/hUpdateAssets',query:{assetId:item.assetId,departmentId:item.departmentId}}">
+                                    <router-link :to="{path: '/equestrian/hAddAssets',       
+                                                                      query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/equestrian/hAddAssets',query:{assetId:item.assetId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.assetId)">删除</a>
@@ -177,7 +177,7 @@ export default {
             typeDetailList: [],
             deleteContent: {},
             showLoading: false,
-            assetsName: '',
+            assetName: '',
             assetsList: []
         }
     },
@@ -195,7 +195,7 @@ export default {
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
             vm.showLoading = true
-            equestrianSrv.horseAssetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetsName).then(resp => {
+            equestrianSrv.horseAssetsList(vm.currentPage, vm.pageRecorders, vm.assetType, vm.typeDetail, vm.assetName).then(resp => {
                 vm.showLoading = false
                 vm.totalRecorders = resp.data.totalRecorders
                 vm.assetsList = resp.data.assetInfoList
@@ -229,7 +229,7 @@ export default {
         },
         getAssetsList(currentPage = this.currentPage) {
             this.showLoading = true
-            equestrianSrv.horseAssetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetsName).then((resp) => {
+            equestrianSrv.horseAssetsList(currentPage, this.pageRecorders, this.assetType, this.typeDetail, this.assetName).then((resp) => {
                 this.showLoading = false
                 this.currentPage = currentPage
                 this.totalRecorders = resp.data.totalRecorders

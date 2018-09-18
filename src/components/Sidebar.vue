@@ -22,7 +22,6 @@
   </div>
 </template>
 <script>
-import Bus from './bus.js'
 import Vue from 'vue'
 export default {
   props: ['menuList', 'menuEnableMap'],

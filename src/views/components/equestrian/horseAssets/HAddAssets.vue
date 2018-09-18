@@ -1,87 +1,99 @@
 <template>
     <div class="content_page animated zoomIn">
         <div class="content-title">
-            <div class="title">新增固定资产管理</div>
+            <div class="title" v-if="useDisabled">查看固定资产管理</div>
+            <div class="title" v-if="!useDisabled &&assetId">修改固定资产管理</div>
+            <div class="title" v-if="!assetId">新增固定资产管理</div>
             <router-link class="btn btn-info back" :to="'/equestrian/horseAssets'">
                 返回
             </router-link>
         </div>
         <div class="content-show">
-            <el-form :model="assetsInfo" label-width="120px" ref="ruleForm" class="demo-ruleForm" inline-message>
+            <el-form :model="assetsInfo" label-width="120px" ref="assetsInfo" class="demo-ruleForm" inline-message>
                 <el-row>
                     <el-col :offset="8" :span="8">
                         <el-form-item label="条形码：" prop="barCode" :rules="[
-                                  { required: true, message: '请输入条形码', trigger: 'blur' },
-                                ]">
-                            <el-input size="large" v-model="assetsInfo.barCode" placeholder="请输入条形码"></el-input>
+                                                                                  { required: true, message: '请输入条形码', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.barCode" placeholder="请输入条形码"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="资产大类：" prop="assetType" :rules="[
-                                  { required: true, message: '请选择资产大类', trigger: 'change' },
-                                ]">
-                            <el-select ref="selectCate" size="large" v-model="assetsInfo.assetType" class="el-field-input" placeholder="请选择">
+                        <el-form-item label="资产大类：" prop="typeId" :rules="[
+                                                                                  { required: true, message: '请选择资产大类', trigger: 'change' },
+                                                                                ]">
+                            <el-select ref="selectCate" :disabled="useDisabled" size="large" v-model="assetsInfo.typeId" class="el-field-input" placeholder="请选择">
                                 <el-option v-for="(item,index) in assetTypeList" :key="index" :label="item.typeName" :value="item.typeId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="资产分类：" prop="typeDetail" :rules="[
-                                  { required: true, message: '请选择资产分类', trigger: 'change' },
-                                ]">
-                            <el-select @focus="getAssetsType" ref="selectClass" size="large" v-model="assetsInfo.typeDetail" class="el-field-input" placeholder="请选择">
+                        <el-form-item label="资产分类：" prop="typeDetailId" :rules="[
+                                                                                  { required: true, message: '请选择资产分类', trigger: 'change' },
+                                                                                ]">
+                            <el-select @focus="getAssetsType" :disabled="useDisabled" ref="selectClass" size="large" v-model="assetsInfo.typeDetailId" class="el-field-input" placeholder="请选择">
                                 <el-option v-for="(item,index) in typeDetailList" :key="index" :label="item.typeDetailName" :value="item.typeDetailId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="资产编号：" prop="assetsNum" :rules="[
-                                  { required: true, message: '请输入资产编号', trigger: 'blur' },
-                                ]">
-                            <el-input size="large" v-model="assetsInfo.assetsNum" placeholder="请输入资产编号"></el-input>
+                        <el-form-item label="资产编号：" prop="assetNumber" :rules="[
+                                                                                  { required: true, message: '请输入资产编号', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.assetNumber" placeholder="请输入资产编号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="资产名称：" prop="assetsName" :rules="[
-                                  { required: true, message: '请输入资产名称', trigger: 'blur' },
-                                ]">
-                            <el-input size="large" v-model="assetsInfo.assetsName" placeholder="请输入资产名称"></el-input>
+                        <el-form-item label="资产名称：" prop="assetName" :rules="[
+                                                                                  { required: true, message: '请输入资产名称', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.assetName" placeholder="请输入资产名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="价值：" prop="value">
-                            <el-input size="large" v-model="assetsInfo.value" placeholder="请输入价值"></el-input>
+                        <el-form-item label="价值：" prop="price" :rules="[
+                                                                                  { required: true, message: '请输入价值', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.price" placeholder="请输入价值"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="面积：" prop="area">
-                            <el-input size="large" v-model="assetsInfo.area" placeholder="请输入面积"></el-input>
+                        <el-form-item label="面积：" prop="acreage" :rules="[
+                                                                                  { required: true, message: '请输入面积', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.acreage" placeholder="请输入面积"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="规格型号：" prop="format">
-                            <el-input size="large" v-model="assetsInfo.format" placeholder="请输入规格型号"></el-input>
+                        <el-form-item label="规格型号：" prop="specificationModel" :rules="[
+                                                                                  { required: true, message: '请输入规格型号', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.specificationModel" placeholder="请输入规格型号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="价值类型：" prop="valueType">
-                            <el-select ref="selectValue" size="large" v-model="assetsInfo.valueType" class="el-field-input" placeholder="请选择">
+                        <el-form-item label="价值类型：" prop="priceType" :rules="[
+                                                                                  { required: true, message: '请选择价值类型', trigger: 'blur' },
+                                                                                ]">
+                            <el-select ref="selectValue" :disabled="useDisabled" size="large" v-model="assetsInfo.priceType" class="el-field-input" placeholder="请选择">
                                 <el-option v-for="(item,index) in valueOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="取得方式：" prop="getWay">
-                            <el-select ref="selectWay" size="large" v-model="assetsInfo.getWay" class="el-field-input" placeholder="请选择">
+                        <el-form-item label="取得方式：" prop="acquireWay" :rules="[
+                                                                                  { required: true, message: '请选择取得方式', trigger: 'blur' },
+                                                                                ]">
+                            <el-select ref="selectWay" :disabled="useDisabled" size="large" v-model="assetsInfo.acquireWay" class="el-field-input" placeholder="请选择">
                                 <el-option v-for="(item,index) in wayOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                                 </el-option>
                             </el-select>
@@ -90,100 +102,125 @@
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="财务入账日期：" prop="financialDate">
-                            <el-date-picker class="el-field-input" size="large" v-model="assetsInfo.financialDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择财务出账日期">
+                        <el-form-item label="财务入账日期：" prop="financeAccountsDate" :rules="[
+                                                                                  { required: true, message: '请选择财务入账日期', trigger: 'blur' },
+                                                                                ]">
+                            <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="assetsInfo.financeAccountsDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择财务入账日期">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="制单日期：" prop="makeDate">
-                            <el-date-picker class="el-field-input" size="large" v-model="assetsInfo.makeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择制单日期">
+                        <el-form-item label="制单日期：" prop="tabDate" :rules="[
+                                                                                  { required: true, message: '请选择制单日期', trigger: 'blur' },
+                                                                                ]">
+                            <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="assetsInfo.tabDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择制单日期">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="保修截止日期：" prop="endDate">
-                            <el-date-picker class="el-field-input" size="large" v-model="assetsInfo.endDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择保修截止日期">
+                        <el-form-item label="保修截止日期：" prop="guaranteeDate" :rules="[
+                                                                                  { required: true, message: '请选择保修截止日期', trigger: 'blur' },
+                                                                                ]">
+                            <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" v-model="assetsInfo.guaranteeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择保修截止日期">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="管理部门：" prop="departName">
-                            <el-select size="large" ref="selectDepart" v-model="assetsInfo.departName" class="el-field-input" placeholder="请选择管理部门">
+                        <el-form-item label="管理部门：" prop="manageDepartment" :rules="[
+                                                                                  { required: true, message: '请选择管理部门', trigger: 'blur' },
+                                                                                ]">
+                            <el-select size="large" :disabled="useDisabled" ref="selectDepart" v-model="assetsInfo.manageDepartment" class="el-field-input" placeholder="请选择管理部门">
                                 <el-option v-for="(item,index) in departList" :key="index" :label="item.departmentName" :value="item.departmentId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="管理人：" prop="managePeople">
-                            <el-input size="large" v-model="assetsInfo.managePeople" placeholder="请输入管理人"></el-input>
+                        <el-form-item label="管理人：" prop="manageUser" :rules="[
+                                                                                  { required: true, message: '请输入管理人', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.manageUser" placeholder="请输入管理人"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="设计用途：" prop="designPurpose">
-                            <el-input size="large" v-model="assetsInfo.designPurpose" placeholder="请输入设计用途"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label="品牌：" prop="brand">
-                            <el-input size="large" v-model="assetsInfo.brand" placeholder="请输入品牌"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="会记凭证号：" prop="voucherNum">
-                            <el-input size="large" v-model="assetsInfo.voucherNum" placeholder="请输入会记凭证号"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="采购组织形式：" prop="buyForm">
-                            <el-input size="large" v-model="assetsInfo.buyForm" placeholder="请输入采购组织形式"></el-input>
+                        <el-form-item label="设计用途：" prop="purpose" :rules="[
+                                                                                  { required: true, message: '请输入设计用途', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.purpose" placeholder="请输入设计用途"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="备注：" prop="note">
-                            <el-input size="large" v-model="assetsInfo.note" placeholder="请输入备注"></el-input>
+                        <el-form-item label="品牌：" prop="brand" :rules="[
+                                                                                  { required: true, message: '请输入品牌', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.brand" placeholder="请输入品牌"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="数量：" prop="inventory">
-                            <el-input size="large" min="0" type="number" v-model="assetsInfo.inventory" placeholder="请输入数量"></el-input>
+                        <el-form-item label="会记凭证号：" prop="voucherNumber" :rules="[
+                                                                                  { required: true, message: '请输入会记凭证号', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.voucherNumber" placeholder="请输入会记凭证号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="使用状态：" prop="useStatus">
-                            <el-input size="large" v-model="assetsInfo.useStatus" placeholder="请输入使用状态"></el-input>
+                        <el-form-item label="采购组织形式：" prop="purchaseOrganize" :rules="[
+                                                                                  { required: true, message: '请输入采购组织形式', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.purchaseOrganize" placeholder="请输入采购组织形式"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="资金来源：" prop="financeSource">
-                            <el-input size="large" v-model="assetsInfo.financeSource" placeholder="请输入资金来源"></el-input>
+                        <el-form-item label="备注：" prop="remark">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.remark" placeholder="请输入备注"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="报废日期：" prop="scrapDate">
-                            <el-date-picker class="el-field-input" size="large" @change="changeDate" v-model="assetsInfo.scrapDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择制单日期">
+                        <el-form-item label="数量：" v-show="!assetId" prop="inventory">
+                            <el-input size="large" :disabled="useDisabled" min="0" type="number" v-model="assetsInfo.inventory" placeholder="请输入数量"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="使用状态：" prop="useStatus" :rules="[
+                                                                                  { required: true, message: '请输入使用状态', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.useStatus" placeholder="请输入使用状态"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item label="资金来源：" prop="financeSource" :rules="[
+                                                                                  { required: true, message: '请输入资金来源', trigger: 'blur' },
+                                                                                ]">
+                            <el-input size="large" :disabled="useDisabled" v-model="assetsInfo.financeSource" placeholder="请输入资金来源"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="报废日期：" prop="scrapDate" :rules="[
+                                                                                  { required: true, message: '请选择报废日期', trigger: 'blur' },
+                                                                                ]">
+                            <el-date-picker :disabled="useDisabled" class="el-field-input" size="large" @change="changeDate" v-model="assetsInfo.scrapDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="选择报废日期">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="报废剩余日期：" prop="leftDate">
-                            <el-input size="large" v-model="assetsInfo.leftDate"></el-input>
+                        <el-form-item label="报废剩余日期：">
+                            <el-input size="large" disabled v-model="leftDate" placeholder="报废剩余日期"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
         </div>
-        <div class="content-footer row">
-            <el-button class="col-md-1 btn btn-primary makesure" :plain="true" @click="addAssets">确定</el-button>
+        <div class="content-footer row" v-show="!useDisabled">
+            <el-button v-if="!assetId" class="col-md-1 btn btn-primary makesure" :plain="true" @click="addAssets('assetsInfo')">确定</el-button>
+            <el-button v-if="assetId" class="col-md-1 btn btn-primary makesure" :plain="true" @click="updateAssets('assetsInfo')">修改</el-button>
         </div>
     </div>
 </template>
@@ -198,71 +235,48 @@ export default {
         return {
             assetsInfo: {
                 barCode: "",
-                assetType: '',
-                typeDetail: '',
-                assetsNum: '',
-                assetsName: '',
-                value: '',
-                area: '',
-                format: '',
-                valueType: '',
-                getWay: '',
-                financialDate: '',
-                makeDate: '',
-                endDate: '',
-                departName: '',
-                managePeople: '',
-                designPurpose: '',
+                typeId: '',
+                typeDetailId: '',
+                assetNumber: '',
+                assetName: '',
+                price: '',
+                acreage: '',
+                specificationModel: '',
+                priceType: '',
+                acquireWay: '',
+                financeAccountsDate: '',
+                tabDate: '',
+                guaranteeDate: '',
+                manageDepartment: '',
+                manageUser: '',
+                purpose: '',
                 brand: '',
-                voucherNum: '',
-                buyForm: '',
-                note: '',
+                voucherNumber: '',
+                purchaseOrganize: '',
+                remark: '',
                 inventory: '',
                 useStatus: '',
                 financeSource: '',
                 scrapDate: '',
-                leftDate: '',
+
             },
-            note: "",
-            designPurpose: "",
-            format: "",
-            brand: "",
-            voucherNum: "",
-            buyForm: "",
-            assetsNum: "",
-            assetsName: "",
-            value: "",
-            area: "",
-            valueType: "",
-            getWay: "",
-            financialDate: "",
-            makeDate: "",
-            endDate: "",
-            typeDetail: "",
-            assetType: "",
             assetTypeList: [],
-            typeDetailList: [],
+            departList: [],
             valueOptions: [],
             wayOptions: [],
-            departName: "",
-            //   userList: [],
-            departList: [],
-            managePeople: "",
-            barCode: "",
-            inventory: "",
-            useStatus: "",
-            financeSource: "",
-            scrapDate: "",
-            leftDate: ""
+            leftDate: '',
+            useDisabled: false,
+            typeDetailList: [],
+            assetId: ''
         };
     },
     mounted() {
+        this.useDisabled = !!this.$route.query.disable;
         this.$el.addEventListener("animationend", this.valueResize);
         this.$el.addEventListener("animationend", this.wayResize);
         this.$el.addEventListener("animationend", this.cateResize);
         this.$el.addEventListener("animationend", this.classResize);
         this.$el.addEventListener("animationend", this.departResize);
-        // this.$el.addEventListener("animationend", this.peopleResize);
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
@@ -274,6 +288,7 @@ export default {
                     vm.$message.error(err.msg);
                 }
             );
+            //获取部门
             systemSrv.getDepart().then(
                 resp => {
                     vm.departList = resp.data.departmentList;
@@ -300,100 +315,74 @@ export default {
                     vm.$message.error(err.msg);
                 }
             );
-        });
+            if (to.query.assetId) {
+                vm.assetId = to.query.assetId
+                equestrianSrv
+                    .getHorseAssetsDetail(to.query.assetId)
+                    .then(resp => {
+                        vm.assetsInfo = resp.data
+                        if (resp.data.scrapDate) {
+                            vm.leftDate = moment(resp.data.scrapDate).diff(moment(), "days");
+                        }
+                        return systemSrv.assetsDetailComboBox(resp.data.typeId);
+                    })
+                    .then(resp => {
+                        vm.typeDetailList = resp.data.typeDetailList;
+                    })
+                    .catch(err => {
+                        vm.$message.error(err.msg);
+                    });
+            }
+        })
     },
     methods: {
         changeDate(date) {
             this.leftDate = moment(date).diff(moment(), "days");
         },
-        addAssets() {
-            if (
-                !(
-                    this.inventory &&
-                    this.barCode &&
-                    this.assetType &&
-                    this.typeDetail &&
-                    this.assetsNum &&
-                    this.assetsName &&
-                    this.value &&
-                    this.area &&
-                    this.valueType &&
-                    this.getWay &&
-                    this.financialDate &&
-                    this.makeDate &&
-                    this.endDate &&
-                    this.departName &&
-                    this.managePeople &&
-                    this.note &&
-                    this.designPurpose &&
-                    this.format &&
-                    this.brand &&
-                    this.voucherNum &&
-                    this.buyForm &&
-                    this.useStatus &&
-                    this.financeSource &&
-                    this.scrapDate
-                )
-            ) {
-                this.$message.error("固定资产信息不能为空！");
-                return;
-            }
-            let assetsInfo = {
-                inventory: this.inventory,
-                barCode: this.barCode,
-                typeId: this.assetType,
-                typeDetailId: this.typeDetail,
-                assetNumber: this.assetsNum,
-                assetName: this.assetsName,
-                price: this.value,
-                acreage: this.area,
-                priceType: this.valueType,
-                acquireWay: this.getWay,
-                financeAccountsDate: this.financialDate,
-                tabDate: this.makeDate,
-                guaranteeDate: this.endDate,
-                manageDepartment: this.departName,
-                manageUser: this.managePeople,
-                remark: this.note,
-                purpose: this.designPurpose,
-                specificationModel: this.format,
-                brand: this.brand,
-                voucherNumber: this.voucherNum,
-                purchaseOrganize: this.buyForm,
-                useStatus: this.useStatus,
-                financeSource: this.financeSource,
-                scrapDate: this.scrapDate
-            };
-            equestrianSrv.addHorseAssets(assetsInfo).then(
-                resp => {
-                    this.$message.success("添加固定资产信息成功");
-                    this.$router.push("/equestrian/horseAssets");
-                },
-                err => {
-                    this.$message.error(err.msg);
+        //修改
+        updateAssets(formName) {
+            delete this.assetsInfo.inventory
+            this.assetsInfo.assetId = this.assetId
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    equestrianSrv.updateHorseAssets(this.assetsInfo).then(
+                        resp => {
+                            this.$message.success("修改固定资产信息成功");
+                            this.$router.push("/equestrian/horseAssets");
+                        },
+                        err => {
+                            this.$message.error(err.msg);
+                        }
+                    );
+                } else {
+                    return false;
                 }
-            );
+            });
         },
-        // getManageUser() {
-        //   if (!this.departName) {
-        //     this.$message.error("管理部门不能为空");
-        //     return;
-        //   }
-        //   systemSrv.userComboBox(this.departName).then(
-        //     resp => {
-        //       this.userList = resp.data.userList;
-        //     },
-        //     err => {
-        //       this.$message.error(err.msg);
-        //     }
-        //   );
-        // },
+        //新增
+        addAssets(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    equestrianSrv.addHorseAssets(this.assetsInfo).then(
+                        resp => {
+                            this.$message.success("添加固定资产信息成功");
+                            this.$router.push("/equestrian/horseAssets");
+                        },
+                        err => {
+                            this.$message.error(err.msg);
+                        }
+                    );
+                } else {
+                    return false;
+                }
+            });
+        },
         getAssetsType() {
-            if (!this.assetType) {
+            if (!this.assetsInfo.typeId) {
                 this.$message.error("请先选择资产大类");
                 return;
             }
-            systemSrv.assetsDetailComboBox(this.assetType).then(
+            systemSrv.assetsDetailComboBox(this.assetsInfo.typeId).then(
                 resp => {
                     this.typeDetailList = resp.data.typeDetailList;
                 },
@@ -417,9 +406,6 @@ export default {
         departResize() {
             this.$refs.selectDepart.resetInputWidth();
         }
-        // peopleResize() {
-        //   this.$refs.selectPeople.resetInputWidth();
-        // }
     }
 };
 </script>
