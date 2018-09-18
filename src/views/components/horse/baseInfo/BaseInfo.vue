@@ -59,8 +59,8 @@
                                 <td>{{item.barCode}}</td>
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/addBaseInfo', query: { disable: 1,horseId:item.horseId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/horse/addBaseInfo',query:{horseId:item.horseId}}">
+                                    <router-link :to="{path: '/horse/addBaseInfo', query: { disable: 1,queryId:item.horseId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/horse/addBaseInfo',query:{queryId:item.horseId}}">
                                         修改
                                     </router-link>
                                     <a @click="statusInfo(item.horseId,item.status)">{{convertStatus[1-item.status]}}</a>

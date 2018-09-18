@@ -54,9 +54,9 @@
                                 <td>{{item.prizeName}}</td>
                                 <td>{{item.penaltyTerm}}</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/updateAwards',       
-                                                                                             query: { disable: 1,horsePrizeId:item.horsePrizeId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/horse/updateAwards',query:{horsePrizeId:item.horsePrizeId}}">
+                                    <router-link :to="{path: '/horse/addAwards',       
+                                                                                             query: { disable: 1,queryId:item.horsePrizeId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/horse/addAwards',query:{queryId:item.horsePrizeId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.horsePrizeId)">删除</a>

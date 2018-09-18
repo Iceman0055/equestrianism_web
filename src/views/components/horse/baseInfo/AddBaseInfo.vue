@@ -10,29 +10,28 @@
         </div>
         <div class="content-show">
             <el-form :model="horseInfo" label-width="120px" ref="horseInfo" class="demo-ruleForm" inline-message>
-
                 <div class="baseInfo-title">
                     <div class="title">基本信息</div>
                 </div>
                 <el-row>
                     <el-col :span="8">
                         <el-form-item label="护照号码：" prop="passportNumber" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入护照号码', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入护照号码', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.passportNumber" placeholder="请输入护照号码"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="马匹名称：" prop="horseName" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马匹名称', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马匹名称', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.horseName" placeholder="请输入马匹名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="变更马名：" prop="usedName" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入变更马名', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入变更马名', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.usedName" placeholder="请输入变更马名"></el-input>
                         </el-form-item>
                     </el-col>
@@ -40,23 +39,23 @@
                 <el-row>
                     <el-col :span="8">
                         <el-form-item label="出生国家：" prop="country" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入出生国家', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入出生国家', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.country" placeholder="请输入出生国家"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="变更日期：" prop="changeDate" :rules="[
-                                                                                                                                                                                      { required: true, message: '请选择变更日期', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请选择变更日期', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-date-picker class="el-field-input" :disabled="useDisabled" size="large" value-format="yyyy-MM-dd" format="yyyy-MM-dd" v-model="horseInfo.changeDate" type="date" placeholder="选择变更日期">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生年：" prop="birthday" :rules="[
-                                                                                                                                                                                      { required: true, message: '请选择出生年', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请选择出生年', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-date-picker class="el-field-input" :disabled="useDisabled" size="large" value-format="yyyy" v-model="horseInfo.birthday" type="year" placeholder="选择出生日期">
                             </el-date-picker>
                         </el-form-item>
@@ -66,15 +65,15 @@
                 <el-row>
                     <el-col :span="8">
                         <el-form-item label="身高(公分)：" prop="height" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入身高(公分)', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入身高(公分)', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.height" placeholder="请输入身高(公分)"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="性别：" prop="sex" :rules="[
-                                                                                                                                                                                      { required: true, message: '请选择性别', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请选择性别', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-select ref="selectInput" size="large" :disabled="useDisabled" v-model="horseInfo.sex" class="el-field-input" placeholder="请选择性别">
                                 <el-option v-for="(item,index) in sexOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                                 </el-option>
@@ -83,8 +82,8 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="皮下条码：" prop="barCode" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入皮下条码', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入皮下条码', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.barCode" placeholder="请输入皮下条码"></el-input>
                         </el-form-item>
                     </el-col>
@@ -94,9 +93,9 @@
 
                     <el-col :span="8">
                         <el-form-item label="毛色：" prop="coatColour" :rules="[
-                                                                                                                                                                                      { required: true, message: '请选择毛色', trigger: 'blur' },
-                                                                                                                                                                                    ]">
-                            <el-select ref="selectColor" size="large" v-model="horseInfo.coatColour" class="el-field-input" placeholder="请选择">
+                                                                                                                                                                                                              { required: true, message: '请选择毛色', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
+                            <el-select ref="selectColor" :disabled="useDisabled" size="large" v-model="horseInfo.coatColour" class="el-field-input" placeholder="请选择">
                                 <el-option v-for="(item,index) in colorOptions" :key="index" :label="item.itemValue" :value="item.dictionaryDetailId">
                                 </el-option>
                             </el-select>
@@ -109,22 +108,22 @@
                 <el-row>
                     <el-col :span="8">
                         <el-form-item label="头部：" prop="headDesc" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马的头部描述', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马的头部描述', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.headDesc" placeholder="请输入马的头部描述"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="左前肢：" prop="leftForeDesc" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马的左前肢描述', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马的左前肢描述', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.leftForeDesc" placeholder="请输入马的左前肢描述"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="右前肢：" prop="rightForeDesc" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马的右前肢描述', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马的右前肢描述', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.rightForeDesc" placeholder="请输入马的右前肢描述"></el-input>
                         </el-form-item>
                     </el-col>
@@ -132,22 +131,22 @@
                 <el-row>
                     <el-col :span="8">
                         <el-form-item label="左后肢：" prop="leftHindDesc" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马的左后肢描述', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马的左后肢描述', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.leftHindDesc" placeholder="请输入马的左后肢描述"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="右后肢：" prop="rightHindDesc" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马的右后肢描述', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马的右后肢描述', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.rightHindDesc" placeholder="请输入马的右后肢描述"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="体躯：" prop="bodyDesc" :rules="[
-                                                                                                                                                                                      { required: true, message: '请输入马的体躯肢描述', trigger: 'blur' },
-                                                                                                                                                                                    ]">
+                                                                                                                                                                                                              { required: true, message: '请输入马的体躯肢描述', trigger: 'blur' },
+                                                                                                                                                                                                            ]">
                             <el-input size="large" :disabled="useDisabled" v-model="horseInfo.bodyDesc" placeholder="请输入马的体躯肢描述"></el-input>
                         </el-form-item>
                     </el-col>
@@ -157,19 +156,19 @@
                 </div>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="右侧：" prop="rightImage">
+                        <el-form-item label="右侧：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="rightImage" :disabled="useDisabled" name="rightImage" :imageUrl="rightImage">
                             </upload-img>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="左侧：" prop="leftImage">
+                        <el-form-item label="左侧：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="leftImage" :disabled="useDisabled" name="leftImage" :imageUrl="leftImage">
                             </upload-img>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="上眼线：" prop="upperEyelinerImage">
+                        <el-form-item label="上眼线：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="upperEyelinerImage" :disabled="useDisabled" name="upperEyelinerImage" :imageUrl="upperEyelinerImage">
                             </upload-img>
                         </el-form-item>
@@ -177,19 +176,19 @@
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="前肢-后视：" prop="foreImage">
+                        <el-form-item label="前肢-后视：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="foreImage" :disabled="useDisabled" name="foreImage" :imageUrl="foreImage">
                             </upload-img>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="颈部仰视：" prop="neckImage">
+                        <el-form-item label="颈部仰视：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="neckImage" :disabled="useDisabled" name="neckImage" :imageUrl="neckImage">
                             </upload-img>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="后肢-后视：" prop="hindImage">
+                        <el-form-item label="后肢-后视：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="hindImage" :disabled="useDisabled" name="hindImage" :imageUrl="hindImage">
                             </upload-img>
                         </el-form-item>
@@ -197,7 +196,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="8">
-                        <el-form-item label="唇：" prop="lipImage">
+                        <el-form-item label="唇：">
                             <upload-img v-on:uploadFun="uploadFun" v-model="lipImage" :disabled="useDisabled" name="lipImage" :imageUrl="lipImage">
                             </upload-img>
                         </el-form-item>
@@ -240,9 +239,8 @@ export default {
                 leftHindDesc: '',
                 rightHindDesc: '',
                 bodyDesc: '',
+
             },
-            useDisabled: false,
-            files: {},
             rightImage: '',
             leftImage: '',
             upperEyelinerImage: '',
@@ -250,6 +248,8 @@ export default {
             neckImage: '',
             hindImage: '',
             lipImage: '',
+            useDisabled: false,
+            files: {},
             colorOptions: [],
             sexOptions: [],
             horseId: ''
@@ -269,7 +269,7 @@ export default {
     },
     beforeRouteEnter: function(to, from, next) {
         next(vm => {
-            vm.horseId = to.query.horseId
+            vm.horseId = to.query.queryId
             systemSrv.dictionary().then(resp => {
                 let dictDetail = resp.data.dictionaryInfoList
                 let len = dictDetail.length
@@ -283,7 +283,7 @@ export default {
                 }
                 // vm.dictInfoList = systemSrv.formatDic(dictDetail)
                 if (vm.horseId) {
-                    return horseSrv.getHorseDetail(to.query.horseId)
+                    return horseSrv.getHorseDetail(to.query.queryId)
                 }
             }).then(resp => {
                 vm.horseInfo = resp.data
@@ -294,27 +294,44 @@ export default {
                 vm.neckImage = resp.data.neckImage
                 vm.hindImage = resp.data.hindImage
                 vm.lipImage = resp.data.lipImage
+                vm.horseInfo.sex = parseInt(resp.data.sex)
+                vm.horseInfo.coatColour = parseInt(resp.data.coatColour)
             }).catch(err => {
                 vm.$message.error(err.msg)
             });
-
-
         })
     },
     methods: {
         //修改
         updateHorseInfo(formName) {
-            this.horseInfo.horseId = this.horseId
-            console.log(this.horseInfo)
-            var formData = new FormData()
-            for (let key in this.files) {
-                formData.append(key, this.files[key])
-            }
-            for (let key in this.horseInfo) {
-                formData.append(key, this.horseInfo[key])
-            }
             this.$refs[formName].validate((valid) => {
                 if (valid) {
+                    var horseInfo = {
+                        horseId: this.horseInfo.horseId,
+                        passportNumber: this.horseInfo.passportNumber,
+                        horseName: this.horseInfo.horseName,
+                        usedName: this.horseInfo.usedName,
+                        country: this.horseInfo.country,
+                        changeDate: this.horseInfo.changeDate,
+                        birthday: this.horseInfo.birthday,
+                        height: this.horseInfo.height,
+                        sex: this.horseInfo.sex,
+                        barCode: this.horseInfo.barCode,
+                        coatColour: this.horseInfo.coatColour,
+                        headDesc: this.horseInfo.headDesc,
+                        leftForeDesc: this.horseInfo.leftForeDesc,
+                        rightForeDesc: this.horseInfo.rightForeDesc,
+                        leftHindDesc: this.horseInfo.leftHindDesc,
+                        rightHindDesc: this.horseInfo.rightHindDesc,
+                        bodyDesc: this.horseInfo.bodyDesc,
+                    }
+                    var formData = new FormData()
+                    for (let key in this.files) {
+                        formData.append(key, this.files[key])
+                    }
+                    for (let key in horseInfo) {
+                        formData.append(key, horseInfo[key])
+                    }
                     horseSrv.updateHorseInfo(formData).then(resp => {
                         this.$message.success('修改马匹成功')
                         this.$router.push('/horse/baseInfo')
@@ -357,45 +374,6 @@ export default {
         uploadFun(file) {
             this.files[file.name] = file.file.raw;
         },
-        // addHorseInfo() {
-        //     if (!(this.passport && this.horseName && this.changeName && this.bornCountry &&
-        //         this.changeDate && this.birthDate && this.height && this.gender
-        //         && this.barCode && this.color)) {
-        //         this.$message.error('马匹信息不能为空！')
-        //         return;
-        //     }
-        //     let horseInfo = {
-        //         passportNumber: this.passport,
-        //         horseName: this.horseName,
-        //         usedName: this.changeName,
-        //         country: this.bornCountry,
-        //         changeDate: this.changeDate,
-        //         birthday: this.birthDate,
-        //         height: this.height,
-        //         sex: this.gender,
-        //         barCode: this.barCode,
-        //         coatColour: this.color,
-        //         headDesc: this.head,
-        //         leftForeDesc: this.leftFore,
-        //         rightForeDesc: this.rightFore,
-        //         leftHindDesc: this.leftHind,
-        //         rightHindDesc: this.rightHind,
-        //         bodyDesc: this.body,
-        //     }
-        //     var formData = new FormData()
-        //     for (let key in this.files) {
-        //         formData.append(key, this.files[key])
-        //     }
-        //     for (let key in horseInfo) {
-        //         formData.append(key, horseInfo[key])
-        //     }
-        //     horseSrv.addHorseInfo(formData).then((resp) => {
-        //         this.$message.success('添加马匹成功')
-        //         this.$router.push('/horse/baseInfo')
-        //     }, err => {
-        //         this.$message.error(err.msg)
-        //     })
-        // },
     }
 }
 </script>

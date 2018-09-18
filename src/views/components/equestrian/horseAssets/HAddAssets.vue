@@ -315,10 +315,10 @@ export default {
                     vm.$message.error(err.msg);
                 }
             );
-            if (to.query.assetId) {
-                vm.assetId = to.query.assetId
+            if (to.query.queryId) {
+                vm.assetId = to.query.queryId
                 equestrianSrv
-                    .getHorseAssetsDetail(to.query.assetId)
+                    .getHorseAssetsDetail(to.query.queryId)
                     .then(resp => {
                         vm.assetsInfo = resp.data
                         if (resp.data.scrapDate) {

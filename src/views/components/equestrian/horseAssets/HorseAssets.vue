@@ -113,8 +113,8 @@
                                 <td>{{item.scrapDate}}</td>
                                 <td>
                                     <router-link :to="{path: '/equestrian/hAddAssets',       
-                                                                      query: { disable: 1,assetId:item.assetId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/equestrian/hAddAssets',query:{assetId:item.assetId}}">
+                                                                      query: { disable: 1,queryId:item.assetId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/equestrian/hAddAssets',query:{queryId:item.assetId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.assetId)">删除</a>

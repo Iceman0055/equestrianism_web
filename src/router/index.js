@@ -12,10 +12,10 @@ import Dashboard from "@/views/dashboard";
 // 马匹信息管理
 import baseInfo from "@/views/components/horse/baseInfo/baseInfo";
 import addBaseInfo from "@/views/components/horse/baseInfo/addBaseInfo";
-import updateBaseInfo from "@/views/components/horse/baseInfo/updateBaseInfo";
+// import updateBaseInfo from "@/views/components/horse/baseInfo/updateBaseInfo";
 import addAwards from "@/views/components/horse/awards/addAwards";
 import awards from "@/views/components/horse/awards/awards";
-import updateAwards from "@/views/components/horse/awards/updateAwards";
+// import updateAwards from "@/views/components/horse/awards/updateAwards";
 import disease from "@/views/components/horse/disease/disease";
 import addDisease from "@/views/components/horse/disease/addDisease";
 import updateDisease from "@/views/components/horse/disease/updateDisease";
@@ -24,10 +24,10 @@ import addVaccine from "@/views/components/horse/vaccine/addVaccine";
 import updateVaccine from "@/views/components/horse/vaccine/updateVaccine";
 import master from "@/views/components/horse/master/master";
 import addMaster from "@/views/components/horse/master/addMaster";
-import updateMaster from "@/views/components/horse/master/updateMaster";
+// import updateMaster from "@/views/components/horse/master/updateMaster";
 import feeder from "@/views/components/horse/feeder/feeder";
 import addFeeder from "@/views/components/horse/feeder/addFeeder";
-import updateFeeder from "@/views/components/horse/feeder/updateFeeder";
+// import updateFeeder from "@/views/components/horse/feeder/updateFeeder";
 import treatment from "@/views/components/horse/treatment/treatment";
 import addTreatment from "@/views/components/horse/treatment/addTreatment";
 import updateTreatment from "@/views/components/horse/treatment/updateTreatment";
@@ -129,11 +129,11 @@ export default new Router({
               name: "新增马匹基本信息",
               component: addBaseInfo
             },
-            {
-              path: "updateBaseInfo",
-              name: "修改马匹基本信息",
-              component: updateBaseInfo
-            },
+            // {
+            //   path: "updateBaseInfo",
+            //   name: "修改马匹基本信息",
+            //   component: updateBaseInfo
+            // },
             {
               path: "awards",
               name: "获奖信息",
@@ -147,11 +147,11 @@ export default new Router({
               name: "新增获奖信息",
               component: addAwards
             },
-            {
-              path: "updateAwards",
-              name: "修改获奖信息",
-              component: updateAwards
-            },
+            // {
+            //   path: "updateAwards",
+            //   name: "修改获奖信息",
+            //   component: updateAwards
+            // },
             {
               path: "feeder",
               name: "饲养员信息",
@@ -165,11 +165,11 @@ export default new Router({
               name: "新增饲养员信息",
               component: addFeeder
             },
-            {
-              path: "updateFeeder",
-              name: "修改饲养员信息",
-              component: updateFeeder
-            },
+            // {
+            //   path: "updateFeeder",
+            //   name: "修改饲养员信息",
+            //   component: updateFeeder
+            // },
             {
               path: "master",
               name: "马主信息",
@@ -183,11 +183,11 @@ export default new Router({
               name: "新增马主信息",
               component: addMaster
             },
-            {
-              path: "updateMaster",
-              name: "修改马主信息",
-              component: updateMaster
-            },
+            // {
+            //   path: "updateMaster",
+            //   name: "修改马主信息",
+            //   component: updateMaster
+            // },
             {
               path: "treatment",
               name: "治疗信息",

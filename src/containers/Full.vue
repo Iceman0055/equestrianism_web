@@ -74,10 +74,10 @@ export default {
           path: this.$route.matched[i].path
         })
       }
-      if (this.$route.query.disable && this.$route.query.assetId) {
+      if (this.$route.query.disable && this.$route.query.queryId) {
         breads[len - 1].name = breads[len - 1].name.replace('新增', '查看')
       }
-      if (!this.$route.query.disable&& this.$route.query.assetId) {
+      if (!this.$route.query.disable&& this.$route.query.queryId) {
         breads[len - 1].name = breads[len - 1].name.replace('新增', '修改')
       }
       return breads

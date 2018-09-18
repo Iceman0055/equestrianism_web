@@ -38,7 +38,7 @@
                                 <th>医嘱</th>
                                 <th>标题标签</th>
                                 <th>备注</th>
-                                <th>操作</th>
+                                <!-- <th>操作</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -52,11 +52,11 @@
                                 <td>{{item.advice}}</td>
                                 <td>{{item.titleTag}}</td>
                                 <td>{{item.remark}}</td>
-                                <td>
+                                <!-- <td> -->
                                     <!-- <router-link :to="{path: '/horse/updateDisease',       
                                                                      query: { disable: 1,treatmentCaseId:item.treatmentCaseId}}"> 查看</router-link> -->
                                     <!-- <router-link :to="'/horse/updateDisease'">修改</router-link> -->
-                                </td>
+                                <!-- </td> -->
                             </tr>
                         </tbody>
                     </table>

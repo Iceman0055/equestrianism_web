@@ -47,9 +47,9 @@
                                 <td>{{item.address}}</td>
                                 <td>{{item.horseName}}</td>
                                 <td>
-                                    <router-link :to="{path: '/horse/updateMaster',       
-                                                                               query: { disable: 1,hostId:item.hostId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/horse/updateMaster',query:{hostId:item.hostId}}">修改</router-link>
+                                    <router-link :to="{path: '/horse/addMaster',       
+                                                                               query: { disable: 1,queryId:item.hostId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/horse/addMaster',query:{queryId:item.hostId}}">修改</router-link>
                                     <a @click="deleteInfo(item.hostId)">删除</a>
                                 </td>
                             </tr>
