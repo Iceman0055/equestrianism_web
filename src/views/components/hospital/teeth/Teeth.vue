@@ -41,9 +41,9 @@
                                 <td>{{item.realname}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>
-                                    <router-link :to="{path: '/hospital/updateTeeth',       
-                                                                 query: { disable: 1,contusionTeethId:item.contusionTeethId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hospital/updateTeeth',query:{contusionTeethId:item.contusionTeethId}}">修改</router-link>
+                                    <router-link :to="{path: '/hospital/addTeeth',       
+                                                                 query: { disable: 1,queryId:item.contusionTeethId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hospital/addTeeth',query:{queryId:item.contusionTeethId}}">修改</router-link>
                                     <a @click="deleteInfo(item.contusionTeethId)">删除</a>
                                 </td>
                             </tr>

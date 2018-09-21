@@ -50,10 +50,10 @@
         <div class="col-md-4 search-field">
           <div class="label">开始时间：</div>
           <el-time-select :disabled="useDisabled" size="large" v-model="beginTime" :picker-options="{
-                                                                                                                                start: '00:00',
-                                                                                                                                step: '01:00',
-                                                                                                                                end: '24:00'
-                                                                                                                              }">
+                                                                                                                                  start: '00:00',
+                                                                                                                                  step: '01:00',
+                                                                                                                                  end: '24:00'
+                                                                                                                                }">
           </el-time-select>
         </div>
       </div>
@@ -66,10 +66,10 @@
         <div class="col-md-4 search-field">
           <div class="label">结束时间：</div>
           <el-time-select :disabled="useDisabled" size="large" v-model="endTime" :picker-options="{
-                                                                                                                                start: '00:00',
-                                                                                                                                step: '01:00',
-                                                                                                                                end: '24:00'
-                                                                                                                              }">
+                                                                                                                                  start: '00:00',
+                                                                                                                                  step: '01:00',
+                                                                                                                                  end: '24:00'
+                                                                                                                                }">
           </el-time-select>
         </div>
       </div>
@@ -111,21 +111,8 @@
 
     <multi-select-dialog title="查看设备" width="800px" :disabled="true" :visible.sync="addItemDialog" :query="queryAssets" :columns="assetsColumns" :value="assetSelected" @submit="handleAssetsChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
 
-  
-<multi-select-dialog
-    title="选用消耗品"
-    width="800px"
-    :visible.sync="addConsumeDialog"
-    :query="queryConsume"
-    :columns="consumeColumns"
-    :value="consumeSelected"
-    :disabled="true"
-    @submit="handleConsumeChange"
-    id-field="assetId"
-    inventory-field="inventory"
-    count-field="useNumber"
-  ></multi-select-dialog>
-   
+    <multi-select-dialog title="选用消耗品" width="800px" :visible.sync="addConsumeDialog" :query="queryConsume" :columns="consumeColumns" :value="consumeSelected" :disabled="true" @submit="handleConsumeChange" id-field="assetId" inventory-field="inventory" count-field="useNumber"></multi-select-dialog>
+
   </div>
 </template>
 <script>
@@ -145,9 +132,9 @@ import MultiSelectDialog from "../../../../components/multiSelectDialog/index.vu
 export default {
   data() {
     return {
-      disabled:true,
-      showConsumeList:'',
-      showAssetList:'',
+      disabled: true,
+      showConsumeList: '',
+      showAssetList: '',
       selectConsume: [],
       selectAssets: [],
       treatmentId: "",
@@ -202,7 +189,7 @@ export default {
           label: "外来"
         }
       ],
-       consumeColumns: [
+      consumeColumns: [
         {
           title: "消耗品名称",
           dataIndex: "assetName",
@@ -309,11 +296,11 @@ export default {
     this.$el.addEventListener("animationend", this.resizeUse);
   },
   methods: {
-      handleConsumeChange(selected) {
+    handleConsumeChange(selected) {
       console.debug("handleAssetsChange: ", selected);
       let selectConsume = [];
       let addConsumeItem = [];
-      let showConsumeList =''
+      let showConsumeList = ''
       for (let key in selected) {
         selectConsume.push({
           assetId: key,
@@ -406,7 +393,7 @@ export default {
     clickShowConsume() {
       this.addConsumeDialog = true;
     },
-  
+
     updateTreat() {
       if (this.treatWay == 2 && !this.appointNum) {
         this.$message.error("预约号不能为空！");
@@ -466,6 +453,7 @@ export default {
   border-radius: 5px;
   padding: 10px 5px;
 }
+
 .addborder:empty::before {
   color: lightgrey;
   content: attr(placeholder);

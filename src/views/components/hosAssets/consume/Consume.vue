@@ -92,9 +92,9 @@
                                 <!-- <td>{{item.useStatus}}</td>
                                 <td>{{item.financeSource}}</td> -->
                                 <td>
-                                    <router-link :to="{path: '/hosAssets/updateConsume',       
-                                                                                         query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hosAssets/updateConsume',query:{assetId:item.assetId,departmentId:item.departmentId}}">
+                                    <router-link :to="{path: '/hosAssets/addConsume',       
+                                                                                         query: { disable: 1,queryId:item.assetId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hosAssets/addConsume',query:{queryId:item.assetId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.assetId)">删除</a>

@@ -57,8 +57,8 @@
                                 <th>品牌</th>
                                 <th>会记凭证号</th>
                                 <th>采购组织形式</th>
-                                    <!-- <th>使用状态</th>
-                                <th>资金来源</th> -->
+                                <!-- <th>使用状态</th>
+                                    <th>资金来源</th> -->
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -87,11 +87,11 @@
                                 <td>{{item.purchaseOrganize}}</td>
 
                                 <!-- <td>{{item.useStatus}}</td>
-                                <td>{{item.financeSource}}</td> -->
+                                    <td>{{item.financeSource}}</td> -->
                                 <td>
-                                    <router-link :to="{path: '/hosAssets/updateAssets',       
-                                                                                         query: { disable: 1,assetId:item.assetId,departmentId:item.departmentId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hosAssets/updateAssets',query:{assetId:item.assetId,departmentId:item.departmentId}}">
+                                    <router-link :to="{path: '/hosAssets/addAssets',       
+                                                                                             query: { disable: 1,queryId:item.assetId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hosAssets/addAssets',query:{queryId:item.assetId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.assetId)">删除</a>

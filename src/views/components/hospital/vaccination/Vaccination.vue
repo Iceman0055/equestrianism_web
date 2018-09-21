@@ -56,9 +56,9 @@
                                 <td>{{item.realname}}</td>
                                 <td>{{item.vaccinationNumber}}</td>
                                 <td>
-                                    <router-link :to="{path: '/hospital/updateVacc',       
-                                                             query: { disable: 1,vaccinationId:item.vaccinationId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hospital/updateVacc',query:{vaccinationId:item.vaccinationId}}">修改</router-link>
+                                    <router-link :to="{path: '/hospital/addVacc',       
+                                                             query: { disable: 1,queryId:item.vaccinationId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hospital/addVacc',query:{queryId:item.vaccinationId}}">修改</router-link>
                                     <a @click="deleteInfo(item.vaccinationId)">删除</a>
                                 </td>
                             </tr>

@@ -46,9 +46,9 @@
                                 <td>{{convertStatus[item.status]}}</td>
                                 <td>{{item.remark}}</td>
                                 <td>
-                                    <router-link :to="{path: '/hospital/updateOperateR',       
-                                                     query: { disable: 1,consultingRoomId:item.consultingRoomId}}"> 查看</router-link>
-                                    <router-link :to="{path:'/hospital/updateOperateR',query:{consultingRoomId:item.consultingRoomId}}">修改</router-link>
+                                    <router-link :to="{path: '/hospital/addOperateR',       
+                                                     query: { disable: 1,queryId:item.consultingRoomId}}"> 查看</router-link>
+                                    <router-link :to="{path:'/hospital/addOperateR',query:{queryId:item.consultingRoomId}}">修改</router-link>
                                     <a @click="statusInfo(item.consultingRoomId,item.status)">{{convertStatus[1-item.status]}}</a>
                                     <a @click="deleteInfo(item.consultingRoomId)">删除</a>
                                 </td>

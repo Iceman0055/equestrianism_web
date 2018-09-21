@@ -64,7 +64,10 @@
                                     <router-link :to="'/horse/AddTreatment'">
                                         添加治疗
                                     </router-link> -->
-                                    <router-link :to="{path:'/hospital/updateAppoint',query:{hospitalAppointId:item.hospitalAppointId}}">
+                                    <router-link :to="{path:'/hospital/addAppoint',query:{disable:1,queryId:item.hospitalAppointId}}">
+                                        查看
+                                    </router-link>
+                                    <router-link :to="{path:'/hospital/addAppoint',query:{queryId:item.hospitalAppointId}}">
                                         修改
                                     </router-link>
                                     <a @click="deleteInfo(item.hospitalAppointId)">删除</a>
